@@ -1,13 +1,273 @@
 {
   "channels":[
-{
-    "name": "Untold",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/33/Untold_movie_2025.jpeg/250px-Untold_movie_2025.jpeg",
+
+  {
+    "name": "The Yin Yang Master Zero 2024",
+    "logo": "https://image.tmdb.org/t/p/w342/smIWi40yY1nzX1TjG6N4sNYFQHN.jpg",
     "type": "mp4",
     "manifestUri": "https://dl.dropboxusercontent.com/s/d10nyd3ewhzlq5d0n20jg/The.Yin.Yang.Master.Zero.2024.720p.BluRay.x264.ESub.Hollymoviehd.mp4?rlkey=nmr2w40hkgku1sfr8d70154w2&st=9mk8j31s&dl=0",
     "category": "INTERNATIONAL MOVIES"
   },
-       {
+  {
+    "name": "Uprising 2024",
+    "logo": "https://image.tmdb.org/t/p/w342/hg9OeaCRSpazrfqYyEFr6BDaZW8.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/dg8yy4ghbm25ojnk0p2dz/Uprising.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=90w7taw6ynxjj6dyeitzs12xo&st=t5ilqnhq&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "My Boo 2024",
+    "logo": "https://image.tmdb.org/t/p/w342/o0QqNbfO5YLcZs066RrRiph10zl.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/nrdictvj701aoy7or8gc4/My.Boo.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=xrk7ndpiahvuuf042supks08q&st=3pqkbnl8&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Forbidden-Zone-2023",
+    "logo": "https://image.tmdb.org/t/p/w342/9mS7Q9VBkH8yGrIvajxzRUNEAEE.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/prd3yox51s2gbs5x3nbm6/Forbidden-Zone-2023-HollyMovieHD.mp4?rlkey=uvjbhstii1w1n2um072m52rpq&st=n8yq7iag&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The-Captives-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/yKePsSZPqyz2yya6akcHl8FRdxT.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/nom3bij8crn3mwah6b9mz/The-Captives-2024-HollyMovieHD.mp4?rlkey=3vfu5946ei7t5g2nan2wkrynp&st=qc0kpofi&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Go-For-Broke-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/5WVLQrVvPihLTI5f0ODB00591Ld.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/9uea3evpl8oeowc9xk7tp/Go-For-Broke-2024-HollyMovieHD.mp4?rlkey=n2l6zdnvj8ksciuv31zstzx9h&st=ac35rol3&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Imprisoned-There-Is-No-Escape-From-Fate-2023",
+    "logo": "https://image.tmdb.org/t/p/w342/oHd0af5RW2mWtD2YniENkSYAPR8.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/xl6lkm7a5rs3pjzbtp8xc/Imprisoned-There-Is-No-Escape-From-Fate-2023-HollyMovieHD.mp4?rlkey=fzgp21eim7z0wqukqddq3k0dn&st=p3iw4jys&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Stree-2-Sarkate-Ka-Aatank-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/zgxpT5Q5pe3FtL99F0UOIglPGrQ.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/2welbkye4911663dep8ql/Stree-2-Sarkate-Ka-Aatank-2024-HollyMovieHD.mp4?rlkey=m4ozfrcfeb3c6dbcb4ghputbb&st=mztptj7q&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Bangkok-Breaking-Heaven-and-Hell-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/6VeDn4oIeUK4XwjWGWMb6qvMImQ.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/suewq2m4psnd27na8zd4r/Bangkok-Breaking-Heaven-and-Hell-2024-HollyMovieHD.mp4?rlkey=x75k2cq7tr318va7425x9ydvo&st=ebnl85e6&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Respati-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/nusIBD4dKrwpLJU7RuNKYh6u0mK.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/ocg24a4k3smp7ychx55az/Respati-2024-HollyMovieHD.mp4?rlkey=4o12gg6xrv4gpqb19mk28crlf&st=kzy4wh61&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Abnormal-Buas-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/wU038xWl3m2mmrmAIaSrkWZj0ro.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/ge6ld6x3ee8g3yyc2xejh/Abnormal-Buas-2024-HollyMovieHD.mp4?rlkey=rnmuz4yztwvqutp8mxtyrf6pi&st=cljysb9h&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The-Heist-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/AepCaxPrKEnvP30pwbp9LfDPXXJ.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/cmxotke3tjyt9j9uv3m0m/The-Heist-2024-HollyMovieHD.mp4?rlkey=di2uvmsw1qecokm2kkn4b85zb&st=xgsjx0l8&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "A-Place-Called-Silence-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/uKThqY2oRYSHOPxYryTp2550fuZ.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/h5fb513xkbyi7hojeh29y/A-Place-Called-Silence-2024-HollyMovieHD.mp4?rlkey=nhbax6tkicpvd0z52hpgoj93d&st=s6xpai12&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Missing-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/7I4pf3vsKH02iXdeXeTpvjRN7zr.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/nw765xzyli2c49m3pyo23/Missing-2024-HollyMovieHD.mp4?rlkey=ua89uagtu2ekzqw6pewak4yyw&st=ipf3qobo&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Mr-Bachchan-2024",
+    "logo": "https://image.tmdb.org/t/p/w342/6rgai1V5HYzhY8Ju8UwM87hI0l1.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/klswua7vz27tilf79kre6/Mr-Bachchan-2024-HollyMovieHD.mp4?rlkey=kz9ictn3elptxumw9wzc4znzr&st=1s01o9jf&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The Moon Thieves 2024",
+    "logo": "https://image.tmdb.org/t/p/w342/nad9wCyWMJ6VJnZtnja3Rsy64nB.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/buykmc2v1558lyn3w6gih/The.Moon.Thieves.2024.720p.DSNP.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=pslp5tkv3g5hhh95mkxkqt6f7&st=fe1jel8o&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "April Come She Will 2024",
+    "logo": "https://image.tmdb.org/t/p/w342/nisteDwnrMAJAF9PYokt245PVkX.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/3cnlejmd4a9h1s3fu2xwc/April.Come.She.Will.2024.720p.AMZN.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=tfacw4wcbkrxyptjx4zolllhj&st=7eldkal8&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Haunted Universities 3  2024",
+    "logo": "https://image.tmdb.org/t/p/w342/wrgcEz7En3yqe2ZvNQV5zKR3uuI.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/fdypmafrcq1rsxw9c0yol/Haunted.Universities.3.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=xhjsxak9axzyuvd4imyfh0g7l&st=d07bsmmp&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Wannabe (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/fLOZ4ed5GRuXDdXCEfN7SsAefff.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/d8ra6czu7tgaebrchges6/Watch-Wannabe-2024-Full-Movie-YESHD.mp4?rlkey=22g1hq3dz6l73j3dwl376bwxd&st=wfnc9g64&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "A Frozen Rage (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/mwmBeWaELthY6l7JDgFKECy195q.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/19jh94x33f90kkl4owuws/A-Frozen-Rage-2024-HollyMovieHD.mp4?rlkey=almuc9yhj9mbk0lslhe6n8tfz&st=p936oddj&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Bao biao (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BNDI0NTk5NDktMmIyZi00YThkLTlmMWYtNjUwZDZiOGU2NGRhXkEyXkFqcGc@._V1_QL75_UY300_CR21,0,200,295_.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/lopcts0x3b2r8m0o8y8vh/Bao-biao-2024-HollyMovieHD.mp4?rlkey=igghkhesrt8m01hyo4opsx4yg&st=1rnki7j1&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "100 Yards (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/zetjUPxOroyjhHeaMuiMvjRbOdP.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/of25519z7ktf45md20e78/100-Yards-2024-HollyMovieHD.mp4?rlkey=snt7osp070i7hkc0q3vvwpcfp&st=snys66ok&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Stand By Me (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/bTuoCwyRYhH161X1PDWboQnhLdm.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/c8pfk6stegd35vzqmjm37/Stand-By-Me-2024-HollyMovieHD.mp4?rlkey=1r55bm947asaweogb6xdb2qep&st=c8zybyxd&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Warrior Awang and Master Tok Gajah (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/l3VfJM8sq0bqy01EdbSFislkY7x.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/nys2glkyosxca6mfttq8y/Warrior-Awang-and-Master-Tok-Gajah-2024-HollyMovieHD.mp4?rlkey=7u2fs2njst4bkho4gdfrbtepj&st=3snrifrx&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Devara: Part 1 (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/1105WNYals12Va2f4F3VeBZdcWX.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/8387zxchda6k89wocqqje/Devara.Part.1.2024.720p.WEB.x264.ESub.Hollymoviehd.mp4?rlkey=z22ijya2dd2o5uli106fz2q6q&st=qglpk563&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Five Friends (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/jLiHiQuZDXNOKp1iGMRqNpt8Kx8.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/e09c14wtgphonemefoovg/Sekawan.Limo.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=aez56vmz5aqeh7u6y1x5rtuyx&st=tqwcytkn&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "I, The Executioner (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/fHqMahBdaGRHRJbGaNFkmDT8Crq.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/9qxomax1o3f56rbnvm858/Veteran.2.2024.720p.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=m2rzcotferx9bupp0y50mau8w&st=ofcxfrzm&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The Wig (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/xrBy9mSw47Lw8j9HeTQNwDvbwMv.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/6ji4e7m6p222jy2xv6giw/The.Wig.2024.720p.ENSUBBED.WEB-DL.x264.Hollymoviehd.mp4?rlkey=mgwql23lu9ktmrwpxd2kwckj9&st=pbkhtmcb&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Welcome To The Game (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/nvUlO33yvOUq36nygYH5c60wsAo.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/yybi35x1o2xhqiijkse9s/Welcome.To.The.Game.2024.ENSUBBED.WEB-DL.AAC2.0..x264.Hollymoviehd.mp4?rlkey=uxe2ki8vxp8xgs97etbspa1bo&st=o0lpc7eh&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Love Punch (2023)",
+    "logo": "https://image.tmdb.org/t/p/w342/69AlUvvfj6mTR7JCCRaVQe4xWqu.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/0sq84ef5hg4onnae3cchy/Love.Punc.ENSUBBED.WEB-DL.AAC2.0..x264.Hollymoviehd.mp4?rlkey=tbz6ckf3dgbrujzig7zj3fqss&st=pwbcywez&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "High Forces (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/dblGKcIGia7ayRgsoBFCFJp3pPu.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/pkf4crma4z5l4x5mur9qp/High.Forces.2024.720p.ENSUBBED.WEB-DL.x264.Hollymoviehd.mp4?rlkey=b239lcaiu2ok0xwmym439noa4&st=ho7fdf5q&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Bangkok Dog (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/z34jEduNNoSwlKQbil18ZmfVoWw.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/mhvrutdrbqye0cje6yawv/Bangkok.Dog.2024.720p.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=y132qhre8n002udwubxgi1ndl&st=zlm4xe8q&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Dirty Money (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/blj621NDhynYtNvApIL8OGlLdcC.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/mkpgwbp2xj4bufp5vahh7/Dirty.Money.2024.720p.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=wep3qf5ry684j1ixni35cq26h&st=hd9mdof1&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Jigra (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/lNo6sV7qVAB3sOGVBqqCR5a0nq4.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/8g2dya2tjkpi1wz2irn48/Jigra.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=g6cwvdg2egpf65qkm83zyr89h&st=xbish2cn&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The Cleaner (2022)",
+    "logo": "https://image.tmdb.org/t/p/w342/s2JYyjCqcD5SlNoMCWgYpCzRKZn.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/c4daoaqwcb3o9g4f5gj5z/The.Cleaner.2022.720p.VIKI.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=rayi1gxveo5ws9taxq7zv5lpt&st=ksv76p9f&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Thangalaan (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/l3ZWa3bSkAhSO9RHNEV7WgcUxDd.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/sxk7onlh1c8s8wtvn2q3r/Thangalaan.2024.MULTI.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=3s5dmvqhu3cxzwpoybn8ilqbu&st=66ngm4m2&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "The Unseen Sister (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/vpWDTc2sQE8vHthH4Pji41W0lxy.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/czmg57hgwqvb1aesrsf7e/The.Unseen.Sister.2024.720p.ENSUBBED.WEB-DL.x264.Hollymoviehd.mp4?rlkey=csssg1nrz4se3pn2mdoraxjaz&st=zafnwqlg&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
+    "name": "Taklee Genesis (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/2Y8kReCPHyVBd5YXlm1bHEPRoj4.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/egyiami2ns3cvrvpeqaa8/Taklee.Genesis.2024.720p.AMZN.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=66lzh7nsjqco5s0z9bourqtyq&st=7y75l1rh&dl=0",
+    "category": "INTERNATIONAL MOVIES"
+  },
+  {
         "name": "The Kingdom",
         "logo": "https://m.media-amazon.com/images/M/MV5BNDAwYmVkYzctMTRjZC00NGQ1LTk3YzAtOTAxMGRiNDNlMmVhXkEyXkFqcGc@._V1_.jpg",
         "type": "hls",
