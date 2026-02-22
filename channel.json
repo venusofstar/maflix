@@ -1,0 +1,35 @@
+{
+  "channels":[
+    {
+      "name": "Untold 2025",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/33/Untold_movie_2025.jpeg/250px-Untold_movie_2025.jpeg",
+      "type": "hls",
+      "manifestUri": "https://tevh.9ljp.com/vod/1/2025/08/01/bd4120b363da/index5.m3u8",
+      "category": "Philippines Movies"
+    },
+    {
+      "name": "Untold MP4",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/33/Untold_movie_2025.jpeg/250px-Untold_movie_2025.jpeg",
+      "type": "mp4",
+      "manifestUri": "https://jddjmj.9ljp.com/vod/1/2025/08/01/index.mp4",
+      "category": "Philippines Movies"
+    },
+    {
+      "name": "The Gatekeeper (2024)",
+      "logo": "https://media.themoviedb.org/t/p/w300_and_h450_bestv2/mkbkFUk5hQFKg4D9In7SI4zopxa.jpg",
+      "type": "mpegdash",
+      "manifestUri": "https://absvod.akamaized.net/c/2/m/5b2c1ec6-8ac7-11ef-82fd-506b4d4f9255.ism/manifest.mpd",
+      "clearKey": {
+        "5b2c1ec68ac711ef82fd506b4d4f9255": "9f059838c8ac7a21fea2476abfce12ae"
+      },
+      "category": "Philippines Movies"
+    },
+    {
+      "name":"Shake Rattle and Roll 15",
+      "logo":"https://img.youtube.com/vi/GE-vkTDBcCs/hqdefault.jpg",
+      "type":"youtube",
+      "manifestUri":"https://www.youtube.com/watch?v=GE-vkTDBcCs",
+      "category":"Horror"
+    }
+  ]
+}
