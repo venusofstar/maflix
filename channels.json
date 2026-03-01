@@ -268,11 +268,137 @@
     "category": "INTERNATIONAL MOVIES"
   },
   {
-        "name": "The Kingdom",
-        "logo": "https://m.media-amazon.com/images/M/MV5BNDAwYmVkYzctMTRjZC00NGQ1LTk3YzAtOTAxMGRiNDNlMmVhXkEyXkFqcGc@._V1_.jpg",
-        "type": "hls",
-        "manifestUri": "https://hls13.cdnvideo11.shop/hls13/The-Kingdom-2024-Ep1/index.m3u8?v=197ff479-0fb2-42bd-82d5-8a67c19a63d6",
-        "category": "Philippines Movies"
+    "name": "That Kind of Love (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BZjQyMjZkMDMtZDE2My00NTZjLTljNTEtODIyNDY5NDlmZmFkXkEyXkFqcGc@._V1_QL75_UY300_CR21,0,200,295_.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/0c1pqz7hk7gwyx3ids327/That.Kind.of.Love.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=tzuyv3hcdud97jim5uwxp0ht9&st=lfxvcqlg&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Playtime (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/gYDVMeJWWm7wMwXTx8Gjl0wH8wf.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/04f20m362n9vavlzzao5r/Playtime-2024-HollyMovieHD.mp4?rlkey=exdtpjzr9f8jdocj5ixoxg3yd&st=ctshjhh5&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Kidnap for Romance (2023)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BYTE5NGVjZmYtYTk2Ny00NzllLTg0ZjgtZGYwYzM4YzVhNjY2XkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_FMjpg_UY2048_.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/ef8yj9nxia8ry5bmndyq8/Kidnap-For-Romance-2023.mp4?rlkey=y9c4u87renrvrd28fi5zopovq&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "My Sassy Girl (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/hdrJvKIvFtDzwLNBAlujgKJgfBD.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/t0thk3kuocsron1br4u2r/My-Sassy-Girl-2024-HollyMovieHD.mp4?rlkey=9vqfe8jl2bwn4dd6gv2a3nyxg&st=m5qdzg4s&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Fruitcake (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BMjY2ZTU3NDgtMTk1Yy00MjhhLTllYTktNDg1ODRkMGQ3YjhiXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_FMjpg_UY2048_.jpg",
+    "type": "mkv",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/fn148dsizehjf8d5m19ij/Fruitcake.2024.720p.WEBRip.mkv?rlkey=fmgwmthgug2daj8muly7abzwg&st=34xg03ql&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Isang Gabi (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BYjBiNDE1ZGMtZTY2Zi00NGNlLWI3YzgtNWNlZTJkNTRlNzZiXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_FMjpg_UY4096_.jpg",
+    "type": "mkv",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/hk3f1u1567nh0419mrqdk/Isang-Gabi.2024.WEB-DL.720p.AV1.DDP.2.0.mkv?rlkey=x45cp3hnmbzhml1w6rza3rt8e&st=xfzvhsuy&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Fuchsia Libre (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BN2IwODY1NDktMWFiZC00MmQxLWE0M2EtNDZlY2FjZTQ0MzNiXkEyXkFqcGc@._V1_FMjpg_UX1200_.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/fz2lareacjeplfhqwebph/Fuchsia-Libre-2024-HollyMovieHD.mp4?rlkey=hpdxiul2fwx8jq37zmu63azyc&st=pjskwn4w&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Lolo and the Kid (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/e1eGvrYWTBp5ryznO0rYLwTpuWG.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/pv5v9ir3v0b1jqrfco1sx/Lolo-and-the-Kid-2024-HollyMovieHD.mp4?rlkey=dapaaeiea1chh31jz0v1maymp&st=45gax3sc&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Men Are From QC, Women Are From Alabang (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/8PjdvoJu0Tq44m7amC7hSJqJZFV.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/89sr0uwn0ouy0dbwm2j52/Men-Are-From-QC-Women-Are-From-Alabang-2024-HollyMovieHD.mp4?rlkey=doobdipcytl2zquhj67yr8eh3&st=rikq4wnz&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "When I Met You in Tokyo (2023)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BMGMzMWEwYTctNWQyNi00MjQzLWJhZmMtNTUzNGNjZTU0MzljXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_FMjpg_UY2048_.jpg",
+    "type": "mkv",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/zvb28hub935s6cuychoag/When-I-Met-You-in-Tokyo.2023.WEB-DL.720p.H264.AAC.2.0.mkv?rlkey=8fsb5gc42kcmkzv7ffzqke088&st=q4ys0bvq&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Elevator (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BNjk1MDM4MDQtYTRiNC00MDU5LWEwZWItZTQwZTZlZTg3MzQ5XkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_FMjpg_UY3072_.jpg",
+    "type": "mkv",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/fek1xhnnn8pwxd8d6rpwh/Elevator.2024.WEB-DL.720p.x264.AAC.mkv?rlkey=7vve2e7y0g5d6blb4f6d0r773&st=pnfzuzmn&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "12 Weeks (2022)",
+    "logo": "https://image.tmdb.org/t/p/w342/3l1EgnQd0rMTL0EQfigHiKaYXW.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/nuzmb2a0cwfhi66pmakd3/12-Weeks-2022-HollyMovieHD.mp4?rlkey=1zv1p1spevyr6eewagiy1tpgj&st=o5orel88&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Outside (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/33S6yUnEWueNVZABJeFPKUd7Rmz.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/3igzpkk7mkq1jebyznzi2/Watch-Outside-2024-Full-Movie-YESHD.mp4?rlkey=jurg39nrwht9unlqhrcl193oz&st=u019fnjd&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Ang Duyan ng Magiting (2023)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BNzA1Y2E1ZmYtMGZmYi00Yzc5LWIyNDUtNTk2YzFmMzUyYTcyXkEyXkFqcGc@._V1_QL75_UY300_CR21,0,200,295_.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/rbao9vmn8othnjssuie8x/Watch-Ang-duyan-ng-magiting-2023-Full-Movie-YESHD.mp4?rlkey=2pfy7yt2b7nmlx5mm1g7m5od5&st=3ginokym&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "The Gatekeeper (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/mkbkFUk5hQFKg4D9In7SI4zopxa.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/cmniuu3is8mp72uxespeh/Watch-The-Gatekeeper-2024-Full-Movie-YESHD.mp4?rlkey=p1c0knzchxzbf63ycbku430nu&st=0r9qzjvb&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Under Parallel Skies (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/7XOwbJSM36zWGGaJCJgj0SytvkE.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/9ccdywbcpjq1hsce0cn5b/Under-Parallel-Skies-2024-HollyMovieHD_2.mp4?rlkey=48ofu47fah6n46csty61kkym5&st=8t1357b3&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Nokturno (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/c3ZhWz1jXcoIuX7OnC0pOLoiZuD.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/jjt49bdwcir0q801kkccu/Nokturno-2024-HollyMovieHD.mp4?rlkey=kuto3fpee99qmttc5bqg90y3p&st=zijyz3l1&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Un/Happy for You (2024)",
+    "logo": "https://m.media-amazon.com/images/M/MV5BMGFjYjk4M2ItYjVjNS00NjExLTg1YzUtNzc1ZDE2ZmQ5YzI0XkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
+    "type": "mkv",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/mft12k12c4xxpqhud7lle/Un.Happy.for.You.2024-tt32206933-WD-1080.mkv?rlkey=7biwnty3jwxt9aoednr33kedh&st=2f54lswk&dl=0",
+    "category": "Philippines Movies"
+  },
+  {
+    "name": "Maple Leaf Dreams (2024)",
+    "logo": "https://image.tmdb.org/t/p/w342/j681TcAR5NGWpZAigTUYrjc0l4N.jpg",
+    "type": "mp4",
+    "manifestUri": "https://dl.dropboxusercontent.com/s/cmz0zlsfgf9s03qcykixy/Maple.Leaf.Dreams.2024.720p.NF.WEB-DL.x264.ESub.Hollymoviehd.mp4?rlkey=ddzbr2q2da4vepg2vmiw30pai&st=ccfbsmkz&dl=0",
+    "category": "Philippines Movies"
   },
   {
     "name": "The Gatekeeper (2024)",
