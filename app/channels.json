@@ -1,10 +1,17 @@
 {
   "channels":[
 {
-      "name": "Linda Walker Tagalog Dubbed",
+          "name": "Linda Walker Tagalog Dubbed",
     "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpe4R7siuU328hwbeelthcyWPcioK6mXXb42AQmdS8ODnNDknKpohAfWg&s=10",
     "type": "mp4",
     "manifestUri": "https://ia600702.us.archive.org/25/items/lindawolker-tagalog/lindawolker-tagalog.mp4",
+    "category": "Drama Tagalog Dubbed"
+  },
+  {
+          "name": "Isang Aksidente, Gusto Ako ng Lahat Lalaki Tagalog Dubbed",
+    "logo": "https://i.imgur.com/wgDNKzO.png",
+    "type": "mp4",
+    "manifestUri": "https://ia600900.us.archive.org/20/items/isang-aksidente-gusto-ako-ng-lahat-lalaki/Isang%20Aksidente%20Gusto%20Ako%20ng%20Lahat%20Lalaki.mp4",
     "category": "Drama Tagalog Dubbed"
   },
   {
