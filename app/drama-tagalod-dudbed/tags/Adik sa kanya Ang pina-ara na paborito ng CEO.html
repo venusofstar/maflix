@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Adik sa kanya Ang pina-ara na paborito ng CEO</title>
+
+<!-- SECURITY -->
+<meta http-equiv="Content-Security-Policy"
+content="
+default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+frame-ancestors 'none';
+upgrade-insecure-requests;
+block-all-mixed-content;
+">
+
+<style>
+:root{
+  --red:#e50914;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow:hidden;
+  user-select:none;
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:60px;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(8px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+header h2{
+  font-size:18px;
+  text-align:center;
+  padding:0 70px;
+}
+
+.back-btn{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--red);
+  border:none;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.player-wrapper{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  background:#000;
+}
+
+video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#000;
+}
+
+/* PROTECTIVE WATERMARK */
+.protective-watermark{
+  position:absolute;
+  top:15%;
+  left:10%;
+  z-index:1001;
+  font-size:22px;
+  font-weight:bold;
+  color:rgba(255,255,255,0.18);
+  pointer-events:none;
+  user-select:none;
+  white-space:nowrap;
+  text-transform:uppercase;
+  text-shadow:0 0 8px rgba(0,0,0,.6);
+  transform:rotate(-20deg);
+  animation:watermarkMove 12s linear infinite alternate;
+}
+
+@keyframes watermarkMove{
+  0%{ top:12%; left:8%; }
+  25%{ top:22%; left:65%; }
+  50%{ top:50%; left:35%; }
+  75%{ top:70%; left:60%; }
+  100%{ top:35%; left:15%; }
+}
+
+.episode-toggle{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:1000;
+  background:rgba(229,9,20,.95);
+  color:#fff;
+  border:none;
+  padding:14px 12px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 10px rgba(0,0,0,.5);
+  opacity:1;
+  transition:opacity .3s ease;
+}
+
+.episode-toggle.hide{
+  opacity:0.25;
+  pointer-events:auto;
+}
+
+.episode-panel{
+  position:absolute;
+  left:0;
+  bottom:-100%;
+  width:100%;
+  height:55%;
+  background:rgba(15,15,15,.98);
+  transition:.35s ease;
+  z-index:999;
+  overflow-y:auto;
+  padding:20px 15px 30px;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+}
+
+.episode-panel.show{
+  bottom:0;
+}
+
+.panel-title{
+  font-size:20px;
+  margin-bottom:15px;
+  font-weight:bold;
+}
+
+#episodes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+#episodes button{
+  border:none;
+  background:#222;
+  color:#fff;
+  padding:14px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:.2s;
+  font-size:14px;
+}
+
+#episodes button:hover,
+#episodes button.active{
+  background:var(--red);
+}
+
+#episodes button.active{
+  transform:scale(1.05);
+}
+
+@media(max-width:600px){
+  header{ height:55px; }
+  header h2{ font-size:15px; }
+  .episode-toggle{ right:10px; padding:12px 10px; font-size:13px; }
+  #episodes{ grid-template-columns:repeat(2,1fr); }
+  #episodes button{ padding:13px 8px; font-size:13px; }
+  .protective-watermark{ font-size:14px; }
+}
+
+@media(min-width:1600px){
+  header{ height:80px; }
+  header h2{ font-size:30px; }
+  .episode-toggle{ font-size:24px; padding:18px; }
+  #episodes button{ font-size:22px; padding:20px; }
+  .protective-watermark{ font-size:34px; }
+}
+</style>
+
+<script>
+/* MONETAG ADS SAFE LOADER */
+function loadMonetagDirect(){
+  if(!document.getElementById('monetag-direct')){
+    const s = document.createElement('script');
+    s.id = 'monetag-direct';
+    s.dataset.zone = '10983322';
+    s.src = '';
+    s.async = false;
+    document.body.appendChild(s);
+  }
+}
+
+function loadMonetagPopup(){
+  const existing = document.querySelector('script[data-monetag-popup="true"]');
+  if(existing) existing.remove();
+
+  const s = document.createElement('script');
+  s.src = '';
+  s.async = true;
+  s.setAttribute('data-cfasync','false');
+  s.setAttribute('data-monetag-popup','false');
+  document.body.appendChild(s);
+}
+
+function triggerEpisodeAds(){
+  try{
+    loadMonetagDirect();
+    setTimeout(loadMonetagPopup, 1500);
+  }catch(e){
+    console.log('Ad load skipped');
+  }
+}
+
+(function(){
+
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'F12') e.preventDefault();
+    if(e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) e.preventDefault();
+    if(e.ctrlKey && ['U','S'].includes(e.key.toUpperCase())) e.preventDefault();
+  });
+
+  let devtoolsOpen = false;
+  setInterval(function(){
+    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+    if(widthThreshold || heightThreshold){
+      if(!devtoolsOpen){
+        devtoolsOpen = true;
+        document.body.innerHTML = `
+        <div style="width:100%;height:100vh;background:#000;color:#fff;display:flex;justify-content:center;align-items:center;font-size:28px;font-family:Arial;text-align:center;">
+          Access Blocked
+        </div>`;
+      }
+    } else {
+      devtoolsOpen = false;
+    }
+  },1000);
+
+  if(window.top !== window.self){
+    document.body.innerHTML = '';
+    window.top.location = window.self.location;
+  }
+
+  setInterval(() => console.clear(), 1000);
+})();
+
+let currentEpisode = 1;
+const totalEpisodes = 80;
+const baseURL = "https://maflix.qzz.io/drama/series/tagalog-dubbed/Adik%20sa%20kanya%20Ang%20pina-ara%20na%20paborito%20ng%20CEO/";
+let hideTimer;
+
+function playEpisode(ep){
+  triggerEpisodeAds();
+  const player = document.getElementById('player');
+  currentEpisode = ep;
+  player.src = baseURL + 'ep' + ep + '.mp4';
+  player.play();
+  highlightEpisode();
+  scrollToActive();
+  closeEpisodes();
+  showEpisodeButton();
+}
+
+function highlightEpisode(){
+  const buttons = document.querySelectorAll('#episodes button');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  if(buttons[currentEpisode - 1]) buttons[currentEpisode - 1].classList.add('active');
+}
+
+function scrollToActive(){
+  const active = document.querySelector('.active');
+  if(active){
+    active.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function toggleEpisodes(){
+  document.getElementById('episodePanel').classList.toggle('show');
+  showEpisodeButton();
+}
+
+function closeEpisodes(){
+  document.getElementById('episodePanel').classList.remove('show');
+}
+
+function showEpisodeButton(){
+  const btn = document.getElementById('episodeToggle');
+  btn.classList.remove('hide');
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => btn.classList.add('hide'), 5000);
+}
+
+function randomizeWatermark(){
+  const wm = document.getElementById('watermark');
+  if(wm){
+    wm.style.top = Math.floor(Math.random() * 80) + '%';
+    wm.style.left = Math.floor(Math.random() * 70) + '%';
+  }
+}
+
+window.onload = function(){
+  const container = document.getElementById('episodes');
+  const player = document.getElementById('player');
+
+  player.controlsList = 'nodownload noplaybackrate';
+  player.disablePictureInPicture = true;
+  player.disableRemotePlayback = true;
+
+  for(let i=1; i<=totalEpisodes; i++){
+    const btn = document.createElement('button');
+    btn.textContent = 'EP ' + i;
+    btn.onclick = () => playEpisode(i);
+    container.appendChild(btn);
+  }
+
+  highlightEpisode();
+
+  player.addEventListener('ended', function(){
+    if(currentEpisode < totalEpisodes){
+      playEpisode(currentEpisode + 1);
+    }
+  });
+
+  player.addEventListener('click', showEpisodeButton);
+  player.addEventListener('touchstart', showEpisodeButton);
+
+  showEpisodeButton();
+  loadMonetagDirect();
+  setInterval(randomizeWatermark, 8000);
+};
+
+Object.defineProperty(window, 'httpCanary', {
+  get(){
+    location.href = 'about:blank';
+  }
+});
+
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+</script>
+</head>
+<body>
+
+<header>
+  <button class="back-btn" onclick="history.back()">⬅ Back</button>
+  <h2>Adik sa kanya Ang pina-ara na paborito ng CEO</h2>
+</header>
+
+<div class="player-wrapper">
+
+  <div class="protective-watermark" id="watermark">
+    GM vlog
+  </div>
+
+  <video
+    id="player"
+    controls
+    controlsList="nodownload noplaybackrate"
+    disablePictureInPicture
+    disableRemotePlayback
+    autoplay
+    playsinline
+    webkit-playsinline
+    src="https://maflix.qzz.io/drama/series/tagalog-dubbed/Adik%20sa%20kanya%20Ang%20pina-ara%20na%20paborito%20ng%20CEO/ep1.mp4">
+  </video>
+
+  <button class="episode-toggle" id="episodeToggle" onclick="toggleEpisodes()">
+    ☰ Episodes
+  </button>
+
+  <div class="episode-panel" id="episodePanel">
+    <div class="panel-title">Episodes</div>
+    <div id="episodes"></div>
+  </div>
+
+</div>
+
+</body>
+</html>
