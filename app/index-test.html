@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAFLIX</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial, sans-serif;
+  overflow-x:hidden;
+}
+
+/* NAVBAR */
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  padding:15px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(to bottom, rgba(0,0,0,.9), transparent);
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:32px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+#searchInput{
+  width:240px;
+  padding:10px 15px;
+  border:none;
+  outline:none;
+  border-radius:30px;
+  background:#1b1b1b;
+  color:#fff;
+}
+
+/* HERO */
+#hero{
+  position:relative;
+  width:100%;
+  height:85vh;
+  background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  padding:80px;
+}
+
+#hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,#0b0b0b 5%,transparent 60%);
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  max-width:500px;
+}
+
+.heroContent h2{
+  font-size:60px;
+  margin-bottom:15px;
+}
+
+.heroContent p{
+  color:#ddd;
+  line-height:1.6;
+  margin-bottom:25px;
+}
+
+.heroButtons{
+  display:flex;
+  gap:15px;
+}
+
+.heroButtons button{
+  padding:12px 28px;
+  border:none;
+  border-radius:5px;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+/* MOVIE ROWS */
+.section{
+  padding:20px 25px;
+}
+
+.section h3{
+  margin-bottom:15px;
+  font-size:24px;
+}
+
+.movieRow{
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  scrollbar-width:none;
+}
+
+.movieRow::-webkit-scrollbar{
+  display:none;
+}
+
+.movieCard{
+  min-width:220px;
+  height:320px;
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  transition:.3s;
+  flex-shrink:0;
+}
+
+.movieCard img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.movieCard:hover{
+  transform:scale(1.08);
+  z-index:5;
+}
+
+.movieOverlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  display:flex;
+  align-items:flex-end;
+  padding:15px;
+}
+
+.movieOverlay h4{
+  font-size:18px;
+}
+
+/* VIDEO PLAYER */
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000;
+}
+
+#videoPlayer,
+#ytFrame{
+  width:90%;
+  height:85%;
+  border:none;
+  border-radius:10px;
+  background:#000;
+}
+
+#closeBtn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:50%;
+  background:#e50914;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+#spinner{
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid #e50914;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  animation:spin 1s linear infinite;
+  position:absolute;
+  display:none;
+}
+
+@keyframes spin{
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  #hero{
+    height:70vh;
+    padding:30px;
+  }
+
+  .heroContent h2{
+    font-size:38px;
+  }
+
+  .movieCard{
+    min-width:160px;
+    height:240px;
+  }
+
+  #searchInput{
+    width:160px;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div id="navbar">
+  <h1 id="appTitle">MAFLIX</h1>
+
+  <input type="text" id="searchInput" placeholder="Search movies...">
+</div>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <div class="heroContent">
+    <h2>Trending Now</h2>
+
+    <p>
+      Watch unlimited trending movies and series
+      with cinematic streaming experience.
+    </p>
+
+    <div class="heroButtons">
+      <button class="playBtn">▶ Play</button>
+      <button class="infoBtn">More Info</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRENDING MOVIES -->
+<div class="section">
+  <h3>Trending Movies</h3>
+
+  <div class="movieRow" id="movieRow">
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg">
+      <div class="movieOverlay">
+        <h4>The Dark Knight</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg">
+      <div class="movieOverlay">
+        <h4>Wonder Woman</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg">
+      <div class="movieOverlay">
+        <h4>Spider-Man</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg">
+      <div class="movieOverlay">
+        <h4>Avengers Endgame</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/yXNVcG0C7Oymg9F9ecXa9MWVwj8.jpg">
+      <div class="movieOverlay">
+        <h4>Interstellar</h4>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTINUE WATCHING -->
+<div class="section">
+  <h3>Continue Watching</h3>
+
+  <div class="movieRow">
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg">
+      <div class="movieOverlay">
+        <h4>John Wick</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/kOVEVeg59E0wsnXmF9nrh6OmWII.jpg">
+      <div class="movieOverlay">
+        <h4>Black Panther</h4>
+      </div>
+    </div>
+
+    <div class="movieCard">
+      <img src="https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg">
+      <div class="movieOverlay">
+        <h4>Guardians</h4>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div id="videoContainer">
+  <div id="spinner"></div>
+
+  <video id="videoPlayer" controls autoplay playsinline></video>
+
+  <iframe id="ytFrame"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="display:none">
+  </iframe>
+
+  <button id="closeBtn">✕</button>
+</div>
+
+<script>
+(async function () {
+
+  let allowWebView = false;
+
+  try {
+    const r = await fetch("/app-check", { cache:"no-store" });
+    const j = await r.json();
+    allowWebView = j.ok === true;
+  } catch(e){}
+
+  function isWebView() {
+    const ua = navigator.userAgent.toLowerCase();
+    return ua.includes("wv") ||
+      (ua.includes("android") && ua.includes("version/"));
+  }
+
+  function devtoolsOpened() {
+    const t = performance.now();
+    debugger;
+    return performance.now() - t > 120;
+  }
+
+  if (isWebView() && !allowWebView) {
+    block("Unsupported player environment");
+    return;
+  }
+
+  if (devtoolsOpened()) {
+    block("Debug tools detected");
+    return;
+  }
+
+  function block(msg){
+    document.documentElement.innerHTML =
+      `<body style="margin:0;background:#000;color:#fff;
+      display:flex;align-items:center;justify-content:center;
+      font-family:Arial;text-align:center">
+      <div>
+        <h3>Access blocked</h3>
+        <p>${msg}</p>
+      </div></body>`;
+  }
+
+})();
+
+/* SEARCH */
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", () => {
+
+  const value = searchInput.value.toLowerCase();
+
+  document.querySelectorAll(".movieCard").forEach(card => {
+
+    const title = card.innerText.toLowerCase();
+
+    if(title.includes(value)){
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+
+  });
+
+});
+
+/* PLAYER */
+const videoContainer = document.getElementById("videoContainer");
+const closeBtn = document.getElementById("closeBtn");
+
+document.querySelectorAll(".movieCard").forEach(card => {
+
+  card.addEventListener("click", () => {
+
+    videoContainer.style.display = "flex";
+
+  });
+
+});
+
+closeBtn.addEventListener("click", () => {
+
+  videoContainer.style.display = "none";
+
+});
+</script>
+
+</body>
+</html>
