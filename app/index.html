@@ -22,7 +22,7 @@ body{
   overflow-x:hidden;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 
 #navbar{
   position:fixed;
@@ -34,7 +34,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);
+  background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);
 }
 
 #leftNav{
@@ -58,10 +58,9 @@ body{
   color:#e50914;
   font-size:32px;
   font-weight:bold;
-  letter-spacing:1px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
 #searchBox{
   display:flex;
@@ -91,7 +90,7 @@ body{
   font-size:18px;
 }
 
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 
 #sidebar{
   position:fixed;
@@ -159,7 +158,7 @@ body{
   display:block;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 
 #hero{
   position:relative;
@@ -219,7 +218,7 @@ body{
   color:#fff;
 }
 
-/* CHANNELS */
+/* ================= CHANNELS ================= */
 
 #channelSections{
   padding:20px;
@@ -269,12 +268,12 @@ body{
   bottom:0;
   width:100%;
   padding:15px;
-  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  background:linear-gradient(to top,rgba(0,0,0,.95),transparent);
   font-size:18px;
   font-weight:bold;
 }
 
-/* PLAYER */
+/* ================= PLAYER ================= */
 
 #videoContainer{
   position:fixed;
@@ -326,7 +325,7 @@ body{
   }
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
@@ -356,7 +355,7 @@ body{
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
 
 <div id="navbar">
 
@@ -380,7 +379,7 @@ body{
 
 </div>
 
-<!-- SIDEBAR -->
+<!-- ================= SIDEBAR ================= -->
 
 <div id="sidebar">
 
@@ -408,7 +407,7 @@ body{
 
 <div id="menuOverlay"></div>
 
-<!-- HERO -->
+<!-- ================= HERO ================= -->
 
 <section id="hero">
 
@@ -417,8 +416,8 @@ body{
     <h2>Trending Now</h2>
 
     <p>
-      Watch unlimited movies, sports,
-      anime and live TV with MAFLIX.
+      Watch movies, anime, sports and live TV
+      with MAFLIX streaming platform.
     </p>
 
     <div class="heroButtons">
@@ -433,11 +432,11 @@ body{
 
 </section>
 
-<!-- CHANNELS -->
+<!-- ================= CHANNELS ================= -->
 
 <div id="channelSections"></div>
 
-<!-- PLAYER -->
+<!-- ================= PLAYER ================= -->
 
 <div id="videoContainer">
 
@@ -464,29 +463,23 @@ body{
 /* ================= MENU ================= */
 
 const menuBtn = document.getElementById("menuBtn");
-
 const sidebar = document.getElementById("sidebar");
-
 const closeMenu = document.getElementById("closeMenu");
-
 const menuOverlay = document.getElementById("menuOverlay");
 
 menuBtn.addEventListener("click", ()=>{
 
   sidebar.classList.add("active");
-
   menuOverlay.classList.add("active");
 
 });
 
 closeMenu.addEventListener("click", closeSidebar);
-
 menuOverlay.addEventListener("click", closeSidebar);
 
 function closeSidebar(){
 
   sidebar.classList.remove("active");
-
   menuOverlay.classList.remove("active");
 
 }
@@ -494,10 +487,121 @@ function closeSidebar(){
 /* ================= CHANNEL SYSTEM ================= */
 
 let staticChannels = [];
-
 let shakaPlayer = null;
-
 let currentChannel = null;
+
+/* ================= PARSE M3U ================= */
+
+function parseM3U(content){
+
+  const lines = content.split("\n");
+
+  const channels = [];
+
+  let current = null;
+
+  for(let i = 0; i < lines.length; i++){
+
+    const line = lines[i].trim();
+
+    if(line.startsWith("#EXTINF")){
+
+      const nameMatch =
+        line.match(/,(.*)$/);
+
+      const logoMatch =
+        line.match(/tvg-logo="(.*?)"/);
+
+      const groupMatch =
+        line.match(/group-title="(.*?)"/);
+
+      const cuidMatch =
+        line.match(/CUID="(.*?)"/);
+
+      current = {
+
+        id: cuidMatch ?
+          cuidMatch[1] :
+          Date.now(),
+
+        name: nameMatch ?
+          nameMatch[1] :
+          "Unknown",
+
+        logo: logoMatch ?
+          logoMatch[1] :
+          "https://via.placeholder.com/300x450?text=MAFLIX",
+
+        category: groupMatch ?
+          groupMatch[1] :
+          "Live TV",
+
+        manifestUri: "",
+
+        type: "iframe"
+
+      };
+
+    }
+
+    else if(
+      line &&
+      !line.startsWith("#") &&
+      current
+    ){
+
+      current.manifestUri = line;
+
+      if(
+        line.includes("youtube.com") ||
+        line.includes("youtu.be")
+      ){
+
+        current.type = "youtube";
+
+      }
+
+      else if(
+        line.includes(".m3u8")
+      ){
+
+        current.type = "hls";
+
+      }
+
+      else if(
+        line.includes(".mpd")
+      ){
+
+        current.type = "dash";
+
+      }
+
+      else if(
+        line.includes(".mp4")
+      ){
+
+        current.type = "mp4";
+
+      }
+
+      else{
+
+        current.type = "iframe";
+
+      }
+
+      channels.push(current);
+
+      current = null;
+
+    }
+
+  }
+
+  return channels;
+
+}
 
 /* ================= FETCH CHANNELS ================= */
 
@@ -505,20 +609,81 @@ async function fetchChannels(){
 
   try{
 
-    const res = await fetch('channels.json');
+    let allChannels = [];
 
-    const data = await res.json();
+    /* ===== channels.json ===== */
 
-    staticChannels = data.channels;
+    try{
+
+      const res1 =
+        await fetch("channels.json");
+
+      const data1 =
+        await res1.json();
+
+      if(data1.channels){
+
+        allChannels.push(
+          ...data1.channels
+        );
+
+      }
+
+    }catch(e){
+
+      console.log(
+        "channels.json not found"
+      );
+
+    }
+
+    /* ===== channels2.json ===== */
+
+    try{
+
+      const res2 =
+        await fetch("channels2.json");
+
+      const text2 =
+        await res2.text();
+
+      const parsedM3U =
+        parseM3U(text2);
+
+      allChannels.push(
+        ...parsedM3U
+      );
+
+    }catch(e){
+
+      console.log(
+        "channels2.json not found"
+      );
+
+    }
+
+    staticChannels = allChannels;
 
     render(staticChannels);
 
   }catch(err){
 
-    console.error("Failed to fetch channels:", err);
+    console.error(
+      "Failed to fetch channels:",
+      err
+    );
 
-    document.getElementById("channelSections").innerHTML =
-      "<p style='text-align:center;color:red;'>Failed to load channels</p>";
+    document.getElementById(
+      "channelSections"
+    ).innerHTML = `
+      <p style="
+        text-align:center;
+        color:red;
+        padding:30px;
+      ">
+        Failed to load channels
+      </p>
+    `;
 
   }
 
@@ -542,11 +707,13 @@ function groupChannels(list){
 
 function render(channelsList){
 
-  const container = document.getElementById("channelSections");
+  const container =
+    document.getElementById("channelSections");
 
   container.innerHTML = "";
 
-  const grouped = groupChannels(channelsList);
+  const grouped =
+    groupChannels(channelsList);
 
   for(const [cat,channels] of Object.entries(grouped)){
 
@@ -581,15 +748,18 @@ function render(channelsList){
 
   }
 
-  const lazyImages = document.querySelectorAll("img.lazy");
+  const lazyImages =
+    document.querySelectorAll("img.lazy");
 
-  const observer = new IntersectionObserver(entries=>{
+  const observer =
+    new IntersectionObserver(entries=>{
 
     entries.forEach(entry=>{
 
       if(entry.isIntersecting){
 
-        entry.target.src = entry.target.dataset.src;
+        entry.target.src =
+          entry.target.dataset.src;
 
         observer.unobserve(entry.target);
 
@@ -599,7 +769,9 @@ function render(channelsList){
 
   });
 
-  lazyImages.forEach(img=> observer.observe(img));
+  lazyImages.forEach(img=>
+    observer.observe(img)
+  );
 
 }
 
@@ -609,13 +781,17 @@ async function playChannel(ch){
 
   currentChannel = ch;
 
-  const v = document.getElementById("videoPlayer");
+  const v =
+    document.getElementById("videoPlayer");
 
-  const yt = document.getElementById("ytFrame");
+  const yt =
+    document.getElementById("ytFrame");
 
-  const c = document.getElementById("videoContainer");
+  const c =
+    document.getElementById("videoContainer");
 
-  const spinner = document.getElementById("spinner");
+  const spinner =
+    document.getElementById("spinner");
 
   c.style.display = "flex";
 
@@ -633,18 +809,38 @@ async function playChannel(ch){
 
   v.style.display = "none";
 
+  /* ===== YOUTUBE ===== */
+
   if(ch.type === "youtube"){
 
     yt.style.display = "block";
 
     yt.src =
-      `https://www.youtube.com/embed/${ch.manifestUri.split("v=")[1]}?autoplay=1`;
+      `https://www.youtube.com/embed/${
+        ch.manifestUri.split("v=")[1]
+      }?autoplay=1`;
 
     spinner.style.display = "none";
 
     return;
 
   }
+
+  /* ===== IFRAME ===== */
+
+  if(ch.type === "iframe"){
+
+    yt.style.display = "block";
+
+    yt.src = ch.manifestUri;
+
+    spinner.style.display = "none";
+
+    return;
+
+  }
+
+  /* ===== MP4 ===== */
 
   if(ch.type === "mp4"){
 
@@ -660,13 +856,29 @@ async function playChannel(ch){
 
     v.src = ch.manifestUri;
 
-    const saved = localStorage.getItem(ch.name);
+    const saved =
+      localStorage.getItem(ch.name);
 
-    if(saved) v.currentTime = saved;
+    if(saved){
 
-    v.onloadeddata = ()=> spinner.style.display = "none";
+      v.currentTime = saved;
 
-    v.ontimeupdate = ()=> localStorage.setItem(ch.name,v.currentTime);
+    }
+
+    v.onloadeddata = ()=>{
+
+      spinner.style.display = "none";
+
+    };
+
+    v.ontimeupdate = ()=>{
+
+      localStorage.setItem(
+        ch.name,
+        v.currentTime
+      );
+
+    };
 
     v.play();
 
@@ -674,9 +886,12 @@ async function playChannel(ch){
 
   }
 
+  /* ===== HLS / DASH ===== */
+
   v.style.display = "block";
 
-  shakaPlayer ??= new shaka.Player(v);
+  shakaPlayer ??=
+    new shaka.Player(v);
 
   await shakaPlayer.unload();
 
@@ -692,7 +907,9 @@ async function playChannel(ch){
 
   try{
 
-    await shakaPlayer.load(ch.manifestUri);
+    await shakaPlayer.load(
+      ch.manifestUri
+    );
 
     shakaPlayer.configure({
       abr:{
@@ -719,11 +936,14 @@ async function playChannel(ch){
 document.getElementById("closeBtn")
 .addEventListener("click", ()=>{
 
-  const v = document.getElementById("videoPlayer");
+  const v =
+    document.getElementById("videoPlayer");
 
-  const yt = document.getElementById("ytFrame");
+  const yt =
+    document.getElementById("ytFrame");
 
-  const c = document.getElementById("videoContainer");
+  const c =
+    document.getElementById("videoContainer");
 
   c.style.display = "none";
 
@@ -739,29 +959,39 @@ document.getElementById("closeBtn")
 
 /* ================= SEARCH ================= */
 
-const searchInput = document.getElementById("searchInput");
+const searchInput =
+  document.getElementById("searchInput");
 
-const searchBtn = document.getElementById("searchBtn");
+const searchBtn =
+  document.getElementById("searchBtn");
 
 function searchChannels(){
 
-  const val = searchInput.value.toLowerCase();
+  const val =
+    searchInput.value.toLowerCase();
 
-  const filtered = staticChannels.filter(ch=>
+  const filtered =
+    staticChannels.filter(ch=>
 
-    ch.name.toLowerCase().includes(val) ||
+      ch.name.toLowerCase().includes(val) ||
 
-    ch.category.toLowerCase().includes(val)
+      ch.category.toLowerCase().includes(val)
 
-  );
+    );
 
   render(filtered);
 
 }
 
-searchInput.addEventListener("input", searchChannels);
+searchInput.addEventListener(
+  "input",
+  searchChannels
+);
 
-searchBtn.addEventListener("click", searchChannels);
+searchBtn.addEventListener(
+  "click",
+  searchChannels
+);
 
 /* ================= INIT ================= */
 
