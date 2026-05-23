@@ -5,75 +5,769 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MAFLIX</title>
 
-<link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:999;
+  padding:15px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(0,0,0,.9),transparent);
+}
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+#menuBtn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:8px;
+  background:#1b1b1b;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:32px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* SEARCH */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+  background:#1b1b1b;
+  border-radius:30px;
+  overflow:hidden;
+}
+
+#searchInput{
+  width:220px;
+  padding:10px 15px;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  font-size:15px;
+}
+
+#searchBtn{
+  width:50px;
+  height:42px;
+  border:none;
+  background:#e50914;
+  color:#fff;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* SIDEBAR */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-280px;
+  width:260px;
+  height:100%;
+  background:#111;
+  z-index:5000;
+  padding:20px;
+  transition:.3s;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+}
+
+#closeMenu{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:8px;
+  background:#1b1b1b;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+}
+
+#sidebar a{
+  color:#fff;
+  text-decoration:none;
+  padding:14px;
+  border-radius:10px;
+  background:#1a1a1a;
+  transition:.2s;
+}
+
+#sidebar a:hover{
+  background:#e50914;
+}
+
+#menuOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:4000;
+  display:none;
+}
+
+#menuOverlay.active{
+  display:block;
+}
+
+/* HERO */
+
+#hero{
+  position:relative;
+  width:100%;
+  height:85vh;
+  background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  padding:80px;
+}
+
+#hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,#0b0b0b 5%,transparent 60%);
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  max-width:500px;
+}
+
+.heroContent h2{
+  font-size:60px;
+  margin-bottom:15px;
+}
+
+.heroContent p{
+  color:#ddd;
+  line-height:1.6;
+  margin-bottom:25px;
+}
+
+.heroButtons{
+  display:flex;
+  gap:15px;
+}
+
+.heroButtons button{
+  padding:12px 28px;
+  border:none;
+  border-radius:5px;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+/* CHANNELS */
+
+#channelSections{
+  padding:20px;
+}
+
+#channelSections h2{
+  margin:20px 0 15px;
+  font-size:24px;
+}
+
+.horizontal-scroll{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.horizontal-scroll::-webkit-scrollbar{
+  display:none;
+}
+
+.card-item{
+  min-width:220px;
+  height:320px;
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  background:#181818;
+  transition:.3s;
+  flex-shrink:0;
+}
+
+.card-item:hover{
+  transform:scale(1.08);
+  z-index:5;
+}
+
+.card-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-item p{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:15px;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* PLAYER */
+
+#videoContainer{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000;
+}
+
+#videoPlayer,
+#ytFrame{
+  width:90%;
+  height:85%;
+  border:none;
+  border-radius:10px;
+  background:#000;
+}
+
+#closeBtn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:50%;
+  background:#e50914;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+#spinner{
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid #e50914;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  animation:spin 1s linear infinite;
+  position:absolute;
+  display:none;
+}
+
+@keyframes spin{
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  #hero{
+    height:70vh;
+    padding:30px;
+  }
+
+  .heroContent h2{
+    font-size:38px;
+  }
+
+  .card-item{
+    min-width:160px;
+    height:240px;
+  }
+
+  #searchInput{
+    width:140px;
+  }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1 id="appTitle">MAFLIX</h1>
+<!-- NAVBAR -->
 
-<div id="searchContainer">
-  <input type="text" id="searchInput" placeholder="Search channels...">
+<div id="navbar">
+
+  <div id="leftNav">
+
+    <button id="menuBtn">☰</button>
+
+    <h1 id="appTitle">MAFLIX</h1>
+
+  </div>
+
+  <div id="searchBox">
+
+    <input type="text"
+      id="searchInput"
+      placeholder="Search channels...">
+
+    <button id="searchBtn">🔍</button>
+
+  </div>
+
 </div>
+
+<!-- SIDEBAR -->
+
+<div id="sidebar">
+
+  <div id="sidebarHeader">
+
+    <h2>MAFLIX</h2>
+
+    <button id="closeMenu">✕</button>
+
+  </div>
+
+  <a href="index.html">🏠 Home</a>
+
+  <a href="anime/index.html">🎌 Anime</a>
+
+  <a href="drama-tagalod-dudbed/index.html">
+    🎭 Tagalog Dubbed Drama
+  </a>
+
+  <a href="tv-channel.html">📺 TV Channels</a>
+
+  <a href="sports-event.html">⚽ Sports Event</a>
+
+</div>
+
+<div id="menuOverlay"></div>
+
+<!-- HERO -->
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <h2>Trending Now</h2>
+
+    <p>
+      Watch unlimited movies, sports,
+      anime and live TV with MAFLIX.
+    </p>
+
+    <div class="heroButtons">
+
+      <button class="playBtn">▶ Watch</button>
+
+      <button class="infoBtn">More Info</button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CHANNELS -->
 
 <div id="channelSections"></div>
 
+<!-- PLAYER -->
+
 <div id="videoContainer">
+
   <div id="spinner"></div>
-  <video id="videoPlayer" controls autoplay playsinline></video>
-  <iframe id="ytFrame" allow="autoplay; fullscreen" allowfullscreen style="display:none"></iframe>
+
+  <video id="videoPlayer"
+    controls
+    autoplay
+    playsinline>
+  </video>
+
+  <iframe id="ytFrame"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="display:none">
+  </iframe>
+
   <button id="closeBtn">✕</button>
+
 </div>
 
 <script>
-(async function () {
 
-  let allowWebView = false;
+/* ================= MENU ================= */
 
-  try {
-    const r = await fetch("/app-check", { cache:"no-store" });
-    const j = await r.json();
-    allowWebView = j.ok === true;
-  } catch(e){}
+const menuBtn = document.getElementById("menuBtn");
 
-  function isWebView() {
-    const ua = navigator.userAgent.toLowerCase();
-    return ua.includes("wv") || (ua.includes("android") && ua.includes("version/");
+const sidebar = document.getElementById("sidebar");
+
+const closeMenu = document.getElementById("closeMenu");
+
+const menuOverlay = document.getElementById("menuOverlay");
+
+menuBtn.addEventListener("click", ()=>{
+
+  sidebar.classList.add("active");
+
+  menuOverlay.classList.add("active");
+
+});
+
+closeMenu.addEventListener("click", closeSidebar);
+
+menuOverlay.addEventListener("click", closeSidebar);
+
+function closeSidebar(){
+
+  sidebar.classList.remove("active");
+
+  menuOverlay.classList.remove("active");
+
+}
+
+/* ================= CHANNEL SYSTEM ================= */
+
+let staticChannels = [];
+
+let shakaPlayer = null;
+
+let currentChannel = null;
+
+/* ================= FETCH CHANNELS ================= */
+
+async function fetchChannels(){
+
+  try{
+
+    const res = await fetch('channels.json');
+
+    const data = await res.json();
+
+    staticChannels = data.channels;
+
+    render(staticChannels);
+
+  }catch(err){
+
+    console.error("Failed to fetch channels:", err);
+
+    document.getElementById("channelSections").innerHTML =
+      "<p style='text-align:center;color:red;'>Failed to load channels</p>";
+
   }
 
-  function devtoolsOpened() {
-    const t = performance.now();
-    debugger;
-    return performance.now() - t > 120;
+}
+
+/* ================= GROUP CHANNELS ================= */
+
+function groupChannels(list){
+
+  return list.reduce((g,c)=>{
+
+    (g[c.category] ||= []).push(c);
+
+    return g;
+
+  },{});
+
+}
+
+/* ================= RENDER CHANNELS ================= */
+
+function render(channelsList){
+
+  const container = document.getElementById("channelSections");
+
+  container.innerHTML = "";
+
+  const grouped = groupChannels(channelsList);
+
+  for(const [cat,channels] of Object.entries(grouped)){
+
+    const h = document.createElement("h2");
+
+    h.textContent = cat;
+
+    container.appendChild(h);
+
+    const row = document.createElement("div");
+
+    row.className = "horizontal-scroll";
+
+    channels.forEach(ch=>{
+
+      const card = document.createElement("div");
+
+      card.className = "card-item";
+
+      card.innerHTML = `
+        <img data-src="${ch.logo}" class="lazy">
+        <p>${ch.name}</p>
+      `;
+
+      card.onclick = ()=> playChannel(ch);
+
+      row.appendChild(card);
+
+    });
+
+    container.appendChild(row);
+
   }
 
-  if (isWebView() && !allowWebView) {
-    block("Unsupported player environment");
+  const lazyImages = document.querySelectorAll("img.lazy");
+
+  const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+      if(entry.isIntersecting){
+
+        entry.target.src = entry.target.dataset.src;
+
+        observer.unobserve(entry.target);
+
+      }
+
+    });
+
+  });
+
+  lazyImages.forEach(img=> observer.observe(img));
+
+}
+
+/* ================= PLAY CHANNEL ================= */
+
+async function playChannel(ch){
+
+  currentChannel = ch;
+
+  const v = document.getElementById("videoPlayer");
+
+  const yt = document.getElementById("ytFrame");
+
+  const c = document.getElementById("videoContainer");
+
+  const spinner = document.getElementById("spinner");
+
+  c.style.display = "flex";
+
+  spinner.style.display = "block";
+
+  v.pause();
+
+  v.removeAttribute("src");
+
+  v.load();
+
+  yt.src = "";
+
+  yt.style.display = "none";
+
+  v.style.display = "none";
+
+  if(ch.type === "youtube"){
+
+    yt.style.display = "block";
+
+    yt.src =
+      `https://www.youtube.com/embed/${ch.manifestUri.split("v=")[1]}?autoplay=1`;
+
+    spinner.style.display = "none";
+
     return;
+
   }
 
-  if (devtoolsOpened()) {
-    block("Debug tools detected");
+  if(ch.type === "mp4"){
+
+    if(shakaPlayer){
+
+      await shakaPlayer.destroy();
+
+      shakaPlayer = null;
+
+    }
+
+    v.style.display = "block";
+
+    v.src = ch.manifestUri;
+
+    const saved = localStorage.getItem(ch.name);
+
+    if(saved) v.currentTime = saved;
+
+    v.onloadeddata = ()=> spinner.style.display = "none";
+
+    v.ontimeupdate = ()=> localStorage.setItem(ch.name,v.currentTime);
+
+    v.play();
+
     return;
+
   }
 
-  function block(msg){
-    document.documentElement.innerHTML =
-      `<body style="margin:0;background:#000;color:#fff;
-      display:flex;align-items:center;justify-content:center;
-      font-family:Arial;text-align:center">
-      <div>
-        <h3>Access blocked</h3>
-        <p>${msg}</p>
-      </div></body>`;
+  v.style.display = "block";
+
+  shakaPlayer ??= new shaka.Player(v);
+
+  await shakaPlayer.unload();
+
+  if(ch.clearKey){
+
+    shakaPlayer.configure({
+      drm:{
+        clearKeys: ch.clearKey
+      }
+    });
+
   }
 
-})();
+  try{
+
+    await shakaPlayer.load(ch.manifestUri);
+
+    shakaPlayer.configure({
+      abr:{
+        enabled:true
+      }
+    });
+
+    spinner.style.display = "none";
+
+    v.play();
+
+  }catch(e){
+
+    spinner.style.display = "none";
+
+    alert("Playback error");
+
+  }
+
+}
+
+/* ================= CLOSE PLAYER ================= */
+
+document.getElementById("closeBtn")
+.addEventListener("click", ()=>{
+
+  const v = document.getElementById("videoPlayer");
+
+  const yt = document.getElementById("ytFrame");
+
+  const c = document.getElementById("videoContainer");
+
+  c.style.display = "none";
+
+  v.pause();
+
+  v.removeAttribute("src");
+
+  v.load();
+
+  yt.src = "";
+
+});
+
+/* ================= SEARCH ================= */
+
+const searchInput = document.getElementById("searchInput");
+
+const searchBtn = document.getElementById("searchBtn");
+
+function searchChannels(){
+
+  const val = searchInput.value.toLowerCase();
+
+  const filtered = staticChannels.filter(ch=>
+
+    ch.name.toLowerCase().includes(val) ||
+
+    ch.category.toLowerCase().includes(val)
+
+  );
+
+  render(filtered);
+
+}
+
+searchInput.addEventListener("input", searchChannels);
+
+searchBtn.addEventListener("click", searchChannels);
+
+/* ================= INIT ================= */
+
+window.onload = fetchChannels;
+
 </script>
-  
-<script src="script.js"></script>
 
-  
 </body>
 </html>
