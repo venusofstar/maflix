@@ -39,8 +39,6 @@ body{
   color:#fff;
   font-family:Arial,sans-serif;
   overflow-x:hidden;
-
-  /* smooth vertical touch */
   touch-action:pan-y;
 }
 
@@ -332,7 +330,6 @@ input:focus{
   padding-inline:50px;
   padding-bottom:10px;
 
-  /* vertical only touch */
   touch-action:pan-y;
 
   -webkit-overflow-scrolling:touch;
@@ -712,80 +709,107 @@ footer{
       class="movieRow"
       id="moviesRow">
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/zhuIDDt.png">
+      <div class="card"
+        data-title="Swerte Anak Mas Swerte Emperador"
+        data-link="tags/Swerte Anak Mas Swerte Emperador.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/zhuIDDt.png">
 
-    <div class="title">
-      Swerte Anak Mas Swerte Emperador
-    </div>
+        <div class="cardOverlay"></div>
 
-  </div>
+        <div class="title">
+          Swerte Anak Mas Swerte Emperador
+        </div>
 
-  <div class="card" data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa" data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
+      </div>
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/zlVh0zz.png">
+      <div class="card"
+        data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa"
+        data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/zlVh0zz.png">
 
-    <div class="title">
-      Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa
-    </div>
+        <div class="cardOverlay"></div>
 
-  </div>
+        <div class="title">
+          Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa
+        </div>
 
-  <div class="card" data-title="Inayos ng Munting Doctor Ang Pamilya" data-link="tags/InayosngMuntingDoctorAngPamilya.html">
+      </div>
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/FPF0Saq.jpg">
+      <div class="card"
+        data-title="Inayos ng Munting Doctor Ang Pamilya"
+        data-link="tags/InayosngMuntingDoctorAngPamilya.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/FPF0Saq.jpg">
 
-    <div class="title">
-      Inayos ng Munting Doctor Ang Pamilya
-    </div>
+        <div class="cardOverlay"></div>
 
-  </div>
+        <div class="title">
+          Inayos ng Munting Doctor Ang Pamilya
+        </div>
 
-  <div class="card" data-title="Adik sa kanya Ang pina-ara na paborito ng CEO" data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
+      </div>
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/eRCzF4A.jpg">
+      <div class="card"
+        data-title="Adik sa kanya Ang pina-ara na paborito ng CEO"
+        data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/eRCzF4A.jpg">
 
-    <div class="title">
-      Adik sa kanya Ang pina-ara na paborito ng CEO
-    </div>
+        <div class="cardOverlay"></div>
 
-  </div>
+        <div class="title">
+          Adik sa kanya Ang pina-ara na paborito ng CEO
+        </div>
 
-  <div class="card" data-title="Batang Asawa Walang Hanggang Pag-ibig" data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
+      </div>
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/G5KfLRF.png">
+      <div class="card"
+        data-title="Batang Asawa Walang Hanggang Pag-ibig"
+        data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/G5KfLRF.png">
 
-    <div class="title">
-      Batang Asawa Walang Hanggang Pag-ibig
-    </div>
+        <div class="cardOverlay"></div>
 
-  </div>
+        <div class="title">
+          Batang Asawa Walang Hanggang Pag-ibig
+        </div>
 
-  <div class="card" data-title="Yaya Ng Bata CEO" data-link="tags/Yaya Ng Bata CEO.html">
+      </div>
 
-    <img loading="lazy" decoding="async"
-    src="https://i.imgur.com/3RnZjk6.png">
+      <div class="card"
+        data-title="Yaya Ng Bata CEO"
+        data-link="tags/Yaya Ng Bata CEO.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/3RnZjk6.png">
 
-    <div class="title">
-      Yaya Ng Bata CEO
-    </div>
+        <div class="cardOverlay"></div>
 
+        <div class="title">
+          Yaya Ng Bata CEO
+        </div>
+
+      </div>
 
     </div>
 
@@ -950,71 +974,11 @@ document.querySelectorAll(
 
 });
 
-/* ================= TV REMOTE ================= */
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    const focused =
-      document.activeElement;
-
-    if(
-      !focused.classList.contains("card")
-    ) return;
-
-    /* RIGHT */
-
-    if(e.key === "ArrowRight"){
-
-      e.preventDefault();
-
-      const next =
-        focused.nextElementSibling;
-
-      if(next){
-
-        next.focus();
-
-      }
-
-    }
-
-    /* LEFT */
-
-    if(e.key === "ArrowLeft"){
-
-      e.preventDefault();
-
-      const prev =
-        focused.previousElementSibling;
-
-      if(prev){
-
-        prev.focus();
-
-      }
-
-    }
-
-    /* ENTER */
-
-    if(e.key === "Enter"){
-
-      focused.click();
-
-    }
-
-  }
-);
-
 /* ================= CHANNEL.JSON ================= */
 
 let staticChannels = [];
 
 let shakaPlayer = null;
-
-/* FETCH */
 
 async function fetchChannels(){
 
@@ -1042,8 +1006,6 @@ async function fetchChannels(){
   }
 
 }
-
-/* RENDER */
 
 function renderChannels(list){
 
@@ -1130,8 +1092,6 @@ async function playChannel(ch){
   video.style.display =
     "none";
 
-  /* YOUTUBE */
-
   if(ch.type === "youtube"){
 
     yt.style.display =
@@ -1148,8 +1108,6 @@ async function playChannel(ch){
     return;
 
   }
-
-  /* MP4 */
 
   if(ch.type === "mp4"){
 
@@ -1175,8 +1133,6 @@ async function playChannel(ch){
     return;
 
   }
-
-  /* HLS / DASH */
 
   video.style.display =
     "block";
@@ -1255,8 +1211,6 @@ function searchDrama(){
     searchInput.value
     .toLowerCase();
 
-  /* STATIC */
-
   document.querySelectorAll(
     "#moviesRow .card"
   )
@@ -1272,8 +1226,6 @@ function searchDrama(){
       : "none";
 
   });
-
-  /* JSON */
 
   const filtered =
     staticChannels.filter(ch=>
