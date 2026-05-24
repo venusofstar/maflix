@@ -1,0 +1,40 @@
+{
+  "channels":[
+[
+  {
+    "name": "A Silent Voice - Tagalog Dubbed",
+    "logo": "https://via.placeholder.com/300x300.png?text=Silent+Voice",
+    "type": "mp4",
+    "manifestUri": "https://dn720404.ca.archive.org/0/items/perfect-scholarship/Perfect%20Scholarship.mp4",
+    "category": "Anime Tagalog Dubbed"
+  },
+  {
+    "name": "Your Name - Tagalog Dubbed",
+    "logo": "https://via.placeholder.com/300x300.png?text=Your+Name",
+    "type": "mp4",
+    "manifestUri": "https://dn720409.ca.archive.org/0/items/yur-ne-m/YUr-NeM.mp4",
+    "category": "Anime Tagalog Dubbed"
+  },
+  {
+    "name": "Weathering With You - Tagalog Dubbed",
+    "logo": "https://via.placeholder.com/300x300.png?text=Weathering+With+You",
+    "type": "mp4",
+    "manifestUri": "https://dn720406.ca.archive.org/0/items/wwthiyou_202301/wwthiYOU.mp4",
+    "category": "Anime Tagalog Dubbed"
+  },
+  {
+    "name": "Hunter × Hunter: Phantom Rouge - Tagalog Dubbed",
+    "logo": "https://via.placeholder.com/300x300.png?text=HxH+Phantom+Rouge",
+    "type": "mp4",
+    "manifestUri": "https://ia804501.us.archive.org/2/items/yur-ne-m/hter2x%20Ph%C3%B1tom%20ROG.mp4",
+    "category": "Anime Tagalog Dubbed"
+  },
+  {
+    "name": "Hunter X Hunter: The Last Mission - Tagalog Dubbed",
+    "logo": "https://via.placeholder.com/300x300.png?text=HxH+Last+Mission",
+    "type": "mp4",
+    "manifestUri": "https://dn720409.ca.archive.org/0/items/yur-ne-m/Ha%C3%B1ta2x%20LstMisyo%C3%B1.mp4",
+    "category": "Anime Tagalog Dubbed"
+  }
+  ]
+}
