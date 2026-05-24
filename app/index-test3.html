@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -371,7 +372,7 @@ body{
 
     <input type="text"
       id="searchInput"
-      placeholder="Search channels...">
+      placeholder="Search movies...">
 
     <button id="searchBtn">🔍</button>
 
@@ -392,15 +393,9 @@ body{
   </div>
 
   <a href="index.html">🏠 Home</a>
-
   <a href="anime/index.html">🎌 Anime</a>
-
-  <a href="drama-tagalod-dudbed/index.html">
-    🎭 Tagalog Dubbed Drama
-  </a>
-
+  <a href="drama-tagalod-dudbed/index.html">🎭 Tagalog Dubbed Drama</a>
   <a href="tv-channel.html">📺 TV Channels</a>
-
   <a href="sports-event.html">⚽ Sports Event</a>
 
 </div>
@@ -413,16 +408,16 @@ body{
 
   <div class="heroContent">
 
-    <h2>Trending Now</h2>
+    <h2>Trending Movies</h2>
 
     <p>
-      Watch movies, anime, sports and live TV
-      with MAFLIX streaming platform.
+      Watch unlimited movies, anime, live TV
+      and sports events with MAFLIX.
     </p>
 
     <div class="heroButtons">
 
-      <button class="playBtn">▶ Watch</button>
+      <button class="playBtn">▶ Watch Now</button>
 
       <button class="infoBtn">More Info</button>
 
@@ -445,7 +440,8 @@ body{
   <video id="videoPlayer"
     controls
     autoplay
-    playsinline>
+    playsinline
+    style="display:none">
   </video>
 
   <iframe id="ytFrame"
@@ -488,7 +484,6 @@ function closeSidebar(){
 
 let staticChannels = [];
 let shakaPlayer = null;
-let currentChannel = null;
 
 /* ================= PARSE M3U ================= */
 
@@ -504,8 +499,6 @@ function parseM3U(content){
 
     const line = lines[i].trim();
 
-    /* ===== EXTINF ===== */
-
     if(line.startsWith("#EXTINF")){
 
       const nameMatch =
@@ -519,6 +512,9 @@ function parseM3U(content){
 
       const cuidMatch =
         line.match(/CUID="(.*?)"/);
+
+      const typeMatch =
+        line.match(/type="(.*?)"/);
 
       current = {
 
@@ -536,17 +532,17 @@ function parseM3U(content){
 
         category: groupMatch ?
           groupMatch[1] :
-          "Live TV",
+          "Movies",
 
         manifestUri: "",
 
-        type: "iframe"
+        type: typeMatch ?
+          typeMatch[1] :
+          "iframe"
 
       };
 
     }
-
-    /* ===== URL ===== */
 
     else if(
       line &&
@@ -568,47 +564,6 @@ function parseM3U(content){
       }
 
       current.manifestUri = cleanUrl;
-
-      /* ===== TYPE DETECTION ===== */
-
-      if(
-        cleanUrl.includes("youtube.com") ||
-        cleanUrl.includes("youtu.be")
-      ){
-
-        current.type = "youtube";
-
-      }
-
-      else if(
-        cleanUrl.includes(".m3u8")
-      ){
-
-        current.type = "hls";
-
-      }
-
-      else if(
-        cleanUrl.includes(".mpd")
-      ){
-
-        current.type = "dash";
-
-      }
-
-      else if(
-        cleanUrl.includes(".mp4")
-      ){
-
-        current.type = "mp4";
-
-      }
-
-      else{
-
-        current.type = "iframe";
-
-      }
 
       channels.push(current);
 
@@ -650,9 +605,7 @@ async function fetchChannels(){
 
     }catch(e){
 
-      console.log(
-        "channels.json not found"
-      );
+      console.log("channels.json not found");
 
     }
 
@@ -675,9 +628,7 @@ async function fetchChannels(){
 
     }catch(e){
 
-      console.log(
-        "channels2.json not found"
-      );
+      console.log("channels2.json not found");
 
     }
 
@@ -687,10 +638,7 @@ async function fetchChannels(){
 
   }catch(err){
 
-    console.error(
-      "Failed to fetch channels:",
-      err
-    );
+    console.error(err);
 
     document.getElementById(
       "channelSections"
@@ -722,7 +670,7 @@ function groupChannels(list){
 
 }
 
-/* ================= RENDER CHANNELS ================= */
+/* ================= RENDER ================= */
 
 function render(channelsList){
 
@@ -736,19 +684,22 @@ function render(channelsList){
 
   for(const [cat,channels] of Object.entries(grouped)){
 
-    const h = document.createElement("h2");
+    const h =
+      document.createElement("h2");
 
     h.textContent = cat;
 
     container.appendChild(h);
 
-    const row = document.createElement("div");
+    const row =
+      document.createElement("div");
 
     row.className = "horizontal-scroll";
 
     channels.forEach(ch=>{
 
-      const card = document.createElement("div");
+      const card =
+        document.createElement("div");
 
       card.className = "card-item";
 
@@ -800,43 +751,39 @@ function render(channelsList){
 
 async function playChannel(ch){
 
-  currentChannel = ch;
-
-  const v =
+  const video =
     document.getElementById("videoPlayer");
 
-  const yt =
+  const frame =
     document.getElementById("ytFrame");
 
-  const c =
+  const container =
     document.getElementById("videoContainer");
 
   const spinner =
     document.getElementById("spinner");
 
-  c.style.display = "flex";
+  container.style.display = "flex";
 
   spinner.style.display = "block";
 
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
+  video.style.display = "none";
 
-  yt.src = "";
-  yt.style.display = "none";
+  frame.style.display = "none";
 
-  v.style.display = "none";
+  video.pause();
 
-  /* ===== YOUTUBE ===== */
+  video.removeAttribute("src");
 
-  if(ch.type === "youtube"){
+  frame.src = "";
 
-    yt.style.display = "block";
+  /* ===== IFRAME ===== */
 
-    yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
+  if(ch.type === "iframe"){
+
+    frame.style.display = "block";
+
+    frame.src = ch.manifestUri;
 
     spinner.style.display = "none";
 
@@ -844,13 +791,16 @@ async function playChannel(ch){
 
   }
 
-  /* ===== IFRAME ===== */
+  /* ===== YOUTUBE ===== */
 
-  if(ch.type === "iframe"){
+  if(ch.type === "youtube"){
 
-    yt.style.display = "block";
+    frame.style.display = "block";
 
-    yt.src = ch.manifestUri;
+    frame.src =
+      `https://www.youtube.com/embed/${
+        ch.manifestUri.split("v=")[1]
+      }?autoplay=1`;
 
     spinner.style.display = "none";
 
@@ -862,43 +812,17 @@ async function playChannel(ch){
 
   if(ch.type === "mp4"){
 
-    if(shakaPlayer){
+    video.style.display = "block";
 
-      await shakaPlayer.destroy();
+    video.src = ch.manifestUri;
 
-      shakaPlayer = null;
-
-    }
-
-    v.style.display = "block";
-
-    v.src = ch.manifestUri;
-
-    const saved =
-      localStorage.getItem(ch.name);
-
-    if(saved){
-
-      v.currentTime = saved;
-
-    }
-
-    v.onloadeddata = ()=>{
+    video.onloadeddata = ()=>{
 
       spinner.style.display = "none";
 
     };
 
-    v.ontimeupdate = ()=>{
-
-      localStorage.setItem(
-        ch.name,
-        v.currentTime
-      );
-
-    };
-
-    v.play();
+    video.play();
 
     return;
 
@@ -906,22 +830,12 @@ async function playChannel(ch){
 
   /* ===== HLS / DASH ===== */
 
-  v.style.display = "block";
+  video.style.display = "block";
 
   shakaPlayer ??=
-    new shaka.Player(v);
+    new shaka.Player(video);
 
   await shakaPlayer.unload();
-
-  if(ch.clearKey){
-
-    shakaPlayer.configure({
-      drm:{
-        clearKeys: ch.clearKey
-      }
-    });
-
-  }
 
   try{
 
@@ -929,15 +843,9 @@ async function playChannel(ch){
       ch.manifestUri
     );
 
-    shakaPlayer.configure({
-      abr:{
-        enabled:true
-      }
-    });
-
     spinner.style.display = "none";
 
-    v.play();
+    video.play();
 
   }catch(e){
 
@@ -954,22 +862,22 @@ async function playChannel(ch){
 document.getElementById("closeBtn")
 .addEventListener("click", ()=>{
 
-  const v =
+  const video =
     document.getElementById("videoPlayer");
 
-  const yt =
+  const frame =
     document.getElementById("ytFrame");
 
-  const c =
+  const container =
     document.getElementById("videoContainer");
 
-  c.style.display = "none";
+  container.style.display = "none";
 
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
+  video.pause();
 
-  yt.src = "";
+  video.removeAttribute("src");
+
+  frame.src = "";
 
 });
 
