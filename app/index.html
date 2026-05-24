@@ -67,22 +67,17 @@ input:focus,
   top:0;
   left:0;
   width:100%;
-
   z-index:999;
-
   padding:15px 25px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   background:
   linear-gradient(
     to bottom,
     rgba(0,0,0,.95),
     transparent
   );
-
   backdrop-filter:blur(10px);
 }
 
@@ -95,16 +90,12 @@ input:focus,
 #menuBtn{
   width:42px;
   height:42px;
-
   border:none;
   border-radius:10px;
-
   background:#1b1b1b;
   color:#fff;
-
   font-size:22px;
   cursor:pointer;
-
   transition:.2s;
 }
 
@@ -126,23 +117,16 @@ input:focus,
 #searchBox{
   display:flex;
   align-items:center;
-
   background:#1b1b1b;
-
   border-radius:30px;
   overflow:hidden;
 }
 
 #searchInput{
   width:220px;
-
   padding:10px 15px;
-
   border:none;
-  outline:none;
-
   background:transparent;
-
   color:#fff;
   font-size:15px;
 }
@@ -150,21 +134,11 @@ input:focus,
 #searchBtn{
   width:50px;
   height:42px;
-
   border:none;
-
   background:#e50914;
   color:#fff;
-
-  cursor:pointer;
   font-size:18px;
-
-  transition:.2s;
-}
-
-#searchBtn:hover,
-#searchBtn:focus{
-  filter:brightness(1.1);
+  cursor:pointer;
 }
 
 /* ================= SIDEBAR ================= */
@@ -173,18 +147,12 @@ input:focus,
   position:fixed;
   top:0;
   left:-280px;
-
   width:260px;
   height:100%;
-
   background:#111;
-
   z-index:5000;
-
   padding:20px;
-
   transition:.3s;
-
   display:flex;
   flex-direction:column;
   gap:15px;
@@ -198,7 +166,6 @@ input:focus,
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   margin-bottom:20px;
 }
 
@@ -209,35 +176,20 @@ input:focus,
 #closeMenu{
   width:40px;
   height:40px;
-
   border:none;
   border-radius:8px;
-
   background:#1b1b1b;
   color:#fff;
-
   font-size:18px;
   cursor:pointer;
-
-  transition:.2s;
-}
-
-#closeMenu:hover,
-#closeMenu:focus{
-  background:#e50914;
 }
 
 #sidebar a{
   color:#fff;
-
   text-decoration:none;
-
   padding:14px;
-
   border-radius:10px;
-
   background:#1a1a1a;
-
   transition:.2s;
 }
 
@@ -249,11 +201,8 @@ input:focus,
 #menuOverlay{
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.6);
-
   z-index:4000;
-
   display:none;
 }
 
@@ -265,10 +214,8 @@ input:focus,
 
 #hero{
   position:relative;
-
   width:100%;
   height:85vh;
-
   background:
   linear-gradient(
     to top,
@@ -279,17 +226,12 @@ input:focus,
 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
   )
   center/cover no-repeat;
-
   display:flex;
   align-items:center;
-
   padding:80px;
 }
 
 .heroContent{
-  position:relative;
-  z-index:2;
-
   max-width:500px;
 }
 
@@ -312,15 +254,11 @@ input:focus,
 
 .heroButtons button{
   padding:12px 28px;
-
   border:none;
   border-radius:5px;
-
   font-size:16px;
-  font-weight:bold;
-
   cursor:pointer;
-
+  font-weight:bold;
   transition:.2s;
 }
 
@@ -347,7 +285,7 @@ input:focus,
 
 .category-wrapper{
   position:relative;
-  margin-bottom:35px;
+  margin-bottom:40px;
 }
 
 .category-wrapper h2{
@@ -360,16 +298,10 @@ input:focus,
 .horizontal-scroll{
   display:flex;
   gap:15px;
-
   overflow-x:hidden;
-  overflow-y:hidden;
-
   scroll-behavior:smooth;
-
   padding-inline:55px;
   padding-bottom:10px;
-
-  touch-action:pan-y;
 }
 
 .horizontal-scroll::-webkit-scrollbar{
@@ -382,52 +314,37 @@ input:focus,
   min-width:220px;
   width:220px;
   height:320px;
-
-  border-radius:10px;
-
+  border-radius:12px;
   overflow:hidden;
-
   position:relative;
-
   cursor:pointer;
-
   background:#181818;
-
   transition:.25s;
-
   flex-shrink:0;
-
-  user-select:none;
 }
 
 .card-item:hover,
 .card-item:focus{
   transform:scale(1.08);
-  z-index:5;
 }
 
 .card-item img{
   width:100%;
   height:100%;
-
   object-fit:cover;
 }
 
 .card-item p{
   position:absolute;
   bottom:0;
-
   width:100%;
-
   padding:15px;
-
   background:
   linear-gradient(
     to top,
     rgba(0,0,0,.95),
     transparent
   );
-
   font-size:18px;
   font-weight:bold;
 }
@@ -436,30 +353,18 @@ input:focus,
 
 .slideBtn{
   position:absolute;
-
   top:55%;
-
   transform:translateY(-50%);
-
   width:55px;
   height:95px;
-
   border:none;
   border-radius:14px;
-
   background:rgba(0,0,0,.7);
-
   color:#fff;
-
   font-size:34px;
-
   cursor:pointer;
-
-  z-index:100;
-
+  z-index:10;
   backdrop-filter:blur(8px);
-
-  transition:.2s;
 }
 
 .slideBtn:hover,
@@ -480,61 +385,44 @@ input:focus,
 #videoContainer{
   position:fixed;
   inset:0;
-
   background:#000;
-
   display:none;
-
   align-items:center;
   justify-content:center;
-
-  z-index:3000;
+  z-index:9999;
 }
 
 #videoPlayer,
 #ytFrame{
   width:90%;
   height:85%;
-
   border:none;
   border-radius:10px;
-
   background:#000;
 }
 
 #closeBtn{
   position:absolute;
-
   top:20px;
   right:20px;
-
   width:45px;
   height:45px;
-
   border:none;
   border-radius:50%;
-
   background:#e50914;
   color:#fff;
-
   font-size:20px;
-
   cursor:pointer;
 }
 
 #spinner{
   border:5px solid rgba(255,255,255,.2);
   border-top:5px solid #e50914;
-
   border-radius:50%;
-
   width:50px;
   height:50px;
-
   animation:spin 1s linear infinite;
-
   position:absolute;
-
   display:none;
 }
 
@@ -565,22 +453,14 @@ input:focus,
     height:240px;
   }
 
-  .horizontal-scroll{
-    padding-inline:40px;
-  }
-
   #searchInput{
     width:140px;
   }
 
   .slideBtn{
-    width:40px;
+    width:42px;
     height:70px;
     font-size:24px;
-  }
-
-  .heroButtons{
-    flex-direction:column;
   }
 
 }
@@ -598,7 +478,7 @@ input:focus,
   .slideBtn{
     width:70px;
     height:130px;
-    font-size:40px;
+    font-size:42px;
   }
 
   #searchInput{
@@ -633,15 +513,9 @@ input:focus,
 
   <div id="leftNav">
 
-    <button
-      id="menuBtn"
-      tabindex="0">
-      ☰
-    </button>
+    <button id="menuBtn">☰</button>
 
-    <h1 id="appTitle">
-      MAFLIX
-    </h1>
+    <h1 id="appTitle">MAFLIX</h1>
 
   </div>
 
@@ -650,15 +524,9 @@ input:focus,
     <input
       type="text"
       id="searchInput"
-      placeholder="Search channels..."
-      tabindex="0"
-    >
+      placeholder="Search channels...">
 
-    <button
-      id="searchBtn"
-      tabindex="0">
-      🔍
-    </button>
+    <button id="searchBtn">🔍</button>
 
   </div>
 
@@ -672,33 +540,21 @@ input:focus,
 
     <h2>MAFLIX</h2>
 
-    <button
-      id="closeMenu"
-      tabindex="0">
-      ✕
-    </button>
+    <button id="closeMenu">✕</button>
 
   </div>
 
-  <a href="index.html" tabindex="0">
-    🏠 Home
-  </a>
+  <a href="index.html">🏠 Home</a>
 
-  <a href="anime/index.html" tabindex="0">
-    🎌 Anime
-  </a>
+  <a href="anime/index.html">🎌 Anime</a>
 
-  <a href="drama-tagalod-dudbed/index.html" tabindex="0">
+  <a href="drama-tagalod-dudbed/index.html">
     🎭 Tagalog Dubbed Drama
   </a>
 
-  <a href="tv-channel.html" tabindex="0">
-    📺 TV Channels
-  </a>
+  <a href="tv-channel.html">📺 TV Channels</a>
 
-  <a href="sports-event.html" tabindex="0">
-    ⚽ Sports Event
-  </a>
+  <a href="sports-event.html">⚽ Sports Event</a>
 
 </div>
 
@@ -710,9 +566,7 @@ input:focus,
 
   <div class="heroContent">
 
-    <h2>
-      Trending Now
-    </h2>
+    <h2>Trending Now</h2>
 
     <p>
       Watch movies, anime, sports and live TV
@@ -721,15 +575,11 @@ input:focus,
 
     <div class="heroButtons">
 
-      <button
-        class="playBtn"
-        tabindex="0">
+      <button class="playBtn">
         ▶ Watch
       </button>
 
-      <button
-        class="infoBtn"
-        tabindex="0">
+      <button class="infoBtn">
         More Info
       </button>
 
@@ -763,9 +613,7 @@ input:focus,
     style="display:none">
   </iframe>
 
-  <button id="closeBtn">
-    ✕
-  </button>
+  <button id="closeBtn">✕</button>
 
 </div>
 
@@ -818,7 +666,7 @@ let shakaPlayer = null;
 function parseM3U(content){
 
   const lines =
-    content.split("\n");
+  content.split("\n");
 
   const channels = [];
 
@@ -827,35 +675,35 @@ function parseM3U(content){
   for(let i = 0; i < lines.length; i++){
 
     const line =
-      lines[i].trim();
+    lines[i].trim();
 
     if(line.startsWith("#EXTINF")){
 
       const nameMatch =
-        line.match(/,(.*)$/);
+      line.match(/,(.*)$/);
 
       const logoMatch =
-        line.match(/tvg-logo="(.*?)"/);
+      line.match(/tvg-logo="(.*?)"/);
 
       const groupMatch =
-        line.match(/group-title="(.*?)"/);
+      line.match(/group-title="(.*?)"/);
 
       current = {
 
         name:
-          nameMatch ?
-          nameMatch[1] :
-          "Unknown",
+        nameMatch ?
+        nameMatch[1] :
+        "Unknown",
 
         logo:
-          logoMatch ?
-          logoMatch[1] :
-          "https://via.placeholder.com/300x450",
+        logoMatch ?
+        logoMatch[1] :
+        "https://via.placeholder.com/300x450",
 
         category:
-          groupMatch ?
-          groupMatch[1] :
-          "Live TV",
+        groupMatch ?
+        groupMatch[1] :
+        "Live TV",
 
         manifestUri:"",
 
@@ -872,42 +720,49 @@ function parseM3U(content){
     ){
 
       current.manifestUri =
-        line;
+      line;
 
-      if(line.includes(".m3u8")){
-
-        current.type =
-          "hls";
-
-      }
-
-      else if(line.includes(".mpd")){
+      if(
+        line.includes("youtube.com") ||
+        line.includes("youtu.be")
+      ){
 
         current.type =
-          "dash";
-
-      }
-
-      else if(line.includes(".mp4")){
-
-        current.type =
-          "mp4";
+        "youtube";
 
       }
 
       else if(
-        line.includes("youtube.com")
+        line.includes(".m3u8")
       ){
 
         current.type =
-          "youtube";
+        "hls";
+
+      }
+
+      else if(
+        line.includes(".mpd")
+      ){
+
+        current.type =
+        "dash";
+
+      }
+
+      else if(
+        line.includes(".mp4")
+      ){
+
+        current.type =
+        "mp4";
 
       }
 
       else{
 
         current.type =
-          "iframe";
+        "iframe";
 
       }
 
@@ -931,17 +786,15 @@ async function fetchChannels(){
 
     let allChannels = [];
 
-    /* JSON */
+    /* channels.json */
 
     try{
 
       const res1 =
-        await fetch(
-          "channels.json"
-        );
+      await fetch("channels.json");
 
       const data1 =
-        await res1.json();
+      await res1.json();
 
       if(data1.channels){
 
@@ -959,20 +812,18 @@ async function fetchChannels(){
 
     }
 
-    /* M3U */
+    /* channels2.json */
 
     try{
 
       const res2 =
-        await fetch(
-          "channels2.json"
-        );
+      await fetch("channels2.json");
 
       const text2 =
-        await res2.text();
+      await res2.text();
 
       const parsed =
-        parseM3U(text2);
+      parseM3U(text2);
 
       allChannels.push(
         ...parsed
@@ -987,7 +838,7 @@ async function fetchChannels(){
     }
 
     staticChannels =
-      allChannels;
+    allChannels;
 
     render(staticChannels);
 
@@ -1021,23 +872,23 @@ function groupChannels(list){
 function render(channelsList){
 
   const container =
-    document.getElementById(
-      "channelSections"
-    );
+  document.getElementById(
+    "channelSections"
+  );
 
   container.innerHTML = "";
 
   const grouped =
-    groupChannels(channelsList);
+  groupChannels(channelsList);
 
   Object.entries(grouped)
   .forEach(([cat,channels],index)=>{
 
     const wrapper =
-      document.createElement("div");
+    document.createElement("div");
 
     wrapper.className =
-      "category-wrapper";
+    "category-wrapper";
 
     wrapper.innerHTML = `
       <h2>${cat}</h2>
@@ -1063,17 +914,17 @@ function render(channelsList){
     container.appendChild(wrapper);
 
     const row =
-      wrapper.querySelector(
-        ".horizontal-scroll"
-      );
+    wrapper.querySelector(
+      ".horizontal-scroll"
+    );
 
     channels.forEach(ch=>{
 
       const card =
-        document.createElement("div");
+      document.createElement("div");
 
       card.className =
-        "card-item";
+      "card-item";
 
       card.tabIndex = 0;
 
@@ -1102,20 +953,20 @@ function render(channelsList){
 function slideRow(rowId,direction){
 
   const row =
-    document.getElementById(rowId);
+  document.getElementById(rowId);
 
   const card =
-    row.querySelector(".card-item");
+  row.querySelector(".card-item");
 
   if(!card) return;
 
   const amount =
-    card.offsetWidth * 3;
+  card.offsetWidth * 3;
 
   row.scrollBy({
 
     left:
-      direction * amount,
+    direction * amount,
 
     behavior:"smooth"
 
@@ -1130,7 +981,7 @@ document.addEventListener(
   e=>{
 
     const active =
-      document.activeElement;
+    document.activeElement;
 
     if(
       e.key === "Enter" &&
@@ -1154,35 +1005,35 @@ document.addEventListener(
   }
 );
 
-/* ================= PLAY ================= */
+/* ================= PLAY CHANNEL ================= */
 
 async function playChannel(ch){
 
   const v =
-    document.getElementById(
-      "videoPlayer"
-    );
+  document.getElementById(
+    "videoPlayer"
+  );
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
+  document.getElementById(
+    "ytFrame"
+  );
 
   const c =
-    document.getElementById(
-      "videoContainer"
-    );
+  document.getElementById(
+    "videoContainer"
+  );
 
   const spinner =
-    document.getElementById(
-      "spinner"
-    );
+  document.getElementById(
+    "spinner"
+  );
 
   c.style.display =
-    "flex";
+  "flex";
 
   spinner.style.display =
-    "block";
+  "block";
 
   v.pause();
 
@@ -1193,42 +1044,71 @@ async function playChannel(ch){
   yt.src = "";
 
   yt.style.display =
-    "none";
+  "none";
 
   v.style.display =
-    "none";
+  "none";
 
-  /* YOUTUBE */
+  /* ================= YOUTUBE ================= */
 
   if(ch.type === "youtube"){
 
     yt.style.display =
-      "block";
+    "block";
 
     yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
+    `https://www.youtube.com/embed/${
+      ch.manifestUri.split("v=")[1]
+    }?autoplay=1`;
 
     spinner.style.display =
-      "none";
+    "none";
 
     return;
 
   }
 
-  /* MP4 */
+  /* ================= IFRAME ================= */
+
+  if(ch.type === "iframe"){
+
+    yt.style.display =
+    "block";
+
+    yt.src =
+    ch.manifestUri;
+
+    spinner.style.display =
+    "none";
+
+    return;
+
+  }
+
+  /* ================= MP4 ================= */
 
   if(ch.type === "mp4"){
 
+    if(shakaPlayer){
+
+      await shakaPlayer.destroy();
+
+      shakaPlayer = null;
+
+    }
+
     v.style.display =
-      "block";
+    "block";
 
     v.src =
-      ch.manifestUri;
+    ch.manifestUri;
 
-    spinner.style.display =
+    v.onloadeddata = ()=>{
+
+      spinner.style.display =
       "none";
+
+    };
 
     v.play();
 
@@ -1236,15 +1116,30 @@ async function playChannel(ch){
 
   }
 
-  /* HLS / DASH */
+  /* ================= HLS / DASH ================= */
 
   v.style.display =
-    "block";
+  "block";
 
   shakaPlayer ??=
-    new shaka.Player(v);
+  new shaka.Player(v);
 
   await shakaPlayer.unload();
+
+  if(ch.clearKey){
+
+    shakaPlayer.configure({
+
+      drm:{
+
+        clearKeys:
+        ch.clearKey
+
+      }
+
+    });
+
+  }
 
   try{
 
@@ -1253,7 +1148,7 @@ async function playChannel(ch){
     );
 
     spinner.style.display =
-      "none";
+    "none";
 
     v.play();
 
@@ -1261,8 +1156,10 @@ async function playChannel(ch){
 
   catch(e){
 
+    console.error(e);
+
     spinner.style.display =
-      "none";
+    "none";
 
     alert("Playback Error");
 
@@ -1270,21 +1167,21 @@ async function playChannel(ch){
 
 }
 
-/* ================= CLOSE ================= */
+/* ================= CLOSE PLAYER ================= */
 
 document.getElementById(
   "closeBtn"
 ).onclick = ()=>{
 
   const v =
-    document.getElementById(
-      "videoPlayer"
-    );
+  document.getElementById(
+    "videoPlayer"
+  );
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
+  document.getElementById(
+    "ytFrame"
+  );
 
   document.getElementById(
     "videoContainer"
@@ -1310,23 +1207,23 @@ document.getElementById(
 function searchChannels(){
 
   const value =
-    searchInput.value
-    .toLowerCase();
+  searchInput.value
+  .toLowerCase();
 
   const filtered =
-    staticChannels.filter(ch=>
+  staticChannels.filter(ch=>
 
-      ch.name
-      .toLowerCase()
-      .includes(value)
+    ch.name
+    .toLowerCase()
+    .includes(value)
 
-      ||
+    ||
 
-      ch.category
-      .toLowerCase()
-      .includes(value)
+    ch.category
+    .toLowerCase()
+    .includes(value)
 
-    );
+  );
 
   render(filtered);
 
