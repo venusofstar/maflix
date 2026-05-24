@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
 <title>MAFLIX</title>
 
 <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
 
 <style>
+
+/* ================= RESET ================= */
 
 *{
   margin:0;
@@ -15,11 +21,34 @@
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   background:#0b0b0b;
   color:#fff;
   font-family:Arial,sans-serif;
   overflow-x:hidden;
+  touch-action:pan-y;
+}
+
+/* ================= FOCUS ================= */
+
+button,
+.card-item,
+a,
+input{
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus,
+.card-item:focus,
+a:focus,
+input:focus{
+  outline:3px solid #fff;
+  outline-offset:2px;
 }
 
 /* ================= NAVBAR ================= */
@@ -34,7 +63,11 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.95),
+    transparent
+  );
 }
 
 #leftNav{
@@ -47,7 +80,7 @@ body{
   width:42px;
   height:42px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   background:#1b1b1b;
   color:#fff;
   font-size:22px;
@@ -74,7 +107,6 @@ body{
   width:220px;
   padding:10px 15px;
   border:none;
-  outline:none;
   background:transparent;
   color:#fff;
   font-size:15px;
@@ -164,7 +196,10 @@ body{
   position:relative;
   width:100%;
   height:85vh;
-  background:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+  background:url(
+'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
+  ) center/cover no-repeat;
+
   display:flex;
   align-items:center;
   padding:80px;
@@ -174,7 +209,11 @@ body{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(to top,#0b0b0b 5%,transparent 60%);
+  background:linear-gradient(
+    to top,
+    #0b0b0b 5%,
+    transparent 60%
+  );
 }
 
 .heroContent{
@@ -225,34 +264,97 @@ body{
 }
 
 #channelSections h2{
-  margin:20px 0 15px;
+  margin:25px 0 15px;
   font-size:24px;
+}
+
+/* ================= ROW ================= */
+
+.scroll-wrapper{
+  position:relative;
+  width:100%;
+  margin-bottom:25px;
 }
 
 .horizontal-scroll{
   display:flex;
   gap:15px;
   overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
   scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:5px 45px;
 }
 
 .horizontal-scroll::-webkit-scrollbar{
   display:none;
 }
 
+/* ================= MOVIES CATEGORY ================= */
+
+.movies-row{
+  overflow-x:hidden !important;
+  touch-action:pan-y !important;
+}
+
+/* ================= BUTTONS ================= */
+
+.scroll-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:45px;
+  height:95px;
+  border:none;
+  border-radius:14px;
+  background:rgba(0,0,0,.75);
+  color:#fff;
+  font-size:30px;
+  z-index:20;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.2s;
+  backdrop-filter:blur(8px);
+}
+
+.scroll-btn:hover,
+.scroll-btn:focus{
+  background:#e50914;
+}
+
+.scroll-btn:active{
+  transform:translateY(-50%) scale(.95);
+}
+
+.scroll-left{
+  left:0;
+}
+
+.scroll-right{
+  right:0;
+}
+
+/* ================= CARDS ================= */
+
 .card-item{
   min-width:220px;
   height:320px;
-  border-radius:10px;
+  border-radius:12px;
   overflow:hidden;
   position:relative;
   cursor:pointer;
   background:#181818;
-  transition:.3s;
+  transition:.25s;
   flex-shrink:0;
 }
 
-.card-item:hover{
+.card-item:hover,
+.card-item:focus{
   transform:scale(1.08);
   z-index:5;
 }
@@ -268,7 +370,12 @@ body{
   bottom:0;
   width:100%;
   padding:15px;
-  background:linear-gradient(to top,rgba(0,0,0,.95),transparent);
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    transparent
+  );
+
   font-size:18px;
   font-weight:bold;
 }
@@ -298,13 +405,13 @@ body{
   position:absolute;
   top:20px;
   right:20px;
-  width:45px;
-  height:45px;
+  width:50px;
+  height:50px;
   border:none;
   border-radius:50%;
   background:#e50914;
   color:#fff;
-  font-size:20px;
+  font-size:22px;
   cursor:pointer;
 }
 
@@ -312,8 +419,8 @@ body{
   border:5px solid rgba(255,255,255,.2);
   border-top:5px solid #e50914;
   border-radius:50%;
-  width:50px;
-  height:50px;
+  width:55px;
+  height:55px;
   animation:spin 1s linear infinite;
   position:absolute;
   display:none;
@@ -347,6 +454,33 @@ body{
     width:140px;
   }
 
+  .scroll-btn{
+    width:38px;
+    height:75px;
+    font-size:24px;
+  }
+
+  .horizontal-scroll{
+    padding:5px 38px;
+  }
+
+}
+
+/* ================= SMART TV ================= */
+
+@media(min-width:1200px){
+
+  .card-item{
+    min-width:260px;
+    height:360px;
+  }
+
+  .scroll-btn{
+    width:58px;
+    height:120px;
+    font-size:34px;
+  }
+
 }
 
 </style>
@@ -369,9 +503,11 @@ body{
 
   <div id="searchBox">
 
-    <input type="text"
+    <input
+      type="text"
       id="searchInput"
-      placeholder="Search channels...">
+      placeholder="Search channels..."
+    >
 
     <button id="searchBtn">🔍</button>
 
@@ -395,10 +531,6 @@ body{
 
   <a href="anime/index.html">🎌 Anime</a>
 
-  <a href="drama-tagalod-dudbed/index.html">
-    🎭 Tagalog Dubbed Drama
-  </a>
-
   <a href="tv-channel.html">📺 TV Channels</a>
 
   <a href="sports-event.html">⚽ Sports Event</a>
@@ -416,15 +548,19 @@ body{
     <h2>Trending Now</h2>
 
     <p>
-      Watch movies, anime, sports and live TV
-      with MAFLIX streaming platform.
+      Watch movies, anime, sports
+      and live TV with MAFLIX.
     </p>
 
     <div class="heroButtons">
 
-      <button class="playBtn">▶ Watch</button>
+      <button class="playBtn">
+        ▶ Watch
+      </button>
 
-      <button class="infoBtn">More Info</button>
+      <button class="infoBtn">
+        More Info
+      </button>
 
     </div>
 
@@ -442,17 +578,19 @@ body{
 
   <div id="spinner"></div>
 
-  <video id="videoPlayer"
+  <video
+    id="videoPlayer"
     controls
     autoplay
-    playsinline>
-  </video>
+    playsinline
+  ></video>
 
-  <iframe id="ytFrame"
+  <iframe
+    id="ytFrame"
     allow="autoplay; fullscreen"
     allowfullscreen
-    style="display:none">
-  </iframe>
+    style="display:none"
+  ></iframe>
 
   <button id="closeBtn">✕</button>
 
@@ -462,47 +600,59 @@ body{
 
 /* ================= MENU ================= */
 
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const closeMenu = document.getElementById("closeMenu");
-const menuOverlay = document.getElementById("menuOverlay");
+const menuBtn =
+  document.getElementById("menuBtn");
 
-menuBtn.addEventListener("click", ()=>{
+const sidebar =
+  document.getElementById("sidebar");
+
+const closeMenu =
+  document.getElementById("closeMenu");
+
+const menuOverlay =
+  document.getElementById("menuOverlay");
+
+menuBtn.onclick = ()=>{
 
   sidebar.classList.add("active");
+
   menuOverlay.classList.add("active");
 
-});
-
-closeMenu.addEventListener("click", closeSidebar);
-menuOverlay.addEventListener("click", closeSidebar);
+};
 
 function closeSidebar(){
 
   sidebar.classList.remove("active");
+
   menuOverlay.classList.remove("active");
 
 }
 
+closeMenu.onclick = closeSidebar;
+
+menuOverlay.onclick = closeSidebar;
+
 /* ================= CHANNEL SYSTEM ================= */
 
 let staticChannels = [];
+
 let shakaPlayer = null;
-let currentChannel = null;
 
 /* ================= PARSE M3U ================= */
 
 function parseM3U(content){
 
-  const lines = content.split("\n");
+  const lines =
+    content.split("\n");
 
   const channels = [];
 
   let current = null;
 
-  for(let i = 0; i < lines.length; i++){
+  for(let i=0;i<lines.length;i++){
 
-    const line = lines[i].trim();
+    const line =
+      lines[i].trim();
 
     if(line.startsWith("#EXTINF")){
 
@@ -515,14 +665,7 @@ function parseM3U(content){
       const groupMatch =
         line.match(/group-title="(.*?)"/);
 
-      const cuidMatch =
-        line.match(/CUID="(.*?)"/);
-
       current = {
-
-        id: cuidMatch ?
-          cuidMatch[1] :
-          Date.now(),
 
         name: nameMatch ?
           nameMatch[1] :
@@ -538,7 +681,7 @@ function parseM3U(content){
 
         manifestUri: "",
 
-        type: "iframe"
+        type:"iframe"
 
       };
 
@@ -552,42 +695,21 @@ function parseM3U(content){
 
       current.manifestUri = line;
 
-      if(
-        line.includes("youtube.com") ||
-        line.includes("youtu.be")
-      ){
-
-        current.type = "youtube";
-
-      }
-
-      else if(
-        line.includes(".m3u8")
-      ){
+      if(line.includes(".m3u8")){
 
         current.type = "hls";
 
       }
 
-      else if(
-        line.includes(".mpd")
-      ){
+      else if(line.includes(".mpd")){
 
         current.type = "dash";
 
       }
 
-      else if(
-        line.includes(".mp4")
-      ){
+      else if(line.includes(".mp4")){
 
         current.type = "mp4";
-
-      }
-
-      else{
-
-        current.type = "iframe";
 
       }
 
@@ -603,93 +725,34 @@ function parseM3U(content){
 
 }
 
-/* ================= FETCH CHANNELS ================= */
+/* ================= FETCH ================= */
 
 async function fetchChannels(){
 
   try{
 
-    let allChannels = [];
+    const res =
+      await fetch("channels2.json");
 
-    /* ===== channels.json ===== */
+    const text =
+      await res.text();
 
-    try{
-
-      const res1 =
-        await fetch("channels.json");
-
-      const data1 =
-        await res1.json();
-
-      if(data1.channels){
-
-        allChannels.push(
-          ...data1.channels
-        );
-
-      }
-
-    }catch(e){
-
-      console.log(
-        "channels.json not found"
-      );
-
-    }
-
-    /* ===== channels2.json ===== */
-
-    try{
-
-      const res2 =
-        await fetch("channels2.json");
-
-      const text2 =
-        await res2.text();
-
-      const parsedM3U =
-        parseM3U(text2);
-
-      allChannels.push(
-        ...parsedM3U
-      );
-
-    }catch(e){
-
-      console.log(
-        "channels2.json not found"
-      );
-
-    }
-
-    staticChannels = allChannels;
+    staticChannels =
+      parseM3U(text);
 
     render(staticChannels);
 
-  }catch(err){
+  }
 
-    console.error(
-      "Failed to fetch channels:",
-      err
-    );
+  catch(err){
 
-    document.getElementById(
-      "channelSections"
-    ).innerHTML = `
-      <p style="
-        text-align:center;
-        color:red;
-        padding:30px;
-      ">
-        Failed to load channels
-      </p>
-    `;
+    console.error(err);
 
   }
 
 }
 
-/* ================= GROUP CHANNELS ================= */
+/* ================= GROUP ================= */
 
 function groupChannels(list){
 
@@ -703,182 +766,223 @@ function groupChannels(list){
 
 }
 
-/* ================= RENDER CHANNELS ================= */
+/* ================= RENDER ================= */
 
 function render(channelsList){
 
   const container =
-    document.getElementById("channelSections");
+    document.getElementById(
+      "channelSections"
+    );
 
   container.innerHTML = "";
 
   const grouped =
     groupChannels(channelsList);
 
-  for(const [cat,channels] of Object.entries(grouped)){
+  for(const [cat,channels]
+    of Object.entries(grouped)){
 
-    const h = document.createElement("h2");
+    const h =
+      document.createElement("h2");
 
     h.textContent = cat;
 
     container.appendChild(h);
 
-    const row = document.createElement("div");
+    const wrapper =
+      document.createElement("div");
 
-    row.className = "horizontal-scroll";
+    wrapper.className =
+      "scroll-wrapper";
+
+    const leftBtn =
+      document.createElement("button");
+
+    leftBtn.className =
+      "scroll-btn scroll-left";
+
+    leftBtn.innerHTML = "❮";
+
+    const rightBtn =
+      document.createElement("button");
+
+    rightBtn.className =
+      "scroll-btn scroll-right";
+
+    rightBtn.innerHTML = "❯";
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "horizontal-scroll";
+
+    /* ===== MOVIES CATEGORY ===== */
+
+    if(
+      cat.toLowerCase().includes("movie")
+    ){
+
+      row.classList.add("movies-row");
+
+    }
+
+    /* ===== BUTTON SCROLL ===== */
+
+    leftBtn.onclick = ()=>{
+
+      row.scrollBy({
+        left:-600,
+        behavior:"smooth"
+      });
+
+    };
+
+    rightBtn.onclick = ()=>{
+
+      row.scrollBy({
+        left:600,
+        behavior:"smooth"
+      });
+
+    };
+
+    /* ===== TOUCH ONLY NON MOVIES ===== */
+
+    if(
+      !cat.toLowerCase().includes("movie")
+    ){
+
+      let startX = 0;
+
+      let scrollLeft = 0;
+
+      row.addEventListener(
+        "touchstart",
+        e=>{
+
+          startX =
+            e.touches[0].pageX;
+
+          scrollLeft =
+            row.scrollLeft;
+
+        },
+        {passive:true}
+      );
+
+      row.addEventListener(
+        "touchmove",
+        e=>{
+
+          const x =
+            e.touches[0].pageX;
+
+          const walk =
+            (startX - x) * 1.2;
+
+          row.scrollLeft =
+            scrollLeft + walk;
+
+        },
+        {passive:true}
+      );
+
+    }
+
+    /* ===== CARDS ===== */
 
     channels.forEach(ch=>{
 
-      const card = document.createElement("div");
+      const card =
+        document.createElement("div");
 
-      card.className = "card-item";
+      card.className =
+        "card-item";
+
+      card.tabIndex = 0;
 
       card.innerHTML = `
-        <img data-src="${ch.logo}" class="lazy">
+        <img
+          src="${ch.logo}"
+          loading="lazy"
+        >
+
         <p>${ch.name}</p>
       `;
 
-      card.onclick = ()=> playChannel(ch);
+      card.onclick = ()=>{
+
+        playChannel(ch);
+
+      };
+
+      card.addEventListener(
+        "keydown",
+        e=>{
+
+          if(
+            e.key === "Enter"
+          ){
+
+            playChannel(ch);
+
+          }
+
+        }
+      );
 
       row.appendChild(card);
 
     });
 
-    container.appendChild(row);
+    wrapper.appendChild(leftBtn);
+
+    wrapper.appendChild(row);
+
+    wrapper.appendChild(rightBtn);
+
+    container.appendChild(wrapper);
 
   }
 
-  const lazyImages =
-    document.querySelectorAll("img.lazy");
-
-  const observer =
-    new IntersectionObserver(entries=>{
-
-    entries.forEach(entry=>{
-
-      if(entry.isIntersecting){
-
-        entry.target.src =
-          entry.target.dataset.src;
-
-        observer.unobserve(entry.target);
-
-      }
-
-    });
-
-  });
-
-  lazyImages.forEach(img=>
-    observer.observe(img)
-  );
-
 }
 
-/* ================= PLAY CHANNEL ================= */
+/* ================= PLAY ================= */
 
 async function playChannel(ch){
 
-  currentChannel = ch;
-
   const v =
-    document.getElementById("videoPlayer");
-
-  const yt =
-    document.getElementById("ytFrame");
+    document.getElementById(
+      "videoPlayer"
+    );
 
   const c =
-    document.getElementById("videoContainer");
+    document.getElementById(
+      "videoContainer"
+    );
 
   const spinner =
-    document.getElementById("spinner");
+    document.getElementById(
+      "spinner"
+    );
 
   c.style.display = "flex";
 
   spinner.style.display = "block";
 
-  v.pause();
+  v.style.display = "block";
 
-  v.removeAttribute("src");
+  if(
+    ch.type === "mp4"
+  ){
 
-  v.load();
+    v.src =
+      ch.manifestUri;
 
-  yt.src = "";
-
-  yt.style.display = "none";
-
-  v.style.display = "none";
-
-  /* ===== YOUTUBE ===== */
-
-  if(ch.type === "youtube"){
-
-    yt.style.display = "block";
-
-    yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
-
-    spinner.style.display = "none";
-
-    return;
-
-  }
-
-  /* ===== IFRAME ===== */
-
-  if(ch.type === "iframe"){
-
-    yt.style.display = "block";
-
-    yt.src = ch.manifestUri;
-
-    spinner.style.display = "none";
-
-    return;
-
-  }
-
-  /* ===== MP4 ===== */
-
-  if(ch.type === "mp4"){
-
-    if(shakaPlayer){
-
-      await shakaPlayer.destroy();
-
-      shakaPlayer = null;
-
-    }
-
-    v.style.display = "block";
-
-    v.src = ch.manifestUri;
-
-    const saved =
-      localStorage.getItem(ch.name);
-
-    if(saved){
-
-      v.currentTime = saved;
-
-    }
-
-    v.onloadeddata = ()=>{
-
-      spinner.style.display = "none";
-
-    };
-
-    v.ontimeupdate = ()=>{
-
-      localStorage.setItem(
-        ch.name,
-        v.currentTime
-      );
-
-    };
+    spinner.style.display =
+      "none";
 
     v.play();
 
@@ -886,24 +990,10 @@ async function playChannel(ch){
 
   }
 
-  /* ===== HLS / DASH ===== */
-
-  v.style.display = "block";
-
   shakaPlayer ??=
     new shaka.Player(v);
 
   await shakaPlayer.unload();
-
-  if(ch.clearKey){
-
-    shakaPlayer.configure({
-      drm:{
-        clearKeys: ch.clearKey
-      }
-    });
-
-  }
 
   try{
 
@@ -911,91 +1001,79 @@ async function playChannel(ch){
       ch.manifestUri
     );
 
-    shakaPlayer.configure({
-      abr:{
-        enabled:true
-      }
-    });
-
-    spinner.style.display = "none";
+    spinner.style.display =
+      "none";
 
     v.play();
 
-  }catch(e){
+  }
 
-    spinner.style.display = "none";
+  catch(e){
 
-    alert("Playback error");
+    spinner.style.display =
+      "none";
+
+    alert("Playback Error");
 
   }
 
 }
 
-/* ================= CLOSE PLAYER ================= */
+/* ================= CLOSE ================= */
 
-document.getElementById("closeBtn")
-.addEventListener("click", ()=>{
+document.getElementById(
+  "closeBtn"
+).onclick = ()=>{
 
   const v =
-    document.getElementById("videoPlayer");
+    document.getElementById(
+      "videoPlayer"
+    );
 
-  const yt =
-    document.getElementById("ytFrame");
-
-  const c =
-    document.getElementById("videoContainer");
-
-  c.style.display = "none";
+  document.getElementById(
+    "videoContainer"
+  ).style.display = "none";
 
   v.pause();
 
-  v.removeAttribute("src");
-
-  v.load();
-
-  yt.src = "";
-
-});
+};
 
 /* ================= SEARCH ================= */
 
-const searchInput =
-  document.getElementById("searchInput");
-
-const searchBtn =
-  document.getElementById("searchBtn");
-
-function searchChannels(){
-
-  const val =
-    searchInput.value.toLowerCase();
-
-  const filtered =
-    staticChannels.filter(ch=>
-
-      ch.name.toLowerCase().includes(val) ||
-
-      ch.category.toLowerCase().includes(val)
-
-    );
-
-  render(filtered);
-
-}
-
-searchInput.addEventListener(
+document.getElementById(
+  "searchInput"
+).addEventListener(
   "input",
-  searchChannels
-);
+  e=>{
 
-searchBtn.addEventListener(
-  "click",
-  searchChannels
+    const val =
+      e.target.value
+      .toLowerCase();
+
+    const filtered =
+      staticChannels.filter(ch=>
+
+        ch.name
+        .toLowerCase()
+        .includes(val)
+
+        ||
+
+        ch.category
+        .toLowerCase()
+        .includes(val)
+
+      );
+
+    render(filtered);
+
+  }
 );
 
 /* ================= INIT ================= */
 
-window.onload = fetchChannels;
+window.onload =
+  fetchChannels;
 
 </script>
 
