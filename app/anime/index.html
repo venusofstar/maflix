@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<title>MAFLIX | Tagalog Dubbed Anime</title>
+
+<meta
+name="theme-color"
+content="#e50914">
+
+<meta
+name="description"
+content="Watch Tagalog Dubbed Anime Movies and Series on MAFLIX">
+
+<script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+  touch-action:pan-y;
+}
+
+/* ================= FOCUS ================= */
+
+button,
+.card,
+a,
+input{
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus,
+.card:focus,
+a:focus,
+input:focus{
+  outline:3px solid #fff;
+  outline-offset:2px;
+}
+
+/* ================= NAVBAR ================= */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99999;
+
+  padding:15px 20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  background:
+  linear-gradient(
+    to bottom,
+    rgba(0,0,0,.95),
+    transparent
+  );
+
+  backdrop-filter:blur(10px);
+}
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+#menuBtn{
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:10px;
+
+  background:#1b1b1b;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:32px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* ================= SEARCH ================= */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+
+  background:#1b1b1b;
+
+  border-radius:30px;
+  overflow:hidden;
+}
+
+#searchInput{
+  width:220px;
+
+  padding:10px 15px;
+
+  border:none;
+  background:transparent;
+
+  color:#fff;
+  font-size:15px;
+}
+
+#searchBtn{
+  width:50px;
+  height:42px;
+
+  border:none;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-280px;
+
+  width:260px;
+  height:100%;
+
+  background:#111;
+
+  z-index:999999;
+
+  padding:20px;
+
+  transition:.3s;
+
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:20px;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+}
+
+#closeMenu{
+  width:40px;
+  height:40px;
+
+  border:none;
+  border-radius:8px;
+
+  background:#1b1b1b;
+  color:#fff;
+
+  font-size:18px;
+  cursor:pointer;
+}
+
+#sidebar a{
+  color:#fff;
+
+  text-decoration:none;
+
+  padding:14px;
+
+  border-radius:10px;
+
+  background:#1a1a1a;
+
+  transition:.2s;
+}
+
+#sidebar a:hover,
+#sidebar a:focus{
+  background:#e50914;
+}
+
+#menuOverlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.7);
+
+  z-index:5000;
+
+  display:none;
+}
+
+#menuOverlay.active{
+  display:block;
+}
+
+/* ================= HERO ================= */
+
+#hero{
+  width:100%;
+  height:75vh;
+
+  position:relative;
+
+  display:flex;
+  align-items:center;
+
+  padding:80px;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.2)
+  ),
+  url(
+'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
+  )
+  center/cover no-repeat;
+}
+
+.heroContent{
+  max-width:650px;
+}
+
+.heroBadge{
+  display:inline-block;
+
+  background:#e50914;
+
+  padding:8px 15px;
+
+  border-radius:30px;
+
+  margin-bottom:18px;
+
+  font-size:14px;
+  font-weight:bold;
+}
+
+.heroContent h1{
+  font-size:65px;
+  line-height:1.1;
+
+  margin-bottom:20px;
+}
+
+.heroContent p{
+  color:#ddd;
+
+  line-height:1.7;
+
+  margin-bottom:25px;
+
+  font-size:17px;
+}
+
+/* ================= CATEGORY ================= */
+
+.categorySection{
+  padding:25px 20px;
+}
+
+.categoryTitle{
+  font-size:28px;
+  font-weight:bold;
+
+  margin-bottom:15px;
+}
+
+/* ================= SLIDER ================= */
+
+.sliderWrapper{
+  position:relative;
+}
+
+.movieRow{
+  display:flex;
+  gap:15px;
+
+  overflow-x:hidden;
+  overflow-y:hidden;
+
+  scroll-behavior:smooth;
+
+  scrollbar-width:none;
+
+  padding-inline:50px;
+  padding-bottom:10px;
+
+  touch-action:pan-y;
+
+  -webkit-overflow-scrolling:touch;
+}
+
+.movieRow::-webkit-scrollbar{
+  display:none;
+}
+
+/* ================= CARD ================= */
+
+.card{
+  position:relative;
+
+  min-width:190px;
+  width:190px;
+
+  aspect-ratio:2/3;
+
+  border-radius:16px;
+
+  overflow:hidden;
+
+  background:#181818;
+
+  flex-shrink:0;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+  user-select:none;
+}
+
+.card:hover,
+.card:focus{
+  transform:scale(1.06);
+  z-index:5;
+}
+
+.card img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.cardOverlay{
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    transparent 60%
+  );
+}
+
+.title{
+  position:absolute;
+
+  bottom:0;
+  left:0;
+
+  width:100%;
+
+  padding:14px;
+
+  font-size:14px;
+  font-weight:bold;
+
+  line-height:1.4;
+}
+
+/* ================= BUTTON ================= */
+
+.slideBtn{
+  position:absolute;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:55px;
+  height:95px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:rgba(0,0,0,.72);
+
+  color:#fff;
+
+  font-size:34px;
+
+  cursor:pointer;
+
+  z-index:100;
+
+  backdrop-filter:blur(8px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.2s;
+}
+
+.slideBtn:hover,
+.slideBtn:focus{
+  background:#e50914;
+}
+
+.slideBtn:active{
+  transform:translateY(-50%) scale(.94);
+}
+
+.slideLeft{
+  left:0;
+}
+
+.slideRight{
+  right:0;
+}
+
+/* ================= PLAYER ================= */
+
+#videoContainer{
+  position:fixed;
+  inset:0;
+
+  background:#000;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:9999999;
+}
+
+#videoPlayer,
+#ytFrame{
+  width:92%;
+  height:85%;
+
+  border:none;
+  border-radius:10px;
+
+  background:#000;
+}
+
+#closeBtn{
+  position:absolute;
+
+  top:20px;
+  right:20px;
+
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+
+  cursor:pointer;
+}
+
+#spinner{
+  width:55px;
+  height:55px;
+
+  border-radius:50%;
+
+  border:5px solid rgba(255,255,255,.2);
+
+  border-top:5px solid #e50914;
+
+  animation:spin 1s linear infinite;
+
+  position:absolute;
+
+  display:none;
+}
+
+@keyframes spin{
+
+  100%{
+    transform:rotate(360deg);
+  }
+
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  text-align:center;
+
+  color:#888;
+
+  padding:35px 20px;
+
+  font-size:14px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  #hero{
+    height:65vh;
+    padding:30px;
+  }
+
+  .heroContent h1{
+    font-size:42px;
+  }
+
+  .heroContent p{
+    font-size:15px;
+  }
+
+  #searchInput{
+    width:130px;
+  }
+
+  #appTitle{
+    font-size:26px;
+  }
+
+  .movieRow{
+    padding-inline:40px;
+  }
+
+  .card{
+    min-width:145px;
+    width:145px;
+  }
+
+  .slideBtn{
+    width:40px;
+    height:70px;
+    font-size:24px;
+  }
+
+  .categoryTitle{
+    font-size:22px;
+  }
+
+}
+
+/* ================= SMART TV ================= */
+
+@media(min-width:1200px){
+
+  .card{
+    min-width:240px;
+    width:240px;
+  }
+
+  .slideBtn{
+    width:62px;
+    height:130px;
+    font-size:38px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<div id="navbar">
+
+  <div id="leftNav">
+
+    <button id="menuBtn">☰</button>
+
+    <h1 id="appTitle">MAFLIX</h1>
+
+  </div>
+
+  <div id="searchBox">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search Anime..."
+    >
+
+    <button id="searchBtn">🔍</button>
+
+  </div>
+
+</div>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div id="sidebar">
+
+  <div id="sidebarHeader">
+
+    <h2>MAFLIX</h2>
+
+    <button id="closeMenu">✕</button>
+
+  </div>
+
+  <a href="../index.html">🏠 Home</a>
+
+  <a href="../anime/index.html">🎌 Anime</a>
+
+  <a href="index.html">🎭 Tagalog Dubbed Drama</a>
+
+  <a href="../tv-channel.html">📺 TV Channels</a>
+
+  <a href="../sports-event.html">⚽ Sports Event</a>
+
+</div>
+
+<div id="menuOverlay"></div>
+
+<!-- ================= HERO ================= -->
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <div class="heroBadge">
+      🔥 Anime Collection
+    </div>
+
+    <h1>
+    Anime Tagalog Dubbed<br>
+      Series & Movies
+    </h1>
+
+    <p>
+      Watch unlimited Tagalog dubbed anime series and movies
+      only on MAFLIX.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- ================= CATEGORY ================= -->
+
+<section class="categorySection">
+
+  <div class="categoryTitle">
+    Anime Series Tagalog Dubbed
+  </div>
+
+  <div class="sliderWrapper">
+
+    <button
+      class="slideBtn slideLeft"
+      onclick="slideRow('moviesRow',-1)">
+      ❮
+    </button>
+
+    <div
+      class="movieRow"
+      id="moviesRow">
+
+<div class="card"
+  data-title="Hunter X Hunter"
+  data-link="tags/Hunter X Hunter.html">
+
+  <img
+    loading="lazy"
+    decoding="async"
+    src="url-logo">
+
+  <div class="cardOverlay"></div>
+
+  <div class="title">
+    Hunter X Hunter
+  </div>
+
+</div>
+
+<div class="card"
+  data-title="Black Clover"
+  data-link="tags/Black Clover.html">
+
+  <img
+    loading="lazy"
+    decoding="async"
+    src="png-logo">
+
+  <div class="cardOverlay"></div>
+
+  <div class="title">
+    Black Clover
+  </div>
+
+
+    </div>
+
+    <button
+      class="slideBtn slideRight"
+      onclick="slideRow('moviesRow',1)">
+      ❯
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ================= CHANNEL.JSON CATEGORY ================= -->
+
+<section class="categorySection">
+
+  <div class="categoryTitle">
+    Anime Movies Tagalog Dubbed
+  </div>
+
+  <div class="sliderWrapper">
+
+    <button
+      class="slideBtn slideLeft"
+      onclick="slideRow('streamRow',-1)">
+      ❮
+    </button>
+
+    <div
+      class="movieRow"
+      id="streamRow">
+    </div>
+
+    <button
+      class="slideBtn slideRight"
+      onclick="slideRow('streamRow',1)">
+      ❯
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ================= PLAYER ================= -->
+
+<div id="videoContainer">
+
+  <div id="spinner"></div>
+
+  <video
+    id="videoPlayer"
+    controls
+    autoplay
+    playsinline>
+  </video>
+
+  <iframe
+    id="ytFrame"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="display:none">
+  </iframe>
+
+  <button id="closeBtn">✕</button>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+  © 2026 MAFLIX - Tagalog Dubbed Anime
+</footer>
+
+<script>
+
+/* ================= MENU ================= */
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const sidebar =
+document.getElementById("sidebar");
+
+const closeMenu =
+document.getElementById("closeMenu");
+
+const menuOverlay =
+document.getElementById("menuOverlay");
+
+menuBtn.onclick = ()=>{
+
+  sidebar.classList.add("active");
+
+  menuOverlay.classList.add("active");
+
+};
+
+function closeSidebar(){
+
+  sidebar.classList.remove("active");
+
+  menuOverlay.classList.remove("active");
+
+}
+
+closeMenu.onclick =
+closeSidebar;
+
+menuOverlay.onclick =
+closeSidebar;
+
+/* ================= SLIDER ================= */
+
+function slideRow(rowId,direction){
+
+  const row =
+    document.getElementById(rowId);
+
+  const card =
+    row.querySelector(".card");
+
+  if(!card) return;
+
+  const gap = 15;
+
+  const amount =
+    card.offsetWidth * 3 +
+    gap * 3;
+
+  row.scrollBy({
+
+    left:
+      direction * amount,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+/* ================= STATIC LINKS ================= */
+
+document.querySelectorAll(
+  "#moviesRow .card"
+)
+.forEach(card=>{
+
+  card.onclick = ()=>{
+
+    const link =
+      card.dataset.link;
+
+    if(link){
+
+      window.location.href =
+        link;
+
+    }
+
+  };
+
+});
+
+/* ================= CHANNEL.JSON ================= */
+
+let staticChannels = [];
+
+let shakaPlayer = null;
+
+async function fetchChannels(){
+
+  try{
+
+    const res =
+      await fetch("channels.json");
+
+    const data =
+      await res.json();
+
+    staticChannels =
+      data.channels || [];
+
+    renderChannels(
+      staticChannels
+    );
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+  }
+
+}
+
+function renderChannels(list){
+
+  const row =
+    document.getElementById("streamRow");
+
+  row.innerHTML = "";
+
+  list.forEach(ch=>{
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+    card.tabIndex = 0;
+
+    card.innerHTML = `
+      <img
+        loading="lazy"
+        decoding="async"
+        src="${ch.logo}">
+
+      <div class="cardOverlay"></div>
+
+      <div class="title">
+        ${ch.name}
+      </div>
+    `;
+
+    card.onclick = ()=>{
+
+      playChannel(ch);
+
+    };
+
+    row.appendChild(card);
+
+  });
+
+}
+
+/* ================= PLAY ================= */
+
+async function playChannel(ch){
+
+  const video =
+    document.getElementById(
+      "videoPlayer"
+    );
+
+  const yt =
+    document.getElementById(
+      "ytFrame"
+    );
+
+  const container =
+    document.getElementById(
+      "videoContainer"
+    );
+
+  const spinner =
+    document.getElementById(
+      "spinner"
+    );
+
+  container.style.display =
+    "flex";
+
+  spinner.style.display =
+    "block";
+
+  video.pause();
+
+  video.removeAttribute("src");
+
+  video.load();
+
+  yt.src = "";
+
+  yt.style.display =
+    "none";
+
+  video.style.display =
+    "none";
+
+  if(ch.type === "youtube"){
+
+    yt.style.display =
+      "block";
+
+    yt.src =
+      `https://www.youtube.com/embed/${
+        ch.manifestUri.split("v=")[1]
+      }?autoplay=1`;
+
+    spinner.style.display =
+      "none";
+
+    return;
+
+  }
+
+  if(ch.type === "mp4"){
+
+    if(shakaPlayer){
+
+      await shakaPlayer.destroy();
+
+      shakaPlayer = null;
+
+    }
+
+    video.style.display =
+      "block";
+
+    video.src =
+      ch.manifestUri;
+
+    spinner.style.display =
+      "none";
+
+    video.play();
+
+    return;
+
+  }
+
+  video.style.display =
+    "block";
+
+  shakaPlayer ??=
+    new shaka.Player(video);
+
+  await shakaPlayer.unload();
+
+  try{
+
+    await shakaPlayer.load(
+      ch.manifestUri
+    );
+
+    spinner.style.display =
+      "none";
+
+    video.play();
+
+  }
+
+  catch(e){
+
+    console.error(e);
+
+    spinner.style.display =
+      "none";
+
+    alert("Playback Error");
+
+  }
+
+}
+
+/* ================= CLOSE PLAYER ================= */
+
+document.getElementById(
+  "closeBtn"
+).onclick = ()=>{
+
+  const video =
+    document.getElementById(
+      "videoPlayer"
+    );
+
+  const yt =
+    document.getElementById(
+      "ytFrame"
+    );
+
+  document.getElementById(
+    "videoContainer"
+  ).style.display = "none";
+
+  video.pause();
+
+  video.removeAttribute("src");
+
+  video.load();
+
+  yt.src = "";
+
+};
+
+/* ================= SEARCH ================= */
+
+const searchInput =
+document.getElementById(
+  "searchInput"
+);
+
+function searchDrama(){
+
+  const value =
+    searchInput.value
+    .toLowerCase();
+
+  document.querySelectorAll(
+    "#moviesRow .card"
+  )
+  .forEach(card=>{
+
+    const title =
+      card.innerText
+      .toLowerCase();
+
+    card.style.display =
+      title.includes(value)
+      ? "block"
+      : "none";
+
+  });
+
+  const filtered =
+    staticChannels.filter(ch=>
+
+      ch.name
+      .toLowerCase()
+      .includes(value)
+
+    );
+
+  renderChannels(filtered);
+
+}
+
+searchInput.addEventListener(
+  "input",
+  searchDrama
+);
+
+/* ================= INIT ================= */
+
+window.onload =
+fetchChannels;
+
+</script>
+
+</body>
+</html>
