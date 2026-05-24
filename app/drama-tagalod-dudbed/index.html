@@ -3,13 +3,19 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
 <title>MAFLIX | Tagalog Dubbed Drama</title>
 
-<meta name="theme-color" content="#e50914">
+<meta
+name="theme-color"
+content="#e50914">
 
-<meta name="description"
+<meta
+name="description"
 content="Watch Tagalog Dubbed Drama Movies and Series on MAFLIX">
 
 <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
@@ -24,11 +30,36 @@ content="Watch Tagalog Dubbed Drama Movies and Series on MAFLIX">
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   background:#0b0b0b;
   color:#fff;
   font-family:Arial,sans-serif;
   overflow-x:hidden;
+
+  /* smooth vertical touch */
+  touch-action:pan-y;
+}
+
+/* ================= FOCUS ================= */
+
+button,
+.card,
+a,
+input{
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus,
+.card:focus,
+a:focus,
+input:focus{
+  outline:3px solid #fff;
+  outline-offset:2px;
 }
 
 /* ================= NAVBAR ================= */
@@ -39,16 +70,20 @@ body{
   left:0;
   width:100%;
   z-index:99999;
+
   padding:15px 20px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   background:
   linear-gradient(
     to bottom,
     rgba(0,0,0,.95),
     transparent
   );
+
   backdrop-filter:blur(10px);
 }
 
@@ -61,10 +96,13 @@ body{
 #menuBtn{
   width:42px;
   height:42px;
+
   border:none;
   border-radius:10px;
+
   background:#1b1b1b;
   color:#fff;
+
   font-size:22px;
   cursor:pointer;
 }
@@ -81,17 +119,21 @@ body{
 #searchBox{
   display:flex;
   align-items:center;
+
   background:#1b1b1b;
+
   border-radius:30px;
   overflow:hidden;
 }
 
 #searchInput{
   width:220px;
+
   padding:10px 15px;
+
   border:none;
-  outline:none;
   background:transparent;
+
   color:#fff;
   font-size:15px;
 }
@@ -99,9 +141,12 @@ body{
 #searchBtn{
   width:50px;
   height:42px;
+
   border:none;
+
   background:#e50914;
   color:#fff;
+
   font-size:18px;
   cursor:pointer;
 }
@@ -112,12 +157,18 @@ body{
   position:fixed;
   top:0;
   left:-280px;
+
   width:260px;
   height:100%;
+
   background:#111;
+
   z-index:999999;
+
   padding:20px;
+
   transition:.3s;
+
   display:flex;
   flex-direction:column;
   gap:15px;
@@ -131,6 +182,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   margin-bottom:20px;
 }
 
@@ -141,32 +193,44 @@ body{
 #closeMenu{
   width:40px;
   height:40px;
+
   border:none;
   border-radius:8px;
+
   background:#1b1b1b;
   color:#fff;
+
   font-size:18px;
   cursor:pointer;
 }
 
 #sidebar a{
   color:#fff;
+
   text-decoration:none;
+
   padding:14px;
+
   border-radius:10px;
+
   background:#1a1a1a;
+
   transition:.2s;
 }
 
-#sidebar a:hover{
+#sidebar a:hover,
+#sidebar a:focus{
   background:#e50914;
 }
 
 #menuOverlay{
   position:fixed;
   inset:0;
+
   background:rgba(0,0,0,.7);
+
   z-index:5000;
+
   display:none;
 }
 
@@ -179,17 +243,23 @@ body{
 #hero{
   width:100%;
   height:75vh;
+
   position:relative;
+
   display:flex;
   align-items:center;
+
   padding:80px;
+
   background:
   linear-gradient(
     to top,
     rgba(0,0,0,.95),
     rgba(0,0,0,.2)
   ),
-  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop')
+  url(
+'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
+  )
   center/cover no-repeat;
 }
 
@@ -199,10 +269,15 @@ body{
 
 .heroBadge{
   display:inline-block;
+
   background:#e50914;
+
   padding:8px 15px;
+
   border-radius:30px;
+
   margin-bottom:18px;
+
   font-size:14px;
   font-weight:bold;
 }
@@ -210,13 +285,17 @@ body{
 .heroContent h1{
   font-size:65px;
   line-height:1.1;
+
   margin-bottom:20px;
 }
 
 .heroContent p{
   color:#ddd;
+
   line-height:1.7;
+
   margin-bottom:25px;
+
   font-size:17px;
 }
 
@@ -229,6 +308,7 @@ body{
 .categoryTitle{
   font-size:28px;
   font-weight:bold;
+
   margin-bottom:15px;
 }
 
@@ -241,10 +321,21 @@ body{
 .movieRow{
   display:flex;
   gap:15px;
-  overflow-x:auto;
+
+  overflow-x:hidden;
+  overflow-y:hidden;
+
   scroll-behavior:smooth;
+
   scrollbar-width:none;
+
+  padding-inline:50px;
   padding-bottom:10px;
+
+  /* vertical only touch */
+  touch-action:pan-y;
+
+  -webkit-overflow-scrolling:touch;
 }
 
 .movieRow::-webkit-scrollbar{
@@ -255,31 +346,46 @@ body{
 
 .card{
   position:relative;
+
   min-width:190px;
   width:190px;
+
   aspect-ratio:2/3;
+
   border-radius:16px;
+
   overflow:hidden;
+
   background:#181818;
+
   flex-shrink:0;
+
   cursor:pointer;
-  transition:.3s;
+
+  transition:.25s;
+
+  user-select:none;
 }
 
-.card:hover{
-  transform:scale(1.05);
+.card:hover,
+.card:focus{
+  transform:scale(1.06);
+  z-index:5;
 }
 
 .card img{
   width:100%;
   height:100%;
+
   object-fit:cover;
+
   display:block;
 }
 
 .cardOverlay{
   position:absolute;
   inset:0;
+
   background:
   linear-gradient(
     to top,
@@ -290,36 +396,62 @@ body{
 
 .title{
   position:absolute;
+
   bottom:0;
   left:0;
+
   width:100%;
+
   padding:14px;
+
   font-size:14px;
   font-weight:bold;
+
   line-height:1.4;
 }
 
-/* ================= SLIDE BUTTON ================= */
+/* ================= BUTTON ================= */
 
 .slideBtn{
   position:absolute;
+
   top:50%;
+
   transform:translateY(-50%);
+
   width:55px;
   height:95px;
+
   border:none;
+
   border-radius:14px;
-  background:rgba(0,0,0,.7);
+
+  background:rgba(0,0,0,.72);
+
   color:#fff;
+
   font-size:34px;
+
   cursor:pointer;
-  z-index:10;
+
+  z-index:100;
+
   backdrop-filter:blur(8px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   transition:.2s;
 }
 
-.slideBtn:hover{
+.slideBtn:hover,
+.slideBtn:focus{
   background:#e50914;
+}
+
+.slideBtn:active{
+  transform:translateY(-50%) scale(.94);
 }
 
 .slideLeft{
@@ -335,10 +467,14 @@ body{
 #videoContainer{
   position:fixed;
   inset:0;
+
   background:#000;
+
   display:none;
+
   align-items:center;
   justify-content:center;
+
   z-index:9999999;
 }
 
@@ -346,33 +482,47 @@ body{
 #ytFrame{
   width:92%;
   height:85%;
+
   border:none;
   border-radius:10px;
+
   background:#000;
 }
 
 #closeBtn{
   position:absolute;
+
   top:20px;
   right:20px;
+
   width:50px;
   height:50px;
+
   border:none;
   border-radius:50%;
+
   background:#e50914;
   color:#fff;
+
   font-size:22px;
+
   cursor:pointer;
 }
 
 #spinner{
   width:55px;
   height:55px;
+
   border-radius:50%;
+
   border:5px solid rgba(255,255,255,.2);
+
   border-top:5px solid #e50914;
+
   animation:spin 1s linear infinite;
+
   position:absolute;
+
   display:none;
 }
 
@@ -388,8 +538,11 @@ body{
 
 footer{
   text-align:center;
+
   color:#888;
+
   padding:35px 20px;
+
   font-size:14px;
 }
 
@@ -418,19 +571,40 @@ footer{
     font-size:26px;
   }
 
+  .movieRow{
+    padding-inline:40px;
+  }
+
   .card{
     min-width:145px;
     width:145px;
   }
 
   .slideBtn{
-    width:42px;
+    width:40px;
     height:70px;
     font-size:24px;
   }
 
   .categoryTitle{
     font-size:22px;
+  }
+
+}
+
+/* ================= SMART TV ================= */
+
+@media(min-width:1200px){
+
+  .card{
+    min-width:240px;
+    width:240px;
+  }
+
+  .slideBtn{
+    width:62px;
+    height:130px;
+    font-size:38px;
   }
 
 }
@@ -458,7 +632,8 @@ footer{
     <input
       type="text"
       id="searchInput"
-      placeholder="Search drama...">
+      placeholder="Search drama..."
+    >
 
     <button id="searchBtn">🔍</button>
 
@@ -533,12 +708,13 @@ footer{
       ❮
     </button>
 
-    <div class="movieRow" id="moviesRow">
+    <div
+      class="movieRow"
+      id="moviesRow">
 
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Swerte Anak Mas Swerte Emperador"
+      <div
+        class="card"
+        tabindex="0"
         data-link="tags/Swerte Anak Mas Swerte Emperador.html">
 
         <img
@@ -554,10 +730,9 @@ footer{
 
       </div>
 
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa"
+      <div
+        class="card"
+        tabindex="0"
         data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
 
         <img
@@ -573,10 +748,9 @@ footer{
 
       </div>
 
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Inayos ng Munting Doctor Ang Pamilya"
+      <div
+        class="card"
+        tabindex="0"
         data-link="tags/InayosngMuntingDoctorAngPamilya.html">
 
         <img
@@ -588,63 +762,6 @@ footer{
 
         <div class="title">
           Inayos ng Munting Doctor Ang Pamilya
-        </div>
-
-      </div>
-
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Adik sa kanya Ang pina-ara na paborito ng CEO"
-        data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
-
-        <img
-          loading="lazy"
-          decoding="async"
-          src="https://i.imgur.com/eRCzF4A.jpg">
-
-        <div class="cardOverlay"></div>
-
-        <div class="title">
-          Adik sa kanya Ang pina-ara na paborito ng CEO
-        </div>
-
-      </div>
-
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Batang Asawa Walang Hanggang Pag-ibig"
-        data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
-
-        <img
-          loading="lazy"
-          decoding="async"
-          src="https://i.imgur.com/G5KfLRF.png">
-
-        <div class="cardOverlay"></div>
-
-        <div class="title">
-          Batang Asawa Walang Hanggang Pag-ibig
-        </div>
-
-      </div>
-
-      <!-- CARD -->
-
-      <div class="card"
-        data-title="Yaya Ng Bata CEO"
-        data-link="tags/Yaya Ng Bata CEO.html">
-
-        <img
-          loading="lazy"
-          decoding="async"
-          src="https://i.imgur.com/3RnZjk6.png">
-
-        <div class="cardOverlay"></div>
-
-        <div class="title">
-          Yaya Ng Bata CEO
         </div>
 
       </div>
@@ -666,7 +783,7 @@ footer{
 <section class="categorySection">
 
   <div class="categoryTitle">
-   Drama Movies Tagalog Dubbed
+    Drama Movies Tagalog Dubbed
   </div>
 
   <div class="sliderWrapper">
@@ -677,7 +794,10 @@ footer{
       ❮
     </button>
 
-    <div class="movieRow" id="streamRow"></div>
+    <div
+      class="movieRow"
+      id="streamRow">
+    </div>
 
     <button
       class="slideBtn slideRight"
@@ -738,9 +858,18 @@ document.getElementById("menuOverlay");
 menuBtn.onclick = ()=>{
 
   sidebar.classList.add("active");
+
   menuOverlay.classList.add("active");
 
 };
+
+function closeSidebar(){
+
+  sidebar.classList.remove("active");
+
+  menuOverlay.classList.remove("active");
+
+}
 
 closeMenu.onclick =
 closeSidebar;
@@ -748,27 +877,28 @@ closeSidebar;
 menuOverlay.onclick =
 closeSidebar;
 
-function closeSidebar(){
-
-  sidebar.classList.remove("active");
-  menuOverlay.classList.remove("active");
-
-}
-
 /* ================= SLIDER ================= */
 
 function slideRow(rowId,direction){
 
   const row =
-  document.getElementById(rowId);
+    document.getElementById(rowId);
+
+  const card =
+    row.querySelector(".card");
+
+  if(!card) return;
+
+  const gap = 15;
 
   const amount =
-  row.clientWidth * 0.9;
+    card.offsetWidth * 3 +
+    gap * 3;
 
   row.scrollBy({
 
     left:
-    direction * amount,
+      direction * amount,
 
     behavior:"smooth"
 
@@ -776,28 +906,86 @@ function slideRow(rowId,direction){
 
 }
 
-/* ================= STATIC CARD LINKS ================= */
+/* ================= STATIC LINKS ================= */
 
 document.querySelectorAll(
-  ".card[data-link]"
+  "#moviesRow .card"
 )
 .forEach(card=>{
 
-  card.addEventListener("click", ()=>{
+  card.onclick = ()=>{
 
     const link =
-    card.getAttribute("data-link");
+      card.dataset.link;
 
     if(link){
 
       window.location.href =
-      link;
+        link;
 
     }
 
-  });
+  };
 
 });
+
+/* ================= TV REMOTE ================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    const focused =
+      document.activeElement;
+
+    if(
+      !focused.classList.contains("card")
+    ) return;
+
+    /* RIGHT */
+
+    if(e.key === "ArrowRight"){
+
+      e.preventDefault();
+
+      const next =
+        focused.nextElementSibling;
+
+      if(next){
+
+        next.focus();
+
+      }
+
+    }
+
+    /* LEFT */
+
+    if(e.key === "ArrowLeft"){
+
+      e.preventDefault();
+
+      const prev =
+        focused.previousElementSibling;
+
+      if(prev){
+
+        prev.focus();
+
+      }
+
+    }
+
+    /* ENTER */
+
+    if(e.key === "Enter"){
+
+      focused.click();
+
+    }
+
+  }
+);
 
 /* ================= CHANNEL.JSON ================= */
 
@@ -812,17 +1000,21 @@ async function fetchChannels(){
   try{
 
     const res =
-    await fetch("channels.json");
+      await fetch("channels.json");
 
     const data =
-    await res.json();
+      await res.json();
 
     staticChannels =
-    data.channels;
+      data.channels || [];
 
-    renderChannels(staticChannels);
+    renderChannels(
+      staticChannels
+    );
 
-  }catch(err){
+  }
+
+  catch(err){
 
     console.error(err);
 
@@ -835,21 +1027,18 @@ async function fetchChannels(){
 function renderChannels(list){
 
   const row =
-  document.getElementById("streamRow");
+    document.getElementById("streamRow");
 
   row.innerHTML = "";
 
   list.forEach(ch=>{
 
     const card =
-    document.createElement("div");
+      document.createElement("div");
 
     card.className = "card";
 
-    card.setAttribute(
-      "data-title",
-      ch.name
-    );
+    card.tabIndex = 0;
 
     card.innerHTML = `
       <img
@@ -876,25 +1065,35 @@ function renderChannels(list){
 
 }
 
-/* ================= PLAY CHANNEL ================= */
+/* ================= PLAY ================= */
 
 async function playChannel(ch){
 
   const video =
-  document.getElementById("videoPlayer");
+    document.getElementById(
+      "videoPlayer"
+    );
 
   const yt =
-  document.getElementById("ytFrame");
+    document.getElementById(
+      "ytFrame"
+    );
 
   const container =
-  document.getElementById("videoContainer");
+    document.getElementById(
+      "videoContainer"
+    );
 
   const spinner =
-  document.getElementById("spinner");
+    document.getElementById(
+      "spinner"
+    );
 
-  container.style.display = "flex";
+  container.style.display =
+    "flex";
 
-  spinner.style.display = "block";
+  spinner.style.display =
+    "block";
 
   video.pause();
 
@@ -904,20 +1103,26 @@ async function playChannel(ch){
 
   yt.src = "";
 
-  yt.style.display = "none";
+  yt.style.display =
+    "none";
 
-  video.style.display = "none";
+  video.style.display =
+    "none";
 
   /* YOUTUBE */
 
   if(ch.type === "youtube"){
 
-    yt.style.display = "block";
+    yt.style.display =
+      "block";
 
     yt.src =
-    `https://www.youtube.com/embed/${ch.manifestUri.split("v=")[1]}?autoplay=1`;
+      `https://www.youtube.com/embed/${
+        ch.manifestUri.split("v=")[1]
+      }?autoplay=1`;
 
-    spinner.style.display = "none";
+    spinner.style.display =
+      "none";
 
     return;
 
@@ -935,16 +1140,14 @@ async function playChannel(ch){
 
     }
 
-    video.style.display = "block";
+    video.style.display =
+      "block";
 
     video.src =
-    ch.manifestUri;
+      ch.manifestUri;
 
-    video.onloadeddata = ()=>{
-
-      spinner.style.display = "none";
-
-    };
+    spinner.style.display =
+      "none";
 
     video.play();
 
@@ -952,24 +1155,15 @@ async function playChannel(ch){
 
   }
 
-  /* M3U8 */
+  /* HLS / DASH */
 
-  video.style.display = "block";
+  video.style.display =
+    "block";
 
   shakaPlayer ??=
-  new shaka.Player(video);
+    new shaka.Player(video);
 
   await shakaPlayer.unload();
-
-  if(ch.clearKey){
-
-    shakaPlayer.configure({
-      drm:{
-        clearKeys: ch.clearKey
-      }
-    });
-
-  }
 
   try{
 
@@ -977,15 +1171,19 @@ async function playChannel(ch){
       ch.manifestUri
     );
 
-    spinner.style.display = "none";
+    spinner.style.display =
+      "none";
 
     video.play();
 
-  }catch(e){
+  }
+
+  catch(e){
 
     console.error(e);
 
-    spinner.style.display = "none";
+    spinner.style.display =
+      "none";
 
     alert("Playback Error");
 
@@ -995,19 +1193,23 @@ async function playChannel(ch){
 
 /* ================= CLOSE PLAYER ================= */
 
-document.getElementById("closeBtn")
-.onclick = ()=>{
+document.getElementById(
+  "closeBtn"
+).onclick = ()=>{
 
   const video =
-  document.getElementById("videoPlayer");
+    document.getElementById(
+      "videoPlayer"
+    );
 
   const yt =
-  document.getElementById("ytFrame");
+    document.getElementById(
+      "ytFrame"
+    );
 
-  const container =
-  document.getElementById("videoContainer");
-
-  container.style.display = "none";
+  document.getElementById(
+    "videoContainer"
+  ).style.display = "none";
 
   video.pause();
 
@@ -1022,14 +1224,17 @@ document.getElementById("closeBtn")
 /* ================= SEARCH ================= */
 
 const searchInput =
-document.getElementById("searchInput");
+document.getElementById(
+  "searchInput"
+);
 
 function searchDrama(){
 
   const value =
-  searchInput.value.toLowerCase();
+    searchInput.value
+    .toLowerCase();
 
-  /* STATIC CARDS */
+  /* STATIC */
 
   document.querySelectorAll(
     "#moviesRow .card"
@@ -1037,25 +1242,26 @@ function searchDrama(){
   .forEach(card=>{
 
     const title =
-    card.getAttribute("data-title")
-    .toLowerCase();
+      card.innerText
+      .toLowerCase();
 
     card.style.display =
-    title.includes(value)
-    ? "block"
-    : "none";
+      title.includes(value)
+      ? "block"
+      : "none";
 
   });
 
-  /* CHANNELS.JSON */
+  /* JSON */
 
   const filtered =
-  staticChannels.filter(ch=>
+    staticChannels.filter(ch=>
 
-    ch.name.toLowerCase()
-    .includes(value)
+      ch.name
+      .toLowerCase()
+      .includes(value)
 
-  );
+    );
 
   renderChannels(filtered);
 
