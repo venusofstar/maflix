@@ -8,11 +8,15 @@
 <title>MAFLIX | Tagalog Dubbed Drama</title>
 
 <meta name="theme-color" content="#e50914">
-<meta name="description" content="Watch Tagalog Dubbed Drama Series on MAFLIX">
+
+<meta name="description"
+content="Watch Tagalog Dubbed Drama Movies and Series on MAFLIX">
 
 <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
 
 <style>
+
+/* ================= RESET ================= */
 
 *{
   margin:0;
@@ -34,12 +38,17 @@ body{
   top:0;
   left:0;
   width:100%;
-  z-index:9999;
+  z-index:99999;
   padding:15px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);
+  background:
+  linear-gradient(
+    to bottom,
+    rgba(0,0,0,.95),
+    transparent
+  );
   backdrop-filter:blur(10px);
 }
 
@@ -93,8 +102,8 @@ body{
   border:none;
   background:#e50914;
   color:#fff;
-  cursor:pointer;
   font-size:18px;
+  cursor:pointer;
 }
 
 /* ================= SIDEBAR ================= */
@@ -106,7 +115,7 @@ body{
   width:260px;
   height:100%;
   background:#111;
-  z-index:99999;
+  z-index:999999;
   padding:20px;
   transition:.3s;
   display:flex;
@@ -175,8 +184,13 @@ body{
   align-items:center;
   padding:80px;
   background:
-  linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.2)),
-  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.2)
+  ),
+  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop')
+  center/cover no-repeat;
 }
 
 .heroContent{
@@ -206,34 +220,50 @@ body{
   font-size:17px;
 }
 
-/* ================= HEADER ================= */
+/* ================= CATEGORY ================= */
 
-.dramaHeader{
-  font-size:32px;
-  font-weight:bold;
-  padding:30px 20px 10px;
-  color:#fff;
+.categorySection{
+  padding:25px 20px;
 }
 
-/* ================= GRID ================= */
+.categoryTitle{
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:18px;
-  padding:20px;
+/* ================= SLIDER ================= */
+
+.sliderWrapper{
+  position:relative;
+}
+
+.movieRow{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  padding-bottom:10px;
+}
+
+.movieRow::-webkit-scrollbar{
+  display:none;
 }
 
 /* ================= CARD ================= */
 
 .card{
   position:relative;
+  min-width:190px;
+  width:190px;
+  aspect-ratio:2/3;
   border-radius:16px;
   overflow:hidden;
-  cursor:pointer;
   background:#181818;
+  flex-shrink:0;
+  cursor:pointer;
   transition:.3s;
-  aspect-ratio:2/3;
 }
 
 .card:hover{
@@ -250,7 +280,8 @@ body{
 .cardOverlay{
   position:absolute;
   inset:0;
-  background:linear-gradient(
+  background:
+  linear-gradient(
     to top,
     rgba(0,0,0,.95),
     transparent 60%
@@ -263,10 +294,40 @@ body{
   left:0;
   width:100%;
   padding:14px;
-  font-size:15px;
+  font-size:14px;
   font-weight:bold;
   line-height:1.4;
+}
+
+/* ================= SLIDE BUTTON ================= */
+
+.slideBtn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:55px;
+  height:95px;
+  border:none;
+  border-radius:14px;
+  background:rgba(0,0,0,.7);
   color:#fff;
+  font-size:34px;
+  cursor:pointer;
+  z-index:10;
+  backdrop-filter:blur(8px);
+  transition:.2s;
+}
+
+.slideBtn:hover{
+  background:#e50914;
+}
+
+.slideLeft{
+  left:0;
+}
+
+.slideRight{
+  right:0;
 }
 
 /* ================= PLAYER ================= */
@@ -278,7 +339,7 @@ body{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:999999;
+  z-index:9999999;
 }
 
 #videoPlayer,
@@ -328,7 +389,7 @@ body{
 footer{
   text-align:center;
   color:#888;
-  padding:30px 20px;
+  padding:35px 20px;
   font-size:14px;
 }
 
@@ -349,24 +410,27 @@ footer{
     font-size:15px;
   }
 
-  .grid{
-    grid-template-columns:
-    repeat(auto-fill,minmax(140px,1fr));
-    gap:12px;
-    padding:15px;
-  }
-
-  .title{
-    font-size:13px;
-    padding:10px;
-  }
-
   #searchInput{
     width:130px;
   }
 
   #appTitle{
     font-size:26px;
+  }
+
+  .card{
+    min-width:145px;
+    width:145px;
+  }
+
+  .slideBtn{
+    width:42px;
+    height:70px;
+    font-size:24px;
+  }
+
+  .categoryTitle{
+    font-size:22px;
   }
 
 }
@@ -414,15 +478,15 @@ footer{
 
   </div>
 
-  <a href="../index.html">🏠 Home</a>
+  <a href="#">🏠 Home</a>
 
-  <a href="../anime/index.html">🎌 Anime</a>
+  <a href="#">🎌 Anime</a>
 
-  <a href="index.html">🎭 Tagalog Dubbed Drama</a>
+  <a href="#">🎭 Tagalog Dubbed Drama</a>
 
-  <a href="../tv-channel.html">📺 TV Channels</a>
+  <a href="#">📺 TV Channels</a>
 
-  <a href="../sports-event.html">⚽ Sports Event</a>
+  <a href="#">⚽ Sports Event</a>
 
 </div>
 
@@ -440,12 +504,12 @@ footer{
 
     <h1>
       Tagalog Dubbed<br>
-      Drama Series
+      Drama Movies
     </h1>
 
     <p>
-      Watch Korean, Chinese and Asian
-      drama series dubbed in Tagalog
+      Watch unlimited Tagalog dubbed
+      drama movies and Asian series
       only on MAFLIX.
     </p>
 
@@ -453,193 +517,177 @@ footer{
 
 </section>
 
-<!-- ================= CHANNEL.JSON SECTION ================= -->
+<!-- ================= CATEGORY ================= -->
 
-<header class="dramaHeader">
-  🎬 Drama Series Tagalog Dubbed
-</header>
+<section class="categorySection">
 
-<div class="grid" id="dramaGrid"></div>
+  <div class="categoryTitle">
+    🎬 Drama Movies
+  </div>
 
-<!-- ================= STATIC DRAMA CARDS ================= -->
+  <div class="sliderWrapper">
 
-<header class="dramaHeader">
-  ⭐ Featured Drama
-</header>
+    <button
+      class="slideBtn slideLeft"
+      onclick="slideRow('moviesRow',-1)">
+      ❮
+    </button>
 
-<div class="grid" id="staticDramaGrid">
+    <div class="movieRow" id="moviesRow">
 
-  <div class="card"
-    data-title="Swerte Anak Mas Swerte Emperador"
-    data-link="tags/Swerte Anak Mas Swerte Emperador.html">
+      <!-- CARD -->
 
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/zhuIDDt.png">
+      <div class="card"
+        data-title="Swerte Anak Mas Swerte Emperador"
+        data-link="tags/Swerte Anak Mas Swerte Emperador.html">
 
-    <div class="cardOverlay"></div>
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/zhuIDDt.png">
 
-    <div class="title">
-      Swerte Anak Mas Swerte Emperador
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Swerte Anak Mas Swerte Emperador
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="card"
+        data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa"
+        data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/zlVh0zz.png">
+
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="card"
+        data-title="Inayos ng Munting Doctor Ang Pamilya"
+        data-link="tags/InayosngMuntingDoctorAngPamilya.html">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/FPF0Saq.jpg">
+
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Inayos ng Munting Doctor Ang Pamilya
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="card"
+        data-title="Adik sa kanya Ang pina-ara na paborito ng CEO"
+        data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/eRCzF4A.jpg">
+
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Adik sa kanya Ang pina-ara na paborito ng CEO
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="card"
+        data-title="Batang Asawa Walang Hanggang Pag-ibig"
+        data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/G5KfLRF.png">
+
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Batang Asawa Walang Hanggang Pag-ibig
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="card"
+        data-title="Yaya Ng Bata CEO"
+        data-link="tags/Yaya Ng Bata CEO.html">
+
+        <img
+          loading="lazy"
+          decoding="async"
+          src="https://i.imgur.com/3RnZjk6.png">
+
+        <div class="cardOverlay"></div>
+
+        <div class="title">
+          Yaya Ng Bata CEO
+        </div>
+
+      </div>
+
     </div>
+
+    <button
+      class="slideBtn slideRight"
+      onclick="slideRow('moviesRow',1)">
+      ❯
+    </button>
 
   </div>
 
-  <div class="card"
-    data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa"
-    data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
+</section>
 
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/zlVh0zz.png">
+<!-- ================= CHANNEL.JSON CATEGORY ================= -->
 
-    <div class="cardOverlay"></div>
+<section class="categorySection">
 
-    <div class="title">
-      Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa
-    </div>
+  <div class="categoryTitle">
+    📺 Drama Streaming
+  </div>
+
+  <div class="sliderWrapper">
+
+    <button
+      class="slideBtn slideLeft"
+      onclick="slideRow('streamRow',-1)">
+      ❮
+    </button>
+
+    <div class="movieRow" id="streamRow"></div>
+
+    <button
+      class="slideBtn slideRight"
+      onclick="slideRow('streamRow',1)">
+      ❯
+    </button>
 
   </div>
 
-  <div class="card"
-    data-title="Inayos ng Munting Doctor Ang Pamilya"
-    data-link="tags/InayosngMuntingDoctorAngPamilya.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/FPF0Saq.jpg">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Inayos ng Munting Doctor Ang Pamilya
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Adik sa kanya Ang pina-ara na paborito ng CEO"
-    data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/eRCzF4A.jpg">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Adik sa kanya Ang pina-ara na paborito ng CEO
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Batang Asawa Walang Hanggang Pag-ibig"
-    data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/G5KfLRF.png">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Batang Asawa Walang Hanggang Pag-ibig
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Yaya Ng Bata CEO"
-    data-link="tags/Yaya Ng Bata CEO.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/3RnZjk6.png">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Yaya Ng Bata CEO
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Itinapon Ang Sinungaling Pinakasalan Ang Protector ko"
-    data-link="tags/Itinapon Ang Sinungaling Pinakasalan Ang Protector ko.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/MLzQS8a.jpeg">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Itinapon Ang Sinungaling Pinakasalan Ang Protector ko
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Pag-aasawa sa Pamilya Mayaman na May Anak"
-    data-link="tags/Pag-aasawa sa Pamilya Mayaman na May Anak.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/FWyrP2T.png">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Pag-aasawa sa Pamilya Mayaman na May Anak
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Ang Madrasta Na Nagpakain Nang Wasto"
-    data-link="tags/Ang Madrasta Na Nagpakain Nang Wasto.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/1fFrSz8.png">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Ang Madrasta Na Nagpakain Nang Wasto
-    </div>
-
-  </div>
-
-  <div class="card"
-    data-title="Perpektong Pamilya Ng Batang Halaman"
-    data-link="tags/Perpektong Pamilya Ng Batang Halaman.html">
-
-    <img
-      loading="lazy"
-      decoding="async"
-      src="https://i.imgur.com/VePqzeB.png">
-
-    <div class="cardOverlay"></div>
-
-    <div class="title">
-      Perpektong Pamilya Ng Batang Halaman
-    </div>
-
-  </div>
-
-</div>
+</section>
 
 <!-- ================= PLAYER ================= -->
 
@@ -687,22 +735,18 @@ document.getElementById("closeMenu");
 const menuOverlay =
 document.getElementById("menuOverlay");
 
-menuBtn.addEventListener("click", ()=>{
+menuBtn.onclick = ()=>{
 
   sidebar.classList.add("active");
   menuOverlay.classList.add("active");
 
-});
+};
 
-closeMenu.addEventListener(
-  "click",
-  closeSidebar
-);
+closeMenu.onclick =
+closeSidebar;
 
-menuOverlay.addEventListener(
-  "click",
-  closeSidebar
-);
+menuOverlay.onclick =
+closeSidebar;
 
 function closeSidebar(){
 
@@ -711,13 +755,57 @@ function closeSidebar(){
 
 }
 
-/* ================= CHANNEL SYSTEM ================= */
+/* ================= SLIDER ================= */
+
+function slideRow(rowId,direction){
+
+  const row =
+  document.getElementById(rowId);
+
+  const amount =
+  row.clientWidth * 0.9;
+
+  row.scrollBy({
+
+    left:
+    direction * amount,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+/* ================= STATIC CARD LINKS ================= */
+
+document.querySelectorAll(
+  ".card[data-link]"
+)
+.forEach(card=>{
+
+  card.addEventListener("click", ()=>{
+
+    const link =
+    card.getAttribute("data-link");
+
+    if(link){
+
+      window.location.href =
+      link;
+
+    }
+
+  });
+
+});
+
+/* ================= CHANNEL.JSON ================= */
 
 let staticChannels = [];
 
 let shakaPlayer = null;
 
-/* ================= FETCH CHANNELS ================= */
+/* FETCH */
 
 async function fetchChannels(){
 
@@ -742,14 +830,14 @@ async function fetchChannels(){
 
 }
 
-/* ================= RENDER CHANNELS ================= */
+/* RENDER */
 
 function renderChannels(list){
 
-  const grid =
-  document.getElementById("dramaGrid");
+  const row =
+  document.getElementById("streamRow");
 
-  grid.innerHTML = "";
+  row.innerHTML = "";
 
   list.forEach(ch=>{
 
@@ -782,7 +870,7 @@ function renderChannels(list){
 
     };
 
-    grid.appendChild(card);
+    row.appendChild(card);
 
   });
 
@@ -864,7 +952,7 @@ async function playChannel(ch){
 
   }
 
-  /* M3U8 / DASH */
+  /* M3U8 */
 
   video.style.display = "block";
 
@@ -908,7 +996,7 @@ async function playChannel(ch){
 /* ================= CLOSE PLAYER ================= */
 
 document.getElementById("closeBtn")
-.addEventListener("click", ()=>{
+.onclick = ()=>{
 
   const video =
   document.getElementById("videoPlayer");
@@ -929,44 +1017,37 @@ document.getElementById("closeBtn")
 
   yt.src = "";
 
-});
-
-/* ================= STATIC CARD LINKS ================= */
-
-document.querySelectorAll(
-  "#staticDramaGrid .card"
-)
-.forEach(card=>{
-
-  card.addEventListener("click", ()=>{
-
-    const link =
-    card.getAttribute("data-link");
-
-    if(link){
-
-      window.location.href = link;
-
-    }
-
-  });
-
-});
+};
 
 /* ================= SEARCH ================= */
 
 const searchInput =
 document.getElementById("searchInput");
 
-const searchBtn =
-document.getElementById("searchBtn");
-
 function searchDrama(){
 
   const value =
   searchInput.value.toLowerCase();
 
-  /* FILTER CHANNEL.JSON */
+  /* STATIC CARDS */
+
+  document.querySelectorAll(
+    "#moviesRow .card"
+  )
+  .forEach(card=>{
+
+    const title =
+    card.getAttribute("data-title")
+    .toLowerCase();
+
+    card.style.display =
+    title.includes(value)
+    ? "block"
+    : "none";
+
+  });
+
+  /* CHANNELS.JSON */
 
   const filtered =
   staticChannels.filter(ch=>
@@ -978,31 +1059,6 @@ function searchDrama(){
 
   renderChannels(filtered);
 
-  /* FILTER STATIC CARDS */
-
-  const staticCards =
-  document.querySelectorAll(
-    "#staticDramaGrid .card"
-  );
-
-  staticCards.forEach(card=>{
-
-    const title =
-    card.getAttribute("data-title")
-    .toLowerCase();
-
-    if(title.includes(value)){
-
-      card.style.display = "block";
-
-    }else{
-
-      card.style.display = "none";
-
-    }
-
-  });
-
 }
 
 searchInput.addEventListener(
@@ -1010,14 +1066,10 @@ searchInput.addEventListener(
   searchDrama
 );
 
-searchBtn.addEventListener(
-  "click",
-  searchDrama
-);
-
 /* ================= INIT ================= */
 
-window.onload = fetchChannels;
+window.onload =
+fetchChannels;
 
 </script>
 
