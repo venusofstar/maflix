@@ -1,13 +1,16 @@
-<!-- player.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Player (JW Player)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Optimized HLS Player</title>
 
-  <!-- JW Player CDN -->
-  <script src="https://cdn.jwplayer.com/libraries/ID_YOUR_JW_PLAYER"></script>
+  <!-- Video.js -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+  <!-- HLS.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
     body {
@@ -17,32 +20,104 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
 
-    #player {
+    .video-container {
       width: 100%;
-      max-width: 900px;
-      aspect-ratio: 16/9;
+      max-width: 1000px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-js {
+      width: 100%;
+      height: 100%;
+    }
+
+    .vjs-big-play-button {
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
+
 <body>
 
-<div id="player"></div>
+<div class="video-container">
+  <video
+    id="video"
+    class="video-js vjs-default-skin"
+    controls
+    autoplay
+    muted
+    playsinline
+  ></video>
+</div>
 
 <script>
-const urlParams = new URLSearchParams(location.search);
+const urlParams = new URLSearchParams(window.location.search);
 const src = urlParams.get("src");
 
+const video = document.getElementById("video");
+
+// Initialize Video.js
+const player = videojs(video, {
+  autoplay: true,
+  controls: true,
+  preload: "auto",
+  responsive: true,
+  fluid: true,
+  playbackRates: [0.5, 1, 1.25, 1.5, 2]
+});
+
+function loadHLS(source) {
+  if (Hls.isSupported()) {
+    const hls = new Hls({
+      enableWorker: true,
+      lowLatencyMode: true,
+      backBufferLength: 30
+    });
+
+    hls.loadSource(source);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      player.play();
+    });
+
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      console.error("HLS Error:", data);
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            hls.recoverMediaError();
+            break;
+          default:
+            hls.destroy();
+            break;
+        }
+      }
+    });
+
+  } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    // Safari native HLS
+    video.src = source;
+    video.addEventListener("loadedmetadata", () => {
+      player.play();
+    });
+  } else {
+    alert("HLS not supported in this browser.");
+  }
+}
+
 if (src) {
-  jwplayer("player").setup({
-    file: src,
-    type: "hls",
-    width: "100%",
-    aspectratio: "16:9",
-    autostart: true,
-    controls: true
-  });
+  loadHLS(src);
+} else {
+  console.error("No stream URL provided (?src=...)");
 }
 </script>
 
