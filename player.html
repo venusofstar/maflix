@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MAFLIX Player</title>
+  <title>Optimized HLS Player</title>
 
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet"/>
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -39,23 +39,42 @@
 </div>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const src = urlParams.get("url"); // ✅ FIXED
+const urlParams = new URLSearchParams(location.search);
+const src = urlParams.get("url");
 
 const video = document.getElementById("video");
 const player = videojs(video);
 
 if (!src) {
-  alert("No stream URL provided (?url=...)");
+  alert("Missing ?url=");
 }
 
+// 🔥 REQUIRED HEADERS (ONLY WHAT BROWSER ALLOWS)
+const CUSTOM_HEADERS = {
+  "Referer": "https://kisskh.id/",
+  "Origin": "https://kisskh.id",
+  "Accept": "*/*",
+  "Accept-Language": "en-US"
+};
+
 function loadStream(url) {
+
   if (Hls.isSupported()) {
+
     const hls = new Hls({
       enableWorker: true,
       lowLatencyMode: true,
       backBufferLength: 30
     });
+
+    // ✅ Inject headers (ONLY works for XHR requests)
+    hls.config.xhrSetup = function (xhr, reqUrl) {
+      xhr.withCredentials = false;
+
+      Object.keys(CUSTOM_HEADERS).forEach(key => {
+        xhr.setRequestHeader(key, CUSTOM_HEADERS[key]);
+      });
+    };
 
     hls.loadSource(url);
     hls.attachMedia(video);
@@ -65,7 +84,7 @@ function loadStream(url) {
     });
 
     hls.on(Hls.Events.ERROR, (event, data) => {
-      console.error("HLS error:", data);
+      console.error("HLS Error:", data);
 
       if (data.fatal) {
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
@@ -81,8 +100,6 @@ function loadStream(url) {
   } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
     video.src = url;
     video.addEventListener("loadedmetadata", () => player.play());
-  } else {
-    alert("HLS not supported");
   }
 }
 
