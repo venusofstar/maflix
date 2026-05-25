@@ -1,0 +1,32 @@
+<!-- player.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body { margin:0; background:black; display:flex; justify-content:center; align-items:center; height:100vh; }
+    video { width:100%; max-width:900px; }
+  </style>
+</head>
+<body>
+
+<video id="video" controls autoplay></video>
+
+<script>
+const urlParams = new URLSearchParams(location.search);
+const src = urlParams.get("src");
+
+if (Hls.isSupported() && src) {
+  const hls = new Hls();
+  hls.loadSource(src);
+  hls.attachMedia(document.getElementById("video"));
+} else {
+  document.getElementById("video").src = src;
+}
+</script>
+
+</body>
+</html>
