@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Optimized HLS Player</title>
+  <title>MAFLIX Player</title>
 
-  <!-- Video.js -->
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-
-  <!-- HLS.js -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
@@ -20,58 +17,39 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
     }
 
-    .video-container {
+    .wrap {
       width: 100%;
       max-width: 1000px;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
     }
 
-    .video-js {
+    video {
       width: 100%;
       height: 100%;
-    }
-
-    .vjs-big-play-button {
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%);
     }
   </style>
 </head>
 
 <body>
 
-<div class="video-container">
-  <video
-    id="video"
-    class="video-js vjs-default-skin"
-    controls
-    autoplay
-    muted
-    playsinline
-  ></video>
+<div class="wrap">
+  <video id="video" class="video-js vjs-default-skin" controls autoplay></video>
 </div>
 
 <script>
 const urlParams = new URLSearchParams(window.location.search);
-const src = urlParams.get("src");
+const src = urlParams.get("url"); // ✅ FIXED
 
 const video = document.getElementById("video");
+const player = videojs(video);
 
-// Initialize Video.js
-const player = videojs(video, {
-  autoplay: true,
-  controls: true,
-  preload: "auto",
-  responsive: true,
-  fluid: true,
-  playbackRates: [0.5, 1, 1.25, 1.5, 2]
-});
+if (!src) {
+  alert("No stream URL provided (?url=...)");
+}
 
-function loadHLS(source) {
+function loadStream(url) {
   if (Hls.isSupported()) {
     const hls = new Hls({
       enableWorker: true,
@@ -79,7 +57,7 @@ function loadHLS(source) {
       backBufferLength: 30
     });
 
-    hls.loadSource(source);
+    hls.loadSource(url);
     hls.attachMedia(video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -87,38 +65,28 @@ function loadHLS(source) {
     });
 
     hls.on(Hls.Events.ERROR, (event, data) => {
-      console.error("HLS Error:", data);
+      console.error("HLS error:", data);
+
       if (data.fatal) {
-        switch (data.type) {
-          case Hls.ErrorTypes.NETWORK_ERROR:
-            hls.startLoad();
-            break;
-          case Hls.ErrorTypes.MEDIA_ERROR:
-            hls.recoverMediaError();
-            break;
-          default:
-            hls.destroy();
-            break;
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+          hls.startLoad();
+        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+          hls.recoverMediaError();
+        } else {
+          hls.destroy();
         }
       }
     });
 
   } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-    // Safari native HLS
-    video.src = source;
-    video.addEventListener("loadedmetadata", () => {
-      player.play();
-    });
+    video.src = url;
+    video.addEventListener("loadedmetadata", () => player.play());
   } else {
-    alert("HLS not supported in this browser.");
+    alert("HLS not supported");
   }
 }
 
-if (src) {
-  loadHLS(src);
-} else {
-  console.error("No stream URL provided (?src=...)");
-}
+loadStream(src);
 </script>
 
 </body>
