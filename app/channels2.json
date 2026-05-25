@@ -1,6 +1,6 @@
 #EXTM3U
 #EXTINF:0 CUID="284" tvg-name="Exhuma - (2024)" tvg-logo="https://prod-images.viu.com/220965793/1a5253453dd6926d875aa0057ca7d868ac3fbed1" group-title="K-Movies",Exhuma - (2024)
-https://proxys.honortv.workers.dev/?url=https://hls.streamsub.top/hls07/Exhuma.2024.v9/Ep1_index.m3u8
+https://kdramas.honortv-stream.workers.dev/exhuma
 #EXTINF:0 CUID="285" tvg-name="Train To Busan - (2021)" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEXcxNZEMCLwhVCWe8j_-zhegjHkYD4gPN7Q&s" group-title="K-Movies",Train To Busan - (2021)
 https://proxys.honortv.workers.dev/?url=https://hls.streamsub.top/hls06/83b0c24b35d8a12c70dc09990745335c/ep.1.1619619971.720.m3u8
 #EXTINF:0 CUID="286" tvg-name="Devils Stay - Three Days - (2024)" tvg-logo="https://m.media-amazon.com/images/M/MV5BYzJiOTY4ZjAtMDQ4Mi00YWIyLWFjOTgtNTVjODdlNTQzNTZhXkEyXkFqcGc@._V1_.jpg" group-title="K-Movies",Devils Stay - Three Days - (2024)
