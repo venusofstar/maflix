@@ -42,7 +42,12 @@ body{
   touch-action:pan-y;
 }
 
-/* ================= FOCUS ================= */
+/* ================= GLOBAL ================= */
+
+img{
+  display:block;
+  max-width:100%;
+}
 
 button,
 .card,
@@ -69,16 +74,19 @@ input:focus{
   width:100%;
   z-index:99999;
 
-  padding:15px 20px;
+  padding:12px 18px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
 
+  gap:15px;
+
   background:
   linear-gradient(
     to bottom,
     rgba(0,0,0,.95),
+    rgba(0,0,0,.35),
     transparent
   );
 
@@ -92,22 +100,29 @@ input:focus{
 }
 
 #menuBtn{
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
 
   border:none;
-  border-radius:10px;
+  border-radius:12px;
 
   background:#1b1b1b;
   color:#fff;
 
   font-size:22px;
   cursor:pointer;
+
+  transition:.2s;
+}
+
+#menuBtn:hover,
+#menuBtn:focus{
+  background:#e50914;
 }
 
 #appTitle{
   color:#e50914;
-  font-size:32px;
+  font-size:clamp(24px,4vw,42px);
   font-weight:bold;
   letter-spacing:1px;
 }
@@ -120,14 +135,15 @@ input:focus{
 
   background:#1b1b1b;
 
-  border-radius:30px;
+  border-radius:40px;
   overflow:hidden;
 }
 
 #searchInput{
   width:220px;
+  height:46px;
 
-  padding:10px 15px;
+  padding:0 15px;
 
   border:none;
   background:transparent;
@@ -136,9 +152,13 @@ input:focus{
   font-size:15px;
 }
 
+#searchInput::placeholder{
+  color:#aaa;
+}
+
 #searchBtn{
-  width:50px;
-  height:42px;
+  width:52px;
+  height:46px;
 
   border:none;
 
@@ -154,10 +174,12 @@ input:focus{
 #sidebar{
   position:fixed;
   top:0;
-  left:-280px;
+  left:-320px;
 
-  width:260px;
-  height:100%;
+  width:280px;
+  max-width:85%;
+
+  height:100dvh;
 
   background:#111;
 
@@ -169,7 +191,20 @@ input:focus{
 
   display:flex;
   flex-direction:column;
-  gap:15px;
+
+  overflow-y:auto;
+
+  scrollbar-width:thin;
+  scrollbar-color:#e50914 #111;
+}
+
+#sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
 }
 
 #sidebar.active{
@@ -182,6 +217,15 @@ input:focus{
   justify-content:space-between;
 
   margin-bottom:20px;
+
+  position:sticky;
+  top:0;
+
+  background:#111;
+
+  padding-bottom:10px;
+
+  z-index:5;
 }
 
 #sidebarHeader h2{
@@ -189,11 +233,11 @@ input:focus{
 }
 
 #closeMenu{
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
 
   border:none;
-  border-radius:8px;
+  border-radius:10px;
 
   background:#1b1b1b;
   color:#fff;
@@ -202,14 +246,21 @@ input:focus{
   cursor:pointer;
 }
 
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding-bottom:50px;
+}
+
 #sidebar a{
   color:#fff;
 
   text-decoration:none;
 
-  padding:14px;
+  padding:15px;
 
-  border-radius:10px;
+  border-radius:12px;
 
   background:#1a1a1a;
 
@@ -240,14 +291,17 @@ input:focus{
 
 #hero{
   width:100%;
-  height:75vh;
+  min-height:75vh;
 
   position:relative;
 
   display:flex;
   align-items:center;
 
-  padding:80px;
+  padding:
+  clamp(25px,5vw,80px);
+
+  padding-top:100px;
 
   background:
   linear-gradient(
@@ -281,7 +335,9 @@ input:focus{
 }
 
 .heroContent h1{
-  font-size:65px;
+  font-size:
+  clamp(38px,7vw,72px);
+
   line-height:1.1;
 
   margin-bottom:20px;
@@ -294,17 +350,20 @@ input:focus{
 
   margin-bottom:25px;
 
-  font-size:17px;
+  font-size:
+  clamp(15px,2vw,20px);
 }
 
 /* ================= CATEGORY ================= */
 
 .categorySection{
-  padding:25px 20px;
+  padding:25px 15px;
 }
 
 .categoryTitle{
-  font-size:28px;
+  font-size:
+  clamp(22px,3vw,34px);
+
   font-weight:bold;
 
   margin-bottom:15px;
@@ -320,14 +379,14 @@ input:focus{
   display:flex;
   gap:15px;
 
-  overflow-x:hidden;
+  overflow-x:auto;
   overflow-y:hidden;
 
   scroll-behavior:smooth;
 
   scrollbar-width:none;
 
-  padding-inline:50px;
+  padding-inline:55px;
   padding-bottom:10px;
 
   touch-action:pan-y;
@@ -344,8 +403,8 @@ input:focus{
 .card{
   position:relative;
 
-  min-width:190px;
-  width:190px;
+  min-width:170px;
+  width:170px;
 
   aspect-ratio:2/3;
 
@@ -368,6 +427,9 @@ input:focus{
 .card:focus{
   transform:scale(1.06);
   z-index:5;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.5);
 }
 
 .card img{
@@ -416,7 +478,7 @@ input:focus{
 
   transform:translateY(-50%);
 
-  width:55px;
+  width:52px;
   height:95px;
 
   border:none;
@@ -477,11 +539,11 @@ input:focus{
 
 #videoPlayer,
 #ytFrame{
-  width:92%;
-  height:85%;
+  width:min(95vw,1600px);
+  height:min(85vh,900px);
 
   border:none;
-  border-radius:10px;
+  border-radius:12px;
 
   background:#000;
 }
@@ -489,8 +551,8 @@ input:focus{
 #closeBtn{
   position:absolute;
 
-  top:20px;
-  right:20px;
+  top:15px;
+  right:15px;
 
   width:50px;
   height:50px;
@@ -547,21 +609,19 @@ footer{
 
 @media(max-width:768px){
 
+  #navbar{
+    padding:10px 12px;
+  }
+
   #hero{
-    height:65vh;
-    padding:30px;
-  }
-
-  .heroContent h1{
-    font-size:42px;
-  }
-
-  .heroContent p{
-    font-size:15px;
+    min-height:65vh;
+    padding:20px;
+    padding-top:100px;
   }
 
   #searchInput{
-    width:130px;
+    width:120px;
+    font-size:14px;
   }
 
   #appTitle{
@@ -569,12 +629,12 @@ footer{
   }
 
   .movieRow{
-    padding-inline:40px;
+    padding-inline:42px;
   }
 
   .card{
-    min-width:145px;
-    width:145px;
+    min-width:140px;
+    width:140px;
   }
 
   .slideBtn{
@@ -583,25 +643,50 @@ footer{
     font-size:24px;
   }
 
-  .categoryTitle{
-    font-size:22px;
+  #videoPlayer,
+  #ytFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
   }
 
 }
 
 /* ================= SMART TV ================= */
 
-@media(min-width:1200px){
+@media(min-width:1400px){
+
+  body{
+    font-size:20px;
+  }
 
   .card{
-    min-width:240px;
-    width:240px;
+    min-width:280px;
+    width:280px;
   }
 
   .slideBtn{
+    width:70px;
+    height:140px;
+    font-size:44px;
+  }
+
+  #searchInput{
+    width:340px;
+    height:60px;
+    font-size:20px;
+  }
+
+  #searchBtn,
+  #menuBtn,
+  #closeMenu{
     width:62px;
-    height:130px;
-    font-size:38px;
+    height:62px;
+    font-size:28px;
+  }
+
+  .title{
+    font-size:20px;
   }
 
 }
@@ -611,8 +696,6 @@ footer{
 </head>
 
 <body>
-
-<!-- ================= NAVBAR ================= -->
 
 <div id="navbar">
 
@@ -638,8 +721,6 @@ footer{
 
 </div>
 
-<!-- ================= SIDEBAR ================= -->
-
 <div id="sidebar">
 
   <div id="sidebarHeader">
@@ -650,21 +731,23 @@ footer{
 
   </div>
 
-  <a href="../index.html">🏠 Home</a>
+  <div class="sidebarLinks">
 
-  <a href="index.html">🎌 Anime</a>
+    <a href="../index.html">🏠 Home</a>
 
-  <a href="../drama-tagalod-dudbed.html">🎭 Tagalog Dubbed Drama</a>
+    <a href="index.html">🎌 Anime</a>
 
-  <a href="../tv-channel.html">📺 TV Channels</a>
+    <a href="../drama-tagalod-dudbed.html">🎭 Tagalog Dubbed Drama</a>
 
-  <a href="../sports-event.html">⚽ Sports Event</a>
+    <a href="../tv-channel.html">📺 TV Channels</a>
+
+    <a href="../sports-event.html">⚽ Sports Event</a>
+
+  </div>
 
 </div>
 
 <div id="menuOverlay"></div>
-
-<!-- ================= HERO ================= -->
 
 <section id="hero">
 
@@ -675,7 +758,7 @@ footer{
     </div>
 
     <h1>
-    Anime Tagalog Dubbed<br>
+      Anime Tagalog Dubbed<br>
       Series & Movies
     </h1>
 
@@ -687,8 +770,6 @@ footer{
   </div>
 
 </section>
-
-<!-- ================= CATEGORY ================= -->
 
 <section class="categorySection">
 
@@ -708,38 +789,41 @@ footer{
       class="movieRow"
       id="moviesRow">
 
-<div class="card"
-  data-title="Hunter X Hunter"
-  data-link="tags/Hunter X Hunter.html">
+      <div class="card"
+        tabindex="0"
+        data-title="Hunter X Hunter"
+        data-link="tags/Hunter X Hunter.html">
 
-  <img
-    loading="lazy"
-    decoding="async"
-    src="url-logo">
+        <img
+          loading="lazy"
+          decoding="async"
+          src="url-logo">
 
-  <div class="cardOverlay"></div>
+        <div class="cardOverlay"></div>
 
-  <div class="title">
-    Hunter X Hunter
-  </div>
+        <div class="title">
+          Hunter X Hunter
+        </div>
 
-</div>
+      </div>
 
-<div class="card"
-  data-title="Black Clover"
-  data-link="tags/Black Clover.html">
+      <div class="card"
+        tabindex="0"
+        data-title="Black Clover"
+        data-link="tags/Black Clover.html">
 
-  <img
-    loading="lazy"
-    decoding="async"
-    src="png-logo">
+        <img
+          loading="lazy"
+          decoding="async"
+          src="png-logo">
 
-  <div class="cardOverlay"></div>
+        <div class="cardOverlay"></div>
 
-  <div class="title">
-    Black Clover
-  </div>
+        <div class="title">
+          Black Clover
+        </div>
 
+      </div>
 
     </div>
 
@@ -752,8 +836,6 @@ footer{
   </div>
 
 </section>
-
-<!-- ================= CHANNEL.JSON CATEGORY ================= -->
 
 <section class="categorySection">
 
@@ -784,8 +866,6 @@ footer{
 
 </section>
 
-<!-- ================= PLAYER ================= -->
-
 <div id="videoContainer">
 
   <div id="spinner"></div>
@@ -807,8 +887,6 @@ footer{
   <button id="closeBtn">✕</button>
 
 </div>
-
-<!-- ================= FOOTER ================= -->
 
 <footer>
   © 2026 MAFLIX - Tagalog Dubbed Anime
@@ -857,23 +935,15 @@ closeSidebar;
 function slideRow(rowId,direction){
 
   const row =
-    document.getElementById(rowId);
-
-  const card =
-    row.querySelector(".card");
-
-  if(!card) return;
-
-  const gap = 15;
+  document.getElementById(rowId);
 
   const amount =
-    card.offsetWidth * 3 +
-    gap * 3;
+  row.clientWidth * 0.85;
 
   row.scrollBy({
 
     left:
-      direction * amount,
+    direction * amount,
 
     behavior:"smooth"
 
@@ -891,12 +961,12 @@ document.querySelectorAll(
   card.onclick = ()=>{
 
     const link =
-      card.dataset.link;
+    card.dataset.link;
 
     if(link){
 
       window.location.href =
-        link;
+      link;
 
     }
 
@@ -915,13 +985,13 @@ async function fetchChannels(){
   try{
 
     const res =
-      await fetch("channels.json");
+    await fetch("channels.json");
 
     const data =
-      await res.json();
+    await res.json();
 
     staticChannels =
-      data.channels || [];
+    data.channels || [];
 
     renderChannels(
       staticChannels
@@ -940,14 +1010,14 @@ async function fetchChannels(){
 function renderChannels(list){
 
   const row =
-    document.getElementById("streamRow");
+  document.getElementById("streamRow");
 
   row.innerHTML = "";
 
   list.forEach(ch=>{
 
     const card =
-      document.createElement("div");
+    document.createElement("div");
 
     card.className = "card";
 
@@ -983,30 +1053,30 @@ function renderChannels(list){
 async function playChannel(ch){
 
   const video =
-    document.getElementById(
-      "videoPlayer"
-    );
+  document.getElementById(
+    "videoPlayer"
+  );
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
+  document.getElementById(
+    "ytFrame"
+  );
 
   const container =
-    document.getElementById(
-      "videoContainer"
-    );
+  document.getElementById(
+    "videoContainer"
+  );
 
   const spinner =
-    document.getElementById(
-      "spinner"
-    );
+  document.getElementById(
+    "spinner"
+  );
 
   container.style.display =
-    "flex";
+  "flex";
 
   spinner.style.display =
-    "block";
+  "block";
 
   video.pause();
 
@@ -1017,23 +1087,23 @@ async function playChannel(ch){
   yt.src = "";
 
   yt.style.display =
-    "none";
+  "none";
 
   video.style.display =
-    "none";
+  "none";
 
   if(ch.type === "youtube"){
 
     yt.style.display =
-      "block";
+    "block";
 
     yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
+    `https://www.youtube.com/embed/${
+      ch.manifestUri.split("v=")[1]
+    }?autoplay=1`;
 
     spinner.style.display =
-      "none";
+    "none";
 
     return;
 
@@ -1050,13 +1120,13 @@ async function playChannel(ch){
     }
 
     video.style.display =
-      "block";
+    "block";
 
     video.src =
-      ch.manifestUri;
+    ch.manifestUri;
 
     spinner.style.display =
-      "none";
+    "none";
 
     video.play();
 
@@ -1065,10 +1135,10 @@ async function playChannel(ch){
   }
 
   video.style.display =
-    "block";
+  "block";
 
   shakaPlayer ??=
-    new shaka.Player(video);
+  new shaka.Player(video);
 
   await shakaPlayer.unload();
 
@@ -1079,7 +1149,7 @@ async function playChannel(ch){
     );
 
     spinner.style.display =
-      "none";
+    "none";
 
     video.play();
 
@@ -1090,7 +1160,7 @@ async function playChannel(ch){
     console.error(e);
 
     spinner.style.display =
-      "none";
+    "none";
 
     alert("Playback Error");
 
@@ -1105,14 +1175,14 @@ document.getElementById(
 ).onclick = ()=>{
 
   const video =
-    document.getElementById(
-      "videoPlayer"
-    );
+  document.getElementById(
+    "videoPlayer"
+  );
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
+  document.getElementById(
+    "ytFrame"
+  );
 
   document.getElementById(
     "videoContainer"
@@ -1138,8 +1208,8 @@ document.getElementById(
 function searchDrama(){
 
   const value =
-    searchInput.value
-    .toLowerCase();
+  searchInput.value
+  .toLowerCase();
 
   document.querySelectorAll(
     "#moviesRow .card"
@@ -1147,24 +1217,24 @@ function searchDrama(){
   .forEach(card=>{
 
     const title =
-      card.innerText
-      .toLowerCase();
+    card.innerText
+    .toLowerCase();
 
     card.style.display =
-      title.includes(value)
-      ? "block"
-      : "none";
+    title.includes(value)
+    ? "block"
+    : "none";
 
   });
 
   const filtered =
-    staticChannels.filter(ch=>
+  staticChannels.filter(ch=>
 
-      ch.name
-      .toLowerCase()
-      .includes(value)
+    ch.name
+    .toLowerCase()
+    .includes(value)
 
-    );
+  );
 
   renderChannels(filtered);
 
@@ -1173,6 +1243,55 @@ function searchDrama(){
 searchInput.addEventListener(
   "input",
   searchDrama
+);
+
+/* ================= TV REMOTE ================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    const active =
+    document.activeElement;
+
+    if(
+      e.key === "Enter" &&
+      active
+    ){
+
+      if(
+        active.classList.contains(
+          "card"
+        ) ||
+        active.tagName === "BUTTON" ||
+        active.tagName === "A"
+      ){
+
+        active.click();
+
+      }
+
+    }
+
+    if(e.key === "ArrowDown"){
+
+      window.scrollBy({
+        top:300,
+        behavior:"smooth"
+      });
+
+    }
+
+    if(e.key === "ArrowUp"){
+
+      window.scrollBy({
+        top:-300,
+        behavior:"smooth"
+      });
+
+    }
+
+  }
 );
 
 /* ================= INIT ================= */
