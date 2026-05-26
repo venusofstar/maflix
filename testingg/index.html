@@ -152,6 +152,7 @@ iframe{
   text-align:center;
   padding:50px;
   color:#aaa;
+  width:100%;
 }
 
 @media(max-width:700px){
@@ -179,20 +180,22 @@ iframe{
 <div class="player-modal" id="playerModal">
   <div class="player-box">
     <button class="close-btn" onclick="closePlayer()">✕</button>
-    <iframe id="videoFrame" allowfullscreen></iframe>
+    <iframe id="videoFrame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
   </div>
 </div>
 
 <script>
-const API_KEY = "http://www.omdbapi.com/?i=tt3896198&apikey=90521a18";
+// YOUR OMDb API KEY
+const API_KEY = "90521a18";
 
 const grid = document.getElementById("movieGrid");
 
-async function searchMovies(query="Avengers"){
+async function searchMovies(defaultQuery = null){
 
   grid.innerHTML = `<div class="loading">Loading...</div>`;
 
-  const search = query || document.getElementById("searchInput").value;
+  const inputValue = document.getElementById("searchInput").value.trim();
+  const search = defaultQuery || inputValue || "Avengers";
 
   try{
 
@@ -219,7 +222,7 @@ async function searchMovies(query="Avengers"){
       card.className = "card";
 
       card.innerHTML = `
-        <img class="poster" src="${poster}">
+        <img class="poster" src="${poster}" loading="lazy">
         <div class="info">
           <div class="title">${movie.Title}</div>
           <div class="year">${movie.Year}</div>
@@ -227,7 +230,7 @@ async function searchMovies(query="Avengers"){
       `;
 
       card.onclick = () => {
-        openPlayer(movie.imdbID);
+        openPlayer(movie.imdbID, movie.Type);
       };
 
       grid.appendChild(card);
@@ -235,21 +238,22 @@ async function searchMovies(query="Avengers"){
     });
 
   }catch(e){
+    console.error(e);
     grid.innerHTML = `<div class="loading">Failed to load movies.</div>`;
   }
 }
 
-function openPlayer(imdbID){
+function openPlayer(imdbID, type){
 
   const modal = document.getElementById("playerModal");
   const frame = document.getElementById("videoFrame");
 
-  /*
-    VidAPI Embed
-    Replace with your own provider if needed
-  */
-
-  frame.src = `https://vidsrc.xyz/embed/movie/${imdbID}`;
+  // Movie or TV Series
+  if(type === "series"){
+    frame.src = `https://vidsrc.xyz/embed/tv/${imdbID}`;
+  }else{
+    frame.src = `https://vidsrc.xyz/embed/movie/${imdbID}`;
+  }
 
   modal.style.display = "flex";
 }
@@ -259,6 +263,7 @@ function closePlayer(){
   document.getElementById("videoFrame").src = "";
 }
 
+// ENTER KEY SEARCH
 document.getElementById("searchInput")
 .addEventListener("keypress", function(e){
   if(e.key === "Enter"){
@@ -266,7 +271,17 @@ document.getElementById("searchInput")
   }
 });
 
-searchMovies();
+// CLOSE MODAL WHEN CLICK OUTSIDE
+document.getElementById("playerModal")
+.addEventListener("click", function(e){
+  if(e.target.id === "playerModal"){
+    closePlayer();
+  }
+});
+
+// LOAD DEFAULT MOVIES
+searchMovies("Marvel");
+
 </script>
 
 </body>
