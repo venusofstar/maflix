@@ -379,6 +379,56 @@ img{
 
   </div>
 
+  <!-- NEW MOVIES -->
+
+  <div class="section">
+
+    <h2>🆕 New Movies</h2>
+
+    <div class="row" id="newMoviesGrid"></div>
+
+  </div>
+
+  <!-- ACTION -->
+
+  <div class="section">
+
+    <h2>💥 Action</h2>
+
+    <div class="row" id="actionGrid"></div>
+
+  </div>
+
+  <!-- DRAMA -->
+
+  <div class="section">
+
+    <h2>🎭 Drama</h2>
+
+    <div class="row" id="dramaGrid"></div>
+
+  </div>
+
+  <!-- COMEDY -->
+
+  <div class="section">
+
+    <h2>😂 Comedy</h2>
+
+    <div class="row" id="comedyGrid"></div>
+
+  </div>
+
+  <!-- HORROR -->
+
+  <div class="section">
+
+    <h2>👻 Horror</h2>
+
+    <div class="row" id="horrorGrid"></div>
+
+  </div>
+
   <!-- SEARCH -->
 
   <div class="section">
@@ -490,6 +540,19 @@ async function searchMovies(
   document.getElementById(
     "movieGrid"
   );
+
+  /* SCROLL SEARCH RESULTS TO TOP */
+
+  document
+  .getElementById(
+    "movieGrid"
+  )
+  .scrollIntoView({
+
+    behavior:"smooth",
+    block:"start"
+
+  });
 
   grid.innerHTML =
   `<div class="loading">
@@ -736,6 +799,51 @@ document
 
 /* INIT */
 
+/* CATEGORY MOVIES */
+
+async function loadCategoryMovies(category, containerId){
+
+  const grid =
+  document.getElementById(containerId);
+
+  grid.innerHTML =
+  `<div class="loading">
+    Loading ${category}...
+  </div>`;
+
+  try{
+
+    const res =
+    await fetch(
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(category)}`
+    );
+
+    const data =
+    await res.json();
+
+    grid.innerHTML = "";
+
+    if(!data.Search) return;
+
+    data.Search.forEach(movie=>{
+
+      const card =
+      createMovieCard(movie);
+
+      grid.appendChild(card);
+
+    });
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+  }
+
+}
+
 window.onload = ()=>{
 
   loadTrendingMovies();
@@ -743,6 +851,31 @@ window.onload = ()=>{
   searchMovies("Marvel");
 
   renderContinueWatching();
+
+  loadCategoryMovies(
+    "2025",
+    "newMoviesGrid"
+  );
+
+  loadCategoryMovies(
+    "Action",
+    "actionGrid"
+  );
+
+  loadCategoryMovies(
+    "Drama",
+    "dramaGrid"
+  );
+
+  loadCategoryMovies(
+    "Comedy",
+    "comedyGrid"
+  );
+
+  loadCategoryMovies(
+    "Horror",
+    "horrorGrid"
+  );
 
 };
 
