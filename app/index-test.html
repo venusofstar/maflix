@@ -4,12 +4,24 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <title>MAFLIX</title>
 
+<meta
+name="theme-color"
+content="#e50914">
+
+<meta
+name="description"
+content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.">
+
 <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -28,26 +40,22 @@ html{
 body{
   background:#0b0b0b;
   color:#fff;
-  font-family:Arial,sans-serif;
+  font-family:'Poppins',sans-serif;
   overflow-x:hidden;
+  touch-action:pan-y;
 }
 
-/* ================= FOCUS ================= */
+img{
+  display:block;
+  max-width:100%;
+}
 
 button,
-.card-item,
 a,
-input{
+input,
+.card-item{
   outline:none;
   -webkit-tap-highlight-color:transparent;
-}
-
-button:focus,
-.card-item:focus,
-a:focus,
-input:focus{
-  outline:3px solid #fff;
-  outline-offset:2px;
 }
 
 /* ================= NAVBAR ================= */
@@ -58,38 +66,48 @@ input:focus{
   left:0;
   width:100%;
   z-index:999;
-  padding:15px 25px;
+  padding:12px 18px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:linear-gradient(
+
+  background:
+  linear-gradient(
     to bottom,
     rgba(0,0,0,.95),
+    rgba(0,0,0,.4),
     transparent
   );
+
+  backdrop-filter:blur(10px);
 }
 
 #leftNav{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:12px;
 }
 
 #menuBtn{
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#1b1b1b;
   color:#fff;
   font-size:22px;
   cursor:pointer;
 }
 
+#menuBtn:hover{
+  background:#e50914;
+}
+
 #appTitle{
   color:#e50914;
-  font-size:32px;
-  font-weight:bold;
+  font-size:34px;
+  font-weight:700;
 }
 
 /* ================= SEARCH ================= */
@@ -98,22 +116,27 @@ input:focus{
   display:flex;
   align-items:center;
   background:#1b1b1b;
-  border-radius:30px;
+  border-radius:50px;
   overflow:hidden;
 }
 
 #searchInput{
   width:220px;
-  padding:10px 15px;
+  height:46px;
   border:none;
   background:transparent;
   color:#fff;
+  padding:0 15px;
   font-size:15px;
 }
 
+#searchInput::placeholder{
+  color:#aaa;
+}
+
 #searchBtn{
-  width:50px;
-  height:42px;
+  width:52px;
+  height:46px;
   border:none;
   background:#e50914;
   color:#fff;
@@ -126,16 +149,22 @@ input:focus{
 #sidebar{
   position:fixed;
   top:0;
-  left:-280px;
-  width:260px;
-  height:100%;
+  left:-320px;
+
+  width:280px;
+  height:100vh;
+
   background:#111;
+
   z-index:5000;
+
   padding:20px;
+
   transition:.3s;
+
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:14px;
 }
 
 #sidebar.active{
@@ -146,30 +175,36 @@ input:focus{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 
 #sidebarHeader h2{
   color:#e50914;
+  font-size:28px;
 }
 
 #closeMenu{
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   background:#1b1b1b;
   color:#fff;
-  font-size:18px;
   cursor:pointer;
+}
+
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
 #sidebar a{
   color:#fff;
   text-decoration:none;
-  padding:14px;
-  border-radius:10px;
   background:#1a1a1a;
+  padding:14px;
+  border-radius:12px;
   transition:.2s;
 }
 
@@ -192,33 +227,27 @@ input:focus{
 /* ================= HERO ================= */
 
 #hero{
-  position:relative;
-  width:100%;
-  height:85vh;
-  background:url(
+  min-height:80vh;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.3)
+  ),
+  url(
 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
-  ) center/cover no-repeat;
+  )
+  center/cover no-repeat;
 
   display:flex;
   align-items:center;
-  padding:80px;
-}
 
-#hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to top,
-    #0b0b0b 5%,
-    transparent 60%
-  );
+  padding:100px 30px 30px;
 }
 
 .heroContent{
-  position:relative;
-  z-index:2;
-  max-width:500px;
+  max-width:650px;
 }
 
 .heroContent h2{
@@ -228,7 +257,7 @@ input:focus{
 
 .heroContent p{
   color:#ddd;
-  line-height:1.6;
+  line-height:1.7;
   margin-bottom:25px;
 }
 
@@ -238,12 +267,11 @@ input:focus{
 }
 
 .heroButtons button{
-  padding:12px 28px;
+  padding:13px 26px;
   border:none;
-  border-radius:5px;
-  font-size:16px;
-  cursor:pointer;
+  border-radius:10px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 .playBtn{
@@ -256,100 +284,57 @@ input:focus{
   color:#fff;
 }
 
-/* ================= CHANNELS ================= */
+/* ================= CONTENT ================= */
 
 #channelSections{
   padding:20px;
 }
 
-#channelSections h2{
-  margin:25px 0 15px;
-  font-size:24px;
+.category-wrapper{
+  position:relative;
+  margin-bottom:40px;
 }
 
-/* ================= ROW ================= */
-
-.scroll-wrapper{
-  position:relative;
-  width:100%;
-  margin-bottom:25px;
+.category-wrapper h2{
+  margin-bottom:15px;
+  font-size:28px;
 }
 
 .horizontal-scroll{
   display:flex;
-  gap:15px;
+  gap:14px;
+
   overflow-x:auto;
-  overflow-y:hidden;
-  scroll-behavior:smooth;
   scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
-  padding:5px 45px;
-  touch-action:pan-x;
+
+  padding-bottom:10px;
 }
 
 .horizontal-scroll::-webkit-scrollbar{
   display:none;
 }
 
-/* ================= BUTTONS ================= */
-
-.scroll-btn{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:45px;
-  height:95px;
-  border:none;
-  border-radius:14px;
-  background:rgba(0,0,0,.75);
-  color:#fff;
-  font-size:30px;
-  z-index:20;
-  cursor:pointer;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  transition:.2s;
-  backdrop-filter:blur(8px);
-}
-
-.scroll-btn:hover,
-.scroll-btn:focus{
-  background:#e50914;
-}
-
-.scroll-btn:active{
-  transform:translateY(-50%) scale(.95);
-}
-
-.scroll-left{
-  left:0;
-}
-
-.scroll-right{
-  right:0;
-}
-
-/* ================= CARDS ================= */
+/* ================= CARD ================= */
 
 .card-item{
-  min-width:220px;
-  height:320px;
-  border-radius:12px;
+  min-width:180px;
+  width:180px;
+  height:270px;
+
+  border-radius:14px;
   overflow:hidden;
+
   position:relative;
   cursor:pointer;
+
   background:#181818;
+
   transition:.25s;
   flex-shrink:0;
 }
 
-.card-item:hover,
-.card-item:focus{
-  transform:scale(1.08);
-  z-index:5;
+.card-item:hover{
+  transform:scale(1.05);
 }
 
 .card-item img{
@@ -362,15 +347,18 @@ input:focus{
   position:absolute;
   bottom:0;
   width:100%;
-  padding:15px;
-  background:linear-gradient(
+
+  padding:14px;
+
+  background:
+  linear-gradient(
     to top,
-    rgba(0,0,0,.95),
+    rgba(0,0,0,.96),
     transparent
   );
 
-  font-size:18px;
-  font-weight:bold;
+  font-size:15px;
+  font-weight:600;
 }
 
 /* ================= PLAYER ================= */
@@ -378,60 +366,50 @@ input:focus{
 #videoContainer{
   position:fixed;
   inset:0;
+
   background:#000;
+
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:3000;
+
+  z-index:9999;
 }
 
 #videoPlayer,
 #ytFrame{
-  width:90%;
-  height:85%;
+  width:min(95vw,1600px);
+  height:min(85vh,900px);
+
   border:none;
-  border-radius:10px;
+  border-radius:14px;
   background:#000;
 }
 
 #closeBtn{
   position:absolute;
-  top:20px;
-  right:20px;
+  top:15px;
+  right:15px;
+
   width:50px;
   height:50px;
+
   border:none;
   border-radius:50%;
+
   background:#e50914;
   color:#fff;
+
   font-size:22px;
   cursor:pointer;
-}
-
-#spinner{
-  border:5px solid rgba(255,255,255,.2);
-  border-top:5px solid #e50914;
-  border-radius:50%;
-  width:55px;
-  height:55px;
-  animation:spin 1s linear infinite;
-  position:absolute;
-  display:none;
-}
-
-@keyframes spin{
-  100%{
-    transform:rotate(360deg);
-  }
 }
 
 /* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
-  #hero{
-    height:70vh;
-    padding:30px;
+  #searchInput{
+    width:120px;
   }
 
   .heroContent h2{
@@ -439,39 +417,16 @@ input:focus{
   }
 
   .card-item{
-    min-width:160px;
-    height:240px;
-  }
-
-  #searchInput{
+    min-width:140px;
     width:140px;
+    height:210px;
   }
 
-  .scroll-btn{
-    width:38px;
-    height:75px;
-    font-size:24px;
-  }
-
-  .horizontal-scroll{
-    padding:5px 38px;
-  }
-
-}
-
-/* ================= SMART TV ================= */
-
-@media(min-width:1200px){
-
-  .card-item{
-    min-width:260px;
-    height:360px;
-  }
-
-  .scroll-btn{
-    width:58px;
-    height:120px;
-    font-size:34px;
+  #videoPlayer,
+  #ytFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
   }
 
 }
@@ -499,8 +454,7 @@ input:focus{
     <input
       type="text"
       id="searchInput"
-      placeholder="Search channels..."
-    >
+      placeholder="Search channels...">
 
     <button id="searchBtn">🔍</button>
 
@@ -520,13 +474,15 @@ input:focus{
 
   </div>
 
-  <a href="index.html">🏠 Home</a>
+  <div class="sidebarLinks">
 
-  <a href="anime/index.html">🎌 Anime</a>
+    <a href="#">🏠 Home</a>
+    <a href="#">🎌 Anime</a>
+    <a href="#">🎭 Drama</a>
+    <a href="#">📺 TV Channels</a>
+    <a href="#">⚽ Sports</a>
 
-  <a href="tv-channel.html">📺 TV Channels</a>
-
-  <a href="sports-event.html">⚽ Sports Event</a>
+  </div>
 
 </div>
 
@@ -541,8 +497,8 @@ input:focus{
     <h2>Trending Now</h2>
 
     <p>
-      Watch movies, anime, sports
-      and live TV with MAFLIX.
+      Watch movies, anime, sports and live TV
+      with MAFLIX streaming platform.
     </p>
 
     <div class="heroButtons">
@@ -561,29 +517,80 @@ input:focus{
 
 </section>
 
-<!-- ================= CHANNELS ================= -->
+<!-- ================= MOVIES ================= -->
 
-<div id="channelSections"></div>
+<div id="channelSections">
+
+  <div class="category-wrapper">
+
+    <h2>🎬 Movies & Series</h2>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    ">
+
+      <input
+        type="text"
+        id="movieSearchInput"
+        placeholder="Search movie or series..."
+        style="
+          flex:1;
+          min-width:220px;
+          height:48px;
+          border:none;
+          border-radius:12px;
+          background:#1b1b1b;
+          color:#fff;
+          padding:0 15px;
+          font-size:15px;
+        ">
+
+      <button
+        onclick="searchMovies()"
+        style="
+          height:48px;
+          padding:0 20px;
+          border:none;
+          border-radius:12px;
+          background:#e50914;
+          color:#fff;
+          font-weight:bold;
+          cursor:pointer;
+        ">
+        Search
+      </button>
+
+    </div>
+
+    <div
+      class="horizontal-scroll"
+      id="movieGrid">
+    </div>
+
+  </div>
+
+</div>
 
 <!-- ================= PLAYER ================= -->
 
 <div id="videoContainer">
-
-  <div id="spinner"></div>
 
   <video
     id="videoPlayer"
     controls
     autoplay
     playsinline
-  ></video>
+    style="display:none">
+  </video>
 
   <iframe
     id="ytFrame"
-    allow="autoplay; fullscreen"
     allowfullscreen
-    style="display:none"
-  ></iframe>
+    allow="autoplay; fullscreen">
+  </iframe>
 
   <button id="closeBtn">✕</button>
 
@@ -594,16 +601,16 @@ input:focus{
 /* ================= MENU ================= */
 
 const menuBtn =
-  document.getElementById("menuBtn");
+document.getElementById("menuBtn");
 
 const sidebar =
-  document.getElementById("sidebar");
+document.getElementById("sidebar");
 
 const closeMenu =
-  document.getElementById("closeMenu");
+document.getElementById("closeMenu");
 
 const menuOverlay =
-  document.getElementById("menuOverlay");
+document.getElementById("menuOverlay");
 
 menuBtn.onclick = ()=>{
 
@@ -621,177 +628,103 @@ function closeSidebar(){
 
 }
 
-closeMenu.onclick = closeSidebar;
+closeMenu.onclick =
+closeSidebar;
 
-menuOverlay.onclick = closeSidebar;
+menuOverlay.onclick =
+closeSidebar;
 
-/* ================= CHANNEL SYSTEM ================= */
+/* ================= OMDB ================= */
 
-let staticChannels = [];
+const OMDB_API_KEY =
+"90521a18";
 
-let shakaPlayer = null;
+/* ================= SEARCH MOVIES ================= */
 
-let currentChannel = null;
+async function searchMovies(
+  defaultQuery = "Marvel"
+){
 
-/* ================= PARSE M3U ================= */
+  const grid =
+  document.getElementById(
+    "movieGrid"
+  );
 
-function parseM3U(content){
+  const input =
+  document.getElementById(
+    "movieSearchInput"
+  );
 
-  const lines =
-    content.split("\n");
+  const query =
+  input.value.trim() ||
+  defaultQuery;
 
-  const channels = [];
-
-  let current = null;
-
-  for(let i=0;i<lines.length;i++){
-
-    const line =
-      lines[i].trim();
-
-    if(line.startsWith("#EXTINF")){
-
-      const nameMatch =
-        line.match(/,(.*)$/);
-
-      const logoMatch =
-        line.match(/tvg-logo="(.*?)"/);
-
-      const groupMatch =
-        line.match(/group-title="(.*?)"/);
-
-      const cuidMatch =
-        line.match(/CUID="(.*?)"/);
-
-      current = {
-
-        id: cuidMatch ?
-          cuidMatch[1] :
-          Date.now(),
-
-        name: nameMatch ?
-          nameMatch[1] :
-          "Unknown",
-
-        logo: logoMatch ?
-          logoMatch[1] :
-          "https://via.placeholder.com/300x450?text=MAFLIX",
-
-        category: groupMatch ?
-          groupMatch[1] :
-          "Live TV",
-
-        manifestUri: "",
-
-        type:"iframe"
-
-      };
-
-    }
-
-    else if(
-      line &&
-      !line.startsWith("#") &&
-      current
-    ){
-
-      current.manifestUri = line;
-
-      if(
-        line.includes("youtube.com") ||
-        line.includes("youtu.be")
-      ){
-
-        current.type = "youtube";
-
-      }
-
-      else if(
-        line.includes(".m3u8")
-      ){
-
-        current.type = "hls";
-
-      }
-
-      else if(
-        line.includes(".mpd")
-      ){
-
-        current.type = "dash";
-
-      }
-
-      else if(
-        line.includes(".mp4")
-      ){
-
-        current.type = "mp4";
-
-      }
-
-      else{
-
-        current.type = "iframe";
-
-      }
-
-      channels.push(current);
-
-      current = null;
-
-    }
-
-  }
-
-  return channels;
-
-}
-
-/* ================= FETCH ================= */
-
-async function fetchChannels(){
+  grid.innerHTML =
+  `<p style="padding:20px;color:#aaa;">
+    Loading...
+  </p>`;
 
   try{
 
-    let allChannels = [];
+    const res =
+    await fetch(
+      `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(query)}`
+    );
 
-    try{
+    const data =
+    await res.json();
 
-      const res1 =
-        await fetch("channels.json");
+    grid.innerHTML = "";
 
-      const data1 =
-        await res1.json();
+    if(!data.Search){
 
-      if(data1.channels){
+      grid.innerHTML =
+      `<p style="padding:20px;color:#aaa;">
+        No results found.
+      </p>`;
 
-        allChannels.push(
-          ...data1.channels
+      return;
+
+    }
+
+    data.Search.forEach(movie=>{
+
+      const card =
+      document.createElement("div");
+
+      card.className =
+      "card-item";
+
+      const poster =
+      movie.Poster !== "N/A"
+      ? movie.Poster
+      : "https://via.placeholder.com/300x450";
+
+      card.innerHTML = `
+        <img
+          src="${poster}"
+          loading="lazy">
+
+        <p>
+          ${movie.Title}
+        </p>
+      `;
+
+      card.onclick = ()=>{
+
+        playMovie(
+          movie.imdbID
         );
 
-      }
+      };
 
-    }catch(e){}
+      document
+      .getElementById(
+        "movieGrid"
+      )
+      .appendChild(card);
 
-    try{
-
-      const res2 =
-        await fetch("channels2.json");
-
-      const text2 =
-        await res2.text();
-
-      const parsed =
-        parseM3U(text2);
-
-      allChannels.push(...parsed);
-
-    }catch(e){}
-
-    staticChannels = allChannels;
-
-    render(staticChannels);
+    });
 
   }
 
@@ -803,352 +736,24 @@ async function fetchChannels(){
 
 }
 
-/* ================= GROUP ================= */
+/* ================= PLAY MOVIE ================= */
 
-function groupChannels(list){
-
-  return list.reduce((g,c)=>{
-
-    (g[c.category] ||= []).push(c);
-
-    return g;
-
-  },{});
-
-}
-
-/* ================= RENDER ================= */
-
-function render(channelsList){
-
-  const container =
-    document.getElementById(
-      "channelSections"
-    );
-
-  container.innerHTML = "";
-
-  const grouped =
-    groupChannels(channelsList);
-
-  for(const [cat,channels]
-    of Object.entries(grouped)){
-
-    const h =
-      document.createElement("h2");
-
-    h.textContent = cat;
-
-    container.appendChild(h);
-
-    /* ===== WRAPPER ===== */
-
-    const wrapper =
-      document.createElement("div");
-
-    wrapper.className =
-      "scroll-wrapper";
-
-    /* ===== LEFT BUTTON ===== */
-
-    const leftBtn =
-      document.createElement("button");
-
-    leftBtn.className =
-      "scroll-btn scroll-left";
-
-    leftBtn.innerHTML = "❮";
-
-    /* ===== RIGHT BUTTON ===== */
-
-    const rightBtn =
-      document.createElement("button");
-
-    rightBtn.className =
-      "scroll-btn scroll-right";
-
-    rightBtn.innerHTML = "❯";
-
-    /* ===== ROW ===== */
-
-    const row =
-      document.createElement("div");
-
-    row.className =
-      "horizontal-scroll";
-
-    /* ===== BUTTONS ===== */
-
-    leftBtn.onclick = ()=>{
-
-      row.scrollBy({
-        left:-600,
-        behavior:"smooth"
-      });
-
-    };
-
-    rightBtn.onclick = ()=>{
-
-      row.scrollBy({
-        left:600,
-        behavior:"smooth"
-      });
-
-    };
-
-    /* ===== TOUCH ===== */
-
-    let startX = 0;
-
-    let scrollLeft = 0;
-
-    row.addEventListener(
-      "touchstart",
-      e=>{
-
-        startX =
-          e.touches[0].pageX;
-
-        scrollLeft =
-          row.scrollLeft;
-
-      },
-      {passive:true}
-    );
-
-    row.addEventListener(
-      "touchmove",
-      e=>{
-
-        const x =
-          e.touches[0].pageX;
-
-        const walk =
-          (startX - x) * 1.2;
-
-        row.scrollLeft =
-          scrollLeft + walk;
-
-      },
-      {passive:true}
-    );
-
-    /* ===== MOUSE DRAG ===== */
-
-    let isDown = false;
-
-    let mouseX;
-
-    let mouseScroll;
-
-    row.addEventListener(
-      "mousedown",
-      e=>{
-
-        isDown = true;
-
-        mouseX =
-          e.pageX - row.offsetLeft;
-
-        mouseScroll =
-          row.scrollLeft;
-
-      }
-    );
-
-    row.addEventListener(
-      "mouseleave",
-      ()=>{
-
-        isDown = false;
-
-      }
-    );
-
-    row.addEventListener(
-      "mouseup",
-      ()=>{
-
-        isDown = false;
-
-      }
-    );
-
-    row.addEventListener(
-      "mousemove",
-      e=>{
-
-        if(!isDown) return;
-
-        e.preventDefault();
-
-        const x =
-          e.pageX - row.offsetLeft;
-
-        const walk =
-          (x - mouseX) * 2;
-
-        row.scrollLeft =
-          mouseScroll - walk;
-
-      }
-    );
-
-    /* ===== CARDS ===== */
-
-    channels.forEach(ch=>{
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "card-item";
-
-      card.tabIndex = 0;
-
-      card.innerHTML = `
-        <img
-          data-src="${ch.logo}"
-          class="lazy"
-          loading="lazy"
-        >
-
-        <p>${ch.name}</p>
-      `;
-
-      /* ===== CLICK ===== */
-
-      card.onclick = ()=>{
-
-        playChannel(ch);
-
-      };
-
-      /* ===== ENTER KEY ===== */
-
-      card.addEventListener(
-        "keydown",
-        e=>{
-
-          if(
-            e.key === "Enter" ||
-            e.key === " "
-          ){
-
-            e.preventDefault();
-
-            playChannel(ch);
-
-          }
-
-          /* ===== TV REMOTE ===== */
-
-          if(e.key === "ArrowRight"){
-
-            const next =
-              card.nextElementSibling;
-
-            if(next){
-
-              next.focus();
-
-            }
-
-          }
-
-          if(e.key === "ArrowLeft"){
-
-            const prev =
-              card.previousElementSibling;
-
-            if(prev){
-
-              prev.focus();
-
-            }
-
-          }
-
-        }
-      );
-
-      row.appendChild(card);
-
-    });
-
-    wrapper.appendChild(leftBtn);
-
-    wrapper.appendChild(row);
-
-    wrapper.appendChild(rightBtn);
-
-    container.appendChild(wrapper);
-
-  }
-
-  /* ===== LAZY LOAD ===== */
-
-  const lazyImages =
-    document.querySelectorAll(
-      "img.lazy"
-    );
-
-  const observer =
-    new IntersectionObserver(entries=>{
-
-      entries.forEach(entry=>{
-
-        if(entry.isIntersecting){
-
-          entry.target.src =
-            entry.target.dataset.src;
-
-          observer.unobserve(
-            entry.target
-          );
-
-        }
-
-      });
-
-    });
-
-  lazyImages.forEach(img=>
-    observer.observe(img)
-  );
-
-}
-
-/* ================= PLAY ================= */
-
-async function playChannel(ch){
-
-  currentChannel = ch;
-
-  const v =
-    document.getElementById(
-      "videoPlayer"
-    );
+function playMovie(imdbID){
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
+  document.getElementById(
+    "ytFrame"
+  );
 
-  const c =
-    document.getElementById(
-      "videoContainer"
-    );
+  const v =
+  document.getElementById(
+    "videoPlayer"
+  );
 
-  const spinner =
-    document.getElementById(
-      "spinner"
-    );
-
-  c.style.display = "flex";
-
-  spinner.style.display = "block";
+  const container =
+  document.getElementById(
+    "videoContainer"
+  );
 
   v.pause();
 
@@ -1156,208 +761,57 @@ async function playChannel(ch){
 
   v.load();
 
-  yt.src = "";
+  v.style.display =
+  "none";
 
-  yt.style.display = "none";
+  yt.style.display =
+  "block";
 
-  v.style.display = "none";
+  yt.src =
+  `https://vidsrc.to/embed/movie/${imdbID}`;
 
-  /* ===== YOUTUBE ===== */
-
-  if(ch.type === "youtube"){
-
-    yt.style.display = "block";
-
-    yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
-
-    spinner.style.display = "none";
-
-    return;
-
-  }
-
-  /* ===== IFRAME ===== */
-
-  if(ch.type === "iframe"){
-
-    yt.style.display = "block";
-
-    yt.src = ch.manifestUri;
-
-    spinner.style.display = "none";
-
-    return;
-
-  }
-
-  /* ===== MP4 ===== */
-
-  if(ch.type === "mp4"){
-
-    if(shakaPlayer){
-
-      await shakaPlayer.destroy();
-
-      shakaPlayer = null;
-
-    }
-
-    v.style.display = "block";
-
-    v.src = ch.manifestUri;
-
-    v.play();
-
-    spinner.style.display = "none";
-
-    return;
-
-  }
-
-  /* ===== HLS / DASH ===== */
-
-  v.style.display = "block";
-
-  shakaPlayer ??=
-    new shaka.Player(v);
-
-  await shakaPlayer.unload();
-
-  try{
-
-    await shakaPlayer.load(
-      ch.manifestUri
-    );
-
-    spinner.style.display =
-      "none";
-
-    v.play();
-
-  }
-
-  catch(e){
-
-    spinner.style.display =
-      "none";
-
-    alert("Playback Error");
-
-  }
+  container.style.display =
+  "flex";
 
 }
 
-/* ================= CLOSE ================= */
+/* ================= CLOSE PLAYER ================= */
 
-document.getElementById(
+document
+.getElementById(
   "closeBtn"
-).onclick = ()=>{
-
-  const v =
-    document.getElementById(
-      "videoPlayer"
-    );
+)
+.onclick = ()=>{
 
   const yt =
-    document.getElementById(
-      "ytFrame"
-    );
-
   document.getElementById(
-    "videoContainer"
-  ).style.display = "none";
-
-  v.pause();
+    "ytFrame"
+  );
 
   yt.src = "";
+
+  document
+  .getElementById(
+    "videoContainer"
+  )
+  .style.display =
+  "none";
 
 };
 
-/* ================= SEARCH ================= */
+/* ================= ENTER SEARCH ================= */
 
-const searchInput =
-  document.getElementById(
-    "searchInput"
-  );
-
-function searchChannels(){
-
-  const val =
-    searchInput.value.toLowerCase();
-
-  const filtered =
-    staticChannels.filter(ch=>
-
-      ch.name
-      .toLowerCase()
-      .includes(val)
-
-      ||
-
-      ch.category
-      .toLowerCase()
-      .includes(val)
-
-    );
-
-  render(filtered);
-
-}
-
-searchInput.addEventListener(
-  "input",
-  searchChannels
-);
-
-document.getElementById(
-  "searchBtn"
-).onclick = searchChannels;
-
-/* ================= TV REMOTE ================= */
-
-document.addEventListener(
-  "keydown",
+document
+.getElementById(
+  "movieSearchInput"
+)
+.addEventListener(
+  "keypress",
   e=>{
 
-    const focused =
-      document.activeElement;
+    if(e.key === "Enter"){
 
-    if(
-      e.key === "ArrowDown"
-    ){
-
-      const next =
-        focused.parentElement
-        ?.parentElement
-        ?.nextElementSibling
-        ?.querySelector(".card-item");
-
-      if(next){
-
-        next.focus();
-
-      }
-
-    }
-
-    if(
-      e.key === "ArrowUp"
-    ){
-
-      const prev =
-        focused.parentElement
-        ?.parentElement
-        ?.previousElementSibling
-        ?.querySelector(".card-item");
-
-      if(prev){
-
-        prev.focus();
-
-      }
+      searchMovies();
 
     }
 
@@ -1366,7 +820,11 @@ document.addEventListener(
 
 /* ================= INIT ================= */
 
-window.onload = fetchChannels;
+window.onload = ()=>{
+
+  searchMovies("Avengers");
+
+};
 
 </script>
 
