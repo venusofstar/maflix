@@ -42,7 +42,12 @@ body{
   touch-action:pan-y;
 }
 
-/* ================= TV / TOUCH ================= */
+/* ================= GLOBAL ================= */
+
+img{
+  display:block;
+  max-width:100%;
+}
 
 button,
 a,
@@ -68,34 +73,40 @@ input:focus,
   left:0;
   width:100%;
   z-index:999;
-  padding:15px 25px;
+  padding:12px 18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:15px;
+
   background:
   linear-gradient(
     to bottom,
     rgba(0,0,0,.95),
+    rgba(0,0,0,.35),
     transparent
   );
+
   backdrop-filter:blur(10px);
 }
 
 #leftNav{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:12px;
+  min-width:0;
 }
 
 #menuBtn{
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#1b1b1b;
   color:#fff;
   font-size:22px;
   cursor:pointer;
+  flex-shrink:0;
   transition:.2s;
 }
 
@@ -107,9 +118,10 @@ input:focus,
 
 #appTitle{
   color:#e50914;
-  font-size:32px;
+  font-size:clamp(22px,4vw,38px);
   font-weight:bold;
   letter-spacing:1px;
+  white-space:nowrap;
 }
 
 /* ================= SEARCH ================= */
@@ -118,22 +130,28 @@ input:focus,
   display:flex;
   align-items:center;
   background:#1b1b1b;
-  border-radius:30px;
+  border-radius:50px;
   overflow:hidden;
+  flex-shrink:0;
 }
 
 #searchInput{
   width:220px;
-  padding:10px 15px;
+  height:46px;
+  padding:0 15px;
   border:none;
   background:transparent;
   color:#fff;
   font-size:15px;
 }
 
+#searchInput::placeholder{
+  color:#aaa;
+}
+
 #searchBtn{
-  width:50px;
-  height:42px;
+  width:52px;
+  height:46px;
   border:none;
   background:#e50914;
   color:#fff;
@@ -146,16 +164,36 @@ input:focus,
 #sidebar{
   position:fixed;
   top:0;
-  left:-280px;
-  width:260px;
-  height:100%;
+  left:-320px;
+  width:280px;
+  max-width:85%;
+  height:100dvh;
+
   background:#111;
   z-index:5000;
+
   padding:20px;
+
   transition:.3s;
+
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:14px;
+
+  overflow-y:auto;
+  overscroll-behavior:contain;
+
+  scrollbar-width:thin;
+  scrollbar-color:#e50914 #111;
+}
+
+#sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
 }
 
 #sidebar.active{
@@ -166,31 +204,45 @@ input:focus,
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:10px;
+  position:sticky;
+  top:0;
+  background:#111;
+  padding-bottom:10px;
+  z-index:10;
 }
 
 #sidebarHeader h2{
   color:#e50914;
+  font-size:28px;
 }
 
 #closeMenu{
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   background:#1b1b1b;
   color:#fff;
   font-size:18px;
   cursor:pointer;
 }
 
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding-bottom:50px;
+}
+
 #sidebar a{
   color:#fff;
   text-decoration:none;
-  padding:14px;
-  border-radius:10px;
+  padding:15px;
+  border-radius:12px;
   background:#1a1a1a;
   transition:.2s;
+  font-size:16px;
 }
 
 #sidebar a:hover,
@@ -215,35 +267,45 @@ input:focus,
 #hero{
   position:relative;
   width:100%;
-  height:85vh;
+  min-height:85vh;
+
   background:
   linear-gradient(
     to top,
-    rgba(0,0,0,.9),
+    rgba(0,0,0,.92),
     rgba(0,0,0,.2)
   ),
   url(
 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
   )
   center/cover no-repeat;
+
   display:flex;
   align-items:center;
-  padding:80px;
+
+  padding:
+  clamp(20px,5vw,80px);
+
+  padding-top:100px;
 }
 
 .heroContent{
-  max-width:500px;
+  max-width:650px;
 }
 
 .heroContent h2{
-  font-size:60px;
+  font-size:
+  clamp(34px,7vw,72px);
+
   margin-bottom:15px;
 }
 
 .heroContent p{
   color:#ddd;
-  line-height:1.6;
+  line-height:1.7;
   margin-bottom:25px;
+  font-size:
+  clamp(14px,2vw,20px);
 }
 
 .heroButtons{
@@ -253,9 +315,10 @@ input:focus,
 }
 
 .heroButtons button{
-  padding:12px 28px;
+  min-height:48px;
+  padding:12px 26px;
   border:none;
-  border-radius:5px;
+  border-radius:8px;
   font-size:16px;
   cursor:pointer;
   font-weight:bold;
@@ -280,28 +343,36 @@ input:focus,
 /* ================= CHANNELS ================= */
 
 #channelSections{
-  padding:20px;
+  padding:15px;
 }
 
 .category-wrapper{
   position:relative;
-  margin-bottom:40px;
+  margin-bottom:35px;
 }
 
 .category-wrapper h2{
-  margin:20px 0 15px;
-  font-size:24px;
+  margin:15px 0;
+  font-size:
+  clamp(20px,3vw,32px);
+  padding-left:10px;
 }
 
 /* ================= SLIDER ================= */
 
 .horizontal-scroll{
   display:flex;
-  gap:15px;
-  overflow-x:hidden;
+  gap:14px;
+
+  overflow-x:auto;
+  overflow-y:hidden;
+
   scroll-behavior:smooth;
-  padding-inline:55px;
+
+  padding-inline:60px;
   padding-bottom:10px;
+
+  scrollbar-width:none;
 }
 
 .horizontal-scroll::-webkit-scrollbar{
@@ -311,21 +382,29 @@ input:focus,
 /* ================= CARD ================= */
 
 .card-item{
-  min-width:220px;
-  width:220px;
-  height:320px;
-  border-radius:12px;
+  min-width:170px;
+  width:170px;
+  height:255px;
+
+  border-radius:14px;
   overflow:hidden;
+
   position:relative;
   cursor:pointer;
+
   background:#181818;
-  transition:.25s;
+
+  transition:
+  transform .25s,
+  box-shadow .25s;
+
   flex-shrink:0;
 }
 
 .card-item:hover,
 .card-item:focus{
-  transform:scale(1.08);
+  transform:scale(1.06);
+  box-shadow:0 10px 25px rgba(0,0,0,.5);
 }
 
 .card-item img{
@@ -338,14 +417,16 @@ input:focus,
   position:absolute;
   bottom:0;
   width:100%;
-  padding:15px;
+  padding:14px;
+
   background:
   linear-gradient(
     to top,
-    rgba(0,0,0,.95),
+    rgba(0,0,0,.96),
     transparent
   );
-  font-size:18px;
+
+  font-size:16px;
   font-weight:bold;
 }
 
@@ -355,16 +436,24 @@ input:focus,
   position:absolute;
   top:55%;
   transform:translateY(-50%);
-  width:55px;
+
+  width:52px;
   height:95px;
+
   border:none;
   border-radius:14px;
+
   background:rgba(0,0,0,.7);
+
   color:#fff;
   font-size:34px;
+
   cursor:pointer;
   z-index:10;
+
   backdrop-filter:blur(8px);
+
+  transition:.2s;
 }
 
 .slideBtn:hover,
@@ -385,33 +474,42 @@ input:focus,
 #videoContainer{
   position:fixed;
   inset:0;
+
   background:#000;
+
   display:none;
   align-items:center;
   justify-content:center;
+
   z-index:9999;
 }
 
 #videoPlayer,
 #ytFrame{
-  width:90%;
-  height:85%;
+  width:min(95vw,1600px);
+  height:min(85vh,900px);
+
   border:none;
-  border-radius:10px;
+  border-radius:12px;
+
   background:#000;
 }
 
 #closeBtn{
   position:absolute;
-  top:20px;
-  right:20px;
-  width:45px;
-  height:45px;
+  top:15px;
+  right:15px;
+
+  width:48px;
+  height:48px;
+
   border:none;
   border-radius:50%;
+
   background:#e50914;
   color:#fff;
-  font-size:20px;
+
+  font-size:22px;
   cursor:pointer;
 }
 
@@ -419,84 +517,120 @@ input:focus,
   border:5px solid rgba(255,255,255,.2);
   border-top:5px solid #e50914;
   border-radius:50%;
-  width:50px;
-  height:50px;
+
+  width:52px;
+  height:52px;
+
   animation:spin 1s linear infinite;
+
   position:absolute;
   display:none;
 }
 
 @keyframes spin{
-
   100%{
     transform:rotate(360deg);
   }
-
 }
 
 /* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
-  #hero{
-    height:70vh;
-    padding:30px;
-  }
-
-  .heroContent h2{
-    font-size:38px;
-  }
-
-  .card-item{
-    min-width:160px;
-    width:160px;
-    height:240px;
+  #navbar{
+    padding:10px 12px;
   }
 
   #searchInput{
+    width:120px;
+    font-size:14px;
+  }
+
+  #hero{
+    min-height:65vh;
+    padding:20px;
+    padding-top:100px;
+  }
+
+  .card-item{
+    min-width:140px;
     width:140px;
+    height:210px;
+  }
+
+  .card-item p{
+    font-size:14px;
   }
 
   .slideBtn{
-    width:42px;
-    height:70px;
-    font-size:24px;
+    width:40px;
+    height:65px;
+    font-size:22px;
+  }
+
+  .horizontal-scroll{
+    padding-inline:42px;
+  }
+
+  #videoPlayer,
+  #ytFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
   }
 
 }
 
 /* ================= SMART TV ================= */
 
-@media(min-width:1200px){
+@media(min-width:1400px){
 
-  .card-item{
-    min-width:260px;
-    width:260px;
-    height:380px;
+  body{
+    font-size:20px;
   }
 
-  .slideBtn{
-    width:70px;
-    height:130px;
-    font-size:42px;
+  #navbar{
+    padding:20px 30px;
+  }
+
+  #appTitle{
+    font-size:50px;
   }
 
   #searchInput{
-    width:320px;
-    height:60px;
+    width:340px;
+    height:62px;
     font-size:20px;
   }
 
   #searchBtn,
   #menuBtn,
   #closeMenu{
-    width:60px;
-    height:60px;
+    width:62px;
+    height:62px;
     font-size:28px;
   }
 
-  #appTitle{
-    font-size:42px;
+  .card-item{
+    min-width:300px;
+    width:300px;
+    height:430px;
+  }
+
+  .card-item p{
+    font-size:22px;
+  }
+
+  .slideBtn{
+    width:74px;
+    height:140px;
+    font-size:46px;
+  }
+
+  .heroButtons button{
+    min-height:64px;
+    padding:16px 36px;
+    font-size:22px;
   }
 
 }
@@ -544,17 +678,23 @@ input:focus,
 
   </div>
 
-  <a href="index.html">🏠 Home</a>
+  <div class="sidebarLinks">
 
-  <a href="anime/index.html">🎌 Anime</a>
+    <a href="index.html">🏠 Home</a>
 
-  <a href="drama-tagalod-dudbed/index.html">
-    🎭 Tagalog Dubbed Drama
-  </a>
+    <a href="anime/index.html">🎌 Anime</a>
 
-  <a href="tv-channel.html">📺 TV Channels</a>
+    <a href="drama-tagalod-dudbed/index.html">
+      🎭 Tagalog Dubbed Drama
+    </a>
 
-  <a href="sports-event.html">⚽ Sports Event</a>
+    <a href="tv-channel.html">📺 TV Channels</a>
+
+    <a href="sports-event.html">⚽ Sports Event</a>
+
+    <a href="vivamax.html">🎬 Viva Max</a>
+
+  </div>
 
 </div>
 
@@ -786,8 +926,6 @@ async function fetchChannels(){
 
     let allChannels = [];
 
-    /* channels.json */
-
     try{
 
       const res1 =
@@ -811,8 +949,6 @@ async function fetchChannels(){
       );
 
     }
-
-    /* channels2.json */
 
     try{
 
@@ -955,18 +1091,13 @@ function slideRow(rowId,direction){
   const row =
   document.getElementById(rowId);
 
-  const card =
-  row.querySelector(".card-item");
-
-  if(!card) return;
-
-  const amount =
-  card.offsetWidth * 3;
+  const scrollAmount =
+  row.clientWidth * 0.85;
 
   row.scrollBy({
 
     left:
-    direction * amount,
+    direction * scrollAmount,
 
     behavior:"smooth"
 
@@ -999,6 +1130,24 @@ document.addEventListener(
         active.click();
 
       }
+
+    }
+
+    if(e.key === "ArrowDown"){
+
+      window.scrollBy({
+        top:300,
+        behavior:"smooth"
+      });
+
+    }
+
+    if(e.key === "ArrowUp"){
+
+      window.scrollBy({
+        top:-300,
+        behavior:"smooth"
+      });
 
     }
 
@@ -1049,8 +1198,6 @@ async function playChannel(ch){
   v.style.display =
   "none";
 
-  /* ================= YOUTUBE ================= */
-
   if(ch.type === "youtube"){
 
     yt.style.display =
@@ -1068,8 +1215,6 @@ async function playChannel(ch){
 
   }
 
-  /* ================= IFRAME ================= */
-
   if(ch.type === "iframe"){
 
     yt.style.display =
@@ -1084,8 +1229,6 @@ async function playChannel(ch){
     return;
 
   }
-
-  /* ================= MP4 ================= */
 
   if(ch.type === "mp4"){
 
@@ -1115,8 +1258,6 @@ async function playChannel(ch){
     return;
 
   }
-
-  /* ================= HLS / DASH ================= */
 
   v.style.display =
   "block";
