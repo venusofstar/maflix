@@ -1,0 +1,540 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
+}
+
+/* IMAGES */
+
+img{
+  width:100%;
+  display:block;
+}
+
+a{
+  text-decoration:none;
+  color:#fff;
+}
+
+/* OVERLAY */
+
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:9998;
+  opacity:0;
+  visibility:hidden;
+  transition:.3s;
+}
+
+#overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+
+/* SIDEBAR */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-280px;
+  width:280px;
+  height:100vh;
+  background:#111;
+  z-index:9999;
+  padding:20px;
+  transition:.3s;
+  overflow-y:auto;
+  border-right:1px solid #222;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:25px;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+  font-size:30px;
+}
+
+#closeMenu{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.sidebarLinks a{
+  padding:14px;
+  border-radius:12px;
+  background:#1a1a1a;
+  transition:.2s;
+}
+
+.sidebarLinks a:hover{
+  background:#e50914;
+  transform:translateX(5px);
+}
+
+/* NAVBAR */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:999;
+
+  padding:14px 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  background:rgba(0,0,0,.88);
+  backdrop-filter:blur(12px);
+}
+
+/* LEFT NAV */
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+#menuBtn{
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:12px;
+  background:#e50914;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:30px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* SEARCH */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  max-width:450px;
+}
+
+#movieSearchInput{
+  flex:1;
+  height:48px;
+  border:none;
+  border-radius:12px;
+  background:#1b1b1b;
+  color:#fff;
+  padding:0 15px;
+  outline:none;
+  font-size:15px;
+}
+
+#searchBtn{
+  height:48px;
+  padding:0 18px;
+  border:none;
+  border-radius:12px;
+  background:#e50914;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* HERO */
+
+#hero{
+  min-height:80vh;
+
+  background:
+  linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.3)),
+  url('https://i.imgur.com/w4NFeXx.png')
+  center/cover no-repeat;
+
+  display:flex;
+  align-items:center;
+
+  padding:130px 25px 40px;
+}
+
+.heroContent{
+  max-width:650px;
+}
+
+.heroContent h1{
+  font-size:65px;
+  margin-bottom:18px;
+  line-height:1.1;
+}
+
+.heroContent p{
+  color:#ddd;
+  margin-bottom:25px;
+  line-height:1.7;
+}
+
+.heroButtons{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.heroButtons button{
+  border:none;
+  border-radius:12px;
+  padding:14px 24px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+/* CONTENT */
+
+#content{
+  padding:20px;
+}
+
+.section{
+  margin-bottom:50px;
+}
+
+.sectionHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.sectionHeader h2{
+  font-size:28px;
+}
+
+/* SLIDER BUTTONS */
+
+.sliderButtons{
+  display:flex;
+  gap:10px;
+}
+
+.slideBtn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#1d1d1d;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.slideBtn:hover{
+  background:#e50914;
+  transform:scale(1.08);
+}
+
+/* ROW */
+
+.row{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:5px;
+}
+
+.row::-webkit-scrollbar{
+  display:none;
+}
+
+/* CARD */
+
+.card{
+  min-width:190px;
+  width:190px;
+  height:285px;
+
+  background:#181818;
+  border-radius:16px;
+
+  overflow:hidden;
+  position:relative;
+
+  flex-shrink:0;
+  scroll-snap-align:start;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:scale(1.04);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card p{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:14px;
+  font-size:14px;
+  font-weight:600;
+
+  background:
+  linear-gradient(to top,rgba(0,0,0,.95),transparent);
+}
+
+/* PLAYER */
+
+#playerModal{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+
+#videoFrame{
+  width:min(95vw,1600px);
+  height:min(88vh,900px);
+  border:none;
+  border-radius:14px;
+}
+
+#closePlayer{
+  position:absolute;
+  top:15px;
+  right:15px;
+
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* SERVER BUTTONS */
+
+.serverButtons{
+  position:absolute;
+  top:15px;
+  left:15px;
+  z-index:1000;
+  display:flex;
+  gap:10px;
+}
+
+.serverButtons button{
+  padding:10px 16px;
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.server1{
+  background:#e50914;
+}
+
+.server2{
+  background:#222;
+}
+
+.loading{
+  padding:20px;
+  color:#aaa;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .heroContent h1{
+    font-size:46px;
+  }
+
+  .card{
+    min-width:160px;
+    width:160px;
+    height:240px;
+  }
+
+  .sectionHeader h2{
+    font-size:23px;
+  }
+
+  #movieSearchInput{
+    height:44px;
+  }
+
+  #searchBtn{
+    height:44px;
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  #navbar{
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px;
+  }
+
+  #leftNav{
+    gap:10px;
+  }
+
+  #appTitle{
+    font-size:24px;
+  }
+
+  #searchBox{
+    max-width:none;
+    width:auto;
+    flex:1;
+  }
+
+  #movieSearchInput{
+    min-width:0;
+    width:100%;
+    height:42px;
+    font-size:14px;
+  }
+
+  #searchBtn{
+    height:42px;
+    padding:0 14px;
+    font-size:13px;
+  }
+
+  #hero{
+    min-height:70vh;
+    padding:120px 18px 40px;
+  }
+
+  .heroContent h1{
+    font-size:34px;
+  }
+
+  .heroContent p{
+    font-size:14px;
+  }
+
+  .heroButtons{
+    flex-direction:column;
+  }
+
+  .heroButtons button{
+    width:100%;
+  }
+
+  .card{
+    min-width:135px;
+    width:135px;
+    height:205px;
+  }
+
+  .slideBtn{
+    width:35px;
+    height:35px;
+    font-size:16px;
+  }
+
+  #videoFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
+  }
+
+  .serverButtons{
+    top:10px;
+    left:10px;
+  }
+
+  .serverButtons button{
+    padding:8px 12px;
+    font-size:12px;
+  }
+}
