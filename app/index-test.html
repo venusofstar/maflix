@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,110 +56,6 @@ img{
   );
 
   backdrop-filter:blur(10px);
-}
-
-#sidebar{
-  position:fixed;
-  top:0;
-  left:-320px;
-
-  width:280px;
-  max-width:85%;
-  height:100vh;
-
-  background:#111;
-
-  z-index:5000;
-
-  padding:20px;
-
-  transition:.3s;
-
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-
-  overflow-y:auto;
-
-  box-shadow:0 0 30px rgba(0,0,0,.5);
-}
-
-#sidebar.active{
-  left:0;
-}
-
-#sidebarHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-#sidebarHeader h2{
-  color:#e50914;
-  font-size:30px;
-}
-
-#closeMenu{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:10px;
-  background:#1b1b1b;
-  color:#fff;
-  font-size:18px;
-  cursor:pointer;
-}
-
-.sidebarLinks{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.sidebarLinks a{
-  color:#fff;
-  text-decoration:none;
-  padding:15px;
-  border-radius:12px;
-  background:#1a1a1a;
-  transition:.2s;
-  font-size:16px;
-}
-
-.sidebarLinks a:hover,
-.sidebarLinks a:focus{
-  background:#e50914;
-  transform:translateX(5px);
-}
-
-#menuOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:4000;
-  display:none;
-  backdrop-filter:blur(4px);
-}
-
-#menuOverlay.active{
-  display:block;
-}
-
-#menuBtn{
-  width:46px;
-  height:46px;
-  border:none;
-  border-radius:12px;
-  background:#1b1b1b;
-  color:#fff;
-  font-size:22px;
-  cursor:pointer;
-  margin-right:12px;
-}
-
-#menuBtn:hover{
-  background:#e50914;
 }
 
 #appTitle{
@@ -407,51 +304,11 @@ img{
 </head>
 <body>
 
-<!-- SIDEBAR -->
-
-<div id="sidebar">
-
-  <div id="sidebarHeader">
-
-    <h2>MAFLIX</h2>
-
-    <button id="closeMenu">✕</button>
-
-  </div>
-
-  <div class="sidebarLinks">
-
-    <a href="index.html">🏠 Home</a>
-
-    <a href="anime/index.html">🎌 Anime</a>
-
-    <a href="drama-tagalod-dudbed/index.html">
-      🎭 Tagalog Dubbed Drama
-    </a>
-
-    <a href="tv-channel.html">📺 TV Channels</a>
-
-    <a href="sports-event.html">⚽ Sports Event</a>
-
-    <a href="vivamax.html">🎬 Viva Max</a>
-
-  </div>
-
-</div>
-
-<div id="menuOverlay"></div>
-
 <!-- NAVBAR -->
 
 <div id="navbar">
 
-  <div style="display:flex;align-items:center;gap:12px;">
-
-    <button id="menuBtn">☰</button>
-
-    <h1 id="appTitle">MAFLIX</h1>
-
-  </div>
+  <h1 id="appTitle">MAFLIX</h1>
 
   <div id="searchBox">
 
@@ -600,73 +457,6 @@ img{
 </div>
 
 <script>
-
-/* SIDEBAR */
-
-const menuBtn =
-document.getElementById(
-  "menuBtn"
-);
-
-const sidebar =
-document.getElementById(
-  "sidebar"
-);
-
-const closeMenu =
-document.getElementById(
-  "closeMenu"
-);
-
-const menuOverlay =
-document.getElementById(
-  "menuOverlay"
-);
-
-menuBtn.onclick = ()=>{
-
-  sidebar.classList.add(
-    "active"
-  );
-
-  menuOverlay.classList.add(
-    "active"
-  );
-
-};
-
-function closeSidebar(){
-
-  sidebar.classList.remove(
-    "active"
-  );
-
-  menuOverlay.classList.remove(
-    "active"
-  );
-
-}
-
-closeMenu.onclick =
-closeSidebar;
-
-menuOverlay.onclick =
-closeSidebar;
-
-/* ESC CLOSE */
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    if(e.key === "Escape"){
-
-      closeSidebar();
-
-    }
-
-  }
-);
 
 const API_KEY = "90521a18";
 
@@ -870,37 +660,11 @@ function playMovie(
     "videoFrame"
   );
 
-  modal.style.display =
-  "flex";
-
-  /* SERVER 1 */
-  const server1 =
+  frame.src =
   `https://vidsrc.to/embed/movie/${imdbID}`;
 
-  /* SERVER 2 */
-  const server2 =
-  `https://videosrc2.com/embed/movies/${imdbID}`;
-
-  frame.src = server1;
-
-  /* fallback to server 2 */
-  setTimeout(()=>{
-
-    try{
-
-      if(!frame.contentWindow){
-
-        frame.src = server2;
-
-      }
-
-    }catch(e){
-
-      frame.src = server2;
-
-    }
-
-  },5000);
+  modal.style.display =
+  "flex";
 
   localStorage.setItem(
     "continueMovie",
@@ -914,9 +678,10 @@ function playMovie(
   );
 
   renderContinueWatching();
+
 }
 
-/* CONTINUE WATCHING */ */
+/* CONTINUE WATCHING */
 
 function renderContinueWatching(){
 
@@ -1119,3 +884,4 @@ window.onload = ()=>{
 
 </body>
 </html>
+```
