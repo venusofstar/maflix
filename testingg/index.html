@@ -250,9 +250,9 @@ function openPlayer(imdbID, type){
 
   // Movie or TV Series
   if(type === "series"){
-    frame.src = `https://vidsrc.xyz/embed/tv/${imdbID}`;
+    frame.src = `https://streamimdb.ru/embed/movie/${imdbID}`;
   }else{
-    frame.src = `https://vidsrc.xyz/embed/movie/${imdbID}`;
+    frame.src = `https://streamimdb.ru/embed/movie/${imdbID}`;
   }
 
   modal.style.display = "flex";
