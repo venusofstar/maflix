@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+
 <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1"
 />
 
-<title>MAFLIX Player</title>
-
-<meta name="theme-color" content="#0b0f1a" />
+<title>MAFLIX HLS Player</title>
 
 <style>
+
 *{
   margin:0;
   padding:0;
@@ -23,10 +23,10 @@ html,body{
   height:100%;
   background:#000;
   overflow:hidden;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,sans-serif;
 }
 
-#player-container{
+#container{
   position:relative;
   width:100%;
   height:100vh;
@@ -45,48 +45,43 @@ video{
   top:0;
   left:0;
   width:100%;
-  padding:14px;
-  z-index:20;
-  background:linear-gradient(to bottom,rgba(0,0,0,.8),transparent);
+  z-index:10;
+  padding:15px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.85),transparent);
+  color:#fff;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
 }
 
 .logo{
   font-size:24px;
   font-weight:bold;
   color:#00bfff;
-  letter-spacing:1px;
 }
 
 .status{
   font-size:14px;
-  color:#fff;
-  background:rgba(0,0,0,.5);
-  padding:6px 12px;
-  border-radius:20px;
 }
 
-.center-loader{
+.loader{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  z-index:30;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:15px;
+  z-index:20;
   color:#fff;
+  text-align:center;
 }
 
 .spinner{
-  width:55px;
-  height:55px;
+  width:60px;
+  height:60px;
   border:5px solid rgba(255,255,255,.2);
   border-top:5px solid #00bfff;
   border-radius:50%;
+  margin:auto;
+  margin-bottom:15px;
   animation:spin 1s linear infinite;
 }
 
@@ -96,184 +91,191 @@ video{
   }
 }
 
-.bottom-controls{
+.controls{
   position:absolute;
   bottom:0;
   left:0;
   width:100%;
   padding:15px;
-  z-index:25;
-  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  z-index:10;
   display:flex;
+  justify-content:center;
   gap:10px;
   flex-wrap:wrap;
-  justify-content:center;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
 }
 
 button{
   border:none;
-  outline:none;
   background:#00bfff;
   color:#fff;
   padding:12px 18px;
   border-radius:10px;
-  font-size:15px;
   cursor:pointer;
-  transition:.2s;
+  font-size:15px;
 }
 
 button:hover{
   opacity:.85;
 }
 
-.error-box{
+#error{
   position:absolute;
   inset:0;
+  background:#000;
+  color:#fff;
   display:none;
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  gap:15px;
-  color:#fff;
-  background:#000;
-  z-index:40;
+  z-index:50;
   text-align:center;
   padding:20px;
 }
 
-.error-box h2{
-  color:#ff4b4b;
+#error h2{
+  color:#ff4444;
+  margin-bottom:10px;
 }
 
 @media(max-width:768px){
+
+  button{
+    width:48%;
+  }
 
   .logo{
     font-size:20px;
   }
 
-  button{
-    width:48%;
-    font-size:14px;
-    padding:11px;
-  }
-
 }
 
-@media(min-width:1200px){
-
-  button{
-    font-size:16px;
-  }
-
-}
 </style>
 </head>
 <body>
 
-<div id="player-container">
+<div id="container">
 
   <div class="topbar">
     <div class="logo">MAFLIX</div>
-    <div class="status" id="status">Loading...</div>
+    <div class="status" id="status">Connecting...</div>
   </div>
 
   <video
     id="video"
     controls
-    autoplay
     playsinline
     webkit-playsinline
-    preload="auto">
+    preload="auto"
+    autoplay
+    muted>
   </video>
 
-  <div class="center-loader" id="loader">
+  <div class="loader" id="loader">
     <div class="spinner"></div>
     <div>Loading Stream...</div>
   </div>
 
-  <div class="bottom-controls">
+  <div class="controls">
 
     <button onclick="togglePlay()">Play / Pause</button>
 
-    <button onclick="goFullscreen()">Fullscreen</button>
-
-    <button onclick="reloadVideo()">Reload</button>
+    <button onclick="skipBack()">-10s</button>
 
     <button onclick="skipForward()">+10s</button>
 
-    <button onclick="skipBack()">-10s</button>
+    <button onclick="fullscreen()">Fullscreen</button>
+
+    <button onclick="reloadPlayer()">Reload</button>
 
   </div>
 
-  <div class="error-box" id="errorBox">
-    <h2>Playback Error</h2>
-    <p>This stream cannot be played.</p>
-    <button onclick="reloadVideo()">Retry</button>
+  <div id="error">
+    <h2>Stream Failed</h2>
+    <p>Cannot load this M3U8 stream.</p>
+    <button onclick="reloadPlayer()">Retry</button>
   </div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 
 <script>
-const video = document.getElementById('video');
-const loader = document.getElementById('loader');
-const statusText = document.getElementById('status');
-const errorBox = document.getElementById('errorBox');
+
+const video = document.getElementById("video");
+const loader = document.getElementById("loader");
+const statusText = document.getElementById("status");
+const errorBox = document.getElementById("error");
 
 /*
-=========================================
-MAIN M3U8 STREAM
-=========================================
+========================================
+YOUR M3U8 STREAM
+========================================
 */
 
-const videoSrc =
-'https://hls03.cdnvideo11.shop/Devils-Stay.2024Ep1.m3u8?v=fmg3xvzlkpw';
+const streamURL =
+"https://hls03.cdnvideo11.shop/Devils-Stay.2024Ep1.m3u8?v=fmg3xvzlkpw";
 
 /*
-=========================================
-LOAD PLAYER
-=========================================
+========================================
+LOAD STREAM
+========================================
 */
 
-function initPlayer(){
+function startPlayer(){
 
-  loader.style.display = 'flex';
-  errorBox.style.display = 'none';
+  loader.style.display = "block";
+  errorBox.style.display = "none";
 
   if(Hls.isSupported()){
 
     const hls = new Hls({
-      maxBufferLength: 30,
-      enableWorker: true,
-      lowLatencyMode: true,
+      enableWorker:true,
+      lowLatencyMode:true,
+      backBufferLength:90
     });
 
-    hls.loadSource(videoSrc);
+    hls.loadSource(streamURL);
 
     hls.attachMedia(video);
 
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+    hls.on(Hls.Events.MANIFEST_PARSED,function(){
 
-      video.play();
+      statusText.innerHTML = "Playing";
 
-      statusText.innerHTML = 'Playing';
-
-      loader.style.display = 'none';
+      video.play()
+      .then(()=>{
+        loader.style.display = "none";
+      })
+      .catch((e)=>{
+        console.log(e);
+      });
 
     });
 
-    hls.on(Hls.Events.ERROR, function(event, data){
+    hls.on(Hls.Events.ERROR,function(event,data){
 
       console.log(data);
 
       if(data.fatal){
 
-        errorBox.style.display = 'flex';
+        switch(data.type){
 
-        loader.style.display = 'none';
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            statusText.innerHTML = "Network Error";
+            hls.startLoad();
+            break;
 
-        statusText.innerHTML = 'Error';
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            statusText.innerHTML = "Media Error";
+            hls.recoverMediaError();
+            break;
+
+          default:
+            showError();
+            break;
+
+        }
 
       }
 
@@ -281,17 +283,17 @@ function initPlayer(){
 
   }
 
-  else if(video.canPlayType('application/vnd.apple.mpegurl')){
+  else if(video.canPlayType("application/vnd.apple.mpegurl")){
 
-    video.src = videoSrc;
+    video.src = streamURL;
 
-    video.addEventListener('loadedmetadata', function(){
+    video.addEventListener("loadedmetadata",function(){
 
       video.play();
 
-      loader.style.display = 'none';
+      loader.style.display = "none";
 
-      statusText.innerHTML = 'Playing';
+      statusText.innerHTML = "Playing";
 
     });
 
@@ -299,41 +301,27 @@ function initPlayer(){
 
   else{
 
-    alert('HLS is not supported on this browser.');
+    showError();
 
   }
 
 }
 
 /*
-=========================================
-VIDEO EVENTS
-=========================================
+========================================
+HELPERS
+========================================
 */
 
-video.addEventListener('waiting', () => {
-  loader.style.display = 'flex';
-  statusText.innerHTML = 'Buffering...';
-});
+function showError(){
 
-video.addEventListener('playing', () => {
-  loader.style.display = 'none';
-  statusText.innerHTML = 'Playing';
-});
+  loader.style.display = "none";
 
-video.addEventListener('pause', () => {
-  statusText.innerHTML = 'Paused';
-});
+  errorBox.style.display = "flex";
 
-video.addEventListener('ended', () => {
-  statusText.innerHTML = 'Finished';
-});
+  statusText.innerHTML = "Failed";
 
-/*
-=========================================
-CONTROLS
-=========================================
-*/
+}
 
 function togglePlay(){
 
@@ -349,12 +337,6 @@ function togglePlay(){
 
 }
 
-function reloadVideo(){
-
-  location.reload();
-
-}
-
 function skipForward(){
 
   video.currentTime += 10;
@@ -367,7 +349,13 @@ function skipBack(){
 
 }
 
-function goFullscreen(){
+function reloadPlayer(){
+
+  location.reload();
+
+}
+
+function fullscreen(){
 
   if(video.requestFullscreen){
 
@@ -377,21 +365,51 @@ function goFullscreen(){
 
     video.webkitRequestFullscreen();
 
-  }else if(video.msRequestFullscreen){
-
-    video.msRequestFullscreen();
-
   }
 
 }
 
 /*
-=========================================
-START PLAYER
-=========================================
+========================================
+VIDEO EVENTS
+========================================
 */
 
-initPlayer();
+video.addEventListener("waiting",()=>{
+
+  loader.style.display = "block";
+
+  statusText.innerHTML = "Buffering...";
+
+});
+
+video.addEventListener("playing",()=>{
+
+  loader.style.display = "none";
+
+  statusText.innerHTML = "Playing";
+
+});
+
+video.addEventListener("pause",()=>{
+
+  statusText.innerHTML = "Paused";
+
+});
+
+video.addEventListener("ended",()=>{
+
+  statusText.innerHTML = "Finished";
+
+});
+
+/*
+========================================
+START
+========================================
+*/
+
+startPlayer();
 
 </script>
 
