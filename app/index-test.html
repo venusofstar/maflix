@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>MAFLIX</title>
 
-<meta
-name="theme-color"
-content="#e50914">
-
-<meta
-name="description"
-content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.">
-
-<script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+<meta name="theme-color" content="#e50914">
+<meta name="description" content="MAFLIX Streaming Platform">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ================= RESET ================= */
 
 *{
   margin:0;
@@ -33,16 +19,11 @@ content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.
   box-sizing:border-box;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
   background:#0b0b0b;
   color:#fff;
   font-family:'Poppins',sans-serif;
   overflow-x:hidden;
-  touch-action:pan-y;
 }
 
 img{
@@ -50,15 +31,7 @@ img{
   max-width:100%;
 }
 
-button,
-a,
-input,
-.card-item{
-  outline:none;
-  -webkit-tap-highlight-color:transparent;
-}
-
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 
 #navbar{
   position:fixed;
@@ -66,7 +39,8 @@ input,
   left:0;
   width:100%;
   z-index:999;
-  padding:12px 18px;
+
+  padding:14px 18px;
 
   display:flex;
   align-items:center;
@@ -83,151 +57,44 @@ input,
   backdrop-filter:blur(10px);
 }
 
-#leftNav{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-#menuBtn{
-  width:46px;
-  height:46px;
-  border:none;
-  border-radius:12px;
-  background:#1b1b1b;
-  color:#fff;
-  font-size:22px;
-  cursor:pointer;
-}
-
-#menuBtn:hover{
-  background:#e50914;
-}
-
 #appTitle{
   color:#e50914;
   font-size:34px;
   font-weight:700;
 }
 
-/* ================= SEARCH ================= */
-
 #searchBox{
   display:flex;
   align-items:center;
-  background:#1b1b1b;
-  border-radius:50px;
-  overflow:hidden;
+  gap:10px;
 }
 
-#searchInput{
-  width:220px;
-  height:46px;
+#movieSearchInput{
+  width:240px;
+  height:48px;
   border:none;
-  background:transparent;
+  border-radius:12px;
+  background:#1b1b1b;
   color:#fff;
   padding:0 15px;
   font-size:15px;
 }
 
-#searchInput::placeholder{
-  color:#aaa;
-}
-
 #searchBtn{
-  width:52px;
-  height:46px;
+  height:48px;
+  padding:0 20px;
   border:none;
-  background:#e50914;
-  color:#fff;
-  cursor:pointer;
-  font-size:18px;
-}
-
-/* ================= SIDEBAR ================= */
-
-#sidebar{
-  position:fixed;
-  top:0;
-  left:-320px;
-
-  width:280px;
-  height:100vh;
-
-  background:#111;
-
-  z-index:5000;
-
-  padding:20px;
-
-  transition:.3s;
-
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-#sidebar.active{
-  left:0;
-}
-
-#sidebarHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-#sidebarHeader h2{
-  color:#e50914;
-  font-size:28px;
-}
-
-#closeMenu{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:10px;
-  background:#1b1b1b;
-  color:#fff;
-  cursor:pointer;
-}
-
-.sidebarLinks{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-#sidebar a{
-  color:#fff;
-  text-decoration:none;
-  background:#1a1a1a;
-  padding:14px;
   border-radius:12px;
-  transition:.2s;
-}
-
-#sidebar a:hover{
   background:#e50914;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
 
-#menuOverlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:4000;
-  display:none;
-}
-
-#menuOverlay.active{
-  display:block;
-}
-
-/* ================= HERO ================= */
+/* HERO */
 
 #hero{
-  min-height:80vh;
+  min-height:75vh;
 
   background:
   linear-gradient(
@@ -235,30 +102,28 @@ input,
     rgba(0,0,0,.95),
     rgba(0,0,0,.3)
   ),
-  url(
-'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
-  )
+  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop')
   center/cover no-repeat;
 
   display:flex;
   align-items:center;
 
-  padding:100px 30px 30px;
+  padding:120px 25px 30px;
 }
 
 .heroContent{
   max-width:650px;
 }
 
-.heroContent h2{
-  font-size:60px;
+.heroContent h1{
+  font-size:65px;
   margin-bottom:15px;
 }
 
 .heroContent p{
   color:#ddd;
   line-height:1.7;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 
 .heroButtons{
@@ -267,10 +132,10 @@ input,
 }
 
 .heroButtons button{
-  padding:13px 26px;
   border:none;
   border-radius:10px;
-  font-weight:bold;
+  padding:14px 26px;
+  font-weight:700;
   cursor:pointer;
 }
 
@@ -284,66 +149,64 @@ input,
   color:#fff;
 }
 
-/* ================= CONTENT ================= */
+/* CONTENT */
 
-#channelSections{
+#content{
   padding:20px;
 }
 
-.category-wrapper{
-  position:relative;
-  margin-bottom:40px;
+.section{
+  margin-bottom:45px;
 }
 
-.category-wrapper h2{
+.section h2{
   margin-bottom:15px;
   font-size:28px;
 }
 
-.horizontal-scroll{
+.row{
   display:flex;
   gap:14px;
-
   overflow-x:auto;
   scrollbar-width:none;
-
   padding-bottom:10px;
 }
 
-.horizontal-scroll::-webkit-scrollbar{
+.row::-webkit-scrollbar{
   display:none;
 }
 
-/* ================= CARD ================= */
+/* CARD */
 
-.card-item{
+.card{
   min-width:180px;
   width:180px;
   height:270px;
 
+  background:#181818;
   border-radius:14px;
   overflow:hidden;
 
   position:relative;
+
   cursor:pointer;
 
-  background:#181818;
-
   transition:.25s;
+
   flex-shrink:0;
 }
 
-.card-item:hover{
+.card:hover{
   transform:scale(1.05);
 }
 
-.card-item img{
+.card img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.card-item p{
+.card p{
   position:absolute;
   bottom:0;
   width:100%;
@@ -353,7 +216,7 @@ input,
   background:
   linear-gradient(
     to top,
-    rgba(0,0,0,.96),
+    rgba(0,0,0,.95),
     transparent
   );
 
@@ -361,12 +224,11 @@ input,
   font-weight:600;
 }
 
-/* ================= PLAYER ================= */
+/* PLAYER */
 
-#videoContainer{
+#playerModal{
   position:fixed;
   inset:0;
-
   background:#000;
 
   display:none;
@@ -376,17 +238,15 @@ input,
   z-index:9999;
 }
 
-#videoPlayer,
-#ytFrame{
+#videoFrame{
   width:min(95vw,1600px);
   height:min(85vh,900px);
-
   border:none;
   border-radius:14px;
   background:#000;
 }
 
-#closeBtn{
+#closePlayer{
   position:absolute;
   top:15px;
   right:15px;
@@ -404,26 +264,34 @@ input,
   cursor:pointer;
 }
 
-/* ================= MOBILE ================= */
+.loading{
+  padding:20px;
+  color:#aaa;
+}
+
+/* MOBILE */
 
 @media(max-width:768px){
 
-  #searchInput{
-    width:120px;
+  #appTitle{
+    font-size:26px;
   }
 
-  .heroContent h2{
-    font-size:38px;
+  #movieSearchInput{
+    width:140px;
   }
 
-  .card-item{
+  .heroContent h1{
+    font-size:42px;
+  }
+
+  .card{
     min-width:140px;
     width:140px;
     height:210px;
   }
 
-  #videoPlayer,
-  #ytFrame{
+  #videoFrame{
     width:100%;
     height:100%;
     border-radius:0;
@@ -432,79 +300,46 @@ input,
 }
 
 </style>
-
 </head>
-
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 
 <div id="navbar">
 
-  <div id="leftNav">
-
-    <button id="menuBtn">☰</button>
-
-    <h1 id="appTitle">MAFLIX</h1>
-
-  </div>
+  <h1 id="appTitle">MAFLIX</h1>
 
   <div id="searchBox">
 
     <input
       type="text"
-      id="searchInput"
-      placeholder="Search channels...">
+      id="movieSearchInput"
+      placeholder="Search movies...">
 
-    <button id="searchBtn">🔍</button>
-
-  </div>
-
-</div>
-
-<!-- ================= SIDEBAR ================= -->
-
-<div id="sidebar">
-
-  <div id="sidebarHeader">
-
-    <h2>MAFLIX</h2>
-
-    <button id="closeMenu">✕</button>
-
-  </div>
-
-  <div class="sidebarLinks">
-
-    <a href="#">🏠 Home</a>
-    <a href="#">🎌 Anime</a>
-    <a href="#">🎭 Drama</a>
-    <a href="#">📺 TV Channels</a>
-    <a href="#">⚽ Sports</a>
+    <button id="searchBtn">
+      Search
+    </button>
 
   </div>
 
 </div>
 
-<div id="menuOverlay"></div>
-
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <section id="hero">
 
   <div class="heroContent">
 
-    <h2>Trending Now</h2>
+    <h1>Unlimited Movies & Series</h1>
 
     <p>
-      Watch movies, anime, sports and live TV
-      with MAFLIX streaming platform.
+      Watch trending movies, anime and TV series instantly on MAFLIX.
     </p>
 
     <div class="heroButtons">
 
       <button class="playBtn">
-        ▶ Watch
+        ▶ Watch Now
       </button>
 
       <button class="infoBtn">
@@ -517,158 +352,98 @@ input,
 
 </section>
 
-<!-- ================= MOVIES ================= -->
+<!-- CONTENT -->
 
-<div id="channelSections">
+<div id="content">
 
-  <div class="category-wrapper">
+  <!-- CONTINUE WATCHING -->
 
-    <h2>🎬 Movies & Series</h2>
+  <div
+    class="section"
+    id="continueSection"
+    style="display:none">
 
-    <div style="
-      display:flex;
-      gap:10px;
-      margin-bottom:20px;
-      flex-wrap:wrap;
-    ">
+    <h2>▶ Continue Watching</h2>
 
-      <input
-        type="text"
-        id="movieSearchInput"
-        placeholder="Search movie or series..."
-        style="
-          flex:1;
-          min-width:220px;
-          height:48px;
-          border:none;
-          border-radius:12px;
-          background:#1b1b1b;
-          color:#fff;
-          padding:0 15px;
-          font-size:15px;
-        ">
+    <div class="row" id="continueGrid"></div>
 
-      <button
-        onclick="searchMovies()"
-        style="
-          height:48px;
-          padding:0 20px;
-          border:none;
-          border-radius:12px;
-          background:#e50914;
-          color:#fff;
-          font-weight:bold;
-          cursor:pointer;
-        ">
-        Search
-      </button>
+  </div>
 
-    </div>
+  <!-- TRENDING -->
 
-    <div
-      class="horizontal-scroll"
-      id="movieGrid">
-    </div>
+  <div class="section">
+
+    <h2>🔥 Trending Movies</h2>
+
+    <div class="row" id="trendingGrid"></div>
+
+  </div>
+
+  <!-- SEARCH -->
+
+  <div class="section">
+
+    <h2>🎬 Search Results</h2>
+
+    <div class="row" id="movieGrid"></div>
 
   </div>
 
 </div>
 
-<!-- ================= PLAYER ================= -->
+<!-- PLAYER -->
 
-<div id="videoContainer">
-
-  <video
-    id="videoPlayer"
-    controls
-    autoplay
-    playsinline
-    style="display:none">
-  </video>
+<div id="playerModal">
 
   <iframe
-    id="ytFrame"
+    id="videoFrame"
     allowfullscreen
     allow="autoplay; fullscreen">
   </iframe>
 
-  <button id="closeBtn">✕</button>
+  <button id="closePlayer">✕</button>
 
 </div>
 
 <script>
 
-/* ================= MENU ================= */
+const API_KEY = "90521a18";
 
-const menuBtn =
-document.getElementById("menuBtn");
+/* TRENDING */
 
-const sidebar =
-document.getElementById("sidebar");
+async function loadTrendingMovies(){
 
-const closeMenu =
-document.getElementById("closeMenu");
+  const keywords = [
+    "Marvel",
+    "Avengers",
+    "Batman",
+    "Fast",
+    "John Wick",
+    "Anime"
+  ];
 
-const menuOverlay =
-document.getElementById("menuOverlay");
-
-menuBtn.onclick = ()=>{
-
-  sidebar.classList.add("active");
-
-  menuOverlay.classList.add("active");
-
-};
-
-function closeSidebar(){
-
-  sidebar.classList.remove("active");
-
-  menuOverlay.classList.remove("active");
-
-}
-
-closeMenu.onclick =
-closeSidebar;
-
-menuOverlay.onclick =
-closeSidebar;
-
-/* ================= OMDB ================= */
-
-const OMDB_API_KEY =
-"90521a18";
-
-/* ================= SEARCH MOVIES ================= */
-
-async function searchMovies(
-  defaultQuery = "Marvel"
-){
+  const randomKeyword =
+  keywords[
+    Math.floor(
+      Math.random() * keywords.length
+    )
+  ];
 
   const grid =
   document.getElementById(
-    "movieGrid"
+    "trendingGrid"
   );
-
-  const input =
-  document.getElementById(
-    "movieSearchInput"
-  );
-
-  const query =
-  input.value.trim() ||
-  defaultQuery;
 
   grid.innerHTML =
-  `<p style="padding:20px;color:#aaa;">
-    Loading...
-  </p>`;
+  `<div class="loading">
+    Loading trending movies...
+  </div>`;
 
   try{
 
     const res =
     await fetch(
-      `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(query)}`
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(randomKeyword)}`
     );
 
     const data =
@@ -676,53 +451,14 @@ async function searchMovies(
 
     grid.innerHTML = "";
 
-    if(!data.Search){
-
-      grid.innerHTML =
-      `<p style="padding:20px;color:#aaa;">
-        No results found.
-      </p>`;
-
-      return;
-
-    }
+    if(!data.Search) return;
 
     data.Search.forEach(movie=>{
 
       const card =
-      document.createElement("div");
+      createMovieCard(movie);
 
-      card.className =
-      "card-item";
-
-      const poster =
-      movie.Poster !== "N/A"
-      ? movie.Poster
-      : "https://via.placeholder.com/300x450";
-
-      card.innerHTML = `
-        <img
-          src="${poster}"
-          loading="lazy">
-
-        <p>
-          ${movie.Title}
-        </p>
-      `;
-
-      card.onclick = ()=>{
-
-        playMovie(
-          movie.imdbID
-        );
-
-      };
-
-      document
-      .getElementById(
-        "movieGrid"
-      )
-      .appendChild(card);
+      grid.appendChild(card);
 
     });
 
@@ -736,70 +472,238 @@ async function searchMovies(
 
 }
 
-/* ================= PLAY MOVIE ================= */
+/* SEARCH */
 
-function playMovie(imdbID){
+async function searchMovies(
+  defaultQuery = "Avengers"
+){
 
-  const yt =
+  const query =
+  document
+  .getElementById(
+    "movieSearchInput"
+  )
+  .value.trim()
+  || defaultQuery;
+
+  const grid =
   document.getElementById(
-    "ytFrame"
+    "movieGrid"
   );
 
-  const v =
-  document.getElementById(
-    "videoPlayer"
-  );
+  grid.innerHTML =
+  `<div class="loading">
+    Loading movies...
+  </div>`;
 
-  const container =
-  document.getElementById(
-    "videoContainer"
-  );
+  try{
 
-  v.pause();
+    const res =
+    await fetch(
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`
+    );
 
-  v.removeAttribute("src");
+    const data =
+    await res.json();
 
-  v.load();
+    grid.innerHTML = "";
 
-  v.style.display =
-  "none";
+    if(!data.Search){
 
-  yt.style.display =
-  "block";
+      grid.innerHTML =
+      `<div class="loading">
+        No movies found.
+      </div>`;
 
-  yt.src =
-  `https://vidsrc.to/embed/movie/${imdbID}`;
+      return;
 
-  container.style.display =
-  "flex";
+    }
+
+    data.Search.forEach(movie=>{
+
+      const card =
+      createMovieCard(movie);
+
+      grid.appendChild(card);
+
+    });
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+  }
 
 }
 
-/* ================= CLOSE PLAYER ================= */
+/* CREATE CARD */
+
+function createMovieCard(movie){
+
+  const card =
+  document.createElement("div");
+
+  card.className = "card";
+
+  const poster =
+  movie.Poster !== "N/A"
+  ? movie.Poster
+  : "https://via.placeholder.com/300x450";
+
+  card.innerHTML = `
+
+    <img
+      src="${poster}"
+      loading="lazy">
+
+    <p>
+      ${movie.Title}
+    </p>
+
+  `;
+
+  card.onclick = ()=>{
+
+    playMovie(
+      movie.imdbID,
+      movie.Title,
+      poster
+    );
+
+  };
+
+  return card;
+
+}
+
+/* PLAY MOVIE */
+
+function playMovie(
+  imdbID,
+  title,
+  poster
+){
+
+  const modal =
+  document.getElementById(
+    "playerModal"
+  );
+
+  const frame =
+  document.getElementById(
+    "videoFrame"
+  );
+
+  frame.src =
+  `https://vidsrc.to/embed/movie/${imdbID}`;
+
+  modal.style.display =
+  "flex";
+
+  localStorage.setItem(
+    "continueMovie",
+    JSON.stringify({
+
+      imdbID,
+      title,
+      poster
+
+    })
+  );
+
+  renderContinueWatching();
+
+}
+
+/* CONTINUE WATCHING */
+
+function renderContinueWatching(){
+
+  const section =
+  document.getElementById(
+    "continueSection"
+  );
+
+  const grid =
+  document.getElementById(
+    "continueGrid"
+  );
+
+  const saved =
+  JSON.parse(
+    localStorage.getItem(
+      "continueMovie"
+    )
+  );
+
+  if(!saved){
+
+    section.style.display =
+    "none";
+
+    return;
+
+  }
+
+  section.style.display =
+  "block";
+
+  grid.innerHTML = "";
+
+  const card =
+  document.createElement("div");
+
+  card.className = "card";
+
+  card.innerHTML = `
+
+    <img src="${saved.poster}">
+
+    <p>
+      ▶ ${saved.title}
+    </p>
+
+  `;
+
+  card.onclick = ()=>{
+
+    playMovie(
+      saved.imdbID,
+      saved.title,
+      saved.poster
+    );
+
+  };
+
+  grid.appendChild(card);
+
+}
+
+/* CLOSE PLAYER */
 
 document
 .getElementById(
-  "closeBtn"
+  "closePlayer"
 )
 .onclick = ()=>{
 
-  const yt =
-  document.getElementById(
-    "ytFrame"
-  );
-
-  yt.src = "";
+  document
+  .getElementById(
+    "playerModal"
+  )
+  .style.display = "none";
 
   document
   .getElementById(
-    "videoContainer"
+    "videoFrame"
   )
-  .style.display =
-  "none";
+  .src = "";
 
 };
 
-/* ================= ENTER SEARCH ================= */
+/* ENTER SEARCH */
 
 document
 .getElementById(
@@ -818,11 +722,27 @@ document
   }
 );
 
-/* ================= INIT ================= */
+/* BUTTON SEARCH */
+
+document
+.getElementById(
+  "searchBtn"
+)
+.onclick = ()=>{
+
+  searchMovies();
+
+};
+
+/* INIT */
 
 window.onload = ()=>{
 
-  searchMovies("Avengers");
+  loadTrendingMovies();
+
+  searchMovies("Marvel");
+
+  renderContinueWatching();
 
 };
 
