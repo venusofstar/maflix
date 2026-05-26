@@ -6,28 +6,37 @@
 
 <meta
 name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1">
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>MAFLIX | Tagalog Dubbed Drama</title>
+
+<meta
+name="description"
+content="Watch Tagalog Dubbed Drama Series on MAFLIX">
 
 <meta
 name="theme-color"
 content="#e50914">
 
-<meta
-name="description"
-content="Watch Tagalog Dubbed Drama Movies and Series on MAFLIX">
-
-<script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"></script>
+<link rel="preconnect" href="https://i.imgur.com">
 
 <style>
 
-/* ================= RESET ================= */
+:root{
+  --bg:#0b0b0b;
+  --card:#181818;
+  --soft:#1b1b1b;
+  --red:#e50914;
+  --text:#fff;
+}
+
+/* RESET */
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html{
@@ -35,14 +44,13 @@ html{
 }
 
 body{
-  background:#0b0b0b;
-  color:#fff;
+  background:var(--bg);
+  color:var(--text);
   font-family:Arial,sans-serif;
   overflow-x:hidden;
-  touch-action:pan-y;
 }
 
-/* ================= SCROLLBAR ================= */
+/* SCROLLBAR */
 
 ::-webkit-scrollbar{
   width:8px;
@@ -50,7 +58,7 @@ body{
 }
 
 ::-webkit-scrollbar-thumb{
-  background:#e50914;
+  background:var(--red);
   border-radius:20px;
 }
 
@@ -58,48 +66,26 @@ body{
   background:#111;
 }
 
-/* ================= FOCUS ================= */
-
-button,
-.card,
-a,
-input{
-  outline:none;
-  -webkit-tap-highlight-color:transparent;
-}
-
-button:focus,
-.card:focus,
-a:focus,
-input:focus{
-  outline:3px solid #fff;
-  outline-offset:2px;
-}
-
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 
 #navbar{
   position:fixed;
   top:0;
   left:0;
   width:100%;
-  z-index:99999;
-
-  padding:14px 18px;
-
+  z-index:9999;
+  padding:14px 22px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-
+  gap:15px;
   background:
   linear-gradient(
     to bottom,
     rgba(0,0,0,.96),
-    rgba(0,0,0,.45),
+    rgba(0,0,0,.65),
     transparent
   );
-
   backdrop-filter:blur(12px);
 }
 
@@ -107,57 +93,47 @@ input:focus{
   display:flex;
   align-items:center;
   gap:12px;
+  min-width:0;
 }
 
 #menuBtn{
   width:46px;
   height:46px;
-
   border:none;
   border-radius:12px;
-
-  background:#1b1b1b;
+  background:var(--soft);
   color:#fff;
-
-  font-size:22px;
+  font-size:24px;
   cursor:pointer;
-
-  transition:.2s;
-}
-
-#menuBtn:hover{
-  background:#e50914;
+  flex-shrink:0;
 }
 
 #appTitle{
-  color:#e50914;
-  font-size:32px;
-  font-weight:bold;
+  font-size:clamp(24px,4vw,38px);
+  font-weight:900;
+  color:var(--red);
   letter-spacing:1px;
+  white-space:nowrap;
 }
 
-/* ================= SEARCH ================= */
+/* SEARCH */
 
 #searchBox{
   display:flex;
   align-items:center;
-
-  background:#1b1b1b;
-
+  background:var(--soft);
   border-radius:50px;
   overflow:hidden;
-
   flex-shrink:0;
 }
 
 #searchInput{
-  width:230px;
-
-  padding:12px 15px;
-
+  width:220px;
+  height:46px;
+  padding:0 16px;
   border:none;
+  outline:none;
   background:transparent;
-
   color:#fff;
   font-size:15px;
 }
@@ -167,43 +143,46 @@ input:focus{
 }
 
 #searchBtn{
-  width:52px;
+  width:54px;
   height:46px;
-
   border:none;
-
-  background:#e50914;
+  background:var(--red);
   color:#fff;
-
-  font-size:18px;
   cursor:pointer;
+  font-size:18px;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 
 #sidebar{
   position:fixed;
   top:0;
-  left:-300px;
-
+  left:-320px;
   width:280px;
-  max-width:85vw;
-
-  height:100vh;
-
+  max-width:90%;
+  height:100dvh;
   background:#101010;
-
-  z-index:999999;
-
-  padding:20px;
-
-  transition:.3s;
-
+  z-index:99999;
+  padding:20px 16px;
+  transition:.35s ease;
   display:flex;
   flex-direction:column;
-  gap:14px;
-
   overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:var(--red) #111;
+}
+
+/* SCROLL UP DOWN MENU */
+
+#sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb{
+  background:var(--red);
+  border-radius:20px;
 }
 
 #sidebar.active{
@@ -214,529 +193,350 @@ input:focus{
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  margin-bottom:12px;
-
+  margin-bottom:20px;
   position:sticky;
   top:0;
-
   background:#101010;
-  padding-bottom:10px;
+  padding-bottom:12px;
+  z-index:2;
 }
 
 #sidebarHeader h2{
-  color:#e50914;
+  color:var(--red);
   font-size:28px;
 }
 
 #closeMenu{
   width:42px;
   height:42px;
-
   border:none;
   border-radius:10px;
-
   background:#1b1b1b;
   color:#fff;
-
   font-size:18px;
   cursor:pointer;
 }
 
+#sidebar nav{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
 #sidebar a{
   color:#fff;
-
   text-decoration:none;
-
-  padding:15px 14px;
-
-  border-radius:12px;
-
+  padding:16px;
+  border-radius:14px;
   background:#1a1a1a;
-
-  transition:.2s;
-
-  font-size:15px;
+  transition:.25s;
+  font-size:16px;
+  font-weight:600;
 }
 
 #sidebar a:hover,
 #sidebar a:focus{
-  background:#e50914;
+  background:var(--red);
   transform:translateX(4px);
 }
 
 #menuOverlay{
   position:fixed;
   inset:0;
-
   background:rgba(0,0,0,.72);
-
-  z-index:5000;
-
-  display:none;
+  z-index:9990;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
 }
 
 #menuOverlay.active{
-  display:block;
+  opacity:1;
+  visibility:visible;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 
 #hero{
-  width:100%;
-  min-height:75vh;
-
   position:relative;
-
-  display:flex;
-  align-items:flex-end;
-
-  padding:110px 6vw 60px;
-
+  width:100%;
+  min-height:78vh;
   background:
   linear-gradient(
     to top,
     rgba(0,0,0,.96),
-    rgba(0,0,0,.4)
+    rgba(0,0,0,.25)
   ),
-  url(
-'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
-  )
+  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop')
   center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  padding:
+  clamp(110px,12vw,140px)
+  clamp(22px,6vw,90px)
+  60px;
 }
 
 .heroContent{
-  max-width:700px;
+  max-width:720px;
 }
 
 .heroBadge{
-  display:inline-block;
-
-  background:#e50914;
-
-  padding:8px 15px;
-
-  border-radius:30px;
-
-  margin-bottom:18px;
-
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--red);
+  padding:10px 16px;
+  border-radius:999px;
+  margin-bottom:20px;
   font-size:14px;
-  font-weight:bold;
+  font-weight:700;
 }
 
 .heroContent h1{
-  font-size:clamp(38px,7vw,72px);
-  line-height:1.1;
-
-  margin-bottom:20px;
+  font-size:clamp(38px,7vw,76px);
+  line-height:1.05;
+  margin-bottom:22px;
+  font-weight:900;
 }
 
 .heroContent p{
   color:#ddd;
-
-  line-height:1.7;
-
-  margin-bottom:25px;
-
-  font-size:clamp(14px,2vw,18px);
-
-  max-width:600px;
+  line-height:1.8;
+  margin-bottom:28px;
+  font-size:clamp(15px,2vw,19px);
+  max-width:620px;
 }
 
-/* ================= CATEGORY ================= */
-
-.categorySection{
-  padding:30px 20px;
-}
-
-.categoryTitle{
-  font-size:clamp(22px,3vw,32px);
-  font-weight:bold;
-
-  margin-bottom:18px;
-}
-
-/* ================= SLIDER ================= */
-
-.sliderWrapper{
-  position:relative;
-}
-
-.movieRow{
+.heroButtons{
   display:flex;
-  gap:15px;
-
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  scroll-behavior:smooth;
-
-  scrollbar-width:none;
-
-  padding-inline:55px;
-  padding-bottom:12px;
-
-  touch-action:pan-y;
-
-  -webkit-overflow-scrolling:touch;
+  gap:14px;
+  flex-wrap:wrap;
 }
 
-.movieRow::-webkit-scrollbar{
-  display:none;
+.heroButtons button{
+  min-height:52px;
+  padding:14px 28px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-/* ================= CARD ================= */
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  backdrop-filter:blur(6px);
+}
+
+/* SECTION TITLE */
+
+.dramaHeader{
+  font-size:clamp(24px,4vw,38px);
+  font-weight:900;
+  padding:32px 22px 10px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+/* CARD */
 
 .card{
   position:relative;
-
-  min-width:190px;
-  width:190px;
-
-  aspect-ratio:2/3;
-
-  border-radius:16px;
-
+  border-radius:18px;
   overflow:hidden;
-
-  background:#181818;
-
-  flex-shrink:0;
-
   cursor:pointer;
-
-  transition:.25s;
-
-  user-select:none;
+  background:var(--card);
+  transition:
+  transform .25s ease,
+  box-shadow .25s ease;
+  aspect-ratio:2/3;
 }
 
-.card:hover,
-.card:focus{
-  transform:scale(1.06);
-  z-index:5;
+.card:hover{
+  transform:scale(1.04);
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
 }
 
 .card img{
   width:100%;
   height:100%;
-
   object-fit:cover;
-
   display:block;
 }
 
 .cardOverlay{
   position:absolute;
   inset:0;
-
   background:
   linear-gradient(
     to top,
-    rgba(0,0,0,.95),
+    rgba(0,0,0,.96),
     transparent 60%
   );
 }
 
 .title{
   position:absolute;
-
   bottom:0;
   left:0;
-
   width:100%;
-
   padding:14px;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.45;
+}
 
+/* FOOTER */
+
+footer{
+  text-align:center;
+  padding:35px 20px;
+  color:#888;
   font-size:14px;
-  font-weight:bold;
-
-  line-height:1.4;
 }
 
-/* ================= BUTTON ================= */
+/* SCROLL BUTTONS */
 
-.slideBtn{
-  position:absolute;
-
-  top:50%;
-
-  transform:translateY(-50%);
-
-  width:56px;
-  height:100px;
-
-  border:none;
-
-  border-radius:16px;
-
-  background:rgba(0,0,0,.75);
-
-  color:#fff;
-
-  font-size:34px;
-
-  cursor:pointer;
-
-  z-index:100;
-
-  backdrop-filter:blur(8px);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  transition:.2s;
-}
-
-.slideBtn:hover,
-.slideBtn:focus{
-  background:#e50914;
-}
-
-.slideLeft{
-  left:0;
-}
-
-.slideRight{
-  right:0;
-}
-
-/* ================= SCROLL BUTTONS ================= */
-
-#scrollTopBtn,
-#scrollBottomBtn{
+.scrollBtn{
   position:fixed;
-  right:18px;
-
-  width:52px;
-  height:52px;
-
+  right:16px;
+  width:48px;
+  height:48px;
   border:none;
   border-radius:50%;
-
-  background:#e50914;
+  background:rgba(229,9,20,.92);
   color:#fff;
-
-  font-size:22px;
+  font-size:20px;
   cursor:pointer;
-
-  z-index:999999;
-
-  box-shadow:0 5px 20px rgba(0,0,0,.45);
-
+  z-index:999;
+  box-shadow:0 5px 20px rgba(0,0,0,.35);
   transition:.25s;
 }
 
-#scrollTopBtn{
-  bottom:88px;
-}
-
-#scrollBottomBtn{
-  bottom:20px;
-}
-
-#scrollTopBtn:hover,
-#scrollBottomBtn:hover{
+.scrollBtn:hover{
   transform:scale(1.08);
 }
 
-/* ================= PLAYER ================= */
-
-#videoContainer{
-  position:fixed;
-  inset:0;
-
-  background:#000;
-
-  display:none;
-
-  align-items:center;
-  justify-content:center;
-
-  z-index:9999999;
+#scrollTop{
+  bottom:82px;
 }
 
-#videoPlayer,
-#ytFrame{
-  width:94%;
-  height:88%;
-
-  border:none;
-  border-radius:12px;
-
-  background:#000;
+#scrollBottom{
+  bottom:22px;
 }
 
-#closeBtn{
-  position:absolute;
+/* TABLET */
 
-  top:18px;
-  right:18px;
+@media(max-width:1024px){
 
-  width:52px;
-  height:52px;
-
-  border:none;
-  border-radius:50%;
-
-  background:#e50914;
-  color:#fff;
-
-  font-size:22px;
-
-  cursor:pointer;
-}
-
-#spinner{
-  width:60px;
-  height:60px;
-
-  border-radius:50%;
-
-  border:5px solid rgba(255,255,255,.2);
-
-  border-top:5px solid #e50914;
-
-  animation:spin 1s linear infinite;
-
-  position:absolute;
-
-  display:none;
-}
-
-@keyframes spin{
-
-  100%{
-    transform:rotate(360deg);
+  .grid{
+    grid-template-columns:
+    repeat(auto-fill,minmax(160px,1fr));
   }
 
 }
 
-/* ================= FOOTER ================= */
-
-footer{
-  text-align:center;
-
-  color:#888;
-
-  padding:35px 20px;
-
-  font-size:14px;
-}
-
-/* ================= MOBILE ================= */
+/* MOBILE */
 
 @media(max-width:768px){
 
   #navbar{
-    padding:12px;
-  }
-
-  #hero{
-    min-height:65vh;
-    padding:100px 20px 40px;
-  }
-
-  #searchBox{
-    width:48px;
-    transition:.3s;
-  }
-
-  #searchBox.active{
-    width:100%;
+    padding:12px 14px;
+    gap:10px;
   }
 
   #searchInput{
+    width:120px;
+    font-size:14px;
+  }
+
+  #searchBtn{
+    width:48px;
+  }
+
+  #hero{
+    min-height:68vh;
+    padding:
+    110px 20px 40px;
+  }
+
+  .grid{
+    grid-template-columns:
+    repeat(2,minmax(0,1fr));
+    gap:14px;
+    padding:14px;
+  }
+
+  .title{
+    font-size:13px;
+    padding:10px;
+  }
+
+  .heroButtons{
     width:100%;
-    display:none;
   }
 
-  #searchBox.active #searchInput{
-    display:block;
-  }
-
-  #appTitle{
-    font-size:24px;
-  }
-
-  .movieRow{
-    padding-inline:42px;
-  }
-
-  .card{
-    min-width:145px;
-    width:145px;
-  }
-
-  .slideBtn{
-    width:40px;
-    height:70px;
-    font-size:24px;
-  }
-
-  #scrollTopBtn,
-  #scrollBottomBtn{
-    width:46px;
-    height:46px;
+  .heroButtons button{
+    flex:1;
   }
 
 }
 
-/* ================= SMART TV ================= */
+/* SMART TV / LARGE SCREEN */
 
-@media(min-width:1200px){
+@media(min-width:1600px){
 
   body{
-    font-size:18px;
+    font-size:20px;
   }
 
   #navbar{
-    padding:22px 35px;
+    padding:22px 40px;
   }
 
-  #appTitle{
-    font-size:48px;
-  }
-
-  #menuBtn,
-  #closeMenu{
-    width:65px;
-    height:65px;
+  #menuBtn{
+    width:60px;
+    height:60px;
     font-size:28px;
   }
 
   #searchInput{
-    width:360px;
-    height:64px;
-    font-size:20px;
+    width:320px;
+    height:58px;
+    font-size:18px;
   }
 
   #searchBtn{
     width:70px;
-    height:64px;
-    font-size:24px;
+    height:58px;
+    font-size:22px;
   }
 
-  .card{
-    min-width:260px;
-    width:260px;
-  }
-
-  .slideBtn{
-    width:70px;
-    height:130px;
-    font-size:42px;
+  .grid{
+    grid-template-columns:
+    repeat(auto-fill,minmax(260px,1fr));
+    gap:28px;
+    padding:28px 40px;
   }
 
   .title{
     font-size:18px;
-  }
-
-  #scrollTopBtn,
-  #scrollBottomBtn{
-    width:70px;
-    height:70px;
-    font-size:28px;
+    padding:18px;
   }
 
 }
@@ -747,7 +547,7 @@ footer{
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 
 <div id="navbar">
 
@@ -762,10 +562,9 @@ footer{
   <div id="searchBox">
 
     <input
-      type="text"
-      id="searchInput"
-      placeholder="Search drama..."
-    >
+    type="text"
+    id="searchInput"
+    placeholder="Search drama...">
 
     <button id="searchBtn">🔍</button>
 
@@ -773,7 +572,7 @@ footer{
 
 </div>
 
-<!-- ================= SIDEBAR ================= -->
+<!-- SIDEBAR -->
 
 <div id="sidebar">
 
@@ -785,23 +584,25 @@ footer{
 
   </div>
 
-  <a href="../index.html">🏠 Home</a>
+  <nav>
 
-  <a href="../anime/index.html">🎌 Anime</a>
+    <a href="../index.html">🏠 Home</a>
 
-  <a href="index.html">🎭 Tagalog Dubbed Drama</a>
+    <a href="../anime/index.html">🎌 Anime</a>
 
-  <a href="../tv-channel.html">📺 TV Channels</a>
+    <a href="index.html">🎭 Tagalog Dubbed Drama</a>
 
-  <a href="../sports-event.html">⚽ Sports Event</a>
-  <a href="../vivamax.html">🎬 Viva Max</a>
+    <a href="../tv-channel.html">📺 TV Channels</a>
 
+    <a href="../sports-event.html">⚽ Sports Event</a>
+
+  </nav>
 
 </div>
 
 <div id="menuOverlay"></div>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <section id="hero">
 
@@ -813,139 +614,62 @@ footer{
 
     <h1>
       Tagalog Dubbed<br>
-      Drama Movies
+      Drama Series
     </h1>
 
     <p>
-      Watch unlimited Tagalog dubbed
-      drama movies and Asian series
-      only on MAFLIX.
+      Watch your favorite Korean,
+      Chinese and Asian drama series
+      dubbed in Tagalog only on MAFLIX.
     </p>
 
-  </div>
+    <div class="heroButtons">
 
-</section>
+      <button class="playBtn">
+        ▶ Watch Now
+      </button>
 
-<!-- ================= CATEGORY ================= -->
-
-<section class="categorySection">
-
-  <div class="categoryTitle">
-    Drama Series Tagalog Dubbed
-  </div>
-
-  <div class="sliderWrapper">
-
-    <button
-      class="slideBtn slideLeft"
-      onclick="slideRow('moviesRow',-1)">
-      ❮
-    </button>
-
-    <div
-      class="movieRow"
-      id="moviesRow">
-
-<!-- CARD SAMPLE -->
-
-<div class="card"
-  data-title="Swerte Anak Mas Swerte Emperador"
-  data-link="tags/Swerte Anak Mas Swerte Emperador.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/zhuIDDt.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Swerte Anak Mas Swerte Emperador
-  </div>
-
-</div>
+      <button class="infoBtn">
+        More Info
+      </button>
 
     </div>
 
-    <button
-      class="slideBtn slideRight"
-      onclick="slideRow('moviesRow',1)">
-      ❯
-    </button>
-
   </div>
 
 </section>
 
-<!-- ================= CHANNEL.JSON CATEGORY ================= -->
+<!-- DRAMA SECTION -->
 
-<section class="categorySection">
+<header class="dramaHeader">
+🎬 Drama Series Tagalog Dubbed
+</header>
 
-  <div class="categoryTitle">
-    Drama Movies Tagalog Dubbed
-  </div>
+<div class="grid" id="dramaGrid">
 
-  <div class="sliderWrapper">
-
-    <button
-      class="slideBtn slideLeft"
-      onclick="slideRow('streamRow',-1)">
-      ❮
-    </button>
-
-    <div
-      class="movieRow"
-      id="streamRow">
-    </div>
-
-    <button
-      class="slideBtn slideRight"
-      onclick="slideRow('streamRow',1)">
-      ❯
-    </button>
-
-  </div>
-
-</section>
-
-<!-- ================= PLAYER ================= -->
-
-<div id="videoContainer">
-
-  <div id="spinner"></div>
-
-  <video
-    id="videoPlayer"
-    controls
-    autoplay
-    playsinline>
-  </video>
-
-  <iframe
-    id="ytFrame"
-    allow="autoplay; fullscreen"
-    allowfullscreen
-    style="display:none">
-  </iframe>
-
-  <button id="closeBtn">✕</button>
+  <!-- YOUR CARDS HERE -->
 
 </div>
 
-<!-- ================= SCROLL BUTTONS ================= -->
-
-<button id="scrollTopBtn">↑</button>
-<button id="scrollBottomBtn">↓</button>
-
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
 <footer>
-  © 2026 MAFLIX - Tagalog Dubbed Drama
+© 2026 MAFLIX - Tagalog Dubbed Drama
 </footer>
+
+<!-- SCROLL BUTTONS -->
+
+<button
+id="scrollTop"
+class="scrollBtn">↑</button>
+
+<button
+id="scrollBottom"
+class="scrollBtn">↓</button>
 
 <script>
 
-/* ================= MENU ================= */
+/* MENU */
 
 const menuBtn =
 document.getElementById("menuBtn");
@@ -959,442 +683,138 @@ document.getElementById("closeMenu");
 const menuOverlay =
 document.getElementById("menuOverlay");
 
-const searchBox =
-document.getElementById("searchBox");
-
-menuBtn.onclick = ()=>{
+menuBtn.addEventListener("click", ()=>{
 
   sidebar.classList.add("active");
-
   menuOverlay.classList.add("active");
 
-};
+  document.body.style.overflow = "hidden";
+
+});
 
 function closeSidebar(){
 
   sidebar.classList.remove("active");
-
   menuOverlay.classList.remove("active");
 
-}
-
-closeMenu.onclick =
-closeSidebar;
-
-menuOverlay.onclick =
-closeSidebar;
-
-/* ================= MOBILE SEARCH ================= */
-
-if(window.innerWidth <= 768){
-
-  document.getElementById(
-    "searchBtn"
-  ).onclick = ()=>{
-
-    searchBox.classList.toggle(
-      "active"
-    );
-
-    document.getElementById(
-      "searchInput"
-    ).focus();
-
-  };
+  document.body.style.overflow = "";
 
 }
 
-/* ================= SLIDER ================= */
+closeMenu.addEventListener(
+"click",
+closeSidebar
+);
 
-function slideRow(rowId,direction){
+menuOverlay.addEventListener(
+"click",
+closeSidebar
+);
 
-  const row =
-    document.getElementById(rowId);
+/* ESC CLOSE */
 
-  const card =
-    row.querySelector(".card");
+document.addEventListener(
+"keydown",
+(e)=>{
 
-  if(!card) return;
+  if(e.key === "Escape"){
 
-  const amount =
-    card.offsetWidth * 3;
+    closeSidebar();
 
-  row.scrollBy({
-
-    left:
-      direction * amount,
-
-    behavior:"smooth"
-
-  });
-
-}
-
-/* ================= STATIC LINKS ================= */
-
-document.querySelectorAll(
-  "#moviesRow .card"
-)
-.forEach(card=>{
-
-  card.onclick = ()=>{
-
-    const link =
-      card.dataset.link;
-
-    if(link){
-
-      window.location.href =
-        link;
-
-    }
-
-  };
+  }
 
 });
 
-/* ================= CHANNEL.JSON ================= */
+/* OPEN DRAMA */
 
-let staticChannels = [];
+document.querySelectorAll(".card")
+.forEach(card=>{
 
-let shakaPlayer = null;
+  card.addEventListener("click", ()=>{
 
-async function fetchChannels(){
+    const link =
+    card.getAttribute("data-link");
 
-  try{
+    if(link){
 
-    const res =
-      await fetch("channels.json");
-
-    const data =
-      await res.json();
-
-    staticChannels =
-      data.channels || [];
-
-    renderChannels(
-      staticChannels
-    );
-
-  }
-
-  catch(err){
-
-    console.error(err);
-
-  }
-
-}
-
-function renderChannels(list){
-
-  const row =
-    document.getElementById("streamRow");
-
-  row.innerHTML = "";
-
-  list.forEach(ch=>{
-
-    const card =
-      document.createElement("div");
-
-    card.className = "card";
-
-    card.tabIndex = 0;
-
-    card.innerHTML = `
-      <img
-        loading="lazy"
-        decoding="async"
-        src="${ch.logo}">
-
-      <div class="cardOverlay"></div>
-
-      <div class="title">
-        ${ch.name}
-      </div>
-    `;
-
-    card.onclick = ()=>{
-
-      playChannel(ch);
-
-    };
-
-    row.appendChild(card);
-
-  });
-
-}
-
-/* ================= PLAY ================= */
-
-async function playChannel(ch){
-
-  const video =
-    document.getElementById(
-      "videoPlayer"
-    );
-
-  const yt =
-    document.getElementById(
-      "ytFrame"
-    );
-
-  const container =
-    document.getElementById(
-      "videoContainer"
-    );
-
-  const spinner =
-    document.getElementById(
-      "spinner"
-    );
-
-  container.style.display =
-    "flex";
-
-  spinner.style.display =
-    "block";
-
-  video.pause();
-
-  video.removeAttribute("src");
-
-  video.load();
-
-  yt.src = "";
-
-  yt.style.display =
-    "none";
-
-  video.style.display =
-    "none";
-
-  if(ch.type === "youtube"){
-
-    yt.style.display =
-      "block";
-
-    yt.src =
-      `https://www.youtube.com/embed/${
-        ch.manifestUri.split("v=")[1]
-      }?autoplay=1`;
-
-    spinner.style.display =
-      "none";
-
-    return;
-
-  }
-
-  if(ch.type === "iframe"){
-
-    yt.style.display =
-      "block";
-
-    yt.src =
-      ch.manifestUri;
-
-    spinner.style.display =
-      "none";
-
-    return;
-
-  }
-
-  if(ch.type === "mp4"){
-
-    if(shakaPlayer){
-
-      await shakaPlayer.destroy();
-
-      shakaPlayer = null;
+      window.location.href = link;
 
     }
 
-    video.style.display =
-      "block";
+  });
 
-    video.src =
-      ch.manifestUri;
+});
 
-    spinner.style.display =
-      "none";
-
-    video.play();
-
-    return;
-
-  }
-
-  video.style.display =
-    "block";
-
-  shakaPlayer ??=
-    new shaka.Player(video);
-
-  await shakaPlayer.unload();
-
-  try{
-
-    await shakaPlayer.load(
-      ch.manifestUri
-    );
-
-    spinner.style.display =
-      "none";
-
-    video.play();
-
-  }
-
-  catch(e){
-
-    console.error(e);
-
-    spinner.style.display =
-      "none";
-
-    alert("Playback Error");
-
-  }
-
-}
-
-/* ================= CLOSE PLAYER ================= */
-
-document.getElementById(
-  "closeBtn"
-).onclick = ()=>{
-
-  const video =
-    document.getElementById(
-      "videoPlayer"
-    );
-
-  const yt =
-    document.getElementById(
-      "ytFrame"
-    );
-
-  document.getElementById(
-    "videoContainer"
-  ).style.display = "none";
-
-  video.pause();
-
-  video.removeAttribute("src");
-
-  video.load();
-
-  yt.src = "";
-
-};
-
-/* ================= SEARCH ================= */
+/* SEARCH */
 
 const searchInput =
-document.getElementById(
-  "searchInput"
-);
+document.getElementById("searchInput");
+
+const searchBtn =
+document.getElementById("searchBtn");
 
 function searchDrama(){
 
   const value =
-    searchInput.value
-    .toLowerCase();
+  searchInput.value.toLowerCase();
 
-  document.querySelectorAll(
-    "#moviesRow .card"
-  )
-  .forEach(card=>{
+  const cards =
+  document.querySelectorAll(".card");
+
+  cards.forEach(card=>{
 
     const title =
-      card.dataset.title
-      .toLowerCase();
+    card.getAttribute("data-title")
+    .toLowerCase();
 
     card.style.display =
-      title.includes(value)
-      ? "block"
-      : "none";
+    title.includes(value)
+    ? "block"
+    : "none";
 
   });
-
-  const filtered =
-    staticChannels.filter(ch=>
-
-      ch.name
-      .toLowerCase()
-      .includes(value)
-
-    );
-
-  renderChannels(filtered);
 
 }
 
 searchInput.addEventListener(
-  "input",
-  searchDrama
+"input",
+searchDrama
 );
 
-/* ================= TV REMOTE ================= */
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    const active =
-      document.activeElement;
-
-    if(
-      e.key === "Enter" &&
-      active
-    ){
-
-      active.click();
-
-    }
-
-  }
+searchBtn.addEventListener(
+"click",
+searchDrama
 );
 
-/* ================= SCROLL BUTTONS ================= */
+/* SCROLL BUTTONS */
 
-document.getElementById(
-  "scrollTopBtn"
-).onclick = ()=>{
+const scrollTopBtn =
+document.getElementById("scrollTop");
+
+const scrollBottomBtn =
+document.getElementById("scrollBottom");
+
+scrollTopBtn.addEventListener(
+"click",
+()=>{
 
   window.scrollTo({
-
     top:0,
-
     behavior:"smooth"
-
   });
 
-};
+});
 
-document.getElementById(
-  "scrollBottomBtn"
-).onclick = ()=>{
+scrollBottomBtn.addEventListener(
+"click",
+()=>{
 
   window.scrollTo({
-
-    top:
-      document.body.scrollHeight,
-
+    top:document.body.scrollHeight,
     behavior:"smooth"
-
   });
 
-};
-
-/* ================= INIT ================= */
-
-window.onload =
-fetchChannels;
+});
 
 </script>
 
