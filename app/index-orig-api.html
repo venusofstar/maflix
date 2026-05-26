@@ -183,12 +183,13 @@ a{
   display:flex;
   align-items:center;
   gap:10px;
-  width:100%;
-  max-width:450px;
+  flex:1;
+  justify-content:flex-end;
 }
 
 #movieSearchInput{
-  flex:1;
+  width:100%;
+  max-width:420px;
   height:48px;
   border:none;
   border-radius:12px;
@@ -208,6 +209,7 @@ a{
   color:#fff;
   font-weight:700;
   cursor:pointer;
+  flex-shrink:0;
 }
 
 /* HERO */
@@ -457,14 +459,6 @@ a{
   .sectionHeader h2{
     font-size:23px;
   }
-
-  #movieSearchInput{
-    height:44px;
-  }
-
-  #searchBtn{
-    height:44px;
-  }
 }
 
 /* MOBILE */
@@ -472,37 +466,27 @@ a{
 @media(max-width:650px){
 
   #navbar{
-    flex-wrap:nowrap;
-    justify-content:space-between;
     gap:10px;
     padding:12px;
   }
 
-  #leftNav{
-    gap:10px;
-  }
-
   #appTitle{
-    font-size:24px;
+    font-size:22px;
   }
 
   #searchBox{
-    max-width:none;
-    width:auto;
     flex:1;
   }
 
   #movieSearchInput{
-    min-width:0;
-    width:100%;
     height:42px;
     font-size:14px;
   }
 
   #searchBtn{
     height:42px;
-    padding:0 14px;
     font-size:13px;
+    padding:0 14px;
   }
 
   #hero{
@@ -560,8 +544,6 @@ a{
 
 <body>
 
-<!-- OVERLAY -->
-
 <div id="overlay"></div>
 
 <!-- SIDEBAR -->
@@ -574,14 +556,12 @@ a{
   </div>
 
   <div class="sidebarLinks">
-
-    <a href="index.html">🏠 Home</a>
-    <a href="anime/index.html">🎌 Anime</a>
-    <a href="drama-tagalod-dudbed/index.html">🎭 Tagalog Dubbed Drama</a>
-    <a href="tv-channel.html">📺 TV Channels</a>
-    <a href="sports-event.html">⚽ Sports Event</a>
-    <a href="vivamax.html">🎬 Viva Max</a>
-
+    <a href="#">🏠 Home</a>
+    <a href="#">🎌 Anime</a>
+    <a href="#">🎭 Drama</a>
+    <a href="#">📺 TV Channels</a>
+    <a href="#">⚽ Sports</a>
+    <a href="#">🎬 Viva Max</a>
   </div>
 
 </div>
@@ -646,23 +626,23 @@ a{
 
 <div id="content">
 
-  <!-- TRENDING -->
+  <!-- CONTINUE WATCHING -->
 
-  <div class="section">
+  <div class="section" id="continueSection" style="display:none;">
 
     <div class="sectionHeader">
 
-      <h2>🔥 Trending Movies</h2>
+      <h2>▶ Continue Watching</h2>
 
       <div class="sliderButtons">
 
         <button class="slideBtn"
-        onclick="scrollRow('trendingGrid',-1)">
+        onclick="scrollRow('continueGrid',-1)">
           ❮
         </button>
 
         <button class="slideBtn"
-        onclick="scrollRow('trendingGrid',1)">
+        onclick="scrollRow('continueGrid',1)">
           ❯
         </button>
 
@@ -670,7 +650,35 @@ a{
 
     </div>
 
-    <div class="row" id="trendingGrid"></div>
+    <div class="row" id="continueGrid"></div>
+
+  </div>
+
+  <!-- TRENDING -->
+
+  <div class="section">
+
+    <div class="sectionHeader">
+
+      <h2>🔥 Search Movies</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('searchGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('searchGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="searchGrid"></div>
 
   </div>
 
@@ -758,6 +766,34 @@ a{
 
   </div>
 
+<!-- SERIES -->
+
+<div class="section">
+
+  <div class="sectionHeader">
+
+    <h2>📺 TV Series</h2>
+
+    <div class="sliderButtons">
+
+      <button class="slideBtn"
+      onclick="scrollRow('seriesGrid',-1)">
+        ❮
+      </button>
+
+      <button class="slideBtn"
+      onclick="scrollRow('seriesGrid',1)">
+        ❯
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="row" id="seriesGrid"></div>
+
+</div>
+
 </div>
 
 <!-- PLAYER -->
@@ -824,7 +860,7 @@ document.getElementById("closeMenu")
 
 overlay.onclick = closeSidebar;
 
-/* SCROLL MOVIES */
+/* SCROLL */
 
 function scrollRow(rowId,direction){
 
@@ -844,35 +880,7 @@ function scrollRow(rowId,direction){
 
 let currentMovieID = "";
 
-/* CREATE CARD */
-
-function createMovieCard(movie){
-
-  const card =
-  document.createElement("div");
-
-  card.className = "card";
-
-  const poster =
-  movie.Poster !== "N/A"
-  ? movie.Poster
-  : "https://via.placeholder.com/300x450";
-
-  card.innerHTML = `
-    <img src="${poster}">
-    <p>${movie.Title}</p>
-  `;
-
-  card.onclick = () => {
-    playMovie(movie.imdbID);
-  };
-
-  return card;
-}
-
-/* PLAY MOVIE */
-
-function playMovie(imdbID){
+function playMovie(imdbID,movieData=null){
 
   currentMovieID = imdbID;
 
@@ -883,6 +891,10 @@ function playMovie(imdbID){
   .style.display = "flex";
 
   document.body.style.overflow = "hidden";
+
+  if(movieData){
+    saveContinueWatching(movieData);
+  }
 }
 
 /* CLOSE PLAYER */
@@ -917,6 +929,91 @@ document.getElementById("server2Btn")
   document.getElementById("videoFrame").src =
   `https://vidsrc.to/embed/movie/${currentMovieID}`;
 };
+
+/* CREATE CARD */
+
+function createMovieCard(movie){
+
+  const card =
+  document.createElement("div");
+
+  card.className = "card";
+
+  const poster =
+  movie.Poster !== "N/A"
+  ? movie.Poster
+  : "https://via.placeholder.com/300x450";
+
+  card.innerHTML = `
+    <img src="${poster}">
+    <p>${movie.Title}</p>
+  `;
+
+  card.onclick = () => {
+    playMovie(movie.imdbID,movie);
+  };
+
+  return card;
+}
+
+/* CONTINUE WATCHING */
+
+function saveContinueWatching(movie){
+
+  let list =
+  JSON.parse(
+    localStorage.getItem("continueWatching")
+  ) || [];
+
+  list = list.filter(
+    item => item.imdbID !== movie.imdbID
+  );
+
+  list.unshift(movie);
+
+  if(list.length > 15){
+    list.pop();
+  }
+
+  localStorage.setItem(
+    "continueWatching",
+    JSON.stringify(list)
+  );
+
+  loadContinueWatching();
+}
+
+function loadContinueWatching(){
+
+  const section =
+  document.getElementById("continueSection");
+
+  const grid =
+  document.getElementById("continueGrid");
+
+  const list =
+  JSON.parse(
+    localStorage.getItem("continueWatching")
+  ) || [];
+
+  if(list.length === 0){
+
+    section.style.display = "none";
+    return;
+  }
+
+  section.style.display = "block";
+
+  grid.innerHTML = "";
+
+  list.forEach(movie => {
+
+    grid.appendChild(
+      createMovieCard(movie)
+    );
+
+  });
+}
 
 /* LOAD MOVIES */
 
@@ -971,8 +1068,13 @@ function searchMovies(){
 
   loadCategoryMovies(
     query,
-    "trendingGrid"
+    "searchGrid"
   );
+
+  window.scrollTo({
+    top:document.getElementById("content").offsetTop - 80,
+    behavior:"smooth"
+  });
 }
 
 document.getElementById("searchBtn")
@@ -990,9 +1092,11 @@ document.getElementById("movieSearchInput")
 
 window.onload = () => {
 
+  loadContinueWatching();
+
   loadCategoryMovies(
     "super Mario",
-    "trendingGrid"
+    "searchGrid"
   );
 
   loadCategoryMovies(
@@ -1009,6 +1113,11 @@ window.onload = () => {
     "Comedy",
     "comedyGrid"
   );
+  
+loadCategoryMovies(
+  "Series",
+  "seriesGrid"
+);
 };
 
 </script>
