@@ -42,6 +42,22 @@ body{
   touch-action:pan-y;
 }
 
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+  background:#111;
+}
+
 /* ================= FOCUS ================= */
 
 button,
@@ -69,20 +85,22 @@ input:focus{
   width:100%;
   z-index:99999;
 
-  padding:15px 20px;
+  padding:14px 18px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:12px;
 
   background:
   linear-gradient(
     to bottom,
-    rgba(0,0,0,.95),
+    rgba(0,0,0,.96),
+    rgba(0,0,0,.45),
     transparent
   );
 
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(12px);
 }
 
 #leftNav{
@@ -92,17 +110,23 @@ input:focus{
 }
 
 #menuBtn{
-  width:42px;
-  height:42px;
+  width:46px;
+  height:46px;
 
   border:none;
-  border-radius:10px;
+  border-radius:12px;
 
   background:#1b1b1b;
   color:#fff;
 
   font-size:22px;
   cursor:pointer;
+
+  transition:.2s;
+}
+
+#menuBtn:hover{
+  background:#e50914;
 }
 
 #appTitle{
@@ -120,14 +144,16 @@ input:focus{
 
   background:#1b1b1b;
 
-  border-radius:30px;
+  border-radius:50px;
   overflow:hidden;
+
+  flex-shrink:0;
 }
 
 #searchInput{
-  width:220px;
+  width:230px;
 
-  padding:10px 15px;
+  padding:12px 15px;
 
   border:none;
   background:transparent;
@@ -136,9 +162,13 @@ input:focus{
   font-size:15px;
 }
 
+#searchInput::placeholder{
+  color:#aaa;
+}
+
 #searchBtn{
-  width:50px;
-  height:42px;
+  width:52px;
+  height:46px;
 
   border:none;
 
@@ -154,12 +184,14 @@ input:focus{
 #sidebar{
   position:fixed;
   top:0;
-  left:-280px;
+  left:-300px;
 
-  width:260px;
-  height:100%;
+  width:280px;
+  max-width:85vw;
 
-  background:#111;
+  height:100vh;
+
+  background:#101010;
 
   z-index:999999;
 
@@ -169,7 +201,9 @@ input:focus{
 
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:14px;
+
+  overflow-y:auto;
 }
 
 #sidebar.active{
@@ -181,19 +215,26 @@ input:focus{
   align-items:center;
   justify-content:space-between;
 
-  margin-bottom:20px;
+  margin-bottom:12px;
+
+  position:sticky;
+  top:0;
+
+  background:#101010;
+  padding-bottom:10px;
 }
 
 #sidebarHeader h2{
   color:#e50914;
+  font-size:28px;
 }
 
 #closeMenu{
-  width:40px;
-  height:40px;
+  width:42px;
+  height:42px;
 
   border:none;
-  border-radius:8px;
+  border-radius:10px;
 
   background:#1b1b1b;
   color:#fff;
@@ -207,25 +248,28 @@ input:focus{
 
   text-decoration:none;
 
-  padding:14px;
+  padding:15px 14px;
 
-  border-radius:10px;
+  border-radius:12px;
 
   background:#1a1a1a;
 
   transition:.2s;
+
+  font-size:15px;
 }
 
 #sidebar a:hover,
 #sidebar a:focus{
   background:#e50914;
+  transform:translateX(4px);
 }
 
 #menuOverlay{
   position:fixed;
   inset:0;
 
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.72);
 
   z-index:5000;
 
@@ -240,20 +284,20 @@ input:focus{
 
 #hero{
   width:100%;
-  height:75vh;
+  min-height:75vh;
 
   position:relative;
 
   display:flex;
-  align-items:center;
+  align-items:flex-end;
 
-  padding:80px;
+  padding:110px 6vw 60px;
 
   background:
   linear-gradient(
     to top,
-    rgba(0,0,0,.95),
-    rgba(0,0,0,.2)
+    rgba(0,0,0,.96),
+    rgba(0,0,0,.4)
   ),
   url(
 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
@@ -262,7 +306,7 @@ input:focus{
 }
 
 .heroContent{
-  max-width:650px;
+  max-width:700px;
 }
 
 .heroBadge{
@@ -281,7 +325,7 @@ input:focus{
 }
 
 .heroContent h1{
-  font-size:65px;
+  font-size:clamp(38px,7vw,72px);
   line-height:1.1;
 
   margin-bottom:20px;
@@ -294,20 +338,22 @@ input:focus{
 
   margin-bottom:25px;
 
-  font-size:17px;
+  font-size:clamp(14px,2vw,18px);
+
+  max-width:600px;
 }
 
 /* ================= CATEGORY ================= */
 
 .categorySection{
-  padding:25px 20px;
+  padding:30px 20px;
 }
 
 .categoryTitle{
-  font-size:28px;
+  font-size:clamp(22px,3vw,32px);
   font-weight:bold;
 
-  margin-bottom:15px;
+  margin-bottom:18px;
 }
 
 /* ================= SLIDER ================= */
@@ -320,15 +366,15 @@ input:focus{
   display:flex;
   gap:15px;
 
-  overflow-x:hidden;
+  overflow-x:auto;
   overflow-y:hidden;
 
   scroll-behavior:smooth;
 
   scrollbar-width:none;
 
-  padding-inline:50px;
-  padding-bottom:10px;
+  padding-inline:55px;
+  padding-bottom:12px;
 
   touch-action:pan-y;
 
@@ -416,14 +462,14 @@ input:focus{
 
   transform:translateY(-50%);
 
-  width:55px;
-  height:95px;
+  width:56px;
+  height:100px;
 
   border:none;
 
-  border-radius:14px;
+  border-radius:16px;
 
-  background:rgba(0,0,0,.72);
+  background:rgba(0,0,0,.75);
 
   color:#fff;
 
@@ -447,16 +493,51 @@ input:focus{
   background:#e50914;
 }
 
-.slideBtn:active{
-  transform:translateY(-50%) scale(.94);
-}
-
 .slideLeft{
   left:0;
 }
 
 .slideRight{
   right:0;
+}
+
+/* ================= SCROLL BUTTONS ================= */
+
+#scrollTopBtn,
+#scrollBottomBtn{
+  position:fixed;
+  right:18px;
+
+  width:52px;
+  height:52px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+
+  z-index:999999;
+
+  box-shadow:0 5px 20px rgba(0,0,0,.45);
+
+  transition:.25s;
+}
+
+#scrollTopBtn{
+  bottom:88px;
+}
+
+#scrollBottomBtn{
+  bottom:20px;
+}
+
+#scrollTopBtn:hover,
+#scrollBottomBtn:hover{
+  transform:scale(1.08);
 }
 
 /* ================= PLAYER ================= */
@@ -477,11 +558,11 @@ input:focus{
 
 #videoPlayer,
 #ytFrame{
-  width:92%;
-  height:85%;
+  width:94%;
+  height:88%;
 
   border:none;
-  border-radius:10px;
+  border-radius:12px;
 
   background:#000;
 }
@@ -489,11 +570,11 @@ input:focus{
 #closeBtn{
   position:absolute;
 
-  top:20px;
-  right:20px;
+  top:18px;
+  right:18px;
 
-  width:50px;
-  height:50px;
+  width:52px;
+  height:52px;
 
   border:none;
   border-radius:50%;
@@ -507,8 +588,8 @@ input:focus{
 }
 
 #spinner{
-  width:55px;
-  height:55px;
+  width:60px;
+  height:60px;
 
   border-radius:50%;
 
@@ -547,29 +628,39 @@ footer{
 
 @media(max-width:768px){
 
+  #navbar{
+    padding:12px;
+  }
+
   #hero{
-    height:65vh;
-    padding:30px;
+    min-height:65vh;
+    padding:100px 20px 40px;
   }
 
-  .heroContent h1{
-    font-size:42px;
+  #searchBox{
+    width:48px;
+    transition:.3s;
   }
 
-  .heroContent p{
-    font-size:15px;
+  #searchBox.active{
+    width:100%;
   }
 
   #searchInput{
-    width:130px;
+    width:100%;
+    display:none;
+  }
+
+  #searchBox.active #searchInput{
+    display:block;
   }
 
   #appTitle{
-    font-size:26px;
+    font-size:24px;
   }
 
   .movieRow{
-    padding-inline:40px;
+    padding-inline:42px;
   }
 
   .card{
@@ -583,8 +674,10 @@ footer{
     font-size:24px;
   }
 
-  .categoryTitle{
-    font-size:22px;
+  #scrollTopBtn,
+  #scrollBottomBtn{
+    width:46px;
+    height:46px;
   }
 
 }
@@ -593,15 +686,57 @@ footer{
 
 @media(min-width:1200px){
 
+  body{
+    font-size:18px;
+  }
+
+  #navbar{
+    padding:22px 35px;
+  }
+
+  #appTitle{
+    font-size:48px;
+  }
+
+  #menuBtn,
+  #closeMenu{
+    width:65px;
+    height:65px;
+    font-size:28px;
+  }
+
+  #searchInput{
+    width:360px;
+    height:64px;
+    font-size:20px;
+  }
+
+  #searchBtn{
+    width:70px;
+    height:64px;
+    font-size:24px;
+  }
+
   .card{
-    min-width:240px;
-    width:240px;
+    min-width:260px;
+    width:260px;
   }
 
   .slideBtn{
-    width:62px;
+    width:70px;
     height:130px;
-    font-size:38px;
+    font-size:42px;
+  }
+
+  .title{
+    font-size:18px;
+  }
+
+  #scrollTopBtn,
+  #scrollBottomBtn{
+    width:70px;
+    height:70px;
+    font-size:28px;
   }
 
 }
@@ -659,6 +794,8 @@ footer{
   <a href="../tv-channel.html">📺 TV Channels</a>
 
   <a href="../sports-event.html">⚽ Sports Event</a>
+  <a href="../vivamax.html">🎬 Viva Max</a>
+
 
 </div>
 
@@ -709,6 +846,8 @@ footer{
       class="movieRow"
       id="moviesRow">
 
+<!-- CARD SAMPLE -->
+
 <div class="card"
   data-title="Swerte Anak Mas Swerte Emperador"
   data-link="tags/Swerte Anak Mas Swerte Emperador.html">
@@ -725,158 +864,6 @@ footer{
   </div>
 
 </div>
-
-<div class="card"
-  data-title="Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa"
-  data-link="tags/Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/zlVh0zz.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Mga Pangarap Ng Diborsiyo Ng Matimbang Na Prinsesa
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Inayos ng Munting Doctor Ang Pamilya"
-  data-link="tags/InayosngMuntingDoctorAngPamilya.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/FPF0Saq.jpg">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Inayos ng Munting Doctor Ang Pamilya
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Adik sa kanya Ang pina-ara na paborito ng CEO"
-  data-link="tags/Adik sa kanya Ang pina-ara na paborito ng CEO.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/eRCzF4A.jpg">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Adik sa kanya Ang pina-ara na paborito ng CEO
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Batang Asawa Walang Hanggang Pag-ibig"
-  data-link="tags/Batang Asawa Walang Hanggang Pag-ibig.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/G5KfLRF.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Batang Asawa Walang Hanggang Pag-ibig
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Yaya Ng Bata CEO"
-  data-link="tags/Yaya Ng Bata CEO.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/3RnZjk6.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Yaya Ng Bata CEO
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Itinapon Ang Sinungaling Pinakasalan Ang Protector ko"
-  data-link="tags/Itinapon Ang Sinungaling Pinakasalan Ang Protector ko.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/MLzQS8a.jpeg">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Itinapon Ang Sinungaling Pinakasalan Ang Protector ko
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Pag-aasawa sa Pamilya Mayaman na May Anak"
-  data-link="tags/Pag-aasawa sa Pamilya Mayaman na May Anak.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/FWyrP2T.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Pag-aasawa sa Pamilya Mayaman na May Anak
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Ang Madrasta Na Nagpakain Nang Wasto"
-  data-link="tags/Ang Madrasta Na Nagpakain Nang Wasto.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/1fFrSz8.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Ang Madrasta Na Nagpakain Nang Wasto
-  </div>
-
-</div>
-
-<div class="card"
-  data-title="Perpektong Pamilya Ng Batang Halaman"
-  data-link="tags/Perpektong Pamilya Ng Batang Halaman.html">
-
-  <img
-    loading="lazy"
-    decoding="async"
-    src="https://i.imgur.com/VePqzeB.png">
-
-  <div class="cardOverlay"></div>
-
-  <div class="title">
-    Perpektong Pamilya Ng Batang Halaman
-  </div>
-
 
     </div>
 
@@ -945,6 +932,11 @@ footer{
 
 </div>
 
+<!-- ================= SCROLL BUTTONS ================= -->
+
+<button id="scrollTopBtn">↑</button>
+<button id="scrollBottomBtn">↓</button>
+
 <!-- ================= FOOTER ================= -->
 
 <footer>
@@ -966,6 +958,9 @@ document.getElementById("closeMenu");
 
 const menuOverlay =
 document.getElementById("menuOverlay");
+
+const searchBox =
+document.getElementById("searchBox");
 
 menuBtn.onclick = ()=>{
 
@@ -989,6 +984,26 @@ closeSidebar;
 menuOverlay.onclick =
 closeSidebar;
 
+/* ================= MOBILE SEARCH ================= */
+
+if(window.innerWidth <= 768){
+
+  document.getElementById(
+    "searchBtn"
+  ).onclick = ()=>{
+
+    searchBox.classList.toggle(
+      "active"
+    );
+
+    document.getElementById(
+      "searchInput"
+    ).focus();
+
+  };
+
+}
+
 /* ================= SLIDER ================= */
 
 function slideRow(rowId,direction){
@@ -1001,11 +1016,8 @@ function slideRow(rowId,direction){
 
   if(!card) return;
 
-  const gap = 15;
-
   const amount =
-    card.offsetWidth * 3 +
-    gap * 3;
+    card.offsetWidth * 3;
 
   row.scrollBy({
 
@@ -1176,6 +1188,21 @@ async function playChannel(ch){
 
   }
 
+  if(ch.type === "iframe"){
+
+    yt.style.display =
+      "block";
+
+    yt.src =
+      ch.manifestUri;
+
+    spinner.style.display =
+      "none";
+
+    return;
+
+  }
+
   if(ch.type === "mp4"){
 
     if(shakaPlayer){
@@ -1284,7 +1311,7 @@ function searchDrama(){
   .forEach(card=>{
 
     const title =
-      card.innerText
+      card.dataset.title
       .toLowerCase();
 
     card.style.display =
@@ -1311,6 +1338,58 @@ searchInput.addEventListener(
   "input",
   searchDrama
 );
+
+/* ================= TV REMOTE ================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    const active =
+      document.activeElement;
+
+    if(
+      e.key === "Enter" &&
+      active
+    ){
+
+      active.click();
+
+    }
+
+  }
+);
+
+/* ================= SCROLL BUTTONS ================= */
+
+document.getElementById(
+  "scrollTopBtn"
+).onclick = ()=>{
+
+  window.scrollTo({
+
+    top:0,
+
+    behavior:"smooth"
+
+  });
+
+};
+
+document.getElementById(
+  "scrollBottomBtn"
+).onclick = ()=>{
+
+  window.scrollTo({
+
+    top:
+      document.body.scrollHeight,
+
+    behavior:"smooth"
+
+  });
+
+};
 
 /* ================= INIT ================= */
 
