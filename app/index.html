@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -19,6 +20,28 @@
   />
 
   <link rel="stylesheet" href="styl.css" />
+
+  <!-- SAFE MONETAG ADS -->
+  <script
+    async
+    data-cfasync="false"
+    src="https://quge5.com/88/tag.min.js"
+    data-zone="243456">
+  </script>
+
+  <!-- BASIC SECURITY -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+      frame-src * data: blob:;
+      script-src * 'unsafe-inline' 'unsafe-eval';
+      style-src * 'unsafe-inline';
+      img-src * data: blob:;
+      connect-src *;
+    "
+  />
+
 </head>
 
 <body>
@@ -35,19 +58,21 @@
     </div>
 
     <div class="sidebarLinks">
-    <a href="index.html">🏠 Home</a>
 
-    <a href="anime/index.html">🎌 Anime</a>
+      <a href="index.html">🏠 Home</a>
 
-    <a href="drama-tagalod-dudbed/index.html">
-      🎭 Tagalog Dubbed Drama
-    </a>
+      <a href="anime/index.html">🎌 Anime</a>
 
-    <a href="tv-channel.html">📺 TV Channels</a>
+      <a href="drama-tagalod-dudbed/index.html">
+        🎭 Tagalog Dubbed Drama
+      </a>
 
-    <a href="sports-event.html">⚽ Sports Event</a>
+      <a href="tv-channel.html">📺 TV Channels</a>
 
-    <a href="vivamax.html">🎬 Viva Max</a>
+      <a href="sports-event.html">⚽ Sports Event</a>
+
+      <a href="vivamax.html">🎬 Viva Max</a>
+
     </div>
 
   </div>
@@ -107,6 +132,22 @@
     </div>
 
   </section>
+
+  <!-- SAFE AD CONTAINER -->
+  <div class="ad-container">
+    <script>
+      if (window.innerWidth > 768) {
+        document.write(`
+          <div style="margin:15px auto;text-align:center;">
+            <script async data-cfasync="false"
+              src="https://quge5.com/88/tag.min.js"
+              data-zone="243456">
+            <\/script>
+          </div>
+        `);
+      }
+    </script>
+  </div>
 
   <!-- CONTENT -->
 
@@ -330,6 +371,8 @@
       id="videoFrame"
       allowfullscreen
       allow="autoplay; fullscreen"
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+      referrerpolicy="origin"
     ></iframe>
 
     <button id="closePlayer">
@@ -338,7 +381,8 @@
 
   </div>
 
-  <script src="scrpt.js"></script>
+  <!-- SAFE SCRIPT LOAD -->
+  <script src="scrpt.js" defer></script>
 
 </body>
 </html>
