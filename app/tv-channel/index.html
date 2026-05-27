@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<title>MAFLIX | TV CHANNELS Under Maintenance</title>
+
+<meta
+name="theme-color"
+content="#e50914">
+
+<meta
+name="description"
+content="MAFLIX TV CHANNELS is currently under maintenance">
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+  touch-action:pan-y;
+}
+
+/* ================= GLOBAL ================= */
+
+button,
+a{
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus,
+a:focus{
+  outline:3px solid #fff;
+  outline-offset:2px;
+}
+
+/* ================= NAVBAR ================= */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99999;
+
+  padding:12px 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  background:
+  linear-gradient(
+    to bottom,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.35),
+    transparent
+  );
+
+  backdrop-filter:blur(10px);
+}
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+#menuBtn{
+  width:46px;
+  height:46px;
+
+  border:none;
+  border-radius:12px;
+
+  background:#1b1b1b;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+#menuBtn:hover,
+#menuBtn:focus{
+  background:#e50914;
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:clamp(24px,4vw,42px);
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* ================= SEARCH ================= */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+
+  background:#1b1b1b;
+
+  border-radius:40px;
+  overflow:hidden;
+}
+
+#searchInput{
+  width:220px;
+  height:46px;
+
+  padding:0 15px;
+
+  border:none;
+  background:transparent;
+
+  color:#fff;
+  font-size:15px;
+}
+
+#searchInput::placeholder{
+  color:#aaa;
+}
+
+#searchBtn{
+  width:52px;
+  height:46px;
+
+  border:none;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-320px;
+
+  width:280px;
+  max-width:85%;
+
+  height:100dvh;
+
+  background:#111;
+
+  z-index:999999;
+
+  padding:20px;
+
+  transition:.3s;
+
+  display:flex;
+  flex-direction:column;
+
+  overflow-y:auto;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:20px;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+}
+
+#closeMenu{
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:10px;
+
+  background:#1b1b1b;
+  color:#fff;
+
+  font-size:18px;
+  cursor:pointer;
+}
+
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+#sidebar a{
+  color:#fff;
+
+  text-decoration:none;
+
+  padding:15px;
+
+  border-radius:12px;
+
+  background:#1a1a1a;
+
+  transition:.2s;
+}
+
+#sidebar a:hover,
+#sidebar a:focus{
+  background:#e50914;
+}
+
+#menuOverlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.7);
+
+  z-index:5000;
+
+  display:none;
+}
+
+#menuOverlay.active{
+  display:block;
+}
+
+/* ================= HERO ================= */
+
+#hero{
+  width:100%;
+  min-height:100vh;
+
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:30px;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.4)
+  ),
+  url(
+'https://i.imgur.com/w4NFeXx.png'
+  )
+  center/cover no-repeat;
+}
+
+.heroContent{
+  max-width:750px;
+
+  animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+.heroBadge{
+  display:inline-block;
+
+  background:#e50914;
+
+  padding:8px 18px;
+
+  border-radius:30px;
+
+  margin-bottom:20px;
+
+  font-size:14px;
+  font-weight:bold;
+}
+
+.heroContent h1{
+  font-size:
+  clamp(42px,7vw,85px);
+
+  line-height:1.1;
+
+  margin-bottom:25px;
+}
+
+.heroContent p{
+  color:#ddd;
+
+  line-height:1.8;
+
+  margin-bottom:35px;
+
+  font-size:
+  clamp(16px,2vw,22px);
+}
+
+/* ================= STATUS BOX ================= */
+
+.statusBox{
+
+  width:100%;
+
+  background:rgba(255,255,255,.06);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:24px;
+
+  padding:25px;
+
+  backdrop-filter:blur(10px);
+
+  margin-bottom:35px;
+
+}
+
+.statusTitle{
+
+  font-size:24px;
+  font-weight:bold;
+
+  margin-bottom:20px;
+
+}
+
+.loader{
+
+  width:100%;
+  height:10px;
+
+  background:#222;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  margin-bottom:25px;
+
+}
+
+.loaderBar{
+
+  width:45%;
+
+  height:100%;
+
+  background:
+  linear-gradient(
+    90deg,
+    #e50914,
+    #ff4040
+  );
+
+  border-radius:30px;
+
+  animation:loading 2s infinite ease-in-out;
+
+}
+
+@keyframes loading{
+
+  0%{
+    width:10%;
+  }
+
+  50%{
+    width:80%;
+  }
+
+  100%{
+    width:25%;
+  }
+
+}
+
+/* ================= BUTTONS ================= */
+
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.btn{
+
+  border:none;
+
+  padding:15px 28px;
+
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+  text-decoration:none;
+}
+
+.primaryBtn{
+  background:#e50914;
+  color:#fff;
+}
+
+.primaryBtn:hover{
+  transform:translateY(-3px);
+}
+
+.secondaryBtn{
+  background:#1f1f1f;
+  color:#fff;
+}
+
+.secondaryBtn:hover{
+  background:#333;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  text-align:center;
+
+  color:#888;
+
+  padding:30px 20px;
+
+  font-size:14px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  #navbar{
+    padding:10px 12px;
+  }
+
+  #searchInput{
+    width:120px;
+    font-size:14px;
+  }
+
+  #appTitle{
+    font-size:26px;
+  }
+
+  .buttons{
+    flex-direction:column;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+}
+
+/* ================= SMART TV ================= */
+
+@media(min-width:1400px){
+
+  body{
+    font-size:20px;
+  }
+
+  #searchInput{
+    width:340px;
+    height:60px;
+    font-size:20px;
+  }
+
+  #searchBtn,
+  #menuBtn,
+  #closeMenu{
+    width:62px;
+    height:62px;
+    font-size:28px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="navbar">
+
+  <div id="leftNav">
+
+    <button id="menuBtn">☰</button>
+
+    <h1 id="appTitle">MAFLIX</h1>
+
+  </div>
+
+  <div id="searchBox">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="TV CHANNELS Under Maintenance"
+      readonly
+    >
+
+    <button id="searchBtn">🔧</button>
+
+  </div>
+
+</div>
+
+<div id="sidebar">
+
+  <div id="sidebarHeader">
+
+    <h2>MAFLIX</h2>
+
+    <button id="closeMenu">✕</button>
+
+  </div>
+
+  <div class="sidebarLinks">
+
+    <a href="../index.html">🏠 Home</a>
+
+    <a href="../anime/index.html">🎌 Anime</a>
+
+    <a href="../drama-tagalod-dudbed.html">🎭 Tagalog Dubbed Drama</a>
+
+    <a href="index.html">📺 TV Channels</a>
+
+    <a href="../sporta-event.html">⚽ Sports Event</a>
+
+    <a href="../vivamax.html">🎬 Viva Max</a>
+
+  </div>
+
+</div>
+
+<div id="menuOverlay"></div>
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <div class="heroBadge">
+      🚧 UNDER MAINTENANCE
+    </div>
+
+    <h1>
+      TV CHANNELS Section<br>
+      Temporarily Offline
+    </h1>
+
+    <p>
+      MAFLIX TV CHANNELS is currently
+      under maintenance and system upgrades.
+      Please come back again later for a better
+      streaming experience.
+    </p>
+
+    <div class="statusBox">
+
+      <div class="statusTitle">
+        System Upgrade In Progress...
+      </div>
+
+      <div class="loader">
+
+        <div class="loaderBar"></div>
+
+      </div>
+
+      <p>
+        Updating TV CHANNELS , improving speed,
+        fixing bugs.
+      </p>
+
+    </div>
+
+    <div class="buttons">
+
+      <button
+        class="btn primaryBtn"
+        onclick="history.back()">
+
+        ⬅ Come Back
+
+      </button>
+
+      <button
+        class="btn secondaryBtn"
+        onclick="location.reload()">
+
+        🔄 Refresh
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  © 2026 MAFLIX - TV CHANNELS Maintenance
+</footer>
+
+<script>
+
+/* ================= MENU ================= */
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const sidebar =
+document.getElementById("sidebar");
+
+const closeMenu =
+document.getElementById("closeMenu");
+
+const menuOverlay =
+document.getElementById("menuOverlay");
+
+menuBtn.onclick = ()=>{
+
+  sidebar.classList.add("active");
+
+  menuOverlay.classList.add("active");
+
+};
+
+function closeSidebar(){
+
+  sidebar.classList.remove("active");
+
+  menuOverlay.classList.remove("active");
+
+}
+
+closeMenu.onclick =
+closeSidebar;
+
+menuOverlay.onclick =
+closeSidebar;
+
+/* ================= TV REMOTE ================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    const active =
+    document.activeElement;
+
+    if(
+      e.key === "Enter" &&
+      active
+    ){
+
+      if(
+        active.tagName === "BUTTON" ||
+        active.tagName === "A"
+      ){
+
+        active.click();
+
+      }
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
