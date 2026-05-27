@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAFLIX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* HERO */
+.hero{
+    width:100%;
+    height:100vh;
+    background:
+    linear-gradient(to top, #000 5%, rgba(0,0,0,0.3)),
+    url('https://i.imgur.com/w4NFeXx.png');
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    padding:40px 20px;
+}
+
+.overlay{
+    width:100%;
+}
+
+.logo{
+    position:absolute;
+    top:25px;
+    left:20px;
+    font-size:40px;
+    font-weight:700;
+    color:#e50914;
+    letter-spacing:2px;
+}
+
+.movie-title{
+    font-size:42px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.movie-desc{
+    max-width:600px;
+    color:#ddd;
+    font-size:15px;
+    margin-bottom:25px;
+    line-height:1.6;
+}
+
+.buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 28px;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    text-decoration:none;
+}
+
+.play-btn{
+    background:#fff;
+    color:#000;
+}
+
+.play-btn:hover{
+    background:#ddd;
+}
+
+.download-btn{
+    background:#e50914;
+    color:#fff;
+}
+
+.download-btn:hover{
+    background:#ff1f2d;
+}
+
+/* SECTION */
+.section{
+    padding:25px 20px;
+}
+
+.section-title{
+    font-size:24px;
+    margin-bottom:15px;
+    font-weight:600;
+}
+
+.movies{
+    display:flex;
+    overflow-x:auto;
+    gap:15px;
+    scroll-behavior:smooth;
+}
+
+.movies::-webkit-scrollbar{
+    display:none;
+}
+
+.card{
+    min-width:160px;
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:scale(1.06);
+}
+
+.card img{
+    width:160px;
+    height:230px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.card-title{
+    margin-top:8px;
+    font-size:14px;
+    text-align:center;
+}
+
+/* FOOTER */
+.footer{
+    padding:30px 20px;
+    text-align:center;
+    color:#777;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+
+<div class="logo">MAFLIX</div>
+
+<div class="overlay">
+
+<h1 class="movie-title">Unlimited Movies, Series & Anime</h1>
+
+<p class="movie-desc">
+Watch trending movies, Korean dramas, anime, and TV series anytime with MAFLIX.
+Fast streaming, smooth experience, and mobile-friendly design.
+</p>
+
+<div class="buttons">
+
+<a href="#" class="btn play-btn">
+▶ Watch Now
+</a>
+
+<a href="MAFLIX_1.0.apk" class="btn download-btn" download>
+⬇ Download App
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- TRENDING -->
+<section class="section">
+
+<h2 class="section-title">🔥 Trending Movies</h2>
+
+<div class="movies">
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg">
+<div class="card-title">John Wick 4</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/8rpDcsfLJypbO6vREc0547VKqEv.jpg">
+<div class="card-title">Avengers</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg">
+<div class="card-title">Exhuma</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg">
+<div class="card-title">Oppenheimer</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg">
+<div class="card-title">Infinity War</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- KDRAMA -->
+<section class="section">
+
+<h2 class="section-title">🇰🇷 K-Drama</h2>
+
+<div class="movies">
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/34nDCQZwaEvsy4CFO5hkGRFDCVU.jpg">
+<div class="card-title">Queen of Tears</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/7Jl1Q8MYrw7qXw8F7I7zHEzVOou.jpg">
+<div class="card-title">Vincenzo</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/xs7Dx72wr2H14uxu0H0R9ljDZk7.jpg">
+<div class="card-title">Squid Game</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg">
+<div class="card-title">True Beauty</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ANIME -->
+<section class="section">
+
+<h2 class="section-title">🔥 Anime</h2>
+
+<div class="movies">
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/8QVDXDiOGHRcAD4oM6MXjE0osSj.jpg">
+<div class="card-title">Demon Slayer</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/e3NBGiAifW9Xt8xD5tpARskjccO.jpg">
+<div class="card-title">One Piece</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/suopoADq0k8YZr4dQXcU6pToj6s.jpg">
+<div class="card-title">Attack on Titan</div>
+</div>
+
+<div class="card">
+<img src="https://image.tmdb.org/t/p/w500/aiy35Evcofzl7hASZZvsFgltHTX.jpg">
+<div class="card-title">Jujutsu Kaisen</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+© 2026 MAFLIX — Stream Anywhere
+</div>
+
+</body>
+</html>
