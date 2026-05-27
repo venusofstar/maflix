@@ -1,388 +1,204 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+<meta charset="UTF-8">
 
-  <title>MAFLIX</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <meta name="theme-color" content="#e50914" />
+<title>MAFLIX</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+<meta
+name="theme-color"
+content="#e50914">
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+<meta
+name="description"
+content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.">
 
-  <link rel="stylesheet" href="styl.css" />
+<link rel="stylesheet" href="style.css">
 
-  <!-- SAFE MONETAG ADS -->
-  <script
-    async
-    data-cfasync="false"
-    src="https://quge5.com/88/tag.min.js"
-    data-zone="243456">
-  </script>
+<!-- SHAKA PLAYER -->
+<script
+src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"
+defer>
+</script>
 
-  <!-- BASIC SECURITY -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="
-      default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
-      frame-src * data: blob:;
-      script-src * 'unsafe-inline' 'unsafe-eval';
-      style-src * 'unsafe-inline';
-      img-src * data: blob:;
-      connect-src *;
-    "
-  />
+<!-- SAFE MONETAG ADS -->
+<script
+async
+data-cfasync="false"
+src="https://quge5.com/88/tag.min.js"
+data-zone="243456">
+</script>
+
+<!-- BASIC SECURITY -->
+<meta
+http-equiv="Content-Security-Policy"
+content="
+default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+script-src * 'unsafe-inline' 'unsafe-eval';
+style-src * 'unsafe-inline';
+img-src * data: blob:;
+media-src * blob:;
+frame-src *;
+connect-src *;
+">
 
 </head>
 
 <body>
 
-  <div id="overlay"></div>
+<!-- ================= NAVBAR ================= -->
 
-  <!-- SIDEBAR -->
+<div id="navbar">
 
-  <div id="sidebar">
+  <div id="leftNav">
 
-    <div id="sidebarHeader">
-      <h2>MAFLIX</h2>
-      <button id="closeMenu">✕</button>
-    </div>
+    <button id="menuBtn">☰</button>
 
-    <div class="sidebarLinks">
-
-      <a href="../index.html">🏠 Home</a>
-
-      <a href="../anime">🎌 Anime</a>
-
-      <a href="../drama-tagalod-dudbed">
-        🎭 Tagalog Dubbed Drama
-      </a>
-
-      <a href="../tv-channel">📺 TV Channels</a>
-
-      <a href="../sports-event">⚽ Sports Event</a>
-
-      <a href="index.html">🎬 Viva Max</a>
-
-    </div>
+    <h1 id="appTitle">MAFLIX</h1>
 
   </div>
 
-  <!-- NAVBAR -->
+  <div id="searchBox">
 
-  <div id="navbar">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search channels...">
 
-    <div id="leftNav">
+    <button id="searchBtn">🔍</button>
 
-      <button id="menuBtn">☰</button>
+  </div>
 
-      <h1 id="appTitle">MAFLIX</h1>
+</div>
 
-    </div>
+<!-- ================= SIDEBAR ================= -->
 
-    <div id="searchBox">
+<div id="sidebar">
 
-      <input
-        type="text"
-        id="movieSearchInput"
-        placeholder="Search movies..."
-      >
+  <div id="sidebarHeader">
 
-      <button id="searchBtn">
-        Search
+    <h2>MAFLIX</h2>
+
+    <button id="closeMenu">✕</button>
+
+  </div>
+
+  <div class="sidebarLinks">
+
+    <a href="index.html">🏠 Home</a>
+
+    <a href="anime/index.html">🎌 Anime</a>
+
+    <a href="drama-tagalod-dudbed/index.html">
+      🎭 Tagalog Dubbed Drama
+    </a>
+
+    <a href="tv-channel.html">📺 TV Channels</a>
+
+    <a href="sports-event.html">⚽ Sports Event</a>
+
+    <a href="vivamax.html">🎬 Viva Max</a>
+
+  </div>
+
+</div>
+
+<div id="menuOverlay"></div>
+
+<!-- ================= HERO ================= -->
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <h2>Trending Now</h2>
+
+    <p>
+      Watch movies, anime, sports and live TV
+      with MAFLIX streaming platform.
+    </p>
+
+    <div class="heroButtons">
+
+      <button class="playBtn">
+        ▶ Watch
+      </button>
+
+      <button class="infoBtn">
+        More Info
       </button>
 
     </div>
 
   </div>
 
-  <!-- HERO -->
-
-  <section id="hero">
-
-    <div class="heroContent">
-
-      <h1>Unlimited Movies & Series</h1>
-
-      <p>
-        Watch trending movies, anime and TV series instantly on MAFLIX.
-      </p>
-
-      <div class="heroButtons">
-
-        <button class="playBtn">
-          ▶ Watch Now
-        </button>
-
-        <button class="infoBtn">
-          More Info
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- SAFE AD CONTAINER -->
-  <div class="ad-container">
-    <script>
-      if (window.innerWidth > 768) {
-        document.write(`
-          <div style="margin:15px auto;text-align:center;">
-            <script async data-cfasync="false"
-              src="https://quge5.com/88/tag.min.js"
-              data-zone="243456">
-            <\/script>
-          </div>
-        `);
-      }
-    </script>
-  </div>
-
-  <!-- CONTENT -->
-
-  <div id="content">
-
-    <!-- CONTINUE WATCHING -->
-
-    <div
-      class="section"
-      id="continueSection"
-      style="display:none;"
-    >
-
-      <div class="sectionHeader">
-
-        <h2>▶ Continue Watching</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('continueGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('continueGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="continueGrid"></div>
-
-    </div>
-
-    <!-- SEARCH MOVIES -->
-
-    <div class="section">
-
-      <div class="sectionHeader">
-
-        <h2>🔥 Search Movies</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('searchGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('searchGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="searchGrid"></div>
-
-    </div>
-
-    <!-- NEW MOVIES -->
-
-    <div class="section">
-
-      <div class="sectionHeader">
-
-        <h2>🆕 New Movies</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('newMoviesGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('newMoviesGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="newMoviesGrid"></div>
-
-    </div>
-
-    <!-- ACTION -->
-
-    <div class="section">
-
-      <div class="sectionHeader">
-
-        <h2>💥 Action</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('actionGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('actionGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="actionGrid"></div>
-
-    </div>
-
-    <!-- COMEDY -->
-
-    <div class="section">
-
-      <div class="sectionHeader">
-
-        <h2>😂 Comedy</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('comedyGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('comedyGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="comedyGrid"></div>
-
-    </div>
-
-    <!-- SERIES -->
-
-    <div class="section">
-
-      <div class="sectionHeader">
-
-        <h2>📺 TV Series</h2>
-
-        <div class="sliderButtons">
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('seriesGrid',-1)"
-          >
-            ❮
-          </button>
-
-          <button
-            class="slideBtn"
-            onclick="scrollRow('seriesGrid',1)"
-          >
-            ❯
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="row" id="seriesGrid"></div>
-
-    </div>
-
-  </div>
-
-  <!-- PLAYER -->
-
-  <div id="playerModal">
-
-    <div class="serverButtons">
-
-      <button class="server1" id="server1Btn">
-        Server 1
-      </button>
-
-      <button class="server2" id="server2Btn">
-        Server 2
-      </button>
-
-    </div>
-
-    <iframe
-      id="videoFrame"
-      allowfullscreen
-      allow="autoplay; fullscreen"
-      sandbox="allow-scripts allow-same-origin allow-presentation"
-      referrerpolicy="origin"
-    ></iframe>
-
-    <button id="closePlayer">
-      ✕
-    </button>
-
-  </div>
-
-  <!-- SAFE SCRIPT LOAD -->
-  <script src="scrpt.js" defer></script>
+</section>
+
+<!-- ================= SAFE ADS SECTION ================= -->
+
+<div
+style="
+margin:15px auto;
+text-align:center;
+max-width:100%;
+overflow:hidden;
+">
+
+  <script>
+    if (window.innerWidth >= 768) {
+      document.write(`
+        <script
+          async
+          data-cfasync="false"
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="243456">
+        <\/script>
+      `);
+    }
+  </script>
+
+</div>
+
+<!-- ================= CHANNELS ================= -->
+
+<div id="channelSections"></div>
+
+<!-- ================= PLAYER ================= -->
+
+<div id="videoContainer">
+
+  <div id="spinner"></div>
+
+  <video
+    id="videoPlayer"
+    controls
+    autoplay
+    playsinline
+    controlsList="nodownload"
+    preload="metadata">
+  </video>
+
+  <iframe
+    id="ytFrame"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    sandbox="allow-scripts allow-same-origin allow-presentation"
+    referrerpolicy="origin"
+    style="display:none">
+  </iframe>
+
+  <button id="closeBtn">✕</button>
+
+</div>
+
+<!-- APP SCRIPT -->
+<script src="script.js" defer></script>
 
 </body>
 </html>
