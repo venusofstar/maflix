@@ -3,25 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MAFLIX</title>
 
 <meta name="theme-color" content="#e50914">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
 }
 
 body{
@@ -31,27 +24,18 @@ body{
   overflow-x:hidden;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 ::-webkit-scrollbar{
   width:6px;
-  height:6px;
 }
 
 ::-webkit-scrollbar-thumb{
   background:#e50914;
   border-radius:20px;
 }
-
-img{
-  width:100%;
-  display:block;
-}
-
-a{
-  text-decoration:none;
-  color:#fff;
-}
-
-/* OVERLAY */
 
 #overlay{
   position:fixed;
@@ -68,8 +52,6 @@ a{
   visibility:visible;
 }
 
-/* SIDEBAR */
-
 #sidebar{
   position:fixed;
   top:0;
@@ -81,7 +63,6 @@ a{
   padding:20px;
   transition:.3s;
   overflow-y:auto;
-  border-right:1px solid #222;
 }
 
 #sidebar.active{
@@ -118,15 +99,7 @@ a{
   padding:14px;
   border-radius:12px;
   background:#1a1a1a;
-  transition:.2s;
 }
-
-.sidebarLinks a:hover{
-  background:#e50914;
-  transform:translateX(5px);
-}
-
-/* NAVBAR */
 
 #navbar{
   position:fixed;
@@ -138,7 +111,6 @@ a{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
   background:rgba(0,0,0,.88);
   backdrop-filter:blur(12px);
 }
@@ -147,7 +119,6 @@ a{
   display:flex;
   align-items:center;
   gap:12px;
-  flex-shrink:0;
 }
 
 #menuBtn{
@@ -164,11 +135,7 @@ a{
 #appTitle{
   color:#e50914;
   font-size:30px;
-  font-weight:700;
-  white-space:nowrap;
 }
-
-/* SEARCH */
 
 #searchBox{
   display:flex;
@@ -188,7 +155,6 @@ a{
   color:#fff;
   padding:0 15px;
   outline:none;
-  font-size:15px;
 }
 
 #searchBtn{
@@ -200,63 +166,27 @@ a{
   color:#fff;
   font-weight:700;
   cursor:pointer;
-  flex-shrink:0;
 }
-
-/* HERO */
 
 #hero{
   min-height:80vh;
   background:
   linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.3)),
-  url('https://i.imgur.com/w4NFeXx.png')
-  center/cover no-repeat;
+  url('https://i.imgur.com/w4NFeXx.png') center/cover no-repeat;
   display:flex;
   align-items:center;
   padding:130px 25px 40px;
 }
 
-.heroContent{
-  max-width:650px;
-}
-
 .heroContent h1{
-  font-size:65px;
-  margin-bottom:18px;
-  line-height:1.1;
+  font-size:60px;
+  margin-bottom:15px;
 }
 
 .heroContent p{
   color:#ddd;
   margin-bottom:25px;
-  line-height:1.7;
 }
-
-.heroButtons{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-}
-
-.heroButtons button{
-  border:none;
-  border-radius:12px;
-  padding:14px 24px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.playBtn{
-  background:#fff;
-  color:#000;
-}
-
-.infoBtn{
-  background:rgba(109,109,110,.7);
-  color:#fff;
-}
-
-/* CONTENT */
 
 #content{
   padding:20px;
@@ -277,8 +207,6 @@ a{
   font-size:28px;
 }
 
-/* SLIDER */
-
 .sliderButtons{
   display:flex;
   gap:10px;
@@ -291,45 +219,28 @@ a{
   border-radius:50%;
   background:#1d1d1d;
   color:#fff;
-  font-size:20px;
   cursor:pointer;
-  transition:.2s;
 }
-
-.slideBtn:hover{
-  background:#e50914;
-  transform:scale(1.08);
-}
-
-/* ROW */
 
 .row{
   display:flex;
   gap:14px;
   overflow-x:auto;
-  overflow-y:hidden;
   scroll-behavior:smooth;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:5px;
 }
 
 .row::-webkit-scrollbar{
   display:none;
 }
 
-/* CARD */
-
 .card{
   min-width:190px;
   width:190px;
   height:285px;
-  background:#181818;
   border-radius:16px;
   overflow:hidden;
   position:relative;
-  flex-shrink:0;
-  scroll-snap-align:start;
+  background:#181818;
   cursor:pointer;
   transition:.25s;
 }
@@ -349,13 +260,8 @@ a{
   bottom:0;
   width:100%;
   padding:14px;
-  font-size:14px;
-  font-weight:600;
-  background:
-  linear-gradient(to top,rgba(0,0,0,.95),transparent);
+  background:linear-gradient(to top,rgba(0,0,0,.95),transparent);
 }
-
-/* PLAYER */
 
 #playerModal{
   position:fixed;
@@ -368,8 +274,8 @@ a{
 }
 
 #videoFrame{
-  width:min(95vw,1600px);
-  height:min(88vh,900px);
+  width:95vw;
+  height:88vh;
   border:none;
   border-radius:14px;
 }
@@ -388,13 +294,10 @@ a{
   cursor:pointer;
 }
 
-/* SERVER BUTTONS */
-
 .serverButtons{
   position:absolute;
   top:15px;
   left:15px;
-  z-index:1000;
   display:flex;
   gap:10px;
 }
@@ -404,7 +307,6 @@ a{
   border:none;
   border-radius:10px;
   color:#fff;
-  font-weight:600;
   cursor:pointer;
 }
 
@@ -416,74 +318,36 @@ a{
   background:#222;
 }
 
+#episodeControls{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:1000;
+  display:none;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  background:rgba(0,0,0,.75);
+  padding:12px;
+  border-radius:16px;
+}
+
+#episodeControls button{
+  border:none;
+  background:#e50914;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
 .loading{
   padding:20px;
   color:#aaa;
 }
 
-/* TABLET */
-
-@media(max-width:900px){
-
-  .heroContent h1{
-    font-size:46px;
-  }
-
-  .card{
-    min-width:160px;
-    width:160px;
-    height:240px;
-  }
-
-  .sectionHeader h2{
-    font-size:23px;
-  }
-}
-
-/* MOBILE */
-
 @media(max-width:650px){
-
-  #navbar{
-    gap:10px;
-    padding:12px;
-  }
-
-  #appTitle{
-    font-size:22px;
-  }
-
-  #movieSearchInput{
-    height:42px;
-    font-size:14px;
-  }
-
-  #searchBtn{
-    height:42px;
-    font-size:13px;
-    padding:0 14px;
-  }
-
-  #hero{
-    min-height:70vh;
-    padding:120px 18px 40px;
-  }
-
-  .heroContent h1{
-    font-size:34px;
-  }
-
-  .heroContent p{
-    font-size:14px;
-  }
-
-  .heroButtons{
-    flex-direction:column;
-  }
-
-  .heroButtons button{
-    width:100%;
-  }
 
   .card{
     min-width:135px;
@@ -491,27 +355,22 @@ a{
     height:205px;
   }
 
-  .slideBtn{
-    width:35px;
-    height:35px;
-    font-size:16px;
-  }
-
   #videoFrame{
     width:100%;
     height:100%;
     border-radius:0;
   }
-}
 
+  #episodeControls{
+    width:95%;
+    justify-content:center;
+  }
+}
 </style>
 </head>
-
 <body>
 
 <div id="overlay"></div>
-
-<!-- SIDEBAR -->
 
 <div id="sidebar">
 
@@ -523,269 +382,90 @@ a{
   <div class="sidebarLinks">
     <a href="#">🏠 Home</a>
     <a href="#">🎌 Anime</a>
-    <a href="#">🎭 Drama</a>
-    <a href="#">📺 TV Channels</a>
+    <a href="#">📺 Series</a>
     <a href="#">⚽ Sports</a>
-    <a href="#">🎬 Viva Max</a>
   </div>
 
 </div>
-
-<!-- NAVBAR -->
 
 <div id="navbar">
 
   <div id="leftNav">
-
     <button id="menuBtn">☰</button>
-
     <h1 id="appTitle">MAFLIX</h1>
-
   </div>
 
   <div id="searchBox">
-
-    <input
-      type="text"
-      id="movieSearchInput"
-      placeholder="Search movies..."
-    >
-
-    <button id="searchBtn">
-      Search
-    </button>
-
+    <input type="text" id="movieSearchInput" placeholder="Search movies...">
+    <button id="searchBtn">Search</button>
   </div>
 
 </div>
 
-<!-- HERO -->
-
 <section id="hero">
-
   <div class="heroContent">
-
     <h1>Unlimited Movies & Anime</h1>
-
-    <p>
-      Watch trending movies, anime and TV series instantly on MAFLIX.
-    </p>
-
-    <div class="heroButtons">
-
-      <button class="playBtn">
-        ▶ Watch Now
-      </button>
-
-      <button class="infoBtn">
-        More Info
-      </button>
-
-    </div>
-
+    <p>Watch trending movies and TV series instantly.</p>
   </div>
-
 </section>
-
-<!-- CONTENT -->
 
 <div id="content">
 
-  <!-- SEARCH -->
-
   <div class="section">
-
     <div class="sectionHeader">
-
       <h2>🔥 Search Movies</h2>
-
       <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('searchGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('searchGrid',1)">
-          ❯
-        </button>
-
+        <button class="slideBtn" onclick="scrollRow('searchGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('searchGrid',1)">❯</button>
       </div>
-
     </div>
-
     <div class="row" id="searchGrid"></div>
-
   </div>
 
-  <!-- NEW MOVIES -->
-
   <div class="section">
-
     <div class="sectionHeader">
-
-      <h2>🆕 New Movies</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('newMoviesGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('newMoviesGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="newMoviesGrid"></div>
-
-  </div>
-
-  <!-- ACTION -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
-      <h2>💥 Action</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('actionGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('actionGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="actionGrid"></div>
-
-  </div>
-
-  <!-- COMEDY -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
-      <h2>😂 Comedy</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('comedyGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('comedyGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="comedyGrid"></div>
-
-  </div>
-
-  <!-- ANIME -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
       <h2>🎌 Anime</h2>
-
       <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('animeGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('animeGrid',1)">
-          ❯
-        </button>
-
+        <button class="slideBtn" onclick="scrollRow('animeGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('animeGrid',1)">❯</button>
       </div>
-
     </div>
-
     <div class="row" id="animeGrid"></div>
-
   </div>
 
-  <!-- SERIES -->
-
   <div class="section">
-
     <div class="sectionHeader">
-
       <h2>📺 TV Series</h2>
-
       <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('seriesGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('seriesGrid',1)">
-          ❯
-        </button>
-
+        <button class="slideBtn" onclick="scrollRow('seriesGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('seriesGrid',1)">❯</button>
       </div>
-
     </div>
-
     <div class="row" id="seriesGrid"></div>
-
   </div>
 
 </div>
-
-<!-- PLAYER -->
 
 <div id="playerModal">
 
   <div class="serverButtons">
-
-    <button class="server1" id="server1Btn">
-      Server 1
-    </button>
-
-    <button class="server2" id="server2Btn">
-      Server 2
-    </button>
-
+    <button class="server1" id="server1Btn">Server 1</button>
+    <button class="server2" id="server2Btn">Server 2</button>
   </div>
 
-  <iframe
-    id="videoFrame"
-    allowfullscreen
-    allow="autoplay; fullscreen">
-  </iframe>
+  <div id="episodeControls">
+    <button onclick="prevSeason()">◀ Season</button>
+    <span id="seasonText">Season 1</span>
+    <button onclick="nextSeason()">Season ▶</button>
 
-  <button id="closePlayer">
-    ✕
-  </button>
+    <button onclick="prevEpisode()">◀ Episode</button>
+    <span id="episodeText">Episode 1</span>
+    <button onclick="nextEpisode()">Episode ▶</button>
+  </div>
+
+  <iframe id="videoFrame" allowfullscreen allow="autoplay; fullscreen"></iframe>
+
+  <button id="closePlayer">✕</button>
 
 </div>
 
@@ -793,110 +473,133 @@ a{
 
 const API_KEY = "90521a18";
 
-/* SIDEBAR */
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-const sidebar =
-document.getElementById("sidebar");
-
-const overlay =
-document.getElementById("overlay");
-
-document.getElementById("menuBtn")
-.onclick = () => {
-
+menuBtn.onclick = () => {
   sidebar.classList.add("active");
-
   overlay.classList.add("active");
-
-  document.body.style.overflow = "hidden";
 };
 
 function closeSidebar(){
-
   sidebar.classList.remove("active");
-
   overlay.classList.remove("active");
-
-  document.body.style.overflow = "auto";
 }
 
-document.getElementById("closeMenu")
-.onclick = closeSidebar;
-
+closeMenu.onclick = closeSidebar;
 overlay.onclick = closeSidebar;
-
-/* SCROLL */
 
 function scrollRow(rowId,direction){
 
-  const row =
-  document.getElementById(rowId);
-
-  const amount =
-  window.innerWidth < 768 ? 300 : 700;
-
-  row.scrollBy({
-    left: direction * amount,
+  document.getElementById(rowId).scrollBy({
+    left:direction * 600,
     behavior:"smooth"
   });
 }
 
-/* PLAYER */
-
 let currentMovieID = "";
+let currentSeason = 1;
+let currentEpisode = 1;
+let isSeriesMode = false;
 
-function playMovie(imdbID){
+function playMovie(imdbID,type="movie"){
 
   currentMovieID = imdbID;
 
-  document.getElementById("videoFrame").src =
-  `https://playimdb.com/title/${imdbID}`;
+  isSeriesMode = type === "series";
 
-  document.getElementById("playerModal")
-  .style.display = "flex";
+  document.getElementById("episodeControls")
+  .style.display = isSeriesMode ? "flex" : "none";
 
-  document.body.style.overflow = "hidden";
+  if(isSeriesMode){
+
+    currentSeason = 1;
+    currentEpisode = 1;
+
+    loadEpisode();
+
+  }else{
+
+    document.getElementById("videoFrame").src =
+    `https://playimdb.com/title/${imdbID}`;
+  }
+
+  playerModal.style.display = "flex";
 }
 
-/* CLOSE PLAYER */
+function loadEpisode(){
 
-document.getElementById("closePlayer")
-.onclick = () => {
+  videoFrame.src =
+  `https://vidsrc.to/embed/tv/${currentMovieID}/${currentSeason}/${currentEpisode}`;
 
-  document.getElementById("playerModal")
-  .style.display = "none";
+  seasonText.innerText = `Season ${currentSeason}`;
 
-  document.getElementById("videoFrame").src = "";
+  episodeText.innerText = `Episode ${currentEpisode}`;
+}
 
-  document.body.style.overflow = "auto";
+function nextEpisode(){
+  currentEpisode++;
+  loadEpisode();
+}
+
+function prevEpisode(){
+  if(currentEpisode > 1){
+    currentEpisode--;
+    loadEpisode();
+  }
+}
+
+function nextSeason(){
+  currentSeason++;
+  currentEpisode = 1;
+  loadEpisode();
+}
+
+function prevSeason(){
+  if(currentSeason > 1){
+    currentSeason--;
+    currentEpisode = 1;
+    loadEpisode();
+  }
+}
+
+closePlayer.onclick = () => {
+
+  playerModal.style.display = "none";
+  videoFrame.src = "";
 };
 
-/* SERVERS */
+server1Btn.onclick = () => {
 
-document.getElementById("server1Btn")
-.onclick = () => {
+  if(isSeriesMode){
 
-  if(!currentMovieID) return;
+    videoFrame.src =
+    `https://vidsrc.to/embed/tv/${currentMovieID}/${currentSeason}/${currentEpisode}`;
 
-  document.getElementById("videoFrame").src =
-  `https://playimdb.com/title/${currentMovieID}`;
+  }else{
+
+    videoFrame.src =
+    `https://playimdb.com/title/${currentMovieID}`;
+  }
 };
 
-document.getElementById("server2Btn")
-.onclick = () => {
+server2Btn.onclick = () => {
 
-  if(!currentMovieID) return;
+  if(isSeriesMode){
 
-  document.getElementById("videoFrame").src =
-  `https://vidsrc.to/embed/movie/${currentMovieID}`;
+    videoFrame.src =
+    `https://vidsrc.to/embed/tv/${currentMovieID}/${currentSeason}/${currentEpisode}`;
+
+  }else{
+
+    videoFrame.src =
+    `https://vidsrc.to/embed/movie/${currentMovieID}`;
+  }
 };
-
-/* CREATE CARD */
 
 function createMovieCard(movie){
 
-  const card =
-  document.createElement("div");
+  const card = document.createElement("div");
 
   card.className = "card";
 
@@ -911,21 +614,20 @@ function createMovieCard(movie){
   `;
 
   card.onclick = () => {
-    playMovie(movie.imdbID);
+
+    const isSeries = movie.Type === "series";
+
+    playMovie(movie.imdbID,isSeries ? "series" : "movie");
   };
 
   return card;
 }
 
-/* LOAD MOVIES */
-
 async function loadCategoryMovies(query,id){
 
-  const grid =
-  document.getElementById(id);
+  const grid = document.getElementById(id);
 
-  grid.innerHTML =
-  `<div class="loading">Loading...</div>`;
+  grid.innerHTML = `<div class="loading">Loading...</div>`;
 
   try{
 
@@ -939,88 +641,45 @@ async function loadCategoryMovies(query,id){
 
     if(!data.Search){
 
-      grid.innerHTML =
-      `<div class="loading">No movies found</div>`;
+      grid.innerHTML = `<div class="loading">No movies found</div>`;
 
       return;
     }
 
     data.Search.forEach(movie => {
-
-      grid.appendChild(
-        createMovieCard(movie)
-      );
-
+      grid.appendChild(createMovieCard(movie));
     });
 
   }catch(err){
 
-    grid.innerHTML =
-    `<div class="loading">Failed to load movies</div>`;
+    grid.innerHTML = `<div class="loading">Failed to load movies</div>`;
   }
 }
 
-/* SEARCH */
-
 function searchMovies(){
 
-  const query =
-  document.getElementById("movieSearchInput")
-  .value.trim() || "Marvel";
+  const query = movieSearchInput.value.trim() || "Marvel";
 
-  loadCategoryMovies(
-    query,
-    "searchGrid"
-  );
+  loadCategoryMovies(query,"searchGrid");
 }
 
-document.getElementById("searchBtn")
-.onclick = searchMovies;
+searchBtn.onclick = searchMovies;
 
-document.getElementById("movieSearchInput")
-.addEventListener("keypress", function(e){
-
+movieSearchInput.addEventListener("keypress",e => {
   if(e.key === "Enter"){
     searchMovies();
   }
 });
 
-/* LOAD */
-
 window.onload = () => {
 
-  loadCategoryMovies(
-    "super Mario",
-    "searchGrid"
-  );
+  loadCategoryMovies("Marvel","searchGrid");
 
-  loadCategoryMovies(
-    "2026",
-    "newMoviesGrid"
-  );
+  loadCategoryMovies("Anime","animeGrid");
 
-  loadCategoryMovies(
-    "Action",
-    "actionGrid"
-  );
-
-  loadCategoryMovies(
-    "Comedy",
-    "comedyGrid"
-  );
-
-  loadCategoryMovies(
-    "Anime",
-    "animeGrid"
-  );
-
-  loadCategoryMovies(
-    "Series",
-    "seriesGrid"
-  );
+  loadCategoryMovies("Series","seriesGrid");
 };
 
 </script>
-
 </body>
 </html>
