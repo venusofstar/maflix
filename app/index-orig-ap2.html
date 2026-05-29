@@ -626,36 +626,6 @@ a{
 
 <div id="content">
 
-  <!-- CONTINUE WATCHING -->
-
-  <div class="section" id="continueSection" style="display:none;">
-
-    <div class="sectionHeader">
-
-      <h2>▶ Continue Watching</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('continueGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('continueGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="continueGrid"></div>
-
-  </div>
-
-  <!-- TRENDING -->
-
   <div class="section">
 
     <div class="sectionHeader">
@@ -681,118 +651,6 @@ a{
     <div class="row" id="searchGrid"></div>
 
   </div>
-
-  <!-- NEW MOVIES -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
-      <h2>🆕 New Movies</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('newMoviesGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('newMoviesGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="newMoviesGrid"></div>
-
-  </div>
-
-  <!-- ACTION -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
-      <h2>💥 Action</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('actionGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('actionGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="actionGrid"></div>
-
-  </div>
-
-  <!-- COMEDY -->
-
-  <div class="section">
-
-    <div class="sectionHeader">
-
-      <h2>😂 Comedy</h2>
-
-      <div class="sliderButtons">
-
-        <button class="slideBtn"
-        onclick="scrollRow('comedyGrid',-1)">
-          ❮
-        </button>
-
-        <button class="slideBtn"
-        onclick="scrollRow('comedyGrid',1)">
-          ❯
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="row" id="comedyGrid"></div>
-
-  </div>
-
-<!-- SERIES -->
-
-<div class="section">
-
-  <div class="sectionHeader">
-
-    <h2>📺 TV Series</h2>
-
-    <div class="sliderButtons">
-
-      <button class="slideBtn"
-      onclick="scrollRow('seriesGrid',-1)">
-        ❮
-      </button>
-
-      <button class="slideBtn"
-      onclick="scrollRow('seriesGrid',1)">
-        ❯
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="row" id="seriesGrid"></div>
-
-</div>
 
 </div>
 
@@ -878,15 +736,13 @@ function scrollRow(rowId,direction){
 
 /* PLAYER */
 
-/* PLAYER */
-
 let currentMovieID = "";
 let currentServer = 0;
 
 const servers = [
 
-  `https://vidsrc.to/embed/movie/`,
-
+    `https://vidsrc.to/embed/movie/`,
+  
   `https://playimdb.com/title/`
 
 
@@ -899,7 +755,7 @@ document.querySelector(".serverButtons");
 const videoFrame =
 document.getElementById("videoFrame");
 
-function playMovie(imdbID,movieData=null){
+function playMovie(imdbID){
 
   currentMovieID = imdbID;
 
@@ -910,15 +766,9 @@ function playMovie(imdbID,movieData=null){
 
   document.body.style.overflow = "hidden";
 
-  /* SHOW BUTTONS BEFORE PLAY */
-
   serverButtons.style.display = "flex";
 
   loadServer(currentServer);
-
-  if(movieData){
-    saveContinueWatching(movieData);
-  }
 }
 
 /* LOAD SERVER */
@@ -938,7 +788,6 @@ function loadServer(index){
           justify-content:center;
           height:100vh;
           font-family:Poppins,sans-serif;
-          text-align:center;
         }
       </style>
 
@@ -952,8 +801,6 @@ function loadServer(index){
 
   currentServer = index;
 
-  /* SHOW BUTTONS WHILE LOADING */
-
   serverButtons.style.display = "flex";
 
   let loaded = false;
@@ -961,15 +808,11 @@ function loadServer(index){
   videoFrame.src =
   servers[index] + currentMovieID;
 
-  /* SUCCESS */
-
   videoFrame.onload = () => {
 
     if(loaded) return;
 
     loaded = true;
-
-    /* HIDE BUTTONS AFTER PLAY */
 
     setTimeout(() => {
 
@@ -978,7 +821,7 @@ function loadServer(index){
     },1500);
   };
 
-  /* AUTO SWITCH */
+  /* AUTO NEXT SERVER */
 
   setTimeout(() => {
 
@@ -1024,7 +867,6 @@ document.getElementById("server2Btn")
   loadServer(1);
 };
 
-
 /* CREATE CARD */
 
 function createMovieCard(movie){
@@ -1045,69 +887,10 @@ function createMovieCard(movie){
   `;
 
   card.onclick = () => {
-    playMovie(movie.imdbID,movie);
+    playMovie(movie.imdbID);
   };
 
   return card;
-}
-
-/* CONTINUE WATCHING */
-
-function saveContinueWatching(movie){
-
-  let list =
-  JSON.parse(
-    localStorage.getItem("continueWatching")
-  ) || [];
-
-  list = list.filter(
-    item => item.imdbID !== movie.imdbID
-  );
-
-  list.unshift(movie);
-
-  if(list.length > 15){
-    list.pop();
-  }
-
-  localStorage.setItem(
-    "continueWatching",
-    JSON.stringify(list)
-  );
-
-  loadContinueWatching();
-}
-
-function loadContinueWatching(){
-
-  const section =
-  document.getElementById("continueSection");
-
-  const grid =
-  document.getElementById("continueGrid");
-
-  const list =
-  JSON.parse(
-    localStorage.getItem("continueWatching")
-  ) || [];
-
-  if(list.length === 0){
-
-    section.style.display = "none";
-    return;
-  }
-
-  section.style.display = "block";
-
-  grid.innerHTML = "";
-
-  list.forEach(movie => {
-
-    grid.appendChild(
-      createMovieCard(movie)
-    );
-
-  });
 }
 
 /* LOAD MOVIES */
@@ -1165,11 +948,6 @@ function searchMovies(){
     query,
     "searchGrid"
   );
-
-  window.scrollTo({
-    top:document.getElementById("content").offsetTop - 80,
-    behavior:"smooth"
-  });
 }
 
 document.getElementById("searchBtn")
@@ -1187,32 +965,10 @@ document.getElementById("movieSearchInput")
 
 window.onload = () => {
 
-  loadContinueWatching();
-
   loadCategoryMovies(
     "super Mario",
     "searchGrid"
   );
-
-  loadCategoryMovies(
-    "2026",
-    "newMoviesGrid"
-  );
-
-  loadCategoryMovies(
-    "Action",
-    "actionGrid"
-  );
-
-  loadCategoryMovies(
-    "Comedy",
-    "comedyGrid"
-  );
-  
-loadCategoryMovies(
-  "Series",
-  "seriesGrid"
-);
 };
 
 </script>
