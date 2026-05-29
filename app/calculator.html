@@ -2,119 +2,173 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#111">
-<title>Advanced Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="Advanced Mobile Calculator">
+<title>Calculator</title>
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-background:#111;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-padding:15px;
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:12px;
 }
 
 .calculator{
-width:100%;
-max-width:420px;
-background:#1a1a1a;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 0 30px rgba(0,0,0,.5);
+    width:100%;
+    max-width:420px;
+    background:#1a1a1a;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 25px rgba(0,0,0,.4);
+}
+
+.title-bar{
+    background:#0b0b0b;
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #222;
+}
+
+.title-bar h1{
+    font-size:22px;
+    font-weight:600;
 }
 
 .display{
-padding:20px;
-text-align:right;
-background:#000;
+    background:#000;
+    padding:15px;
 }
 
 #historyDisplay{
-font-size:14px;
-color:#888;
-min-height:20px;
-overflow:hidden;
+    color:#888;
+    min-height:22px;
+    text-align:right;
+    font-size:14px;
+    margin-bottom:5px;
 }
 
 #display{
-width:100%;
-border:none;
-background:none;
-color:#fff;
-font-size:36px;
-text-align:right;
-outline:none;
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    color:#fff;
+    text-align:right;
+    font-size:36px;
+    font-weight:bold;
 }
 
 .buttons{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:8px;
-padding:10px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    padding:10px;
 }
 
 button{
-border:none;
-padding:18px;
-font-size:18px;
-border-radius:12px;
-cursor:pointer;
-transition:.2s;
+    border:none;
+    border-radius:12px;
+    padding:16px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.15s;
 }
 
-button:hover{
-transform:scale(.97);
+button:active{
+    transform:scale(.95);
 }
 
 .num{
-background:#2b2b2b;
-color:white;
-}
-
-.op{
-background:#ff9500;
-color:white;
+    background:#2d2d2d;
+    color:#fff;
 }
 
 .func{
-background:#444;
-color:white;
+    background:#444;
+    color:#fff;
+}
+
+.op{
+    background:#ff9500;
+    color:#fff;
 }
 
 .equal{
-background:#00c853;
-color:white;
-grid-column:span 2;
+    background:#00c853;
+    color:#fff;
+    grid-column:span 2;
 }
 
 .history{
-max-height:150px;
-overflow:auto;
-padding:10px;
-background:#0f0f0f;
-color:#aaa;
-font-size:13px;
+    max-height:140px;
+    overflow-y:auto;
+    background:#0e0e0e;
+    padding:10px;
 }
 
-.history div{
-padding:5px 0;
-border-bottom:1px solid #222;
+.history-item{
+    color:#aaa;
+    font-size:13px;
+    padding:5px 0;
+    border-bottom:1px solid #222;
+}
+
+.history::-webkit-scrollbar{
+    width:4px;
+}
+
+.history::-webkit-scrollbar-thumb{
+    background:#444;
+    border-radius:10px;
 }
 
 @media(max-width:480px){
-button{
-padding:15px;
-font-size:16px;
+
+    .calculator{
+        max-width:100%;
+    }
+
+    button{
+        padding:14px;
+        font-size:15px;
+    }
+
+    #display{
+        font-size:30px;
+    }
+
+    .buttons{
+        gap:6px;
+    }
 }
+
+@media(max-width:340px){
+
+    button{
+        padding:12px;
+        font-size:14px;
+    }
+
+    #display{
+        font-size:24px;
+    }
+
+    .title-bar h1{
+        font-size:18px;
+    }
 }
 </style>
 </head>
@@ -122,161 +176,184 @@ font-size:16px;
 
 <div class="calculator">
 
-<div class="display">
-<div id="historyDisplay"></div>
-<input id="display" value="0" readonly>
-</div>
+    <div class="title-bar">
+        <h1>🧮 Calculator</h1>
+    </div>
 
-<div class="buttons">
+    <div class="display">
+        <div id="historyDisplay"></div>
+        <input type="text" id="display" value="0" readonly>
+    </div>
 
-<button class="func" onclick="clearDisplay()">AC</button>
-<button class="func" onclick="backspace()">⌫</button>
-<button class="func" onclick="memoryClear()">MC</button>
-<button class="func" onclick="memoryRecall()">MR</button>
-<button class="func" onclick="copyResult()">📋</button>
+    <div class="buttons">
 
-<button class="func" onclick="memoryAdd()">M+</button>
-<button class="func" onclick="memorySubtract()">M-</button>
-<button class="func" onclick="append('%')">%</button>
-<button class="op" onclick="append('/')">÷</button>
-<button class="func" onclick="scientific('sqrt')">√</button>
+        <button class="func" onclick="clearDisplay()">AC</button>
+        <button class="func" onclick="backspace()">⌫</button>
+        <button class="func" onclick="memoryClear()">MC</button>
+        <button class="func" onclick="memoryRecall()">MR</button>
+        <button class="func" onclick="copyResult()">📋</button>
 
-<button class="num" onclick="append('7')">7</button>
-<button class="num" onclick="append('8')">8</button>
-<button class="num" onclick="append('9')">9</button>
-<button class="op" onclick="append('*')">×</button>
-<button class="func" onclick="scientific('pow')">x²</button>
+        <button class="func" onclick="memoryAdd()">M+</button>
+        <button class="func" onclick="memorySubtract()">M-</button>
+        <button class="func" onclick="append('%')">%</button>
+        <button class="op" onclick="append('/')">÷</button>
+        <button class="func" onclick="scientific('sqrt')">√</button>
 
-<button class="num" onclick="append('4')">4</button>
-<button class="num" onclick="append('5')">5</button>
-<button class="num" onclick="append('6')">6</button>
-<button class="op" onclick="append('-')">−</button>
-<button class="func" onclick="scientific('sin')">sin</button>
+        <button class="num" onclick="append('7')">7</button>
+        <button class="num" onclick="append('8')">8</button>
+        <button class="num" onclick="append('9')">9</button>
+        <button class="op" onclick="append('*')">×</button>
+        <button class="func" onclick="scientific('pow')">x²</button>
 
-<button class="num" onclick="append('1')">1</button>
-<button class="num" onclick="append('2')">2</button>
-<button class="num" onclick="append('3')">3</button>
-<button class="op" onclick="append('+')">+</button>
-<button class="func" onclick="scientific('cos')">cos</button>
+        <button class="num" onclick="append('4')">4</button>
+        <button class="num" onclick="append('5')">5</button>
+        <button class="num" onclick="append('6')">6</button>
+        <button class="op" onclick="append('-')">−</button>
+        <button class="func" onclick="scientific('sin')">sin</button>
 
-<button class="num" onclick="append('0')">0</button>
-<button class="num" onclick="append('.')">.</button>
-<button class="func" onclick="scientific('tan')">tan</button>
-<button class="equal" onclick="calculate()">=</button>
+        <button class="num" onclick="append('1')">1</button>
+        <button class="num" onclick="append('2')">2</button>
+        <button class="num" onclick="append('3')">3</button>
+        <button class="op" onclick="append('+')">+</button>
+        <button class="func" onclick="scientific('cos')">cos</button>
 
-</div>
+        <button class="num" onclick="append('0')">0</button>
+        <button class="num" onclick="append('.')">.</button>
+        <button class="func" onclick="scientific('tan')">tan</button>
+        <button class="equal" onclick="calculate()">=</button>
 
-<div class="history" id="history"></div>
+    </div>
+
+    <div class="history" id="history"></div>
 
 </div>
 
 <script>
-const display=document.getElementById("display");
-const historyDisplay=document.getElementById("historyDisplay");
-const historyBox=document.getElementById("history");
+const display = document.getElementById("display");
+const historyDisplay = document.getElementById("historyDisplay");
+const historyBox = document.getElementById("history");
 
-let memory=0;
+let memory = 0;
 
 function append(value){
-if(display.value==="0") display.value=value;
-else display.value+=value;
+    if(display.value === "0" || display.value === "Error"){
+        display.value = value;
+    }else{
+        display.value += value;
+    }
 }
 
 function clearDisplay(){
-display.value="0";
-historyDisplay.textContent="";
+    display.value = "0";
+    historyDisplay.textContent = "";
 }
 
 function backspace(){
-display.value=display.value.slice(0,-1)||"0";
+    if(display.value.length > 1){
+        display.value = display.value.slice(0,-1);
+    }else{
+        display.value = "0";
+    }
 }
 
 function calculate(){
-try{
-let expression=display.value.replace(/%/g,"/100");
-let result=eval(expression);
+    try{
+        let expression = display.value.replace(/%/g,"/100");
+        let result = eval(expression);
 
-historyDisplay.textContent=display.value+" =";
-display.value=result;
+        historyDisplay.textContent = display.value + " =";
+        addHistory(display.value,result);
 
-addHistory(expression,result);
-}
-catch{
-display.value="Error";
-}
+        display.value = result;
+    }catch{
+        display.value = "Error";
+    }
 }
 
 function scientific(type){
-let value=parseFloat(display.value);
 
-switch(type){
-case "sqrt":
-display.value=Math.sqrt(value);
-break;
+    let value = parseFloat(display.value);
 
-case "pow":
-display.value=Math.pow(value,2);
-break;
+    if(isNaN(value)) return;
 
-case "sin":
-display.value=Math.sin(value*Math.PI/180);
-break;
+    switch(type){
 
-case "cos":
-display.value=Math.cos(value*Math.PI/180);
-break;
+        case "sqrt":
+            display.value = Math.sqrt(value);
+            break;
 
-case "tan":
-display.value=Math.tan(value*Math.PI/180);
-break;
-}
+        case "pow":
+            display.value = Math.pow(value,2);
+            break;
+
+        case "sin":
+            display.value = Math.sin(value*Math.PI/180);
+            break;
+
+        case "cos":
+            display.value = Math.cos(value*Math.PI/180);
+            break;
+
+        case "tan":
+            display.value = Math.tan(value*Math.PI/180);
+            break;
+    }
 }
 
 function addHistory(exp,res){
-let item=document.createElement("div");
-item.textContent=`${exp} = ${res}`;
-historyBox.prepend(item);
+
+    const div = document.createElement("div");
+    div.className = "history-item";
+    div.textContent = exp + " = " + res;
+
+    historyBox.prepend(div);
+
+    if(historyBox.children.length > 20){
+        historyBox.removeChild(historyBox.lastChild);
+    }
 }
 
 function memoryAdd(){
-memory+=Number(display.value)||0;
+    memory += Number(display.value) || 0;
 }
 
 function memorySubtract(){
-memory-=Number(display.value)||0;
+    memory -= Number(display.value) || 0;
 }
 
 function memoryRecall(){
-display.value=memory;
+    display.value = memory;
 }
 
 function memoryClear(){
-memory=0;
+    memory = 0;
 }
 
 function copyResult(){
-navigator.clipboard.writeText(display.value);
-alert("Copied!");
+
+    navigator.clipboard.writeText(display.value)
+    .then(()=>{
+        alert("Copied: " + display.value);
+    });
 }
 
 document.addEventListener("keydown",(e)=>{
-const allowed="0123456789+-*/.%";
 
-if(allowed.includes(e.key)){
-append(e.key);
-}
+    if("0123456789+-*/.".includes(e.key)){
+        append(e.key);
+    }
 
-if(e.key==="Enter"){
-calculate();
-}
+    if(e.key === "Enter"){
+        calculate();
+    }
 
-if(e.key==="Backspace"){
-backspace();
-}
+    if(e.key === "Backspace"){
+        backspace();
+    }
 
-if(e.key==="Escape"){
-clearDisplay();
-}
+    if(e.key === "Escape"){
+        clearDisplay();
+    }
 });
 </script>
 
