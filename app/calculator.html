@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#111">
+<title>Advanced Calculator</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:15px;
+}
+
+.calculator{
+width:100%;
+max-width:420px;
+background:#1a1a1a;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 0 30px rgba(0,0,0,.5);
+}
+
+.display{
+padding:20px;
+text-align:right;
+background:#000;
+}
+
+#historyDisplay{
+font-size:14px;
+color:#888;
+min-height:20px;
+overflow:hidden;
+}
+
+#display{
+width:100%;
+border:none;
+background:none;
+color:#fff;
+font-size:36px;
+text-align:right;
+outline:none;
+}
+
+.buttons{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:8px;
+padding:10px;
+}
+
+button{
+border:none;
+padding:18px;
+font-size:18px;
+border-radius:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(.97);
+}
+
+.num{
+background:#2b2b2b;
+color:white;
+}
+
+.op{
+background:#ff9500;
+color:white;
+}
+
+.func{
+background:#444;
+color:white;
+}
+
+.equal{
+background:#00c853;
+color:white;
+grid-column:span 2;
+}
+
+.history{
+max-height:150px;
+overflow:auto;
+padding:10px;
+background:#0f0f0f;
+color:#aaa;
+font-size:13px;
+}
+
+.history div{
+padding:5px 0;
+border-bottom:1px solid #222;
+}
+
+@media(max-width:480px){
+button{
+padding:15px;
+font-size:16px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="calculator">
+
+<div class="display">
+<div id="historyDisplay"></div>
+<input id="display" value="0" readonly>
+</div>
+
+<div class="buttons">
+
+<button class="func" onclick="clearDisplay()">AC</button>
+<button class="func" onclick="backspace()">⌫</button>
+<button class="func" onclick="memoryClear()">MC</button>
+<button class="func" onclick="memoryRecall()">MR</button>
+<button class="func" onclick="copyResult()">📋</button>
+
+<button class="func" onclick="memoryAdd()">M+</button>
+<button class="func" onclick="memorySubtract()">M-</button>
+<button class="func" onclick="append('%')">%</button>
+<button class="op" onclick="append('/')">÷</button>
+<button class="func" onclick="scientific('sqrt')">√</button>
+
+<button class="num" onclick="append('7')">7</button>
+<button class="num" onclick="append('8')">8</button>
+<button class="num" onclick="append('9')">9</button>
+<button class="op" onclick="append('*')">×</button>
+<button class="func" onclick="scientific('pow')">x²</button>
+
+<button class="num" onclick="append('4')">4</button>
+<button class="num" onclick="append('5')">5</button>
+<button class="num" onclick="append('6')">6</button>
+<button class="op" onclick="append('-')">−</button>
+<button class="func" onclick="scientific('sin')">sin</button>
+
+<button class="num" onclick="append('1')">1</button>
+<button class="num" onclick="append('2')">2</button>
+<button class="num" onclick="append('3')">3</button>
+<button class="op" onclick="append('+')">+</button>
+<button class="func" onclick="scientific('cos')">cos</button>
+
+<button class="num" onclick="append('0')">0</button>
+<button class="num" onclick="append('.')">.</button>
+<button class="func" onclick="scientific('tan')">tan</button>
+<button class="equal" onclick="calculate()">=</button>
+
+</div>
+
+<div class="history" id="history"></div>
+
+</div>
+
+<script>
+const display=document.getElementById("display");
+const historyDisplay=document.getElementById("historyDisplay");
+const historyBox=document.getElementById("history");
+
+let memory=0;
+
+function append(value){
+if(display.value==="0") display.value=value;
+else display.value+=value;
+}
+
+function clearDisplay(){
+display.value="0";
+historyDisplay.textContent="";
+}
+
+function backspace(){
+display.value=display.value.slice(0,-1)||"0";
+}
+
+function calculate(){
+try{
+let expression=display.value.replace(/%/g,"/100");
+let result=eval(expression);
+
+historyDisplay.textContent=display.value+" =";
+display.value=result;
+
+addHistory(expression,result);
+}
+catch{
+display.value="Error";
+}
+}
+
+function scientific(type){
+let value=parseFloat(display.value);
+
+switch(type){
+case "sqrt":
+display.value=Math.sqrt(value);
+break;
+
+case "pow":
+display.value=Math.pow(value,2);
+break;
+
+case "sin":
+display.value=Math.sin(value*Math.PI/180);
+break;
+
+case "cos":
+display.value=Math.cos(value*Math.PI/180);
+break;
+
+case "tan":
+display.value=Math.tan(value*Math.PI/180);
+break;
+}
+}
+
+function addHistory(exp,res){
+let item=document.createElement("div");
+item.textContent=`${exp} = ${res}`;
+historyBox.prepend(item);
+}
+
+function memoryAdd(){
+memory+=Number(display.value)||0;
+}
+
+function memorySubtract(){
+memory-=Number(display.value)||0;
+}
+
+function memoryRecall(){
+display.value=memory;
+}
+
+function memoryClear(){
+memory=0;
+}
+
+function copyResult(){
+navigator.clipboard.writeText(display.value);
+alert("Copied!");
+}
+
+document.addEventListener("keydown",(e)=>{
+const allowed="0123456789+-*/.%";
+
+if(allowed.includes(e.key)){
+append(e.key);
+}
+
+if(e.key==="Enter"){
+calculate();
+}
+
+if(e.key==="Backspace"){
+backspace();
+}
+
+if(e.key==="Escape"){
+clearDisplay();
+}
+});
+</script>
+
+</body>
+</html>
