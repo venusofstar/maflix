@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MAFLIX</title>
+
+<meta name="theme-color" content="#e50914">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
+}
+
+/* IMAGES */
+
+img{
+  width:100%;
+  display:block;
+}
+
+a{
+  text-decoration:none;
+  color:#fff;
+}
+
+/* OVERLAY */
+
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:9998;
+  opacity:0;
+  visibility:hidden;
+  transition:.3s;
+}
+
+#overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+
+/* SIDEBAR */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-280px;
+  width:280px;
+  height:100vh;
+  background:#111;
+  z-index:9999;
+  padding:20px;
+  transition:.3s;
+  overflow-y:auto;
+  border-right:1px solid #222;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:25px;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+  font-size:30px;
+}
+
+#closeMenu{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.sidebarLinks a{
+  padding:14px;
+  border-radius:12px;
+  background:#1a1a1a;
+  transition:.2s;
+}
+
+.sidebarLinks a:hover{
+  background:#e50914;
+  transform:translateX(5px);
+}
+
+/* NAVBAR */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:999;
+
+  padding:14px 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  background:rgba(0,0,0,.88);
+  backdrop-filter:blur(12px);
+}
+
+/* LEFT NAV */
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+#menuBtn{
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:12px;
+  background:#e50914;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:30px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* SEARCH */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+  justify-content:flex-end;
+}
+
+#movieSearchInput{
+  width:100%;
+  max-width:420px;
+  height:48px;
+  border:none;
+  border-radius:12px;
+  background:#1b1b1b;
+  color:#fff;
+  padding:0 15px;
+  outline:none;
+  font-size:15px;
+}
+
+#searchBtn{
+  height:48px;
+  padding:0 18px;
+  border:none;
+  border-radius:12px;
+  background:#e50914;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+/* HERO */
+
+#hero{
+  min-height:80vh;
+
+  background:
+  linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.3)),
+  url('https://i.imgur.com/w4NFeXx.png')
+  center/cover no-repeat;
+
+  display:flex;
+  align-items:center;
+
+  padding:130px 25px 40px;
+}
+
+.heroContent{
+  max-width:650px;
+}
+
+.heroContent h1{
+  font-size:65px;
+  margin-bottom:18px;
+  line-height:1.1;
+}
+
+.heroContent p{
+  color:#ddd;
+  margin-bottom:25px;
+  line-height:1.7;
+}
+
+.heroButtons{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.heroButtons button{
+  border:none;
+  border-radius:12px;
+  padding:14px 24px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+/* CONTENT */
+
+#content{
+  padding:20px;
+}
+
+.section{
+  margin-bottom:50px;
+}
+
+.sectionHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.sectionHeader h2{
+  font-size:28px;
+}
+
+/* SLIDER BUTTONS */
+
+.sliderButtons{
+  display:flex;
+  gap:10px;
+}
+
+.slideBtn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  background:#1d1d1d;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.slideBtn:hover{
+  background:#e50914;
+  transform:scale(1.08);
+}
+
+/* ROW */
+
+.row{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:5px;
+}
+
+.row::-webkit-scrollbar{
+  display:none;
+}
+
+/* CARD */
+
+.card{
+  min-width:190px;
+  width:190px;
+  height:285px;
+
+  background:#181818;
+  border-radius:16px;
+
+  overflow:hidden;
+  position:relative;
+
+  flex-shrink:0;
+  scroll-snap-align:start;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:scale(1.04);
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card p{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:14px;
+  font-size:14px;
+  font-weight:600;
+
+  background:
+  linear-gradient(to top,rgba(0,0,0,.95),transparent);
+}
+
+/* PLAYER */
+
+#playerModal{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+
+#videoFrame{
+  width:min(95vw,1600px);
+  height:min(88vh,900px);
+  border:none;
+  border-radius:14px;
+}
+
+#closePlayer{
+  position:absolute;
+  top:15px;
+  right:15px;
+
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* SERVER BUTTONS */
+
+.serverButtons{
+  position:absolute;
+  top:15px;
+  left:15px;
+  z-index:1000;
+  display:flex;
+  gap:10px;
+}
+
+.serverButtons button{
+  padding:10px 16px;
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.server1{
+  background:#e50914;
+}
+
+.server2{
+  background:#222;
+}
+
+.loading{
+  padding:20px;
+  color:#aaa;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .heroContent h1{
+    font-size:46px;
+  }
+
+  .card{
+    min-width:160px;
+    width:160px;
+    height:240px;
+  }
+
+  .sectionHeader h2{
+    font-size:23px;
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  #navbar{
+    gap:10px;
+    padding:12px;
+  }
+
+  #appTitle{
+    font-size:22px;
+  }
+
+  #searchBox{
+    flex:1;
+  }
+
+  #movieSearchInput{
+    height:42px;
+    font-size:14px;
+  }
+
+  #searchBtn{
+    height:42px;
+    font-size:13px;
+    padding:0 14px;
+  }
+
+  #hero{
+    min-height:70vh;
+    padding:120px 18px 40px;
+  }
+
+  .heroContent h1{
+    font-size:34px;
+  }
+
+  .heroContent p{
+    font-size:14px;
+  }
+
+  .heroButtons{
+    flex-direction:column;
+  }
+
+  .heroButtons button{
+    width:100%;
+  }
+
+  .card{
+    min-width:135px;
+    width:135px;
+    height:205px;
+  }
+
+  .slideBtn{
+    width:35px;
+    height:35px;
+    font-size:16px;
+  }
+
+  #videoFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
+  }
+
+  .serverButtons{
+    top:10px;
+    left:10px;
+  }
+
+  .serverButtons button{
+    padding:8px 12px;
+    font-size:12px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="overlay"></div>
+
+<!-- SIDEBAR -->
+
+<div id="sidebar">
+
+  <div id="sidebarHeader">
+    <h2>MAFLIX</h2>
+    <button id="closeMenu">✕</button>
+  </div>
+
+  <div class="sidebarLinks">
+    <a href="#">🏠 Home</a>
+    <a href="#">🎌 Anime</a>
+    <a href="#">🎭 Drama</a>
+    <a href="#">📺 TV Channels</a>
+    <a href="#">⚽ Sports</a>
+    <a href="#">🎬 Viva Max</a>
+  </div>
+
+</div>
+
+<!-- NAVBAR -->
+
+<div id="navbar">
+
+  <div id="leftNav">
+
+    <button id="menuBtn">☰</button>
+
+    <h1 id="appTitle">MAFLIX</h1>
+
+  </div>
+
+  <div id="searchBox">
+
+    <input
+      type="text"
+      id="movieSearchInput"
+      placeholder="Search movies..."
+    >
+
+    <button id="searchBtn">
+      Search
+    </button>
+
+  </div>
+
+</div>
+
+<!-- HERO -->
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <h1>Unlimited Movies & Series</h1>
+
+    <p>
+      Watch trending movies, anime and TV series instantly on MAFLIX.
+    </p>
+
+    <div class="heroButtons">
+
+      <button class="playBtn">
+        ▶ Watch Now
+      </button>
+
+      <button class="infoBtn">
+        More Info
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CONTENT -->
+
+<div id="content">
+
+  <!-- CONTINUE WATCHING -->
+
+  <div class="section" id="continueSection" style="display:none;">
+
+    <div class="sectionHeader">
+
+      <h2>▶ Continue Watching</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('continueGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('continueGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="continueGrid"></div>
+
+  </div>
+
+  <!-- TRENDING -->
+
+  <div class="section">
+
+    <div class="sectionHeader">
+
+      <h2>🔥 Search Movies</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('searchGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('searchGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="searchGrid"></div>
+
+  </div>
+
+  <!-- NEW MOVIES -->
+
+  <div class="section">
+
+    <div class="sectionHeader">
+
+      <h2>🆕 New Movies</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('newMoviesGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('newMoviesGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="newMoviesGrid"></div>
+
+  </div>
+
+  <!-- ACTION -->
+
+  <div class="section">
+
+    <div class="sectionHeader">
+
+      <h2>💥 Action</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('actionGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('actionGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="actionGrid"></div>
+
+  </div>
+
+  <!-- COMEDY -->
+
+  <div class="section">
+
+    <div class="sectionHeader">
+
+      <h2>😂 Comedy</h2>
+
+      <div class="sliderButtons">
+
+        <button class="slideBtn"
+        onclick="scrollRow('comedyGrid',-1)">
+          ❮
+        </button>
+
+        <button class="slideBtn"
+        onclick="scrollRow('comedyGrid',1)">
+          ❯
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row" id="comedyGrid"></div>
+
+  </div>
+
+<!-- SERIES -->
+
+<div class="section">
+
+  <div class="sectionHeader">
+
+    <h2>📺 TV Series</h2>
+
+    <div class="sliderButtons">
+
+      <button class="slideBtn"
+      onclick="scrollRow('seriesGrid',-1)">
+        ❮
+      </button>
+
+      <button class="slideBtn"
+      onclick="scrollRow('seriesGrid',1)">
+        ❯
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="row" id="seriesGrid"></div>
+
+</div>
+
+</div>
+
+<!-- PLAYER -->
+
+<div id="playerModal">
+
+  <div class="serverButtons">
+
+    <button class="server1" id="server1Btn">
+      Server 1
+    </button>
+
+    <button class="server2" id="server2Btn">
+      Server 2
+    </button>
+
+  </div>
+
+  <iframe
+    id="videoFrame"
+    allowfullscreen
+    allow="autoplay; fullscreen">
+  </iframe>
+
+  <button id="closePlayer">
+    ✕
+  </button>
+
+</div>
+
+<script>
+
+const API_KEY = "90521a18";
+
+/* SIDEBAR */
+
+const sidebar =
+document.getElementById("sidebar");
+
+const overlay =
+document.getElementById("overlay");
+
+document.getElementById("menuBtn")
+.onclick = () => {
+
+  sidebar.classList.add("active");
+
+  overlay.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+};
+
+function closeSidebar(){
+
+  sidebar.classList.remove("active");
+
+  overlay.classList.remove("active");
+
+  document.body.style.overflow = "auto";
+}
+
+document.getElementById("closeMenu")
+.onclick = closeSidebar;
+
+overlay.onclick = closeSidebar;
+
+/* SCROLL */
+
+function scrollRow(rowId,direction){
+
+  const row =
+  document.getElementById(rowId);
+
+  const amount =
+  window.innerWidth < 768 ? 300 : 700;
+
+  row.scrollBy({
+    left: direction * amount,
+    behavior:"smooth"
+  });
+}
+
+/* PLAYER */
+
+let currentMovieID = "";
+
+function playMovie(imdbID,movieData=null){
+
+  currentMovieID = imdbID;
+
+  document.getElementById("videoFrame").src =
+  `https://playimdb.com/title/${imdbID}`;
+
+  document.getElementById("playerModal")
+  .style.display = "flex";
+
+  document.body.style.overflow = "hidden";
+
+  if(movieData){
+    saveContinueWatching(movieData);
+  }
+}
+
+/* CLOSE PLAYER */
+
+document.getElementById("closePlayer")
+.onclick = () => {
+
+  document.getElementById("playerModal")
+  .style.display = "none";
+
+  document.getElementById("videoFrame").src = "";
+
+  document.body.style.overflow = "auto";
+};
+
+/* SERVERS */
+
+document.getElementById("server1Btn")
+.onclick = () => {
+
+  if(!currentMovieID) return;
+
+  document.getElementById("videoFrame").src =
+  `https://playimdb.com/title/${currentMovieID}`;
+};
+
+document.getElementById("server2Btn")
+.onclick = () => {
+
+  if(!currentMovieID) return;
+
+  document.getElementById("videoFrame").src =
+  `https://vidsrc.to/embed/movie/${currentMovieID}`;
+};
+
+/* CREATE CARD */
+
+function createMovieCard(movie){
+
+  const card =
+  document.createElement("div");
+
+  card.className = "card";
+
+  const poster =
+  movie.Poster !== "N/A"
+  ? movie.Poster
+  : "https://via.placeholder.com/300x450";
+
+  card.innerHTML = `
+    <img src="${poster}">
+    <p>${movie.Title}</p>
+  `;
+
+  card.onclick = () => {
+    playMovie(movie.imdbID,movie);
+  };
+
+  return card;
+}
+
+/* CONTINUE WATCHING */
+
+function saveContinueWatching(movie){
+
+  let list =
+  JSON.parse(
+    localStorage.getItem("continueWatching")
+  ) || [];
+
+  list = list.filter(
+    item => item.imdbID !== movie.imdbID
+  );
+
+  list.unshift(movie);
+
+  if(list.length > 15){
+    list.pop();
+  }
+
+  localStorage.setItem(
+    "continueWatching",
+    JSON.stringify(list)
+  );
+
+  loadContinueWatching();
+}
+
+function loadContinueWatching(){
+
+  const section =
+  document.getElementById("continueSection");
+
+  const grid =
+  document.getElementById("continueGrid");
+
+  const list =
+  JSON.parse(
+    localStorage.getItem("continueWatching")
+  ) || [];
+
+  if(list.length === 0){
+
+    section.style.display = "none";
+    return;
+  }
+
+  section.style.display = "block";
+
+  grid.innerHTML = "";
+
+  list.forEach(movie => {
+
+    grid.appendChild(
+      createMovieCard(movie)
+    );
+
+  });
+}
+
+/* LOAD MOVIES */
+
+async function loadCategoryMovies(query,id){
+
+  const grid =
+  document.getElementById(id);
+
+  grid.innerHTML =
+  `<div class="loading">Loading...</div>`;
+
+  try{
+
+    const res = await fetch(
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`
+    );
+
+    const data = await res.json();
+
+    grid.innerHTML = "";
+
+    if(!data.Search){
+
+      grid.innerHTML =
+      `<div class="loading">No movies found</div>`;
+
+      return;
+    }
+
+    data.Search.forEach(movie => {
+
+      grid.appendChild(
+        createMovieCard(movie)
+      );
+
+    });
+
+  }catch(err){
+
+    grid.innerHTML =
+    `<div class="loading">Failed to load movies</div>`;
+  }
+}
+
+/* SEARCH */
+
+function searchMovies(){
+
+  const query =
+  document.getElementById("movieSearchInput")
+  .value.trim() || "Marvel";
+
+  loadCategoryMovies(
+    query,
+    "searchGrid"
+  );
+
+  window.scrollTo({
+    top:document.getElementById("content").offsetTop - 80,
+    behavior:"smooth"
+  });
+}
+
+document.getElementById("searchBtn")
+.onclick = searchMovies;
+
+document.getElementById("movieSearchInput")
+.addEventListener("keypress", function(e){
+
+  if(e.key === "Enter"){
+    searchMovies();
+  }
+});
+
+/* LOAD */
+
+window.onload = () => {
+
+  loadContinueWatching();
+
+  loadCategoryMovies(
+    "super Mario",
+    "searchGrid"
+  );
+
+  loadCategoryMovies(
+    "2026",
+    "newMoviesGrid"
+  );
+
+  loadCategoryMovies(
+    "Action",
+    "actionGrid"
+  );
+
+  loadCategoryMovies(
+    "Comedy",
+    "comedyGrid"
+  );
+  
+loadCategoryMovies(
+  "Series",
+  "seriesGrid"
+);
+};
+
+</script>
+
+</body>
+</html>
