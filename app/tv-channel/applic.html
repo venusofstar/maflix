@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<title>MAFLIX</title>
+
+<meta
+name="theme-color"
+content="#e50914">
+
+<meta
+name="description"
+content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.">
+
+<link rel="stylesheet" href="styl.css">
+
+<!-- SHAKA PLAYER -->
+<script
+src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.js"
+defer>
+</script>
+
+<!-- SAFE MONETAG ADS -->
+<script
+async
+data-cfasync="false"
+src=""
+data-zone="">
+</script>
+
+<!-- BASIC SECURITY -->
+<meta
+http-equiv="Content-Security-Policy"
+content="
+default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+script-src * 'unsafe-inline' 'unsafe-eval';
+style-src * 'unsafe-inline';
+img-src * data: blob:;
+media-src * blob:;
+frame-src *;
+connect-src *;
+">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<div id="navbar">
+
+  <div id="leftNav">
+
+    <button id="menuBtn">☰</button>
+
+    <h1 id="appTitle">MAFLIX</h1>
+
+  </div>
+
+  <div id="searchBox">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search channels...">
+
+    <button id="searchBtn">🔍</button>
+
+  </div>
+
+</div>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div id="sidebar">
+
+  <div id="sidebarHeader">
+
+    <h2>MAFLIX</h2>
+
+    <button id="closeMenu">✕</button>
+
+  </div>
+
+  <div class="sidebarLinks">
+
+    <a href="go:home">🏠 Home</a>
+
+    <a href="go:anime-tag">🎌 Anime Tagalog Dubbed</a>
+
+    <a href="go:drama-tag">🎭 Tagalog Dubbed Drama</a>
+
+    <a href="go:tv-channel">📺 TV Channels</a>
+
+    <a href="go:sports">⚽ Sports Event</a>
+
+    <a href="go:vivamax">🎬 Viva Max</a>
+
+  </div>
+
+</div>
+
+<div id="menuOverlay"></div>
+
+<!-- ================= HERO ================= -->
+
+<section id="hero">
+
+  <div class="heroContent">
+
+    <h2>Trending Now</h2>
+
+    <p>
+      Watch movies, anime, sports and live TV
+      with MAFLIX streaming platform.
+    </p>
+
+    <div class="heroButtons">
+
+      <button class="playBtn">
+        ▶ Watch
+      </button>
+
+      <button class="infoBtn">
+        More Info
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= SAFE ADS SECTION ================= -->
+
+<div
+style="
+margin:15px auto;
+text-align:center;
+max-width:100%;
+overflow:hidden;
+">
+
+  <script>
+    if (window.innerWidth >= 768) {
+      document.write(`
+        <script
+          async
+          data-cfasync="false"
+          src="https://quge5.com/88/tag.min.js"
+          data-zone="243456">
+        <\/script>
+      `);
+    }
+  </script>
+
+</div>
+
+<!-- ================= CHANNELS ================= -->
+
+<div id="channelSections"></div>
+
+<!-- ================= PLAYER ================= -->
+
+<div id="videoContainer">
+
+  <div id="spinner"></div>
+
+  <video
+    id="videoPlayer"
+    controls
+    autoplay
+    playsinline
+    controlsList="nodownload"
+    preload="metadata">
+  </video>
+
+  <iframe
+    id="ytFrame"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    sandbox="allow-scripts allow-same-origin allow-presentation"
+    referrerpolicy="origin"
+    style="display:none">
+  </iframe>
+
+  <button id="closeBtn">✕</button>
+
+</div>
+
+<!-- APP SCRIPT -->
+<script src="scrpt.js" defer></script>
+
+</body>
+</html>
