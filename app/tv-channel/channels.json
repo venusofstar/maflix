@@ -1,0 +1,154 @@
+{
+  "channels":[
+  {
+    "name": "One PH",
+    "logo": "https://i.imgur.com/gkluDe9.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/oneph_sd/default/index.mpd",
+    "clearKey": {
+      "b1c7e9d24f8a4d6c9e337a2f1c5b8d60": "8ff2e524cc1e028f2a4d4925e860c796"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "Kapatid Channel",
+    "logo": "https://i.imgur.com/BUVWBm2.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/kapatid_hd/default/index.mpd",
+    "clearKey": {
+      "045d103180f64562b1db7c932741c3ba": "c3380548b9075c767a6ae2006ef4bff8"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "BuKO",
+    "logo": "https://i.imgur.com/Wv0K5Yc.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_buko_sd/default/index.mpd",
+    "clearKey": {
+      "d273c085f2ab4a248e7bfc375229007d": "7932354c3a84f7fc1b80efa6bcea0615"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "SARI-SARI",
+    "logo": "https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd",
+    "clearKey": {
+      "0a7ab3612f434335aa6e895016d8cd2d": "b21654621230ae21714a5cab52daeb9d"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "PTV4",
+    "logo": "https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd",
+    "clearKey": {
+      "71a130a851b9484bb47141c8966fb4a3": "ad1f003b4f0b31b75ea4593844435600"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "One News",
+    "logo": "https://i.imgur.com/bpRiu54.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd",
+    "clearKey": {
+      "2e6a9d7c1f4b4c8a8d33c7b1f0a5e924": "4c71e178d090332fbfe72e023b59f6d2"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "RPTV",
+    "logo": "https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd",
+    "clearKey": {
+      "1917f4caf2364e6d9b1507326a85ead6": "a1340a251a5aa63a9b0ea5d9d7f67595"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "TV5",
+    "logo": "https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd",
+    "clearKey": {
+      "2615129ef2c846a9bbd43a641c7303ef": "07c7f996b1734ea288641a68e1cfdc4d"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "A2Z",
+    "logo": "https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd",
+    "clearKey": {
+      "3f6d8a2c1b7e4c9f8d52a7e1b0c6f93d": "4019f9269b9054a2b9e257b114ebbaf2"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "Bilyonaryo Channel",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcxvjeBIthYiEaZHeVeYpDicIlOTdv3G6lzoal3VM2xVzWu_J7XxM657oz&s=10",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/bilyonaryoch/default/index.mpd",
+    "clearKey": {
+      "227ffaf09bec4a889e0e0988704d52a2": "b2d0dce5c486891997c1c92ddaca2cd2"
+    },
+    "category": "📺 Cignal"
+  },
+  {
+    "name": "tvN Movies Pinoy",
+    "logo": "https://static.wikia.nocookie.net/russel/images/e/e3/TvN_Movies_Pinoy_Logo_2023.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_tvnmovie/default/index.mpd",
+    "clearKey": {
+      "2e53f8d8a5e94bca8f9a1e16ce67df33": "3471b2464b5c7b033a03bb8307d9fa35"
+    },
+    "category": "🎬 Movies"
+  },
+  {
+    "name": "PBO",
+    "logo": "https://i.imgur.com/61fHpnW.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/pbo_sd/default/index.mpd",
+    "clearKey": {
+      "dcbdaaa6662d4188bdf97f9f0ca5e830": "31e752b441bd2972f2b98a4b1bc1c7a1"
+    },
+    "category": "🎬 Movies"
+  },
+  {
+    "name": "Viva Cinema",
+    "logo": "https://static.wikia.nocookie.net/tvfanon6528/images/2/2f/Viva_Cinema_%282021-.n.v.%29.png/revision/latest?cb=20210804092616",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/viva_sd/default/index.mpd",
+    "clearKey": {
+      "07aa813bf2c147748046edd930f7736e": "3bd6688b8b44e96201e753224adfc8fb"
+    },
+    "category": "🎬 Movies"
+  },
+  {
+    "name": "TMC",
+    "logo": "https://i.imgur.com/6mNCite.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_tagalogmovie/default/index.mpd",
+    "clearKey": {
+      "96701d297d1241e492d41c397631d857": "ca2931211c1a261f082a3a2c4fd9f91b"
+    },
+    "category": "🎬 Movies"
+  },
+  {
+    "name": "Tap Movies",
+    "logo": "https://i.imgur.com/3RVA5mV.png",
+    "type": "mpegdash",
+    "manifestUri": "https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_tapmovies_hd1/default/index.mpd",
+    "clearKey": {
+      "71cbdf02b595468bb77398222e1ade09": "c3f2aa420b8908ab8761571c01899460"
+    },
+    "category": "🎬 Movies"
+  }
+  ]
+}
