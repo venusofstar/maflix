@@ -1,0 +1,612 @@
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
+  touch-action:pan-y;
+}
+
+/* ================= GLOBAL ================= */
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+button,
+a,
+input,
+.card-item{
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:focus,
+a:focus,
+input:focus,
+.card-item:focus{
+  outline:3px solid #fff;
+  outline-offset:2px;
+}
+
+/* ================= NAVBAR ================= */
+
+#navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:999;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  background:
+  linear-gradient(
+    to bottom,
+    rgba(0,0,0,.95),
+    rgba(0,0,0,.35),
+    transparent
+  );
+
+  backdrop-filter:blur(10px);
+}
+
+#leftNav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+#menuBtn{
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:12px;
+  background:#1b1b1b;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:.2s;
+}
+
+#menuBtn:hover,
+#menuBtn:focus{
+  background:#e50914;
+  transform:scale(1.05);
+}
+
+#appTitle{
+  color:#e50914;
+  font-size:clamp(22px,4vw,38px);
+  font-weight:bold;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+
+/* ================= SEARCH ================= */
+
+#searchBox{
+  display:flex;
+  align-items:center;
+  background:#1b1b1b;
+  border-radius:50px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+#searchInput{
+  width:220px;
+  height:46px;
+  padding:0 15px;
+  border:none;
+  background:transparent;
+  color:#fff;
+  font-size:15px;
+}
+
+#searchInput::placeholder{
+  color:#aaa;
+}
+
+#searchBtn{
+  width:52px;
+  height:46px;
+  border:none;
+  background:#e50914;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+#sidebar{
+  position:fixed;
+  top:0;
+  left:-320px;
+  width:280px;
+  max-width:85%;
+  height:100dvh;
+
+  background:#111;
+  z-index:5000;
+
+  padding:20px;
+
+  transition:.3s;
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+
+  overflow-y:auto;
+  overscroll-behavior:contain;
+
+  scrollbar-width:thin;
+  scrollbar-color:#e50914 #111;
+}
+
+#sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
+}
+
+#sidebar.active{
+  left:0;
+}
+
+#sidebarHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+  position:sticky;
+  top:0;
+  background:#111;
+  padding-bottom:10px;
+  z-index:10;
+}
+
+#sidebarHeader h2{
+  color:#e50914;
+  font-size:28px;
+}
+
+#closeMenu{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  background:#1b1b1b;
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding-bottom:50px;
+}
+
+#sidebar a{
+  color:#fff;
+  text-decoration:none;
+  padding:15px;
+  border-radius:12px;
+  background:#1a1a1a;
+  transition:.2s;
+  font-size:16px;
+}
+
+#sidebar a:hover,
+#sidebar a:focus{
+  background:#e50914;
+}
+
+#menuOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:4000;
+  display:none;
+}
+
+#menuOverlay.active{
+  display:block;
+}
+
+/* ================= HERO ================= */
+
+#hero{
+  position:relative;
+  width:100%;
+  min-height:85vh;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.92),
+    rgba(0,0,0,.2)
+  ),
+  url(
+'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
+  )
+  center/cover no-repeat;
+
+  display:flex;
+  align-items:center;
+
+  padding:
+  clamp(20px,5vw,80px);
+
+  padding-top:100px;
+}
+
+.heroContent{
+  max-width:650px;
+}
+
+.heroContent h2{
+  font-size:
+  clamp(34px,7vw,72px);
+
+  margin-bottom:15px;
+}
+
+.heroContent p{
+  color:#ddd;
+  line-height:1.7;
+  margin-bottom:25px;
+  font-size:
+  clamp(14px,2vw,20px);
+}
+
+.heroButtons{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.heroButtons button{
+  min-height:48px;
+  padding:12px 26px;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.heroButtons button:hover,
+.heroButtons button:focus{
+  transform:scale(1.05);
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
+/* ================= CHANNELS ================= */
+
+#channelSections{
+  padding:15px;
+}
+
+.category-wrapper{
+  position:relative;
+  margin-bottom:35px;
+}
+
+.category-wrapper h2{
+  margin:15px 0;
+  font-size:
+  clamp(20px,3vw,32px);
+  padding-left:10px;
+}
+
+/* ================= SLIDER ================= */
+
+.horizontal-scroll{
+  display:flex;
+  gap:14px;
+
+  overflow-x:auto;
+  overflow-y:hidden;
+
+  scroll-behavior:smooth;
+
+  padding-inline:60px;
+  padding-bottom:10px;
+
+  scrollbar-width:none;
+}
+
+.horizontal-scroll::-webkit-scrollbar{
+  display:none;
+}
+
+/* ================= CARD ================= */
+
+.card-item{
+  min-width:170px;
+  width:170px;
+  height:255px;
+
+  border-radius:14px;
+  overflow:hidden;
+
+  position:relative;
+  cursor:pointer;
+
+  background:#181818;
+
+  transition:
+  transform .25s,
+  box-shadow .25s;
+
+  flex-shrink:0;
+}
+
+.card-item:hover,
+.card-item:focus{
+  transform:scale(1.06);
+  box-shadow:0 10px 25px rgba(0,0,0,.5);
+}
+
+.card-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-item p{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:14px;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.96),
+    transparent
+  );
+
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* ================= SLIDE BUTTON ================= */
+
+.slideBtn{
+  position:absolute;
+  top:55%;
+  transform:translateY(-50%);
+
+  width:52px;
+  height:95px;
+
+  border:none;
+  border-radius:14px;
+
+  background:rgba(0,0,0,.7);
+
+  color:#fff;
+  font-size:34px;
+
+  cursor:pointer;
+  z-index:10;
+
+  backdrop-filter:blur(8px);
+
+  transition:.2s;
+}
+
+.slideBtn:hover,
+.slideBtn:focus{
+  background:#e50914;
+}
+
+.slideLeft{
+  left:0;
+}
+
+.slideRight{
+  right:0;
+}
+
+/* ================= PLAYER ================= */
+
+#videoContainer{
+  position:fixed;
+  inset:0;
+
+  background:#000;
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  z-index:9999;
+}
+
+#videoPlayer,
+#ytFrame{
+  width:min(95vw,1600px);
+  height:min(85vh,900px);
+
+  border:none;
+  border-radius:12px;
+
+  background:#000;
+}
+
+#closeBtn{
+  position:absolute;
+  top:15px;
+  right:15px;
+
+  width:48px;
+  height:48px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+#spinner{
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid #e50914;
+  border-radius:50%;
+
+  width:52px;
+  height:52px;
+
+  animation:spin 1s linear infinite;
+
+  position:absolute;
+  display:none;
+}
+
+@keyframes spin{
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  #navbar{
+    padding:10px 12px;
+  }
+
+  #searchInput{
+    width:120px;
+    font-size:14px;
+  }
+
+  #hero{
+    min-height:65vh;
+    padding:20px;
+    padding-top:100px;
+  }
+
+  .card-item{
+    min-width:140px;
+    width:140px;
+    height:210px;
+  }
+
+  .card-item p{
+    font-size:14px;
+  }
+
+  .slideBtn{
+    width:40px;
+    height:65px;
+    font-size:22px;
+  }
+
+  .horizontal-scroll{
+    padding-inline:42px;
+  }
+
+  #videoPlayer,
+  #ytFrame{
+    width:100%;
+    height:100%;
+    border-radius:0;
+  }
+
+}
+
+/* ================= SMART TV ================= */
+
+@media(min-width:1400px){
+
+  body{
+    font-size:20px;
+  }
+
+  #navbar{
+    padding:20px 30px;
+  }
+
+  #appTitle{
+    font-size:50px;
+  }
+
+  #searchInput{
+    width:340px;
+    height:62px;
+    font-size:20px;
+  }
+
+  #searchBtn,
+  #menuBtn,
+  #closeMenu{
+    width:62px;
+    height:62px;
+    font-size:28px;
+  }
+
+  .card-item{
+    min-width:300px;
+    width:300px;
+    height:430px;
+  }
+
+  .card-item p{
+    font-size:22px;
+  }
+
+  .slideBtn{
+    width:74px;
+    height:140px;
+    font-size:46px;
+  }
+
+  .heroButtons button{
+    min-height:64px;
+    padding:16px 36px;
+    font-size:22px;
+  }
+
+}
