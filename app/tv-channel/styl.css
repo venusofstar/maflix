@@ -73,42 +73,6 @@ input:focus,
   min-width:0;
 }
 
-/* ================= ✅ SQUARE CHANNEL LOGO FIX ================= */
-/* Use this if your logo is an IMG inside navbar or app title area */
-
-#appTitle{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  width:46px;
-  height:46px;
-
-  aspect-ratio:1/1;
-  overflow:hidden;
-
-  border-radius:10px;
-
-  background:#111;
-  flex-shrink:0;
-}
-
-/* if logo is image */
-#appTitle img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-}
-
-/* optional hover effect */
-#appTitle:hover{
-  transform:scale(1.05);
-  transition:.2s;
-}
-
-/* ================= MENU BUTTON ================= */
-
 #menuBtn{
   width:46px;
   height:46px;
@@ -394,9 +358,9 @@ input:focus,
 /* ================= CARD ================= */
 
 .card-item{
-  min-width:170px;
-  width:170px;
-  height:255px;
+  min-width:100px;
+  width:100px;
+  height:200px;
 
   border-radius:14px;
   overflow:hidden;
