@@ -73,6 +73,42 @@ input:focus,
   min-width:0;
 }
 
+/* ================= ✅ SQUARE CHANNEL LOGO FIX ================= */
+/* Use this if your logo is an IMG inside navbar or app title area */
+
+#appTitle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:46px;
+  height:46px;
+
+  aspect-ratio:1/1;
+  overflow:hidden;
+
+  border-radius:10px;
+
+  background:#111;
+  flex-shrink:0;
+}
+
+/* if logo is image */
+#appTitle img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+/* optional hover effect */
+#appTitle:hover{
+  transform:scale(1.05);
+  transition:.2s;
+}
+
+/* ================= MENU BUTTON ================= */
+
 #menuBtn{
   width:46px;
   height:46px;
@@ -163,6 +199,15 @@ input:focus,
   scrollbar-color:#e50914 #111;
 }
 
+#sidebar::-webkit-scrollbar{
+  width:6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb{
+  background:#e50914;
+  border-radius:20px;
+}
+
 #sidebar.active{
   left:0;
 }
@@ -195,6 +240,28 @@ input:focus,
   cursor:pointer;
 }
 
+.sidebarLinks{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding-bottom:50px;
+}
+
+#sidebar a{
+  color:#fff;
+  text-decoration:none;
+  padding:15px;
+  border-radius:12px;
+  background:#1a1a1a;
+  transition:.2s;
+  font-size:16px;
+}
+
+#sidebar a:hover,
+#sidebar a:focus{
+  background:#e50914;
+}
+
 #menuOverlay{
   position:fixed;
   inset:0;
@@ -215,14 +282,22 @@ input:focus,
   min-height:85vh;
 
   background:
-  linear-gradient(to top, rgba(0,0,0,.92), rgba(0,0,0,.2)),
-  url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop')
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.92),
+    rgba(0,0,0,.2)
+  ),
+  url(
+'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1920&auto=format&fit=crop'
+  )
   center/cover no-repeat;
 
   display:flex;
   align-items:center;
 
-  padding:clamp(20px,5vw,80px);
+  padding:
+  clamp(20px,5vw,80px);
+
   padding-top:100px;
 }
 
@@ -231,7 +306,9 @@ input:focus,
 }
 
 .heroContent h2{
-  font-size:clamp(34px,7vw,72px);
+  font-size:
+  clamp(34px,7vw,72px);
+
   margin-bottom:15px;
 }
 
@@ -239,7 +316,8 @@ input:focus,
   color:#ddd;
   line-height:1.7;
   margin-bottom:25px;
-  font-size:clamp(14px,2vw,20px);
+  font-size:
+  clamp(14px,2vw,20px);
 }
 
 .heroButtons{
@@ -259,6 +337,21 @@ input:focus,
   transition:.2s;
 }
 
+.heroButtons button:hover,
+.heroButtons button:focus{
+  transform:scale(1.05);
+}
+
+.playBtn{
+  background:#fff;
+  color:#000;
+}
+
+.infoBtn{
+  background:rgba(109,109,110,.7);
+  color:#fff;
+}
+
 /* ================= CHANNELS ================= */
 
 #channelSections{
@@ -272,7 +365,8 @@ input:focus,
 
 .category-wrapper h2{
   margin:15px 0;
-  font-size:clamp(20px,3vw,32px);
+  font-size:
+  clamp(20px,3vw,32px);
   padding-left:10px;
 }
 
@@ -281,11 +375,15 @@ input:focus,
 .horizontal-scroll{
   display:flex;
   gap:14px;
+
   overflow-x:auto;
   overflow-y:hidden;
+
   scroll-behavior:smooth;
+
   padding-inline:60px;
   padding-bottom:10px;
+
   scrollbar-width:none;
 }
 
@@ -296,6 +394,7 @@ input:focus,
 /* ================= CARD ================= */
 
 .card-item{
+  min-width:170px;
   width:170px;
   height:255px;
 
@@ -305,15 +404,13 @@ input:focus,
   position:relative;
   cursor:pointer;
 
-  background:#111;
+  background:#181818;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  transition:
+  transform .25s,
+  box-shadow .25s;
 
   flex-shrink:0;
-
-  transition:transform .25s, box-shadow .25s;
 }
 
 .card-item:hover,
@@ -322,17 +419,11 @@ input:focus,
   box-shadow:0 10px 25px rgba(0,0,0,.5);
 }
 
-/* ================= LOGO FIX (ONLY IMPORTANT CHANGE) ================= */
-
 .card-item img{
   width:100%;
   height:100%;
-  object-fit:contain;   /* ✅ keeps logo clean, no crop */
-  padding:12px;         /* ✅ safe spacing */
-  box-sizing:border-box;
+  object-fit:cover;
 }
-
-/* ================= TITLE ================= */
 
 .card-item p{
   position:absolute;
@@ -340,28 +431,41 @@ input:focus,
   width:100%;
   padding:14px;
 
-  background:linear-gradient(to top, rgba(0,0,0,.96), transparent);
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.96),
+    transparent
+  );
 
   font-size:16px;
   font-weight:bold;
 }
 
-/* ================= SLIDER BUTTON ================= */
+/* ================= SLIDE BUTTON ================= */
 
 .slideBtn{
   position:absolute;
   top:55%;
   transform:translateY(-50%);
+
   width:52px;
   height:95px;
+
   border:none;
   border-radius:14px;
+
   background:rgba(0,0,0,.7);
+
   color:#fff;
   font-size:34px;
+
   cursor:pointer;
   z-index:10;
+
   backdrop-filter:blur(8px);
+
+  transition:.2s;
 }
 
 .slideBtn:hover,
@@ -369,18 +473,26 @@ input:focus,
   background:#e50914;
 }
 
-.slideLeft{ left:0; }
-.slideRight{ right:0; }
+.slideLeft{
+  left:0;
+}
+
+.slideRight{
+  right:0;
+}
 
 /* ================= PLAYER ================= */
 
 #videoContainer{
   position:fixed;
   inset:0;
+
   background:#000;
+
   display:none;
   align-items:center;
   justify-content:center;
+
   z-index:9999;
 }
 
@@ -388,25 +500,88 @@ input:focus,
 #ytFrame{
   width:min(95vw,1600px);
   height:min(85vh,900px);
+
   border:none;
   border-radius:12px;
+
+  background:#000;
+}
+
+#closeBtn{
+  position:absolute;
+  top:15px;
+  right:15px;
+
+  width:48px;
+  height:48px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#e50914;
+  color:#fff;
+
+  font-size:22px;
+  cursor:pointer;
+}
+
+#spinner{
+  border:5px solid rgba(255,255,255,.2);
+  border-top:5px solid #e50914;
+  border-radius:50%;
+
+  width:52px;
+  height:52px;
+
+  animation:spin 1s linear infinite;
+
+  position:absolute;
+  display:none;
+}
+
+@keyframes spin{
+  100%{
+    transform:rotate(360deg);
+  }
 }
 
 /* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
+  #navbar{
+    padding:10px 12px;
+  }
+
   #searchInput{
     width:120px;
+    font-size:14px;
+  }
+
+  #hero{
+    min-height:65vh;
+    padding:20px;
+    padding-top:100px;
+  }
+
+  .card-item{
+    min-width:140px;
+    width:140px;
+    height:210px;
+  }
+
+  .card-item p{
+    font-size:14px;
+  }
+
+  .slideBtn{
+    width:40px;
+    height:65px;
+    font-size:22px;
   }
 
   .horizontal-scroll{
     padding-inline:42px;
-  }
-
-  .card-item{
-    width:140px;
-    height:210px;
   }
 
   #videoPlayer,
@@ -415,13 +590,41 @@ input:focus,
     height:100%;
     border-radius:0;
   }
+
 }
 
 /* ================= SMART TV ================= */
 
 @media(min-width:1400px){
 
+  body{
+    font-size:20px;
+  }
+
+  #navbar{
+    padding:20px 30px;
+  }
+
+  #appTitle{
+    font-size:50px;
+  }
+
+  #searchInput{
+    width:340px;
+    height:62px;
+    font-size:20px;
+  }
+
+  #searchBtn,
+  #menuBtn,
+  #closeMenu{
+    width:62px;
+    height:62px;
+    font-size:28px;
+  }
+
   .card-item{
+    min-width:300px;
     width:300px;
     height:430px;
   }
@@ -429,4 +632,17 @@ input:focus,
   .card-item p{
     font-size:22px;
   }
+
+  .slideBtn{
+    width:74px;
+    height:140px;
+    font-size:46px;
+  }
+
+  .heroButtons button{
+    min-height:64px;
+    padding:16px 36px;
+    font-size:22px;
+  }
+
 }
