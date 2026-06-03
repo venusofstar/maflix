@@ -358,6 +358,7 @@ input:focus,
 /* ================= CARD ================= */
 
 .card-item{
+  min-width:170px;
   width:170px;
   height:255px;
 
@@ -367,21 +368,42 @@ input:focus,
   position:relative;
   cursor:pointer;
 
-  background:#111;
+  background:#181818;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  transition:
+  transform .25s,
+  box-shadow .25s;
 
   flex-shrink:0;
-
-  transition:transform .25s, box-shadow .25s;
 }
 
 .card-item:hover,
 .card-item:focus{
   transform:scale(1.06);
   box-shadow:0 10px 25px rgba(0,0,0,.5);
+}
+
+.card-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-item p{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:14px;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.96),
+    transparent
+  );
+
+  font-size:16px;
+  font-weight:bold;
 }
 
 /* ================= SLIDE BUTTON ================= */
