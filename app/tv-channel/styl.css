@@ -357,10 +357,14 @@ input:focus,
 
 /* ================= CARD ================= */
 
+/* ================= CARD ================= */
+
 .card-item{
   min-width:170px;
   width:170px;
-  height:255px;
+
+  aspect-ratio: 1 / 1;   /* 👈 FORCE SQUARE */
+  height:auto;
 
   border-radius:14px;
   overflow:hidden;
@@ -375,35 +379,18 @@ input:focus,
   box-shadow .25s;
 
   flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.card-item:hover,
-.card-item:focus{
-  transform:scale(1.06);
-  box-shadow:0 10px 25px rgba(0,0,0,.5);
-}
-
+/* IMAGE OPTIMIZATION */
 .card-item img{
   width:100%;
   height:100%;
-  object-fit:cover;
-}
-
-.card-item p{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:14px;
-
-  background:
-  linear-gradient(
-    to top,
-    rgba(0,0,0,.96),
-    transparent
-  );
-
-  font-size:16px;
-  font-weight:bold;
+  object-fit:contain;   /* 👈 BEST FOR LOGOS */
+  padding:12px;         /* 👈 breathing space */
+  background:#111;      /* optional clean logo box */
 }
 
 /* ================= SLIDE BUTTON ================= */
