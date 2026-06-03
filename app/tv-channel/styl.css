@@ -276,7 +276,7 @@ input:focus,
   padding-left:10px;
 }
 
-/* ================= SCROLL ================= */
+/* ================= SLIDER ================= */
 
 .horizontal-scroll{
   display:flex;
@@ -293,12 +293,11 @@ input:focus,
   display:none;
 }
 
-/* ================= CARD (FIXED SQUARE LOGO) ================= */
+/* ================= CARD ================= */
 
 .card-item{
   width:170px;
-
-  aspect-ratio:1 / 1;   /* ✅ PERFECT SQUARE */
+  height:255px;
 
   border-radius:14px;
   overflow:hidden;
@@ -323,13 +322,17 @@ input:focus,
   box-shadow:0 10px 25px rgba(0,0,0,.5);
 }
 
-/* LOGO OPTIMIZATION */
+/* ================= LOGO FIX (ONLY IMPORTANT CHANGE) ================= */
+
 .card-item img{
   width:100%;
   height:100%;
-  object-fit:contain;   /* ✅ prevents crop */
-  padding:14px;
+  object-fit:contain;   /* ✅ keeps logo clean, no crop */
+  padding:12px;         /* ✅ safe spacing */
+  box-sizing:border-box;
 }
+
+/* ================= TITLE ================= */
 
 .card-item p{
   position:absolute;
@@ -343,7 +346,7 @@ input:focus,
   font-weight:bold;
 }
 
-/* ================= SLIDER BUTTONS ================= */
+/* ================= SLIDER BUTTON ================= */
 
 .slideBtn{
   position:absolute;
@@ -393,14 +396,17 @@ input:focus,
 
 @media(max-width:768px){
 
-  #searchInput{ width:120px; }
-
-  .card-item{
-    width:140px;
+  #searchInput{
+    width:120px;
   }
 
   .horizontal-scroll{
     padding-inline:42px;
+  }
+
+  .card-item{
+    width:140px;
+    height:210px;
   }
 
   #videoPlayer,
@@ -417,6 +423,7 @@ input:focus,
 
   .card-item{
     width:300px;
+    height:430px;
   }
 
   .card-item p{
