@@ -1,6 +1,13 @@
 {
   "channels":[
   {
+              "name": "Bread Wins Gold Tagalog Dubbed",
+    "logo": "https://i.imgur.com/kEHWfSU.png",
+    "type": "mp4",
+    "manifestUri": "https://ia902804.us.archive.org/21/items/bread-wins-gold/Bread%20Wins%20Gold.mp4",
+    "category": "Drama Tagalog Dubbed"
+  },
+  {
           "name": "Linda Walker Tagalog Dubbed",
     "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpe4R7siuU328hwbeelthcyWPcioK6mXXb42AQmdS8ODnNDknKpohAfWg&s=10",
     "type": "mp4",
