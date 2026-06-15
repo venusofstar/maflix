@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <title>MAFLIX</title>
 <meta name="theme-color" content="#e50914">
 <meta name="description" content="Watch movies, anime, sports and live TV with MAFLIX streaming platform.">
@@ -16,13 +16,15 @@
 }
 html{
   scroll-behavior:smooth;
+  height:100%;
 }
 body{
   background:#0b0b0b;
   color:#fff;
   font-family:Arial,sans-serif;
   overflow-x:hidden;
-  touch-action:pan-y;
+  touch-action:manipulation;
+  height:100%;
 }
 
 /* ================= GLOBAL ================= */
@@ -32,8 +34,9 @@ img{
 }
 button, a, input, .card-item{
   outline:none;
-  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color:rgba(229,9,20,0.3);
   transition: all 0.25s ease;
+  cursor:pointer;
 }
 
 /* 🔴 RED SHADOW WHEN SELECTED/FOCUSED */
@@ -274,6 +277,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   padding-inline:60px;
   padding-bottom:10px;
   scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
 }
 .horizontal-scroll::-webkit-scrollbar{
   display:none;
@@ -290,6 +294,8 @@ button:focus, a:focus, input:focus, .card-item:focus{
   cursor:pointer;
   background:#181818;
   flex-shrink:0;
+  -webkit-user-select:none;
+  user-select:none;
 }
 .card-item:hover{
   transform:scale(1.03);
@@ -299,6 +305,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   width:100%;
   height:100%;
   object-fit:cover;
+  pointer-events:none;
 }
 .card-item p{
   position:absolute;
@@ -308,6 +315,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   background: linear-gradient(to top, rgba(0,0,0,.96), transparent);
   font-size:16px;
   font-weight:bold;
+  pointer-events:none;
 }
 
 /* ================= SLIDE BUTTON ================= */
@@ -345,6 +353,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   align-items:center;
   justify-content:center;
   z-index:9999;
+  touch-action:manipulation;
 }
 #videoPlayer, #ytFrame{
   width:min(95vw,1600px);
@@ -353,19 +362,52 @@ button:focus, a:focus, input:focus, .card-item:focus{
   border-radius:12px;
   background:#000;
 }
-#closeBtn{
+/* FULLSCREEN MODE */
+#videoContainer:fullscreen,
+#videoContainer:-webkit-full-screen,
+#videoContainer:-moz-full-screen,
+#videoContainer:-ms-fullscreen {
+  width:100vw;
+  height:100vh;
+  border-radius:0;
+}
+#videoContainer:fullscreen #videoPlayer,
+#videoContainer:fullscreen #ytFrame,
+#videoContainer:-webkit-full-screen #videoPlayer,
+#videoContainer:-webkit-full-screen #ytFrame {
+  width:100%;
+  height:100%;
+  border-radius:0;
+}
+
+/* PLAYER CONTROLS */
+.player-controls{
   position:absolute;
   top:15px;
   right:15px;
+  display:flex;
+  gap:12px;
+  z-index:10000;
+}
+#closeBtn, #fullscreenBtn{
   width:48px;
   height:48px;
   border:none;
   border-radius:50%;
-  background:#e50914;
+  background:rgba(229,9,20,0.9);
   color:#fff;
   font-size:22px;
   cursor:pointer;
-  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#fullscreenBtn{
+  background:rgba(255,255,255,0.2);
+  font-size:20px;
+}
+#fullscreenBtn:hover, #fullscreenBtn:focus{
+  background:#e50914;
 }
 #spinner{
   border:5px solid rgba(255,255,255,.2);
@@ -381,7 +423,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   100%{ transform:rotate(360deg); }
 }
 
-/* ================= MOBILE ================= */
+/* ================= MOBILE & TOUCH ================= */
 @media(max-width:768px){
   #navbar{ padding:10px 12px; }
   #searchInput{ width:120px; font-size:14px; }
@@ -391,6 +433,8 @@ button:focus, a:focus, input:focus, .card-item:focus{
   .slideBtn{ width:40px; height:65px; font-size:22px; }
   .horizontal-scroll{ padding-inline:42px; }
   #videoPlayer, #ytFrame{ width:100%; height:100%; border-radius:0; }
+  .player-controls{ top:10px; right:10px; gap:8px; }
+  #closeBtn, #fullscreenBtn{ width:44px; height:44px; font-size:20px; }
 }
 
 /* ================= SMART TV ================= */
@@ -404,6 +448,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   .card-item p{ font-size:22px; }
   .slideBtn{ width:74px; height:140px; font-size:46px; }
   .heroButtons button{ min-height:64px; padding:16px 36px; font-size:22px; }
+  #closeBtn, #fullscreenBtn{ width:56px; height:56px; font-size:26px; }
 }
 </style>
 </head>
@@ -457,8 +502,11 @@ button:focus, a:focus, input:focus, .card-item:focus{
 <div id="videoContainer">
   <div id="spinner"></div>
   <video id="videoPlayer" controls autoplay playsinline></video>
-  <iframe id="ytFrame" allow="autoplay; fullscreen" allowfullscreen style="display:none" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-presentation"></iframe>
-  <button id="closeBtn">✕</button>
+  <iframe id="ytFrame" allow="autoplay; fullscreen; accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-presentation"></iframe>
+  <div class="player-controls">
+    <button id="fullscreenBtn">⛶</button>
+    <button id="closeBtn">✕</button>
+  </div>
 </div>
 
 <script>
@@ -583,6 +631,11 @@ function render(channelsList) {
         <p>${ch.name}</p>
       `;
       card.onclick = () => playChannel(ch);
+      // Touch support
+      card.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        playChannel(ch);
+      });
       row.appendChild(card);
     });
   });
@@ -602,6 +655,41 @@ function slideRow(rowId, direction) {
   const scrollAmount = row.clientWidth * 0.85;
   row.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
 }
+
+/* ================= FULLSCREEN FUNCTION ================= */
+function toggleFullscreen() {
+  const container = document.getElementById("videoContainer");
+  const btn = document.getElementById("fullscreenBtn");
+  
+  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+    if (container.requestFullscreen) {
+      container.requestFullscreen();
+    } else if (container.webkitRequestFullscreen) {
+      container.webkitRequestFullscreen();
+    } else if (container.mozRequestFullScreen) {
+      container.mozRequestFullScreen();
+    } else if (container.msRequestFullscreen) {
+      container.msRequestFullscreen();
+    }
+    btn.textContent = "⛶";
+    btn.title = "Exit Fullscreen";
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+    btn.textContent = "⛶";
+    btn.title = "Enter Fullscreen";
+  }
+}
+
+// Fullscreen button click
+document.getElementById("fullscreenBtn").addEventListener("click", toggleFullscreen);
 
 /* ================= PLAY CHANNEL ================= */
 async function playChannel(ch) {
@@ -629,9 +717,8 @@ async function playChannel(ch) {
       const videoId = ch.manifestUri.includes("v=") 
         ? ch.manifestUri.split("v=")[1].split("&")[0] 
         : ch.manifestUri.split("/").pop();
-      yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
+      yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1&fs=1`;
       spinner.style.display = "none";
-      // 🔴 AUTO FOCUS CLOSE BUTTON
       setTimeout(() => closeBtn.focus(), 300);
       return;
     }
@@ -640,7 +727,6 @@ async function playChannel(ch) {
       yt.style.display = "block";
       yt.src = ch.manifestUri;
       spinner.style.display = "none";
-      // 🔴 AUTO FOCUS CLOSE BUTTON
       setTimeout(() => closeBtn.focus(), 300);
       return;
     }
@@ -651,7 +737,6 @@ async function playChannel(ch) {
       v.src = ch.manifestUri;
       v.onloadeddata = () => { 
         spinner.style.display = "none";
-        // 🔴 AUTO FOCUS CLOSE BUTTON
         closeBtn.focus();
       };
       v.play();
@@ -670,7 +755,6 @@ async function playChannel(ch) {
     await shakaPlayer.load(ch.manifestUri);
     spinner.style.display = "none";
     v.play();
-    // 🔴 AUTO FOCUS CLOSE BUTTON
     setTimeout(() => closeBtn.focus(), 300);
 
   } catch (e) {
@@ -687,10 +771,16 @@ function closePlayer() {
   const yt = document.getElementById("ytFrame");
   const c = document.getElementById("videoContainer");
 
+  // Exit fullscreen if active
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+
   isPlayerOpen = false;
   c.style.display = "none";
   
-  // ✅ FULLY CLOSE & STOP VIDEO + IFRAME
+  // Fully stop playback
   if (v) {
     v.pause();
     v.currentTime = 0;
@@ -702,7 +792,7 @@ function closePlayer() {
     setTimeout(() => yt.src = "", 100);
   }
 
-  // Return focus to last selected card
+  // Return focus
   setTimeout(() => {
     const allCards = document.querySelectorAll('.card-item');
     if (allCards[currentFocusIndex]) {
@@ -713,12 +803,12 @@ function closePlayer() {
 
 document.getElementById("closeBtn").onclick = closePlayer;
 
-/* ================= 🎮 TV REMOTE FULL SUPPORT ================= */
+/* ================= 🎮 TV REMOTE SUPPORT ================= */
 document.addEventListener("keydown", e => {
   const active = document.activeElement;
   const allCards = Array.from(document.querySelectorAll('.card-item'));
 
-  // ✅ EXIT / BACK / CLOSE BUTTON HANDLING
+  // Exit / Back
   if (
     e.key === "Escape" || 
     e.key === "Back" || 
@@ -742,8 +832,20 @@ document.addEventListener("keydown", e => {
     return;
   }
 
-  // Enter / OK to select/play
+  // Fullscreen with F or Media key
+  if (isPlayerOpen && (e.key === "f" || e.key === "F" || e.key === "MediaPlayPause")) {
+    toggleFullscreen();
+    e.preventDefault();
+    return;
+  }
+
+  // Enter/OK
   if (e.key === "Enter" && active) {
+    if (active.id === "fullscreenBtn") {
+      toggleFullscreen();
+      e.preventDefault();
+      return;
+    }
     if (active.classList.contains("card-item")) {
       active.click();
       e.preventDefault();
@@ -756,10 +858,9 @@ document.addEventListener("keydown", e => {
     }
   }
 
-  // Only handle navigation if player is NOT open
   if (isPlayerOpen) return;
 
-  // Up / Down arrows
+  // Navigation
   if (e.key === "ArrowDown") {
     window.scrollBy({ top: 320, behavior: "smooth" });
     e.preventDefault();
@@ -770,17 +871,13 @@ document.addEventListener("keydown", e => {
     e.preventDefault();
     return;
   }
-
-  // Left / Right arrows to navigate cards
   if (allCards.length === 0) return;
-
   if (e.key === "ArrowRight") {
     e.preventDefault();
     currentFocusIndex = Math.min(currentFocusIndex + 1, allCards.length - 1);
     allCards[currentFocusIndex].focus();
     allCards[currentFocusIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   }
-
   if (e.key === "ArrowLeft") {
     e.preventDefault();
     currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
@@ -808,3 +905,4 @@ window.onload = fetchChannels;
 
 </body>
 </html>
+
