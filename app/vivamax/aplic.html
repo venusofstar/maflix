@@ -365,6 +365,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   color:#fff;
   font-size:22px;
   cursor:pointer;
+  z-index:10000;
 }
 #spinner{
   border:5px solid rgba(255,255,255,.2);
@@ -608,6 +609,7 @@ async function playChannel(ch) {
   const yt = document.getElementById("ytFrame");
   const c = document.getElementById("videoContainer");
   const spinner = document.getElementById("spinner");
+  const closeBtn = document.getElementById("closeBtn");
 
   isPlayerOpen = true;
   c.style.display = "flex";
@@ -629,6 +631,8 @@ async function playChannel(ch) {
         : ch.manifestUri.split("/").pop();
       yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
       spinner.style.display = "none";
+      // 🔴 AUTO FOCUS CLOSE BUTTON
+      setTimeout(() => closeBtn.focus(), 300);
       return;
     }
 
@@ -636,6 +640,8 @@ async function playChannel(ch) {
       yt.style.display = "block";
       yt.src = ch.manifestUri;
       spinner.style.display = "none";
+      // 🔴 AUTO FOCUS CLOSE BUTTON
+      setTimeout(() => closeBtn.focus(), 300);
       return;
     }
 
@@ -643,7 +649,11 @@ async function playChannel(ch) {
       if (shakaPlayer) { await shakaPlayer.destroy(); shakaPlayer = null; }
       v.style.display = "block";
       v.src = ch.manifestUri;
-      v.onloadeddata = () => { spinner.style.display = "none"; };
+      v.onloadeddata = () => { 
+        spinner.style.display = "none";
+        // 🔴 AUTO FOCUS CLOSE BUTTON
+        closeBtn.focus();
+      };
       v.play();
       return;
     }
@@ -660,6 +670,8 @@ async function playChannel(ch) {
     await shakaPlayer.load(ch.manifestUri);
     spinner.style.display = "none";
     v.play();
+    // 🔴 AUTO FOCUS CLOSE BUTTON
+    setTimeout(() => closeBtn.focus(), 300);
 
   } catch (e) {
     console.error("Playback error:", e);
@@ -678,11 +690,17 @@ function closePlayer() {
   isPlayerOpen = false;
   c.style.display = "none";
   
-  // Stop all playback
-  if (!v.paused) v.pause();
-  v.removeAttribute("src");
-  v.load();
-  yt.src = "about:blank"; // Fully clear iframe content
+  // ✅ FULLY CLOSE & STOP VIDEO + IFRAME
+  if (v) {
+    v.pause();
+    v.currentTime = 0;
+    v.removeAttribute("src");
+    v.load();
+  }
+  if (yt) {
+    yt.src = "about:blank";
+    setTimeout(() => yt.src = "", 100);
+  }
 
   // Return focus to last selected card
   setTimeout(() => {
@@ -700,8 +718,7 @@ document.addEventListener("keydown", e => {
   const active = document.activeElement;
   const allCards = Array.from(document.querySelectorAll('.card-item'));
 
-  // 🎯 CLOSE PLAYER / SIDEBAR WITH REMOTE KEYS
-  // Works with: Escape, Back, BrowserBack, Backspace, MediaStop, Exit
+  // ✅ EXIT / BACK / CLOSE BUTTON HANDLING
   if (
     e.key === "Escape" || 
     e.key === "Back" || 
