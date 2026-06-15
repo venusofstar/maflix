@@ -456,7 +456,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
 <div id="videoContainer">
   <div id="spinner"></div>
   <video id="videoPlayer" controls autoplay playsinline></video>
-  <iframe id="ytFrame" allow="autoplay; fullscreen" allowfullscreen style="display:none"></iframe>
+  <iframe id="ytFrame" allow="autoplay; fullscreen" allowfullscreen style="display:none" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-presentation"></iframe>
   <button id="closeBtn">✕</button>
 </div>
 
@@ -627,7 +627,7 @@ async function playChannel(ch) {
       const videoId = ch.manifestUri.includes("v=") 
         ? ch.manifestUri.split("v=")[1].split("&")[0] 
         : ch.manifestUri.split("/").pop();
-      yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
       spinner.style.display = "none";
       return;
     }
@@ -677,16 +677,20 @@ function closePlayer() {
 
   isPlayerOpen = false;
   c.style.display = "none";
-  v.pause();
+  
+  // Stop all playback
+  if (!v.paused) v.pause();
   v.removeAttribute("src");
   v.load();
-  yt.src = "";
+  yt.src = "about:blank"; // Fully clear iframe content
 
   // Return focus to last selected card
-  const allCards = document.querySelectorAll('.card-item');
-  if (allCards[currentFocusIndex]) {
-    allCards[currentFocusIndex].focus();
-  }
+  setTimeout(() => {
+    const allCards = document.querySelectorAll('.card-item');
+    if (allCards[currentFocusIndex]) {
+      allCards[currentFocusIndex].focus();
+    }
+  }, 50);
 }
 
 document.getElementById("closeBtn").onclick = closePlayer;
@@ -696,18 +700,29 @@ document.addEventListener("keydown", e => {
   const active = document.activeElement;
   const allCards = Array.from(document.querySelectorAll('.card-item'));
 
-  // ESC / Back key to close player
-  if (e.key === "Escape" || e.key === "Back" || e.key === "BrowserBack") {
+  // 🎯 CLOSE PLAYER / SIDEBAR WITH REMOTE KEYS
+  // Works with: Escape, Back, BrowserBack, Backspace, MediaStop, Exit
+  if (
+    e.key === "Escape" || 
+    e.key === "Back" || 
+    e.key === "BrowserBack" || 
+    e.key === "Backspace" ||
+    e.key === "MediaStop" ||
+    e.key === "Exit"
+  ) {
     if (isPlayerOpen) {
       closePlayer();
       e.preventDefault();
+      e.stopImmediatePropagation();
       return;
     }
     if (sidebar.classList.contains("active")) {
       closeSidebar();
       e.preventDefault();
+      e.stopImmediatePropagation();
       return;
     }
+    return;
   }
 
   // Enter / OK to select/play
