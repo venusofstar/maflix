@@ -24,6 +24,7 @@ body{
   overflow-x:hidden;
   touch-action:pan-y;
 }
+
 /* ================= GLOBAL ================= */
 img{
   display:block;
@@ -32,11 +33,17 @@ img{
 button, a, input, .card-item{
   outline:none;
   -webkit-tap-highlight-color:transparent;
+  transition: all 0.25s ease;
 }
+
+/* 🔴 RED SHADOW WHEN SELECTED/FOCUSED */
 button:focus, a:focus, input:focus, .card-item:focus{
-  outline:3px solid #fff;
-  outline-offset:2px;
+  outline: none;
+  box-shadow: 0 0 18px 3px #e50914, 0 0 30px 8px rgba(229, 9, 20, 0.6);
+  transform: scale(1.08);
+  z-index: 20;
 }
+
 /* ================= NAVBAR ================= */
 #navbar{
   position:fixed;
@@ -68,7 +75,6 @@ button:focus, a:focus, input:focus, .card-item:focus{
   font-size:22px;
   cursor:pointer;
   flex-shrink:0;
-  transition:.2s;
 }
 #menuBtn:hover, #menuBtn:focus{
   background:#e50914;
@@ -81,6 +87,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   letter-spacing:1px;
   white-space:nowrap;
 }
+
 /* ================= SEARCH ================= */
 #searchBox{
   display:flex;
@@ -111,6 +118,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   font-size:18px;
   cursor:pointer;
 }
+
 /* ================= SIDEBAR ================= */
 #sidebar{
   position:fixed;
@@ -178,7 +186,6 @@ button:focus, a:focus, input:focus, .card-item:focus{
   padding:15px;
   border-radius:12px;
   background:#1a1a1a;
-  transition:.2s;
   font-size:16px;
 }
 #sidebar a:hover, #sidebar a:focus{
@@ -194,6 +201,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
 #menuOverlay.active{
   display:block;
 }
+
 /* ================= HERO ================= */
 #hero{
   position:relative;
@@ -232,10 +240,6 @@ button:focus, a:focus, input:focus, .card-item:focus{
   font-size:16px;
   cursor:pointer;
   font-weight:bold;
-  transition:.2s;
-}
-.heroButtons button:hover, .heroButtons button:focus{
-  transform:scale(1.05);
 }
 .playBtn{
   background:#fff;
@@ -245,6 +249,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   background:rgba(109,109,110,.7);
   color:#fff;
 }
+
 /* ================= CHANNELS ================= */
 #channelSections{
   padding:15px;
@@ -258,6 +263,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   font-size: clamp(20px,3vw,32px);
   padding-left:10px;
 }
+
 /* ================= SLIDER ================= */
 .horizontal-scroll{
   display:flex;
@@ -272,6 +278,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
 .horizontal-scroll::-webkit-scrollbar{
   display:none;
 }
+
 /* ================= CARD ================= */
 .card-item{
   min-width:170px;
@@ -282,12 +289,11 @@ button:focus, a:focus, input:focus, .card-item:focus{
   position:relative;
   cursor:pointer;
   background:#181818;
-  transition: transform .25s, box-shadow .25s;
   flex-shrink:0;
 }
-.card-item:hover, .card-item:focus{
-  transform:scale(1.06);
-  box-shadow:0 10px 25px rgba(0,0,0,.5);
+.card-item:hover{
+  transform:scale(1.03);
+  box-shadow:0 6px 18px rgba(0,0,0,.4);
 }
 .card-item img{
   width:100%;
@@ -303,6 +309,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   font-size:16px;
   font-weight:bold;
 }
+
 /* ================= SLIDE BUTTON ================= */
 .slideBtn{
   position:absolute;
@@ -318,7 +325,6 @@ button:focus, a:focus, input:focus, .card-item:focus{
   cursor:pointer;
   z-index:10;
   backdrop-filter:blur(8px);
-  transition:.2s;
 }
 .slideBtn:hover, .slideBtn:focus{
   background:#e50914;
@@ -329,6 +335,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
 .slideRight{
   right:0;
 }
+
 /* ================= PLAYER ================= */
 #videoContainer{
   position:fixed;
@@ -372,6 +379,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
 @keyframes spin{
   100%{ transform:rotate(360deg); }
 }
+
 /* ================= MOBILE ================= */
 @media(max-width:768px){
   #navbar{ padding:10px 12px; }
@@ -383,6 +391,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
   .horizontal-scroll{ padding-inline:42px; }
   #videoPlayer, #ytFrame{ width:100%; height:100%; border-radius:0; }
 }
+
 /* ================= SMART TV ================= */
 @media(min-width:1400px){
   body{ font-size:20px; }
@@ -434,7 +443,7 @@ button:focus, a:focus, input:focus, .card-item:focus{
     <h2>Trending Now</h2>
     <p>Watch movies, anime, sports and live TV with MAFLIX streaming platform.</p>
     <div class="heroButtons">
-      <button class="playBtn">▶ Watch</button>
+      <button class="playBtn" id="heroPlayBtn">▶ Watch</button>
       <button class="infoBtn">More Info</button>
     </div>
   </div>
@@ -475,6 +484,7 @@ menuOverlay.onclick = closeSidebar;
 let staticChannels = [];
 let shakaPlayer = null;
 let currentFocusIndex = 0;
+let isPlayerOpen = false;
 
 /* ================= PARSE M3U ================= */
 function parseM3U(content) {
@@ -576,7 +586,6 @@ function render(channelsList) {
     });
   });
 
-  // Set focus to first card after render
   setTimeout(() => {
     const firstCard = document.querySelector('.card-item');
     if (firstCard) {
@@ -593,33 +602,144 @@ function slideRow(rowId, direction) {
   row.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
 }
 
-/* ================= TV REMOTE NAVIGATION ================= */
+/* ================= PLAY CHANNEL ================= */
+async function playChannel(ch) {
+  const v = document.getElementById("videoPlayer");
+  const yt = document.getElementById("ytFrame");
+  const c = document.getElementById("videoContainer");
+  const spinner = document.getElementById("spinner");
+
+  isPlayerOpen = true;
+  c.style.display = "flex";
+  spinner.style.display = "block";
+  
+  // Reset player
+  v.pause();
+  v.removeAttribute("src");
+  v.load();
+  yt.src = "";
+  yt.style.display = "none";
+  v.style.display = "none";
+
+  try {
+    if (ch.type === "youtube") {
+      yt.style.display = "block";
+      const videoId = ch.manifestUri.includes("v=") 
+        ? ch.manifestUri.split("v=")[1].split("&")[0] 
+        : ch.manifestUri.split("/").pop();
+      yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      spinner.style.display = "none";
+      return;
+    }
+
+    if (ch.type === "iframe") {
+      yt.style.display = "block";
+      yt.src = ch.manifestUri;
+      spinner.style.display = "none";
+      return;
+    }
+
+    if (ch.type === "mp4") {
+      if (shakaPlayer) { await shakaPlayer.destroy(); shakaPlayer = null; }
+      v.style.display = "block";
+      v.src = ch.manifestUri;
+      v.onloadeddata = () => { spinner.style.display = "none"; };
+      v.play();
+      return;
+    }
+
+    // HLS / DASH via Shaka Player
+    v.style.display = "block";
+    if (!shakaPlayer) shakaPlayer = new shaka.Player(v);
+    await shakaPlayer.unload();
+
+    if (ch.clearKey) {
+      shakaPlayer.configure({ drm: { clearKeys: ch.clearKey } });
+    }
+
+    await shakaPlayer.load(ch.manifestUri);
+    spinner.style.display = "none";
+    v.play();
+
+  } catch (e) {
+    console.error("Playback error:", e);
+    spinner.style.display = "none";
+    alert("Sorry, unable to play this content.");
+    closePlayer();
+  }
+}
+
+/* ================= CLOSE PLAYER ================= */
+function closePlayer() {
+  const v = document.getElementById("videoPlayer");
+  const yt = document.getElementById("ytFrame");
+  const c = document.getElementById("videoContainer");
+
+  isPlayerOpen = false;
+  c.style.display = "none";
+  v.pause();
+  v.removeAttribute("src");
+  v.load();
+  yt.src = "";
+
+  // Return focus to last selected card
+  const allCards = document.querySelectorAll('.card-item');
+  if (allCards[currentFocusIndex]) {
+    allCards[currentFocusIndex].focus();
+  }
+}
+
+document.getElementById("closeBtn").onclick = closePlayer;
+
+/* ================= 🎮 TV REMOTE FULL SUPPORT ================= */
 document.addEventListener("keydown", e => {
   const active = document.activeElement;
   const allCards = Array.from(document.querySelectorAll('.card-item'));
 
-  // Enter key to select
-  if (e.key === "Enter" && active) {
-    if (active.tagName === "BUTTON" || active.tagName === "A" || active.classList.contains("card-item")) {
-      active.click();
+  // ESC / Back key to close player
+  if (e.key === "Escape" || e.key === "Back" || e.key === "BrowserBack") {
+    if (isPlayerOpen) {
+      closePlayer();
       e.preventDefault();
+      return;
     }
-    return;
+    if (sidebar.classList.contains("active")) {
+      closeSidebar();
+      e.preventDefault();
+      return;
+    }
   }
 
-  // Up/Down arrows scroll page
+  // Enter / OK to select/play
+  if (e.key === "Enter" && active) {
+    if (active.classList.contains("card-item")) {
+      active.click();
+      e.preventDefault();
+      return;
+    }
+    if (active.tagName === "BUTTON" || active.tagName === "A") {
+      active.click();
+      e.preventDefault();
+      return;
+    }
+  }
+
+  // Only handle navigation if player is NOT open
+  if (isPlayerOpen) return;
+
+  // Up / Down arrows
   if (e.key === "ArrowDown") {
-    window.scrollBy({ top: 300, behavior: "smooth" });
+    window.scrollBy({ top: 320, behavior: "smooth" });
     e.preventDefault();
     return;
   }
   if (e.key === "ArrowUp") {
-    window.scrollBy({ top: -300, behavior: "smooth" });
+    window.scrollBy({ top: -320, behavior: "smooth" });
     e.preventDefault();
     return;
   }
 
-  // Left/Right arrows navigate cards
+  // Left / Right arrows to navigate cards
   if (allCards.length === 0) return;
 
   if (e.key === "ArrowRight") {
@@ -636,76 +756,6 @@ document.addEventListener("keydown", e => {
     allCards[currentFocusIndex].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   }
 });
-
-/* ================= PLAY CHANNEL ================= */
-async function playChannel(ch) {
-  const v = document.getElementById("videoPlayer");
-  const yt = document.getElementById("ytFrame");
-  const c = document.getElementById("videoContainer");
-  const spinner = document.getElementById("spinner");
-
-  c.style.display = "flex";
-  spinner.style.display = "block";
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
-  yt.src = "";
-  yt.style.display = "none";
-  v.style.display = "none";
-
-  if (ch.type === "youtube") {
-    yt.style.display = "block";
-    const videoId = ch.manifestUri.includes("v=") ? ch.manifestUri.split("v=")[1].split("&")[0] : ch.manifestUri.split("/").pop();
-    yt.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    spinner.style.display = "none";
-    return;
-  }
-
-  if (ch.type === "iframe") {
-    yt.style.display = "block";
-    yt.src = ch.manifestUri;
-    spinner.style.display = "none";
-    return;
-  }
-
-  if (ch.type === "mp4") {
-    if (shakaPlayer) { await shakaPlayer.destroy(); shakaPlayer = null; }
-    v.style.display = "block";
-    v.src = ch.manifestUri;
-    v.onloadeddata = () => { spinner.style.display = "none"; };
-    v.play();
-    return;
-  }
-
-  v.style.display = "block";
-  if (!shakaPlayer) shakaPlayer = new shaka.Player(v);
-  await shakaPlayer.unload();
-
-  if (ch.clearKey) {
-    shakaPlayer.configure({ drm: { clearKeys: ch.clearKey } });
-  }
-
-  try {
-    await shakaPlayer.load(ch.manifestUri);
-    spinner.style.display = "none";
-    v.play();
-  } catch (e) {
-    console.error(e);
-    spinner.style.display = "none";
-    alert("Playback Error");
-  }
-}
-
-/* ================= CLOSE PLAYER ================= */
-document.getElementById("closeBtn").onclick = () => {
-  const v = document.getElementById("videoPlayer");
-  const yt = document.getElementById("ytFrame");
-  document.getElementById("videoContainer").style.display = "none";
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
-  yt.src = "";
-};
 
 /* ================= SEARCH ================= */
 const searchInput = document.getElementById("searchInput");
@@ -726,4 +776,3 @@ window.onload = fetchChannels;
 
 </body>
 </html>
-
