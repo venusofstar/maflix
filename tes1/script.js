@@ -184,6 +184,8 @@ async function openInfoPage(item) {
     const details = await detailsRes.json();
 
     let html = `
+      <!-- ✅ CHANGED: Button text to Close -->
+      <button class="infoBackBtn" id="infoBackBtn" tabindex="0">✕ Close</button>
       <div class="infoPoster">
         <img src="${details.poster_path ? TMDB_IMAGE_BASE + details.poster_path : "https://via.placeholder.com/300x450?text=No+Poster"}" alt="${details.title || details.name}">
       </div>
@@ -198,14 +200,12 @@ async function openInfoPage(item) {
     `;
 
     if(type === "movie") {
-      // ✅ Play button is focusable
       html += `<button class="infoPlayBtn" id="infoPlayBtn" tabindex="0">▶ Play Movie</button>`;
     } else {
       html += `<h3 style="margin:25px 0 15px; font-size:22px;">Episodes</h3>`;
       if(details.seasons && details.seasons.length > 0) {
         html += `<div class="seasonSelector" id="seasonSelector">`;
         details.seasons.filter(s => s.season_number > 0).forEach(season => {
-          // ✅ Season buttons are focusable
           html += `<button class="seasonBtn ${season.season_number === 1 ? "active" : ""}" data-season="${season.season_number}" tabindex="0">Season ${season.season_number}</button>`;
         });
         html += `</div><div class="episodesGrid" id="episodesContainer"></div>`;
@@ -216,12 +216,18 @@ async function openInfoPage(item) {
     html += `</div>`;
     document.getElementById("infoContent").innerHTML = html;
 
+    // Reattach event listener to the new Close button
+    document.getElementById("infoBackBtn").addEventListener("click", () => {
+      infoPage.style.display = "none";
+      document.body.style.overflow = "auto";
+      setFocus(document.querySelector(".card"));
+    });
+
     if(type === "movie") {
       document.getElementById("infoPlayBtn").addEventListener("click", () => { 
         playMovie(details.id); 
         saveContinueWatching({id:details.id, title:details.title, poster_path:details.poster_path, media_type:"movie"}); 
       });
-      // ✅ Set initial focus to Play button
       setTimeout(() => setFocus(document.getElementById("infoPlayBtn")), 200);
     } else {
       loadEpisodes(details.id, 1);
@@ -252,7 +258,6 @@ async function loadEpisodes(tvId, season) {
     data.episodes.forEach(ep => {
       const epCard = document.createElement("div");
       epCard.className = "episodeCard";
-      // ✅ Episode card is focusable
       epCard.tabIndex = 0;
       epCard.innerHTML = `
         <img class="episodeThumb" src="${ep.still_path ? TMDB_IMAGE_BASE + ep.still_path : "https://via.placeholder.com/320x180?text=Episode+"+ep.episode_number}" alt="Episode ${ep.episode_number}">
@@ -268,7 +273,6 @@ async function loadEpisodes(tvId, season) {
       epCard.addEventListener("keydown", e => (e.key === "Enter" || e.key === "OK") && playEpisode(tvId, season, ep.episode_number));
       container.appendChild(epCard);
     });
-    // ✅ Focus first episode after loading
     setTimeout(() => setFocus(container.querySelector(".episodeCard")), 200);
   } catch {
     container.innerHTML = `<div class="loading">Failed to load episodes</div>`;
@@ -511,7 +515,6 @@ function handleKeyNav(e) {
 
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      // Move up between elements
       const currentEl = focusableInfo[currentIndex];
       if (currentEl.classList.contains("infoPlayBtn") || currentEl.classList.contains("seasonBtn")) {
         setFocus(document.getElementById("infoBackBtn"));
