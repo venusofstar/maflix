@@ -28,7 +28,6 @@ const searchInput = document.getElementById("movieSearchInput");
 const searchBtn = document.getElementById("searchBtn");
 
 // --- NAVIGATION ---
-// ✅ FULL TV REMOTE SUPPORT: Back button ALWAYS returns to HOME
 function goHomeFromInfo() {
   infoPage.style.display = "none";
   document.body.style.overflow = "auto";
@@ -54,13 +53,28 @@ document.getElementById("infoBackBtn").addEventListener("keydown", e => {
   }
 });
 
-document.getElementById("backPlayer").addEventListener("click", () => {
+// ✅ FIXED: Back button in player → goes to Movie Info page
+function backToInfoPage() {
   if (document.fullscreenElement) document.exitFullscreen();
   playerModal.style.display = "none";
   document.getElementById("videoFrame").src = "";
   document.body.style.overflow = "auto";
   infoPage.style.display = "block";
-  setFocus(document.querySelector(".infoPlayBtn, .episodeCard"));
+  // Focus back to Play button or first episode
+  setTimeout(() => {
+    const playBtn = document.querySelector(".infoPlayBtn");
+    const firstEp = document.querySelector(".episodeCard");
+    if (playBtn) setFocus(playBtn);
+    else if (firstEp) setFocus(firstEp);
+  }, 150);
+}
+
+document.getElementById("backPlayer").addEventListener("click", backToInfoPage);
+document.getElementById("backPlayer").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") {
+    e.preventDefault();
+    backToInfoPage();
+  }
 });
 
 // --- SEARCH ---
@@ -314,6 +328,7 @@ function playMovie(tmdbID) {
   playerModal.style.display = "flex";
   document.body.style.overflow = "hidden";
   showPlayerControls();
+  // Focus to Server 1 when player opens
   setTimeout(() => setFocus(document.getElementById("server1Btn")), 150);
 }
 
@@ -332,7 +347,10 @@ document.getElementById("fullscreenBtn").addEventListener("click", () => {
   showPlayerControls(); 
 });
 document.getElementById("fullscreenBtn").addEventListener("keydown", e => {
-  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+  if (e.key === "Enter" || e.key === "OK") { 
+    e.preventDefault(); 
+    document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); 
+  }
 });
 
 document.getElementById("server1Btn").addEventListener("click", () => { 
@@ -355,10 +373,6 @@ document.getElementById("server2Btn").addEventListener("click", () => {
 });
 document.getElementById("server2Btn").addEventListener("keydown", e => {
   if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.getElementById("server2Btn").click(); }
-});
-
-document.getElementById("backPlayer").addEventListener("keydown", e => {
-  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.getElementById("backPlayer").click(); }
 });
 
 // --- CONTINUE WATCHING ---
@@ -523,8 +537,9 @@ function handleKeyNav(e) {
       else if (currentFocus === document.getElementById("server2Btn")) setFocus(document.getElementById("server1Btn")); 
       return; 
     }
+    // ✅ Back/Escape in player → goes to Info page
     if (["Escape", "Backspace"].includes(e.key) || e.keyCode === 461 || e.keyCode === 10009) { 
-      document.getElementById("backPlayer").click(); 
+      backToInfoPage(); 
       e.preventDefault(); 
       return; 
     }
@@ -564,7 +579,7 @@ function handleKeyNav(e) {
       e.preventDefault();
       const currentEl = focusableInfo[currentIndex];
       if (currentEl.id === "infoBackBtn") {
-        const playBtn = document.getElementById("infoPlayBtn");
+        const playBtn = document.querySelector(".infoPlayBtn");
         if (playBtn) setFocus(playBtn);
         else {
           const firstSeason = document.querySelector(".seasonBtn");
