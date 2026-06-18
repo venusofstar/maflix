@@ -12,7 +12,6 @@ let currentItem = null;
 let currentMovieID = "";
 let hideControlsTimer;
 const CONTROLS_HIDE_DELAY = 10000;
-let currentFocus = null;
 
 // DOM ELEMENTS
 const sidebar = document.getElementById("sidebar");
@@ -28,24 +27,11 @@ const continueSection = document.getElementById("continueSection");
 const searchInput = document.getElementById("movieSearchInput");
 const searchBtn = document.getElementById("searchBtn");
 
-// --- FOCUS MANAGEMENT ---
-function setFocus(element) {
-  if (!element || element === currentFocus) return;
-  if (currentFocus) currentFocus.classList.remove("focused");
-  currentFocus = element;
-  currentFocus.classList.add("focused");
-  currentFocus.focus();
-  if (currentFocus !== searchInput) {
-    currentFocus.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
-  }
-}
-
 // --- NAVIGATION ---
 document.getElementById("infoBackBtn").addEventListener("click", () => {
   infoPage.style.display = "none";
   document.body.style.overflow = "auto";
-  const firstCard = document.querySelector(".card");
-  if (firstCard) setFocus(firstCard);
+  setFocus(document.querySelector(".card"));
 });
 
 document.getElementById("backPlayer").addEventListener("click", () => {
@@ -54,8 +40,7 @@ document.getElementById("backPlayer").addEventListener("click", () => {
   document.getElementById("videoFrame").src = "";
   document.body.style.overflow = "auto";
   infoPage.style.display = "block";
-  const focusable = document.querySelector(".infoPlayBtn, .seasonBtn.active, .episodeCard");
-  if (focusable) setFocus(focusable);
+  setFocus(document.querySelector(".infoPlayBtn, .seasonBtn.active, .episodeCard"));
 });
 
 // --- SEARCH ---
@@ -147,7 +132,7 @@ function loadCategory(category) {
       performSearch(); 
       break;
     case "drama-tag": 
-      searchInput.value = "Philippine drama"; 
+      searchInput.value = "philippine drama"; 
       performSearch(); 
       break;
     case "tv-channel": 
@@ -158,7 +143,7 @@ function loadCategory(category) {
       performSearch(); 
       break;
     case "vivamax": 
-      searchInput.value = "Vivamax"; 
+      searchInput.value = "vivamax"; 
       performSearch(); 
       break;
     case "request": 
@@ -191,7 +176,7 @@ async function openInfoPage(item) {
   currentItem = item;
   document.getElementById("infoContent").innerHTML = `<div class="loading">Loading details...</div>`;
   infoPage.style.display = "block";
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow = "auto";
 
   try {
     const type = item.media_type || (item.first_air_date ? "tv" : "movie");
@@ -215,7 +200,7 @@ async function openInfoPage(item) {
     if(type === "movie") {
       html += `<button class="infoPlayBtn" id="infoPlayBtn" tabindex="0">▶ Play Movie</button>`;
     } else {
-      html += `<h3 style="margin:25px 0 15px; font-size:22px;">Seasons & Episodes</h3>`;
+      html += `<h3 style="margin:25px 0 15px; font-size:22px;">Episodes</h3>`;
       if(details.seasons && details.seasons.length > 0) {
         html += `<div class="seasonSelector" id="seasonSelector">`;
         details.seasons.filter(s => s.season_number > 0).forEach(season => {
@@ -314,14 +299,9 @@ function playEpisode(tvId, season, ep) {
 }
 
 document.getElementById("fullscreenBtn").addEventListener("click", () => { 
-  if (document.fullscreenElement) {
-    document.exitFullscreen().catch(err => console.log(err));
-  } else {
-    document.documentElement.requestFullscreen().catch(err => console.log(err));
-  }
+  document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); 
   showPlayerControls(); 
 });
-
 document.getElementById("server1Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
   const parts = currentMovieID.toString().split("-"); 
@@ -331,7 +311,6 @@ document.getElementById("server1Btn").addEventListener("click", () => {
   document.getElementById("videoFrame").src = src; 
   showPlayerControls(); 
 });
-
 document.getElementById("server2Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
   document.getElementById("videoFrame").src = `https://embed.maflix.dpdns.org/${currentMovieID}`; 
@@ -346,7 +325,6 @@ function saveContinueWatching(item) {
   if (list.length > 15) list.pop(); 
   localStorage.setItem("continueWatching", JSON.stringify(list)); 
 }
-
 function loadContinueWatching() { 
   const list = JSON.parse(localStorage.getItem("continueWatching")) || []; 
   if (!list.length) { continueSection.style.display = "none"; return; } 
@@ -465,13 +443,24 @@ async function loadAnime() {
   } catch { grid.innerHTML = `<div class="loading">Failed to load</div>`; } 
 }
 
-// --- TV REMOTE NAVIGATION ---
+// --- TV REMOTE NAVIGATION (UPDATED) ---
+let currentFocus = null;
+function setFocus(element) { 
+  if (!element || element === currentFocus) return; 
+  if (currentFocus) currentFocus.classList.remove("focused"); 
+  currentFocus = element; 
+  currentFocus.classList.add("focused"); 
+  currentFocus.focus(); 
+  if (currentFocus !== searchInput) currentFocus.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" }); 
+}
+
 function handleKeyNav(e) {
   const isPlaying = playerModal.style.display === "flex";
   const isInfoOpen = infoPage.style.display === "block";
   const sidebarActive = sidebar.classList.contains("active");
   const isSearchActive = document.activeElement === searchInput;
 
+  // --- PLAYER MODE ---
   if (isPlaying) {
     if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) { 
       e.preventDefault(); 
@@ -502,12 +491,71 @@ function handleKeyNav(e) {
     return;
   }
 
+  // --- INFO PAGE MODE ---
   if (isInfoOpen) {
+    const isMovie = document.getElementById("infoPlayBtn");
+    const seasonBtns = document.querySelectorAll(".seasonBtn");
+    const episodeCards = document.querySelectorAll(".episodeCard");
+    const backBtn = document.getElementById("infoBackBtn");
+
+    // Back button
     if (["Escape", "Backspace"].includes(e.key) || e.keyCode === 461 || e.keyCode === 10009) { 
-      document.getElementById("infoBackBtn").click(); 
+      backBtn.click(); 
       e.preventDefault(); 
       return; 
     }
+
+    // Movie page
+    if (isMovie) {
+      if (e.key === "ArrowDown") setFocus(isMovie);
+      if (e.key === "ArrowUp") setFocus(backBtn);
+      if (e.key === "Enter" || e.key === "OK") currentFocus.click();
+      e.preventDefault();
+      return;
+    }
+
+    // TV Show page - Season selection
+    if (seasonBtns.length > 0 && episodeCards.length > 0) {
+      const inSeasons = currentFocus?.classList.contains("seasonBtn");
+      const inEpisodes = currentFocus?.classList.contains("episodeCard");
+
+      if (e.key === "ArrowRight" && inSeasons) {
+        const idx = Array.from(seasonBtns).indexOf(currentFocus);
+        if (idx < seasonBtns.length - 1) setFocus(seasonBtns[idx + 1]);
+      }
+      if (e.key === "ArrowLeft" && inSeasons) {
+        const idx = Array.from(seasonBtns).indexOf(currentFocus);
+        if (idx > 0) setFocus(seasonBtns[idx - 1]);
+      }
+      if (e.key === "ArrowDown" && inSeasons) {
+        setFocus(episodeCards[0]);
+      }
+      if (e.key === "ArrowUp" && inSeasons) {
+        setFocus(backBtn);
+      }
+
+      if (e.key === "ArrowRight" && inEpisodes) {
+        const idx = Array.from(episodeCards).indexOf(currentFocus);
+        if (idx < episodeCards.length - 1) setFocus(episodeCards[idx + 1]);
+      }
+      if (e.key === "ArrowLeft" && inEpisodes) {
+        const idx = Array.from(episodeCards).indexOf(currentFocus);
+        if (idx > 0) setFocus(episodeCards[idx - 1]);
+      }
+      if (e.key === "ArrowUp" && inEpisodes) {
+        setFocus(document.querySelector(".seasonBtn.active"));
+      }
+
+      if (e.key === "Enter" || e.key === "OK") {
+        if (currentFocus?.classList.contains("seasonBtn")) currentFocus.click();
+        if (currentFocus?.classList.contains("episodeCard")) currentFocus.click();
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      return;
+    }
+
     if (e.key === "Enter" || e.key === "OK") { 
       if (currentFocus?.click) currentFocus.click(); 
       e.preventDefault(); 
@@ -516,6 +564,7 @@ function handleKeyNav(e) {
     return;
   }
 
+  // --- SIDEBAR MODE ---
   if (sidebarActive) {
     const items = Array.from(document.querySelectorAll(".sidebarLinks a")).filter(el => el.offsetParent);
     if (!items.length) return;
@@ -546,6 +595,7 @@ function handleKeyNav(e) {
     return;
   }
 
+  // --- SEARCH INPUT MODE ---
   if (isSearchActive) {
     if (["Escape", "Backspace"].includes(e.key)) { 
       searchInput.value = ""; 
@@ -558,10 +608,11 @@ function handleKeyNav(e) {
     return;
   }
 
+  // --- MAIN CONTENT MODE (MOVIE/ITEM SELECTION) ---
   const rows = Array.from(document.querySelectorAll(".row")).filter(r => r.offsetParent);
   if (!rows.length) return;
 
-  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card, .seasonBtn, .episodeCard')).filter(el => el.offsetParent);
+  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card')).filter(el => el.offsetParent);
   if (!focusableAll.length) return;
 
   const currentIndex = currentFocus ? focusableAll.indexOf(currentFocus) : 0;
