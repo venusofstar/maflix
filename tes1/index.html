@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MAFLIX - Streaming</title>
+  <meta name="theme-color" content="#e50914">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 📱 PHONE/TOUCH OPTIMIZATIONS */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    body {
+      cursor: auto;
+      -webkit-user-select: none;
+      user-select: none;
+      overscroll-behavior: contain;
+    }
+    /* Bigger touch targets */
+    .card {
+      min-width: 150px !important;
+      width: 150px !important;
+      height: 225px !important;
+    }
+    .sidebarLinks a {
+      padding: 18px 16px !important;
+      font-size: 18px !important;
+      margin: 4px 0;
+    }
+    button, a {
+      min-height: 48px;
+      min-width: 48px;
+    }
+    /* Swipe scroll support */
+    .row {
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      gap: 12px !important;
+      padding: 4px 0;
+    }
+    .card {
+      scroll-snap-align: start;
+    }
+    /* Adjustments for small screens */
+    @media (max-width: 480px) {
+      #navbar { padding: 10px 12px; }
+      #appTitle { font-size: 22px; }
+      #menuBtn { width: 42px; height: 42px; font-size: 18px; }
+      #movieSearchInput { height: 44px; font-size: 14px; }
+      #searchBtn { height: 44px; padding: 0 14px; font-size: 15px; }
+      .sectionHeader h2 { font-size: 20px; }
+      .heroContent h1 { font-size: 32px; }
+      .heroContent p { font-size: 15px; }
+      .playBtn, .infoBtn { padding: 12px 20px; font-size: 16px; }
+      .infoPoster { width: 200px; height: 300px; margin: 0 auto 20px; }
+      .infoTitle { font-size: 26px; text-align: center; }
+      .infoMeta { justify-content: center; font-size: 14px; }
+      .infoOverview { font-size: 15px; text-align: center; }
+      .infoActions { justify-content: center; }
+      .infoPlayBtn { width: 100%; max-width: 280px; font-size: 18px; padding: 14px; }
+      .seasonSelector { justify-content: center; }
+      .seasonBtn { padding: 10px 16px; font-size: 15px; }
+      .episodesGrid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+      .episodeThumb { height: 120px; }
+      .episodeTitle { font-size: 15px; }
+      .episodeDesc { font-size: 13px; }
+      #backPlayer { top: 12px; right: 12px; width: 48px; height: 48px; font-size: 20px; }
+      .slideBtn { width: 38px; height: 38px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <div id="sidebarHeader">
+    <h2>MAFLIX</h2>
+    <button id="closeMenu">✕</button>
+  </div>
+  <div class="sidebarLinks">
+    <a href="go:home">🏠 Home</a>
+    <a href="go:movies">🎬 Movies</a>
+    <a href="go:series">📺 TV Series</a>
+    <a href="go:anime-tag">🎌 Anime Tagalog Dubbed</a>
+    <a href="go:drama-tag">🎭 Tagalog Dubbed Drama</a>
+    <a href="go:tv-channel">📺 TV Channels</a>
+    <a href="go:sports">⚽ Sports Event</a>
+    <a href="go:vivamax">🎬 Viva Max</a>
+    <a href="go:request">🎬 Movies Request</a>
+  </div>
+</div>
+
+<!-- Navbar -->
+<div id="navbar">
+  <div id="leftNav">
+    <button id="menuBtn">☰</button>
+    <h1 id="appTitle">MAFLIX</h1>
+  </div>
+  <div id="searchBox">
+    <input type="text" id="movieSearchInput" placeholder="Search movies, series...">
+    <button id="searchBtn">🔍</button>
+  </div>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="heroContent">
+    <h1>Unlimited Streaming</h1>
+    <p>Watch movies, anime & sports in HD anytime.</p>
+    <div class="heroButtons">
+      <button class="playBtn" id="heroPlay">▶ Watch Now</button>
+      <button class="infoBtn" id="heroInfo">ℹ️ Info</button>
+    </div>
+  </div>
+</section>
+
+<!-- Content -->
+<div id="content">
+  <div class="section" id="continueSection" style="display:none;">
+    <div class="sectionHeader">
+      <h2>▶ Continue Watching</h2>
+      <div class="sliderButtons">
+        <button class="slideBtn" onclick="scrollRow('continueGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('continueGrid',1)">❯</button>
+      </div>
+    </div>
+    <div class="row" id="continueGrid"></div>
+  </div>
+
+  <div class="section" id="searchSection" style="display:none;">
+    <div class="sectionHeader">
+      <h2>🔍 Search Results</h2>
+      <div class="sliderButtons">
+        <button class="slideBtn" onclick="scrollRow('searchGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('searchGrid',1)">❯</button>
+      </div>
+    </div>
+    <div class="row" id="searchGrid"></div>
+  </div>
+
+  <div class="section" id="moviesSection" style="display:none;">
+    <div class="sectionHeader">
+      <h2>🎬 All Movies</h2>
+      <div class="sliderButtons">
+        <button class="slideBtn" onclick="scrollRow('moviesGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('moviesGrid',1)">❯</button>
+      </div>
+    </div>
+    <div class="row" id="moviesGrid"></div>
+  </div>
+
+  <div class="section" id="seriesSection" style="display:none;">
+    <div class="sectionHeader">
+      <h2>📺 All TV Series</h2>
+      <div class="sliderButtons">
+        <button class="slideBtn" onclick="scrollRow('seriesGrid',-1)">❮</button>
+        <button class="slideBtn" onclick="scrollRow('seriesGrid',1)">❯</button>
+      </div>
+    </div>
+    <div class="row" id="seriesGrid"></div>
+  </div>
+
+  <div class="section" id="homeContent">
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>🔥 Trending Now</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('trendingGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('trendingGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="trendingGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>⭐ Popular Movies</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('popularGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('popularGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="popularGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>📺 Popular Series</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('seriesPopularGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('seriesPopularGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="seriesPopularGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>💥 Action</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('actionGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('actionGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="actionGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>👻 Horror</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('horrorGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('horrorGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="horrorGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>🎭 Drama</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('dramaGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('dramaGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="dramaGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>😂 Comedy</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('comedyGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('comedyGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="comedyGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHeader">
+        <h2>🎌 Anime</h2>
+        <div class="sliderButtons">
+          <button class="slideBtn" onclick="scrollRow('animeGrid',-1)">❮</button>
+          <button class="slideBtn" onclick="scrollRow('animeGrid',1)">❯</button>
+        </div>
+      </div>
+      <div class="row" id="animeGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Info Page -->
+<div id="infoPage">
+  <button class="infoBackBtn" id="infoBackBtn">←</button>
+  <div class="infoContainer" id="infoContent"></div>
+</div>
+
+<!-- Player -->
+<div id="playerModal">
+  <iframe id="videoFrame" allowfullscreen loading="lazy" referrerpolicy="no-referrer" allow="autoplay; fullscreen"></iframe>
+  
+  <!-- ✅ Fixed Server Button & Menu -->
+  <button id="serverToggleBtn" class="server-toggle-btn">☁️ Server</button>
+  <div id="serverMenu" class="server-menu">
+    <button class="server1" id="server1Btn">Server 1</button>
+    <button class="server2" id="server2Btn">Server 2</button>
+  </div>
+
+  <button id="backPlayer">←</button>
+</div>
+
+<!-- 📱 Touch Support Script -->
+<script>
+// Add touch swipe detection for rows
+document.addEventListener('DOMContentLoaded', () => {
+  const rows = document.querySelectorAll('.row');
+  rows.forEach(row => {
+    let startX = 0;
+    let isDragging = false;
+
+    row.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    row.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const moveX = e.touches[0].clientX;
+      const diff = startX - moveX;
+      row.scrollLeft += diff;
+      startX = moveX;
+    }, { passive: true });
+
+    row.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+  });
+});
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>

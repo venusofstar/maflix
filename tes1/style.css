@@ -1,0 +1,856 @@
+/* --------------------------
+   GLOBAL RESET & BASE STYLES
+--------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: #0b0b0b;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  cursor: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  overscroll-behavior: contain;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* --------------------------
+   FOCUS & INTERACTION STYLES
+--------------------------- */
+:focus {
+  outline: none !important;
+}
+
+.focused {
+  outline: 4px solid #e50914 !important;
+  outline-offset: 4px !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.7);
+  z-index: 20;
+  transition: all 0.2s ease;
+}
+
+/* --------------------------
+   OVERLAY
+--------------------------- */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+#overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --------------------------
+   SIDEBAR
+--------------------------- */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background: #111111;
+  z-index: 9999;
+  padding: 20px;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  border-right: 1px solid #222;
+}
+
+#sidebar.active {
+  left: 0;
+}
+
+#sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+#sidebarHeader h2 {
+  color: #e50914;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#closeMenu {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #222;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebarLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebarLinks a {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #1a1a1a;
+  font-size: 17px;
+  transition: all 0.2s ease;
+}
+
+.sidebarLinks a:active {
+  background: #e50914;
+  transform: scale(0.98);
+}
+
+/* --------------------------
+   NAVBAR
+--------------------------- */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#leftNav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+#menuBtn {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #e50914;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#appTitle {
+  color: #e50914;
+  font-size: 26px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+#movieSearchInput {
+  width: 100%;
+  max-width: 400px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: #1b1b1b;
+  color: #fff;
+  padding: 0 16px;
+  font-size: 15px;
+}
+
+#searchBtn {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  background: #e50914;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* --------------------------
+   HERO SECTION
+--------------------------- */
+#hero {
+  min-height: 65vh;
+  background: linear-gradient(to top, rgba(11, 11, 11, 0.95), rgba(11, 11, 11, 0.4)),
+              url('https://i.imgur.com/w4NFeXx.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 120px 25px 40px;
+  margin-top: 70px;
+  border-radius: 0 0 20px 20px;
+}
+
+.heroContent {
+  max-width: 650px;
+}
+
+.heroContent h1 {
+  font-size: 42px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.heroContent p {
+  color: #cccccc;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-size: 17px;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.playBtn {
+  background: #ffffff;
+  color: #000000;
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.infoBtn {
+  background: rgba(109, 109, 110, 0.7);
+  color: #ffffff;
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.playBtn:active, .infoBtn:active {
+  transform: scale(0.96);
+}
+
+/* --------------------------
+   CONTENT & ROWS
+--------------------------- */
+#content {
+  padding: 25px 18px;
+  padding-top: 30px;
+}
+
+.section {
+  margin-bottom: 45px;
+  position: relative;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sectionHeader h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.sliderButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.slideBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #1d1d1d;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slideBtn:active {
+  background: #e50914;
+  transform: scale(0.92);
+}
+
+.row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding: 6px 0;
+  min-height: 260px;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  min-width: 160px;
+  width: 160px;
+  height: 240px;
+  background: #181818;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease;
+}
+
+.card:active {
+  transform: scale(0.96);
+}
+
+.card p {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(to top, rgba(0,0,0,0.92), transparent);
+  line-height: 1.3;
+}
+
+/* --------------------------
+   INFO PAGE
+--------------------------- */
+#infoPage {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, #111111, #000000);
+  z-index: 10001;
+  overflow-y: auto;
+  display: none;
+  padding: 80px 20px 40px;
+}
+
+.infoBackBtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e50914;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+}
+
+.infoContainer {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.infoPoster {
+  width: 260px;
+  height: 390px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.infoDetails {
+  flex: 1;
+  min-width: 280px;
+}
+
+.infoTitle {
+  font-size: 30px;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.infoMeta {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 18px;
+  color: #bbbbbb;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.infoOverview {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 26px;
+  color: #dddddd;
+}
+
+.infoPlayBtn {
+  background: #e50914;
+  color: white;
+  padding: 15px 32px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.infoPlayBtn:active {
+  transform: scale(0.97);
+}
+
+/* Episodes */
+.seasonSelector {
+  margin: 25px 0 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.seasonBtn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  font-weight: 500;
+  min-width: 110px;
+  text-align: center;
+}
+
+.seasonBtn.active {
+  background: #e50914;
+}
+
+.episodesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.episodeCard {
+  background: #181818;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.episodeCard:active {
+  transform: scale(0.97);
+}
+
+.episodeThumb {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.episodeInfo {
+  padding: 14px;
+}
+
+.episodeTitle {
+  font-size: 16px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.episodeDesc {
+  font-size: 13px;
+  color: #aaaaaa;
+  line-height: 1.4;
+}
+
+/* --------------------------
+   PLAYER MODAL & SERVER CONTROLS
+--------------------------- */
+#playerModal {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10003;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#videoFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: auto;
+}
+
+#playerControls {
+  position: absolute;
+  inset: 0;
+  z-index: 10004;
+  pointer-events: none;
+}
+
+/* Removed old top controls */
+#topControls {
+  display: none !important;
+}
+
+/* ✅ Server Toggle Button - properly sized & visible */
+.server-toggle-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  min-width: 110px;
+  min-height: 48px;
+  z-index: 10010;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  transition: all 0.2s ease;
+}
+
+.server-toggle-btn:active {
+  background: #e50914;
+  transform: scale(0.97);
+}
+
+/* ✅ Server Dropdown Menu */
+.server-menu {
+  position: absolute;
+  top: 85px;
+  left: 24px;
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 10px;
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10010;
+  pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  min-width: 130px;
+}
+
+.server-menu button {
+  padding: 13px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: left;
+  min-height: 46px;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+#server1Btn {
+  background: #e50914;
+}
+
+#server2Btn {
+  background: #2a2a2a;
+}
+
+#server1Btn:active, #server2Btn:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* Back Button */
+#backPlayer {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e50914;
+  font-size: 22px;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10010;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+#backPlayer:active {
+  transform: scale(0.94);
+}
+
+.loading {
+  padding: 40px;
+  color: #888888;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* --------------------------
+   📱 MOBILE RESPONSIVE
+--------------------------- */
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+
+  #navbar {
+    padding: 10px 14px;
+  }
+
+  #appTitle {
+    font-size: 22px;
+  }
+
+  #menuBtn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  #movieSearchInput {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  #searchBtn {
+    height: 44px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+
+  #hero {
+    min-height: 55vh;
+    margin-top: 65px;
+    padding: 90px 18px 30px;
+  }
+
+  .heroContent h1 {
+    font-size: 32px;
+  }
+
+  .heroContent p {
+    font-size: 15px;
+  }
+
+  .playBtn, .infoBtn {
+    padding: 12px 22px;
+    font-size: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sectionHeader h2 {
+    font-size: 20px;
+  }
+
+  .card {
+    min-width: 140px;
+    width: 140px;
+    height: 210px;
+  }
+
+  .infoPoster {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto 20px;
+  }
+
+  .infoTitle {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  .infoMeta {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .infoOverview {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .infoPlayBtn {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    display: flex;
+  }
+
+  .episodesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .episodeThumb {
+    height: 120px;
+  }
+
+  /* Mobile server controls - properly sized */
+  .server-toggle-btn {
+    top: 18px;
+    left: 18px;
+    padding: 12px 18px;
+    font-size: 16px;
+    min-width: 100px;
+    min-height: 44px;
+  }
+
+  .server-menu {
+    top: 75px;
+    left: 18px;
+    min-width: 115px;
+  }
+
+  .server-menu button {
+    padding: 11px 16px;
+    font-size: 15px;
+    min-height: 42px;
+  }
+
+  #backPlayer {
+    top: 18px;
+    right: 18px;
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+
+  .infoBackBtn {
+    top: 12px;
+    left: 12px;
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+}
+
+/* --------------------------
+   🖥️ LARGE SCREEN / TV MODE
+--------------------------- */
+@media screen and (min-width: 1280px) {
+  body {
+    font-size: 18px;
+  }
+
+  .card {
+    min-width: 230px;
+    width: 230px;
+    height: 345px;
+  }
+
+  #hero {
+    min-height: 75vh;
+  }
+
+  .heroContent h1 {
+    font-size: 60px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 26px;
+  }
+
+  /* Larger server controls for TV */
+  .server-toggle-btn {
+    padding: 16px 26px;
+    font-size: 19px;
+    min-width: 130px;
+    min-height: 52px;
+  }
+
+  .server-menu {
+    min-width: 150px;
+  }
+
+  .server-menu button {
+    padding: 15px 22px;
+    font-size: 18px;
+    min-height: 50px;
+  }
+}
