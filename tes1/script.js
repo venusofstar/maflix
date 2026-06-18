@@ -28,11 +28,10 @@ const searchInput = document.getElementById("movieSearchInput");
 const searchBtn = document.getElementById("searchBtn");
 
 // --- NAVIGATION ---
-// ✅ Modified: Back button in info page ALWAYS returns to Home
-document.getElementById("infoBackBtn").addEventListener("click", () => {
+// ✅ FULL TV REMOTE SUPPORT: Back button ALWAYS returns to HOME
+function goHomeFromInfo() {
   infoPage.style.display = "none";
   document.body.style.overflow = "auto";
-  // Go directly to Home
   hideAllSections();
   homeContent.style.display = "block";
   loadContinueWatching();
@@ -44,8 +43,15 @@ document.getElementById("infoBackBtn").addEventListener("click", () => {
   loadGenreMovies(18, "dramaGrid");
   loadGenreMovies(35, "comedyGrid");
   loadAnime();
-  // Focus first card in home
-  setTimeout(() => setFocus(document.querySelector(".card")), 100);
+  setTimeout(() => setFocus(document.querySelector(".card")), 150);
+}
+
+document.getElementById("infoBackBtn").addEventListener("click", goHomeFromInfo);
+document.getElementById("infoBackBtn").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") {
+    e.preventDefault();
+    goHomeFromInfo();
+  }
 });
 
 document.getElementById("backPlayer").addEventListener("click", () => {
@@ -233,19 +239,29 @@ async function openInfoPage(item) {
         playMovie(details.id); 
         saveContinueWatching({id:details.id, title:details.title, poster_path:details.poster_path, media_type:"movie"}); 
       });
+      document.getElementById("infoPlayBtn").addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); playMovie(details.id); }
+      });
       setTimeout(() => setFocus(document.getElementById("infoPlayBtn")), 200);
     } else {
       loadEpisodes(details.id, 1);
-      document.querySelectorAll(".seasonBtn").forEach(btn => btn.addEventListener("click", () => {
-        document.querySelectorAll(".seasonBtn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        loadEpisodes(details.id, parseInt(btn.dataset.season));
-      }));
+      document.querySelectorAll(".seasonBtn").forEach(btn => {
+        btn.addEventListener("click", () => switchSeason(btn, details.id));
+        btn.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); switchSeason(btn, details.id); }
+        });
+      });
     }
   } catch(err) {
     console.error("Details error:", err);
     document.getElementById("infoContent").innerHTML = `<div class="loading">Failed to load details</div>`;
   }
+}
+
+function switchSeason(btn, tvId) {
+  document.querySelectorAll(".seasonBtn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  loadEpisodes(tvId, parseInt(btn.dataset.season));
 }
 
 async function loadEpisodes(tvId, season) {
@@ -271,11 +287,10 @@ async function loadEpisodes(tvId, season) {
           <p class="episodeDesc">${ep.overview ? ep.overview.substring(0, 100) + "..." : "No description"}</p>
         </div>
       `;
-      epCard.addEventListener("click", () => { 
-        playEpisode(tvId, season, ep.episode_number); 
-        saveContinueWatching({id:tvId, title:currentItem.name + " S"+season+"E"+ep.episode_number, poster_path:currentItem.poster_path, media_type:"tv"}); 
+      epCard.addEventListener("click", () => playEpisode(tvId, season, ep.episode_number));
+      epCard.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); playEpisode(tvId, season, ep.episode_number); }
       });
-      epCard.addEventListener("keydown", e => (e.key === "Enter" || e.key === "OK") && playEpisode(tvId, season, ep.episode_number));
       container.appendChild(epCard);
     });
     setTimeout(() => setFocus(container.querySelector(".episodeCard")), 200);
@@ -316,6 +331,10 @@ document.getElementById("fullscreenBtn").addEventListener("click", () => {
   document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); 
   showPlayerControls(); 
 });
+document.getElementById("fullscreenBtn").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+});
+
 document.getElementById("server1Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
   const parts = currentMovieID.toString().split("-"); 
@@ -325,10 +344,21 @@ document.getElementById("server1Btn").addEventListener("click", () => {
   document.getElementById("videoFrame").src = src; 
   showPlayerControls(); 
 });
+document.getElementById("server1Btn").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.getElementById("server1Btn").click(); }
+});
+
 document.getElementById("server2Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
   document.getElementById("videoFrame").src = `https://embed.maflix.dpdns.org/${currentMovieID}`; 
   showPlayerControls(); 
+});
+document.getElementById("server2Btn").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.getElementById("server2Btn").click(); }
+});
+
+document.getElementById("backPlayer").addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === "OK") { e.preventDefault(); document.getElementById("backPlayer").click(); }
 });
 
 // --- CONTINUE WATCHING ---
@@ -508,7 +538,7 @@ function handleKeyNav(e) {
 
   if (isInfoOpen) {
     const focusableInfo = Array.from(document.querySelectorAll(
-      '.infoBackBtn, .infoPlayBtn, .seasonBtn, .episodeCard'
+      '#infoBackBtn, .infoPlayBtn, .seasonBtn, .episodeCard'
     )).filter(el => el.offsetParent !== null);
 
     if (!focusableInfo.length) return;
@@ -579,12 +609,16 @@ function handleKeyNav(e) {
 
     if (e.key === "Enter" || e.key === "OK") {
       e.preventDefault();
-      if (currentFocus?.click) currentFocus.click();
+      if (currentFocus?.id === "infoBackBtn") {
+        goHomeFromInfo();
+      } else if (currentFocus?.click) {
+        currentFocus.click();
+      }
       return;
     }
 
     if (["Escape", "Backspace"].includes(e.key) || e.keyCode === 461 || e.keyCode === 10009) { 
-      document.getElementById("infoBackBtn").click(); 
+      goHomeFromInfo(); 
       e.preventDefault(); 
       return; 
     }
@@ -636,7 +670,7 @@ function handleKeyNav(e) {
   const rows = Array.from(document.querySelectorAll(".row")).filter(r => r.offsetParent);
   if (!rows.length) return;
 
-  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card, .seasonBtn, .episodeCard, .infoBackBtn, .infoPlayBtn')).filter(el => el.offsetParent);
+  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card, .seasonBtn, .episodeCard, #infoBackBtn, .infoPlayBtn')).filter(el => el.offsetParent);
   if (!focusableAll.length) return;
 
   const currentIndex = currentFocus ? focusableAll.indexOf(currentFocus) : 0;
@@ -730,7 +764,7 @@ function handleKeyNav(e) {
 
   if (["Escape", "Backspace"].includes(e.key) || e.keyCode === 461 || e.keyCode === 10009) {
     if (sidebar.classList.contains("active")) closeSidebar();
-    else if (infoPage.style.display === "block") { document.getElementById("infoBackBtn").click(); }
+    else if (infoPage.style.display === "block") { goHomeFromInfo(); }
     else if (document.activeElement === searchInput) { searchInput.blur(); searchInput.value = ""; }
     else { openSidebar(); }
     e.preventDefault();
