@@ -198,12 +198,14 @@ async function openInfoPage(item) {
     `;
 
     if(type === "movie") {
+      // ✅ Play button is focusable
       html += `<button class="infoPlayBtn" id="infoPlayBtn" tabindex="0">▶ Play Movie</button>`;
     } else {
       html += `<h3 style="margin:25px 0 15px; font-size:22px;">Episodes</h3>`;
       if(details.seasons && details.seasons.length > 0) {
         html += `<div class="seasonSelector" id="seasonSelector">`;
         details.seasons.filter(s => s.season_number > 0).forEach(season => {
+          // ✅ Season buttons are focusable
           html += `<button class="seasonBtn ${season.season_number === 1 ? "active" : ""}" data-season="${season.season_number}" tabindex="0">Season ${season.season_number}</button>`;
         });
         html += `</div><div class="episodesGrid" id="episodesContainer"></div>`;
@@ -219,6 +221,7 @@ async function openInfoPage(item) {
         playMovie(details.id); 
         saveContinueWatching({id:details.id, title:details.title, poster_path:details.poster_path, media_type:"movie"}); 
       });
+      // ✅ Set initial focus to Play button
       setTimeout(() => setFocus(document.getElementById("infoPlayBtn")), 200);
     } else {
       loadEpisodes(details.id, 1);
@@ -249,6 +252,7 @@ async function loadEpisodes(tvId, season) {
     data.episodes.forEach(ep => {
       const epCard = document.createElement("div");
       epCard.className = "episodeCard";
+      // ✅ Episode card is focusable
       epCard.tabIndex = 0;
       epCard.innerHTML = `
         <img class="episodeThumb" src="${ep.still_path ? TMDB_IMAGE_BASE + ep.still_path : "https://via.placeholder.com/320x180?text=Episode+"+ep.episode_number}" alt="Episode ${ep.episode_number}">
@@ -264,6 +268,7 @@ async function loadEpisodes(tvId, season) {
       epCard.addEventListener("keydown", e => (e.key === "Enter" || e.key === "OK") && playEpisode(tvId, season, ep.episode_number));
       container.appendChild(epCard);
     });
+    // ✅ Focus first episode after loading
     setTimeout(() => setFocus(container.querySelector(".episodeCard")), 200);
   } catch {
     container.innerHTML = `<div class="loading">Failed to load episodes</div>`;
@@ -450,8 +455,10 @@ function setFocus(element) {
   if (currentFocus) currentFocus.classList.remove("focused"); 
   currentFocus = element; 
   currentFocus.classList.add("focused"); 
-  currentFocus.focus(); 
-  if (currentFocus !== searchInput) currentFocus.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" }); 
+  currentFocus.focus({ preventScroll: true });
+  if (currentFocus !== searchInput) {
+    currentFocus.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }
 }
 
 function handleKeyNav(e) {
@@ -491,13 +498,85 @@ function handleKeyNav(e) {
   }
 
   if (isInfoOpen) {
+    const focusableInfo = Array.from(document.querySelectorAll(
+      '.infoBackBtn, .infoPlayBtn, .seasonBtn, .episodeCard'
+    )).filter(el => el.offsetParent !== null);
+
+    if (!focusableInfo.length) return;
+    const currentIndex = focusableInfo.indexOf(currentFocus);
+    if (currentIndex === -1) {
+      setFocus(focusableInfo[0]);
+      return;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      // Move up between elements
+      const currentEl = focusableInfo[currentIndex];
+      if (currentEl.classList.contains("infoPlayBtn") || currentEl.classList.contains("seasonBtn")) {
+        setFocus(document.getElementById("infoBackBtn"));
+      } else if (currentEl.classList.contains("episodeCard")) {
+        const seasonBtns = document.querySelectorAll(".seasonBtn");
+        if (seasonBtns.length) setFocus(seasonBtns[seasonBtns.length - 1]);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const currentEl = focusableInfo[currentIndex];
+      if (currentEl.id === "infoBackBtn") {
+        const playBtn = document.getElementById("infoPlayBtn");
+        if (playBtn) setFocus(playBtn);
+        else {
+          const firstSeason = document.querySelector(".seasonBtn");
+          if (firstSeason) setFocus(firstSeason);
+        }
+      } else if (currentEl.classList.contains("seasonBtn")) {
+        const firstEp = document.querySelector(".episodeCard");
+        if (firstEp) setFocus(firstEp);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      const currentEl = focusableInfo[currentIndex];
+      if (currentEl.classList.contains("seasonBtn")) {
+        const seasonBtns = Array.from(document.querySelectorAll(".seasonBtn"));
+        const idx = seasonBtns.indexOf(currentEl);
+        if (idx < seasonBtns.length - 1) setFocus(seasonBtns[idx + 1]);
+      } else if (currentEl.classList.contains("episodeCard")) {
+        const eps = Array.from(document.querySelectorAll(".episodeCard"));
+        const idx = eps.indexOf(currentEl);
+        if (idx < eps.length - 1) setFocus(eps[idx + 1]);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const currentEl = focusableInfo[currentIndex];
+      if (currentEl.classList.contains("seasonBtn")) {
+        const seasonBtns = Array.from(document.querySelectorAll(".seasonBtn"));
+        const idx = seasonBtns.indexOf(currentEl);
+        if (idx > 0) setFocus(seasonBtns[idx - 1]);
+      } else if (currentEl.classList.contains("episodeCard")) {
+        const eps = Array.from(document.querySelectorAll(".episodeCard"));
+        const idx = eps.indexOf(currentEl);
+        if (idx > 0) setFocus(eps[idx - 1]);
+      }
+      return;
+    }
+
+    if (e.key === "Enter" || e.key === "OK") {
+      e.preventDefault();
+      if (currentFocus?.click) currentFocus.click();
+      return;
+    }
+
     if (["Escape", "Backspace"].includes(e.key) || e.keyCode === 461 || e.keyCode === 10009) { 
       document.getElementById("infoBackBtn").click(); 
-      e.preventDefault(); 
-      return; 
-    }
-    if (e.key === "Enter" || e.key === "OK") { 
-      if (currentFocus?.click) currentFocus.click(); 
       e.preventDefault(); 
       return; 
     }
@@ -549,7 +628,7 @@ function handleKeyNav(e) {
   const rows = Array.from(document.querySelectorAll(".row")).filter(r => r.offsetParent);
   if (!rows.length) return;
 
-  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card, .seasonBtn, .episodeCard')).filter(el => el.offsetParent);
+  const focusableAll = Array.from(document.querySelectorAll('button, a, input, .card, .seasonBtn, .episodeCard, .infoBackBtn, .infoPlayBtn')).filter(el => el.offsetParent);
   if (!focusableAll.length) return;
 
   const currentIndex = currentFocus ? focusableAll.indexOf(currentFocus) : 0;
