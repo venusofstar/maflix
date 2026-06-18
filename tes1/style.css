@@ -1,0 +1,309 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: #0b0b0b;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #e50914; border-radius: 20px; }
+img { width: 100%; display: block; object-fit: cover; }
+a { text-decoration: none; color: #fff; }
+button { border: none; background: none; font: inherit; color: inherit; cursor: pointer; }
+
+/* TV Focus Style */
+:focus { outline: none !important; }
+.focused {
+  outline: 4px solid #e50914 !important;
+  outline-offset: 4px !important;
+  transform: scale(1.07);
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.8);
+  z-index: 20;
+  transition: all 0.2s ease;
+}
+
+#overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 9998; opacity: 0; visibility: hidden;
+  transition: .3s;
+}
+#overlay.active { opacity: 1; visibility: visible; }
+
+/* Sidebar */
+#sidebar {
+  position: fixed; top: 0; left: -280px;
+  width: 280px; height: 100vh;
+  background: #111; z-index: 9999;
+  padding: 20px; transition: .3s;
+  overflow-y: auto; border-right: 1px solid #222;
+}
+#sidebar.active { left: 0; }
+#sidebarHeader {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 25px;
+}
+#sidebarHeader h2 { color: #e50914; font-size: 30px; }
+.sidebarLinks {
+  display: flex; flex-direction: column;
+  gap: 12px;
+}
+.sidebarLinks a {
+  padding: 16px 18px; border-radius: 12px;
+  background: #1a1a1a; transition: .2s;
+  font-size: 17px; display: block;
+  cursor: pointer;
+  width: 100%;
+  tabindex: 0;
+}
+.sidebarLinks a.focused {
+  background: #e50914; transform: translateX(5px);
+}
+
+/* Navbar */
+#navbar {
+  position: fixed; top: 0; left: 0;
+  width: 100%; z-index: 999;
+  padding: 14px 18px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 15px;
+  background: rgba(0,0,0,.88);
+  backdrop-filter: blur(12px);
+}
+#leftNav { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+#menuBtn {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: #e50914; color: #fff; font-size: 20px;
+  tabindex: 0;
+}
+#menuBtn.focused { transform: scale(1.08); }
+#appTitle { color: #e50914; font-size: 30px; font-weight: 700; white-space: nowrap; }
+#searchBox { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; }
+#movieSearchInput {
+  width: 100%; max-width: 420px; height: 48px;
+  border: none; border-radius: 12px;
+  background: #1b1b1b; color: #fff;
+  padding: 0 15px; font-size: 15px;
+  tabindex: 0;
+}
+#movieSearchInput.focused {
+  outline: 4px solid #e50914 !important;
+  outline-offset: 2px !important;
+  transform: scale(1.02);
+}
+#searchBtn {
+  height: 48px; padding: 0 18px; border-radius: 12px;
+  background: #e50914; color: #fff; font-weight: 700;
+  flex-shrink: 0;
+  tabindex: 0;
+}
+#searchBtn.focused { transform: scale(1.08); }
+
+/* Hero */
+#hero {
+  min-height: 70vh;
+  background: linear-gradient(to top, rgba(0,0,0,.95), rgba(0,0,0,.3)),
+              url('https://i.imgur.com/w4NFeXx.png') center/cover no-repeat;
+  display: flex; align-items: center;
+  padding: 120px 25px 40px;
+}
+.heroContent { max-width: 650px; }
+.heroContent h1 { font-size: 52px; margin-bottom: 18px; line-height: 1.1; }
+.heroContent p { color: #ddd; margin-bottom: 25px; line-height: 1.7; font-size: 18px; }
+.heroButtons { display: flex; gap: 14px; flex-wrap: wrap; }
+.playBtn { background: #fff; color: #000; padding: 14px 32px; border-radius: 8px; font-size: 18px; font-weight: bold; }
+.infoBtn { background: rgba(109,109,110,.7); color: #fff; padding: 14px 32px; border-radius: 8px; font-size: 18px; font-weight: bold; }
+.playBtn.focused, .infoBtn.focused { transform: scale(1.08); }
+
+/* Content Rows */
+#content { padding: 25px; padding-top: 120px; }
+.section { margin-bottom: 55px; position: relative; }
+.sectionHeader {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 18px;
+}
+.sectionHeader h2 { font-size: 26px; }
+.sliderButtons { display: flex; gap: 12px; }
+.slideBtn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #1d1d1d; color: #fff; font-size: 20px;
+  tabindex: 0;
+}
+.slideBtn.focused { background: #e50914; transform: scale(1.08); }
+
+.row {
+  display: flex; gap: 16px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 8px;
+  position: relative;
+  min-height: 320px;
+}
+.row::-webkit-scrollbar { display: none; }
+
+.card {
+  min-width: 210px; width: 210px; height: 315px;
+  background: #181818; border-radius: 16px;
+  overflow: hidden; position: relative;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  tabindex: 0;
+  cursor: pointer;
+}
+.card img { width: 100%; height: 100%; object-fit: cover; }
+.card p {
+  position: absolute; bottom: 0; width: 100%;
+  padding: 15px; font-size: 15px; font-weight: 600;
+  background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
+}
+
+/* Info Page */
+#infoPage {
+  position: fixed; inset: 0;
+  background: linear-gradient(to bottom, #111, #000);
+  z-index: 10001;
+  overflow-y: auto;
+  display: none;
+  padding: 80px 25px 40px;
+}
+.infoBackBtn {
+  position: fixed; top: 20px; left: 20px;
+  width: 55px; height: 55px; border-radius: 50%;
+  background: #e50914; color: #fff; font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10002;
+  tabindex: 0;
+}
+.infoBackBtn.focused { transform: scale(1.08); }
+.infoContainer {
+  display: flex; gap: 30px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;
+}
+.infoPoster {
+  width: 300px; height: 450px; border-radius: 16px; overflow: hidden; flex-shrink: 0;
+}
+.infoDetails { flex: 1; min-width: 300px; }
+.infoTitle { font-size: 36px; margin-bottom: 15px; }
+.infoMeta { display: flex; gap: 20px; margin-bottom: 20px; color: #ccc; flex-wrap: wrap; }
+.infoOverview { font-size: 18px; line-height: 1.7; margin-bottom: 30px; color: #ddd; }
+.infoActions { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+.infoPlayBtn {
+  background: #e50914; color: white; padding: 16px 40px; border-radius: 10px;
+  font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;
+  min-width: 180px; justify-content: center;
+  tabindex: 0;
+}
+.infoPlayBtn.focused { transform: scale(1.08); }
+
+/* Episodes Section */
+.seasonSelector {
+  margin-bottom: 25px;
+  display: flex; gap: 12px;
+  flex-wrap: wrap;
+}
+.seasonBtn {
+  padding: 12px 24px; border-radius: 8px;
+  background: #1a1a1a; color: white; font-weight: 600;
+  min-width: 120px; text-align: center;
+  tabindex: 0;
+}
+.seasonBtn.active { background: #e50914; }
+.seasonBtn.focused { transform: scale(1.08); }
+.episodesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.episodeCard {
+  background: #181818; border-radius: 12px; overflow: hidden;
+  cursor: pointer; transition: all 0.2s ease;
+  tabindex: 0;
+}
+.episodeThumb { width: 100%; height: 160px; object-fit: cover; }
+.episodeInfo { padding: 15px; }
+.episodeTitle { font-size: 17px; margin-bottom: 8px; font-weight: 600; }
+.episodeDesc { font-size: 14px; color: #aaa; line-height: 1.5; }
+.episodeCard.focused { transform: scale(1.03); outline: 3px solid #e50914; }
+
+/* Player */
+#playerModal {
+  position: fixed; inset: 0;
+  background: #000; display: none;
+  align-items: center; justify-content: center;
+  z-index: 10003;
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+}
+#videoFrame {
+  width: 100%; height: 100%;
+  border: none;
+  pointer-events: none;
+  user-select: none;
+}
+#playerControls {
+  position: absolute; inset: 0;
+  z-index: 10004;
+  pointer-events: auto;
+}
+#topControls {
+  position: absolute; top: 20px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 15px;
+  padding: 12px 20px; background: rgba(0,0,0,.85);
+  backdrop-filter: blur(12px); border-radius: 14px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  pointer-events: auto;
+}
+#topControls.active { opacity: 1; visibility: visible; }
+.server1, .server2, #fullscreenBtn {
+  padding: 12px 24px; border-radius: 8px;
+  font-weight: 600; font-size: 18px;
+  min-width: 130px;
+  text-align: center;
+  pointer-events: auto;
+  tabindex: 0;
+}
+.server1 { background: #e50914; color: #fff; }
+.server2 { background: #2a2a2a; color: #fff; }
+#backPlayer {
+  position: absolute; top: 20px; right: 20px;
+  width: 55px; height: 55px; border-radius: 50%;
+  background: #e50914; color: #fff; font-size: 24px;
+  pointer-events: auto;
+  display: flex; align-items: center; justify-content: center;
+  tabindex: 0;
+}
+#backPlayer.focused { transform: scale(1.08); }
+.loading { padding: 40px; color: #aaa; text-align: center; font-size: 22px; }
+
+/* TV Sizing */
+@media screen and (min-width: 1280px) {
+  body { font-size: 19px; }
+  .card { min-width: 250px; width: 250px; height: 375px; }
+  .heroContent h1 { font-size: 70px; }
+  .sectionHeader h2 { font-size: 30px; }
+}
+@media(max-width:900px) {
+  .card { min-width: 170px; width: 170px; height: 255px; }
+  .heroContent h1 { font-size: 42px; }
+  .infoPoster { width: 220px; height: 330px; margin: 0 auto; }
+  .infoDetails { text-align: center; }
+}
+@media(max-width:650px) {
+  #navbar { padding: 12px; }
+  #appTitle { font-size: 22px; }
+  .card { min-width: 140px; width: 140px; height: 210px; }
+  .infoPlayBtn { width: 100%; }
+}
