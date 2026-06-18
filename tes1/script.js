@@ -28,10 +28,24 @@ const searchInput = document.getElementById("movieSearchInput");
 const searchBtn = document.getElementById("searchBtn");
 
 // --- NAVIGATION ---
+// ✅ Modified: Back button in info page ALWAYS returns to Home
 document.getElementById("infoBackBtn").addEventListener("click", () => {
   infoPage.style.display = "none";
   document.body.style.overflow = "auto";
-  setFocus(document.querySelector(".card"));
+  // Go directly to Home
+  hideAllSections();
+  homeContent.style.display = "block";
+  loadContinueWatching();
+  loadTrending();
+  loadPopularMovies();
+  loadPopularSeries();
+  loadGenreMovies(28, "actionGrid");
+  loadGenreMovies(27, "horrorGrid");
+  loadGenreMovies(18, "dramaGrid");
+  loadGenreMovies(35, "comedyGrid");
+  loadAnime();
+  // Focus first card in home
+  setTimeout(() => setFocus(document.querySelector(".card")), 100);
 });
 
 document.getElementById("backPlayer").addEventListener("click", () => {
@@ -184,8 +198,6 @@ async function openInfoPage(item) {
     const details = await detailsRes.json();
 
     let html = `
-      <!-- ✅ CHANGED: Button text to Close -->
-      <button class="infoBackBtn" id="infoBackBtn" tabindex="0">✕ Close</button>
       <div class="infoPoster">
         <img src="${details.poster_path ? TMDB_IMAGE_BASE + details.poster_path : "https://via.placeholder.com/300x450?text=No+Poster"}" alt="${details.title || details.name}">
       </div>
@@ -215,13 +227,6 @@ async function openInfoPage(item) {
     }
     html += `</div>`;
     document.getElementById("infoContent").innerHTML = html;
-
-    // Reattach event listener to the new Close button
-    document.getElementById("infoBackBtn").addEventListener("click", () => {
-      infoPage.style.display = "none";
-      document.body.style.overflow = "auto";
-      setFocus(document.querySelector(".card"));
-    });
 
     if(type === "movie") {
       document.getElementById("infoPlayBtn").addEventListener("click", () => { 
