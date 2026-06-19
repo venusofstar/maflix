@@ -19,6 +19,8 @@ const overlay = document.getElementById("overlay");
 const playerModal = document.getElementById("playerModal");
 const infoPage = document.getElementById("infoPage");
 const topControls = document.getElementById("topControls");
+const toggleServerBtn = document.getElementById("toggleServerBtn");
+const serverList = document.getElementById("serverList");
 const searchSection = document.getElementById("searchSection");
 const homeContent = document.getElementById("homeContent");
 const moviesSection = document.getElementById("moviesSection");
@@ -38,13 +40,22 @@ function hideControls() {
   topControls.classList.remove("active");
 }
 
-// Toggle controls on player click
-playerModal.addEventListener("click", () => {
-  if (topControls.classList.contains("active")) {
-    hideControls();
+// Toggle Server List
+toggleServerBtn.addEventListener("click", () => {
+  if (serverList.style.display === "none" || serverList.style.display === "") {
+    serverList.style.display = "flex";
+    toggleServerBtn.textContent = "Hide Server";
   } else {
-    showControls();
+    serverList.style.display = "none";
+    toggleServerBtn.textContent = "Show Server";
   }
+  showControls(); // Reset hide timer
+});
+
+// Toggle controls on player click (ignore clicks on buttons)
+playerModal.addEventListener("click", (e) => {
+  if (e.target.closest("button")) return;
+  topControls.classList.contains("active") ? hideControls() : showControls();
 });
 
 // --- NAVIGATION ---
@@ -310,7 +321,7 @@ function playMovie(tmdbID) {
   infoPage.style.display = "none";
   playerModal.style.display = "flex";
   document.body.style.overflow = "hidden";
-  showControls(); // Show controls when player opens
+  showControls();
 }
 
 function playEpisode(tvId, season, ep) {
@@ -319,13 +330,8 @@ function playEpisode(tvId, season, ep) {
   infoPage.style.display = "none";
   playerModal.style.display = "flex";
   document.body.style.overflow = "hidden";
-  showControls(); // Show controls when player opens
+  showControls();
 }
-
-document.getElementById("fullscreenBtn").addEventListener("click", () => { 
-  document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-  showControls(); // Reset timer when button is clicked
-});
 
 document.getElementById("server1Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
@@ -334,13 +340,13 @@ document.getElementById("server1Btn").addEventListener("click", () => {
     ? `https://streamimdb.ru/embed/movie/${parts[0]}` 
     : `https://streamimdb.ru/embed/tv/${parts[0]}/${parts[1]}/${parts[2]}`; 
   document.getElementById("videoFrame").src = src;
-  showControls(); // Reset timer when button is clicked
+  showControls();
 });
 
 document.getElementById("server2Btn").addEventListener("click", () => { 
   if (!currentMovieID) return; 
   document.getElementById("videoFrame").src = `https://vidlink.pro/movie/${currentMovieID}?autoplay=true`;
-  showControls(); // Reset timer when button is clicked
+  showControls();
 });
 
 // --- CONTINUE WATCHING ---
