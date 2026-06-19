@@ -232,15 +232,31 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
 #topControls.active {
   opacity: 1; visibility: visible;
 }
-.server1, .server2, #fullscreenBtn {
+
+#toggleServerBtn {
+  padding: 12px 24px; border-radius: 8px;
+  background: #e50914; color: #fff;
+  font-weight: 600; font-size: 18px;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+#serverList {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.server1, .server2 {
   padding: 12px 24px; border-radius: 8px;
   font-weight: 600; font-size: 18px;
-  min-width: 130px;
+  min-width: 110px;
   text-align: center;
   pointer-events: auto;
 }
 .server1 { background: #e50914; color: #fff; }
 .server2 { background: #2a2a2a; color: #fff; }
+
 #backPlayer {
   position: absolute; top: 20px; right: 20px;
   width: 55px; height: 55px; border-radius: 50%;
