@@ -208,61 +208,65 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
   z-index: 10003;
   width: 100vw; height: 100vh;
   overflow: hidden;
-  cursor: pointer;
 }
 #videoFrame {
   width: 100%; height: 100%;
   border: none;
 }
-#playerControls {
-  position: absolute; inset: 0;
-  z-index: 10004;
-  pointer-events: none;
-}
-#topControls {
-  position: absolute; top: 20px; left: 50%;
-  transform: translateX(-50%);
-  display: flex; align-items: center; gap: 15px;
-  padding: 12px 20px; background: rgba(0,0,0,.85);
-  backdrop-filter: blur(12px); border-radius: 14px;
-  opacity: 0; visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-  pointer-events: auto;
-}
-#topControls.active {
-  opacity: 1; visibility: visible;
-}
 
-#toggleServerBtn {
-  padding: 12px 24px; border-radius: 8px;
-  background: #e50914; color: #fff;
-  font-weight: 600; font-size: 18px;
-  pointer-events: auto;
-  white-space: nowrap;
+/* New Server Selector */
+#serverSelector {
+  position: absolute; top: 20px; right: 20px;
+  z-index: 10005;
 }
-
-#serverList {
+#chooseServerBtn {
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+#chooseServerBtn:hover {
+  background: #e50914;
+  border-color: #e50914;
+}
+.server-menu {
+  position: absolute; top: 110%; right: 0;
+  width: 160px;
+  background: rgba(0,0,0,0.9);
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-top: 8px;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.server-menu.active {
   display: flex;
-  gap: 12px;
-  align-items: center;
 }
-
-.server1, .server2 {
-  padding: 12px 24px; border-radius: 8px;
-  font-weight: 600; font-size: 18px;
-  min-width: 110px;
-  text-align: center;
-  pointer-events: auto;
+.server-option {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #222;
+  transition: background 0.2s;
 }
-.server1 { background: #e50914; color: #fff; }
-.server2 { background: #2a2a2a; color: #fff; }
+.server-option:last-child {
+  border-bottom: none;
+}
+.server-option:hover {
+  background: #e50914;
+}
 
 #backPlayer {
-  position: absolute; top: 20px; right: 20px;
+  position: absolute; top: 20px; left: 20px;
   width: 55px; height: 55px; border-radius: 50%;
   background: #e50914; color: #fff; font-size: 24px;
-  pointer-events: auto;
   display: flex; align-items: center; justify-content: center;
+  z-index: 10005;
 }
 .loading { padding: 40px; color: #aaa; text-align: center; font-size: 22px; }
 
@@ -284,4 +288,6 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
   #appTitle { font-size: 22px; }
   .card { min-width: 140px; width: 140px; height: 210px; }
   .infoPlayBtn { width: 100%; }
+  #chooseServerBtn { font-size: 14px; padding: 10px 16px; }
+  .server-menu { width: 140px; }
 }
