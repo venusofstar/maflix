@@ -199,18 +199,23 @@
 <!-- Player -->
 <div id="playerModal">
   <iframe id="videoFrame" allowfullscreen loading="lazy" referrerpolicy="no-referrer" allow="autoplay; fullscreen"></iframe>
-  <div id="playerControls">
-    <div id="topControls">
-      <button id="toggleServerBtn">Show Server</button>
-      <div id="serverList" style="display: none; gap: 12px; display: flex;">
-        <button class="server1" id="server1Btn">Server 1</button>
-        <button class="server2" id="server2Btn">Server 2</button>
-      </div>
+  
+  <!-- New Server Selector -->
+  <div id="serverSelector">
+    <button id="chooseServerBtn">Choose Server</button>
+    <div id="serverMenu" class="server-menu">
+      <button class="server-option" data-server="1">Server 1</button>
+      <button class="server-option" data-server="2">Server 2</button>
+      <button class="server-option" data-server="3">Server 3</button>
+      <button class="server-option" data-server="4">Server 4</button>
+      <button class="server-option" data-server="5">Server 5</button>
     </div>
-    <button id="backPlayer">← Back</button>
   </div>
+
+  <button id="backPlayer">← Back</button>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
