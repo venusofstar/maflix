@@ -10,17 +10,12 @@ const TMDB_POPULAR_TV = "https://api.themoviedb.org/3/tv/popular";
 
 let currentItem = null;
 let currentMovieID = "";
-let controlsTimer;
-const CONTROLS_HIDE_DELAY = 10000; // 10 seconds
 
 // DOM ELEMENTS
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 const playerModal = document.getElementById("playerModal");
 const infoPage = document.getElementById("infoPage");
-const topControls = document.getElementById("topControls");
-const toggleServerBtn = document.getElementById("toggleServerBtn");
-const serverList = document.getElementById("serverList");
 const searchSection = document.getElementById("searchSection");
 const homeContent = document.getElementById("homeContent");
 const moviesSection = document.getElementById("moviesSection");
@@ -29,34 +24,62 @@ const continueSection = document.getElementById("continueSection");
 const searchInput = document.getElementById("movieSearchInput");
 const searchBtn = document.getElementById("searchBtn");
 
-// --- PLAYER CONTROLS LOGIC ---
-function showControls() {
-  topControls.classList.add("active");
-  clearTimeout(controlsTimer);
-  controlsTimer = setTimeout(hideControls, CONTROLS_HIDE_DELAY);
-}
+// Server Selector Elements
+const chooseServerBtn = document.getElementById("chooseServerBtn");
+const serverMenu = document.getElementById("serverMenu");
+const serverOptions = document.querySelectorAll(".server-option");
 
-function hideControls() {
-  topControls.classList.remove("active");
-}
+// --- SERVER MENU LOGIC ---
+chooseServerBtn.addEventListener("click", () => {
+  serverMenu.classList.toggle("active");
+});
 
-// Toggle Server List
-toggleServerBtn.addEventListener("click", () => {
-  if (serverList.style.display === "none" || serverList.style.display === "") {
-    serverList.style.display = "flex";
-    toggleServerBtn.textContent = "Hide Server";
-  } else {
-    serverList.style.display = "none";
-    toggleServerBtn.textContent = "Show Server";
+// Close menu when clicking outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#serverSelector")) {
+    serverMenu.classList.remove("active");
   }
-  showControls(); // Reset hide timer
 });
 
-// Toggle controls on player click (ignore clicks on buttons)
-playerModal.addEventListener("click", (e) => {
-  if (e.target.closest("button")) return;
-  topControls.classList.contains("active") ? hideControls() : showControls();
+// Server change handler
+serverOptions.forEach(option => {
+  option.addEventListener("click", () => {
+    const serverNum = option.dataset.server;
+    loadServer(serverNum);
+    serverMenu.classList.remove("active");
+  });
 });
+
+function loadServer(serverNum) {
+  if (!currentMovieID) return;
+  const parts = currentMovieID.toString().split("-");
+  let videoSrc = "";
+
+  // Add your server URLs here
+  switch(serverNum) {
+    case "1":
+      videoSrc = parts.length === 1 
+        ? `https://streamimdb.ru/embed/movie/${parts[0]}` 
+        : `https://streamimdb.ru/embed/tv/${parts[0]}/${parts[1]}/${parts[2]}`;
+      break;
+    case "2":
+      videoSrc = `https://vidlink.pro/movie/${currentMovieID}?autoplay=true`;
+      break;
+    case "3":
+      videoSrc = `https://vidsrc.to/embed/movie/${currentMovieID}`;
+      break;
+    case "4":
+      videoSrc = `https://vidsrc.me/embed/movie/${currentMovieID}`;
+      break;
+    case "5":
+      videoSrc = `https://multiembed.mov/?video_id=${currentMovieID}`;
+      break;
+    default:
+      return;
+  }
+
+  document.getElementById("videoFrame").src = videoSrc;
+}
 
 // --- NAVIGATION ---
 function goHomeFromInfo() {
@@ -83,7 +106,6 @@ function backToInfoPage() {
   document.getElementById("videoFrame").src = "";
   document.body.style.overflow = "auto";
   infoPage.style.display = "block";
-  clearTimeout(controlsTimer);
 }
 
 document.getElementById("backPlayer").addEventListener("click", backToInfoPage);
@@ -321,7 +343,6 @@ function playMovie(tmdbID) {
   infoPage.style.display = "none";
   playerModal.style.display = "flex";
   document.body.style.overflow = "hidden";
-  showControls();
 }
 
 function playEpisode(tvId, season, ep) {
@@ -330,24 +351,7 @@ function playEpisode(tvId, season, ep) {
   infoPage.style.display = "none";
   playerModal.style.display = "flex";
   document.body.style.overflow = "hidden";
-  showControls();
 }
-
-document.getElementById("server1Btn").addEventListener("click", () => { 
-  if (!currentMovieID) return; 
-  const parts = currentMovieID.toString().split("-"); 
-  const src = parts.length === 1 
-    ? `https://streamimdb.ru/embed/movie/${parts[0]}` 
-    : `https://streamimdb.ru/embed/tv/${parts[0]}/${parts[1]}/${parts[2]}`; 
-  document.getElementById("videoFrame").src = src;
-  showControls();
-});
-
-document.getElementById("server2Btn").addEventListener("click", () => { 
-  if (!currentMovieID) return; 
-  document.getElementById("videoFrame").src = `https://vidlink.pro/movie/${currentMovieID}?autoplay=true`;
-  showControls();
-});
 
 // --- CONTINUE WATCHING ---
 function saveContinueWatching(item) { 
