@@ -7,215 +7,394 @@
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-background:#f5f5f5;
-color:#333;
+    background:#FFF8E1;
+    color:#333;
+    line-height:1.6;
 }
+
+/* Header */
 
 header{
-background:#0d47a1;
-color:#fff;
-padding:20px;
-text-align:center;
+    background:#C62828;
+    color:#fff;
+    padding:18px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
+header h1{
+    font-size:34px;
+}
+
+header p{
+    margin-top:5px;
+    opacity:.9;
+}
+
+/* Navigation */
+
 nav{
-background:#1565c0;
-padding:15px;
-text-align:center;
+    background:#FFC107;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
 }
 
 nav a{
-color:#fff;
-text-decoration:none;
-margin:0 15px;
-font-weight:bold;
+    color:#8E0000;
+    text-decoration:none;
+    padding:15px 20px;
+    font-weight:bold;
 }
+
+nav a:hover{
+    background:#FFD54F;
+}
+
+/* Hero */
 
 .hero{
-height:420px;
-background:url("images/banner.jpg") center/cover;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-text-align:center;
+    height:500px;
+    background:
+    linear-gradient(rgba(198,40,40,.65),rgba(255,193,7,.55)),
+    url("https://images.unsplash.com/photo-1512436991641-6745cdb1723?auto=format&fit=crop&w=1600&q=80");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
 }
 
-.hero h1{
-font-size:48px;
-background:rgba(0,0,0,.5);
-padding:20px;
-border-radius:10px;
+.hero h2{
+    font-size:52px;
+    margin-bottom:15px;
 }
 
-.container{
-width:90%;
-max-width:1200px;
-margin:auto;
-padding:50px 0;
+.hero p{
+    font-size:20px;
+}
+
+.hero a{
+    display:inline-block;
+    margin-top:30px;
+    background:#FFC107;
+    color:#8E0000;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+/* Section */
+
+section{
+    padding:70px 8%;
 }
 
 .section-title{
-text-align:center;
-margin-bottom:30px;
-color:#0d47a1;
+    text-align:center;
+    color:#C62828;
+    margin-bottom:40px;
+    font-size:36px;
 }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 10px rgba(0,0,0,.15);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.card h3{
-padding:15px;
-}
-
-.card p{
-padding:0 15px 20px;
-}
+/* About */
 
 .about{
-display:flex;
-flex-wrap:wrap;
-gap:30px;
-align-items:center;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
 }
 
 .about img{
-width:450px;
-max-width:100%;
-border-radius:10px;
+    width:100%;
+    border-radius:12px;
 }
 
-.about-text{
-flex:1;
+.about h3{
+    color:#C62828;
+    margin-bottom:15px;
 }
+
+/* Products */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 6px 15px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card h3{
+    color:#C62828;
+    padding:15px;
+}
+
+.card p{
+    padding:0 15px 20px;
+}
+
+/* Why Choose Us */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.feature{
+    background:white;
+    text-align:center;
+    padding:30px;
+    border-radius:10px;
+}
+
+.feature h3{
+    color:#C62828;
+}
+
+/* Contact */
 
 .contact{
-background:#0d47a1;
-color:white;
-padding:50px;
-text-align:center;
+    background:#C62828;
+    color:white;
+    text-align:center;
 }
 
+.contact p{
+    margin:12px 0;
+}
+
+/* Footer */
+
 footer{
-background:#111;
-color:white;
-text-align:center;
-padding:20px;
+    background:#8E0000;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:800px){
+
+.about{
+grid-template-columns:1fr;
+}
+
+.hero h2{
+font-size:34px;
+}
+
 }
 </style>
 
 </head>
+
 <body>
 
 <header>
-<h1>Tenphi Textile</h1>
-<p>Quality Textile Manufacturing & Fabric Solutions</p>
+
+<h1>TENPHI TEXTILE</h1>
+
+<p>Premium Textile Manufacturer & Fabric Supplier</p>
+
 </header>
 
 <nav>
+
+<a href="#">Home</a>
+
 <a href="#about">About</a>
+
 <a href="#products">Products</a>
+
+<a href="#why">Why Us</a>
+
 <a href="#contact">Contact</a>
+
 </nav>
 
 <section class="hero">
-<h1>Premium Textile Products</h1>
+
+<div>
+
+<h2>Quality Fabrics. Trusted Manufacturing.</h2>
+
+<p>Delivering premium textile solutions for businesses worldwide.</p>
+
+<a href="#products">Explore Products</a>
+
+</div>
+
 </section>
 
-<div class="container" id="about">
-<h2 class="section-title">About Us</h2>
+<section id="about">
+
+<h2 class="section-title">About Tenphi Textile</h2>
 
 <div class="about">
 
-<img src="images/factory.jpg">
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80">
 
-<div class="about-text">
+<div>
+
+<h3>Your Reliable Textile Partner</h3>
 
 <p>
-Tenphi Textile is a trusted textile manufacturer dedicated to producing
-high-quality fabrics and textile products for local and international
-markets. We combine advanced manufacturing technology with skilled
-craftsmanship to deliver reliable textile solutions.
+
+Tenphi Textile specializes in producing high-quality fabrics for apparel,
+industrial applications, uniforms, home textiles, and custom manufacturing.
+
 </p>
 
 <br>
 
 <p>
-Our commitment is quality, innovation, and customer satisfaction.
+
+With modern production technology and experienced professionals,
+we deliver consistent quality, competitive pricing, and dependable service.
+
 </p>
 
 </div>
 
 </div>
 
-</div>
+</section>
 
-<div class="container" id="products">
+<section id="products">
 
 <h2 class="section-title">Our Products</h2>
 
 <div class="products">
 
 <div class="card">
-<img src="images/product1.jpg">
+
+<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80">
+
 <h3>Cotton Fabric</h3>
-<p>Premium cotton fabric for garments.</p>
+
+<p>Soft premium cotton fabric suitable for garments.</p>
+
 </div>
 
 <div class="card">
-<img src="images/product2.jpg">
+
+<img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80">
+
 <h3>Polyester Fabric</h3>
-<p>Durable and lightweight textile materials.</p>
+
+<p>Strong and durable textile materials.</p>
+
 </div>
 
 <div class="card">
-<img src="images/product3.jpg">
-<h3>Industrial Textile</h3>
-<p>High-strength textile solutions.</p>
+
+<img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80">
+
+<h3>Workwear Textile</h3>
+
+<p>Industrial fabric for uniforms and safety clothing.</p>
+
 </div>
 
 <div class="card">
-<img src="images/product4.jpg">
-<h3>Custom Textile</h3>
-<p>Customized fabric according to customer requirements.</p>
-</div>
+
+<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80">
+
+<h3>Custom Fabric</h3>
+
+<p>Manufactured according to customer specifications.</p>
 
 </div>
 
 </div>
+
+</section>
+
+<section id="why">
+
+<h2 class="section-title">Why Choose Us</h2>
+
+<div class="features">
+
+<div class="feature">
+
+<h3>High Quality</h3>
+
+<p>Strict quality inspection for every production batch.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>Fast Delivery</h3>
+
+<p>Reliable production and shipping schedules.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>Competitive Pricing</h3>
+
+<p>Affordable textile solutions without compromising quality.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>Custom Orders</h3>
+
+<p>OEM & customized textile manufacturing available.</p>
+
+</div>
+
+</div>
+
+</section>
 
 <section class="contact" id="contact">
 
 <h2>Contact Us</h2>
 
-<p>Email: info@tenphitextile.com</p>
+<p><strong>Email:</strong> info@tenphitextile.com</p>
 
-<p>Phone: +63 XXX XXX XXXX</p>
+<p><strong>Phone:</strong> +63 XXX XXX XXXX</p>
 
-<p>Address: Your Company Address</p>
+<p><strong>Address:</strong> Your Company Address</p>
 
 </section>
 
