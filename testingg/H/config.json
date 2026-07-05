@@ -1,0 +1,6 @@
+{
+  "channels": [
+    {"id":1,"title":"GMA 7","image":"","type":"live","sources":[{"url":"","type":"m3u8"}]},
+    {"id":2,"title":"ABS-CBN","image":"","type":"live","sources":[{"url":"","type":"m3u8"}]}
+  ]
+}

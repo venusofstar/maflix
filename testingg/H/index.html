@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-PH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RecTV Player</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Players -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.10.0/shaka-player.compiled.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>📺 RecTV Philippines</h1>
+            <input type="text" id="searchInput" placeholder="Search channels / movies..." />
+        </header>
+
+        <!-- Categories -->
+        <nav id="categories" class="categories"></nav>
+
+        <!-- Content Grid -->
+        <main id="contentGrid" class="content-grid"></main>
+
+        <!-- Player Modal -->
+        <div id="playerModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <video id="videoPlayer" controls playsinline></video>
+                <div id="playerInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="player.js"></script>
+</body>
+</html>
