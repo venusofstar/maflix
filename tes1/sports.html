@@ -1,3 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Schedule Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#101010;
+    color:#fff;
+}
+
+header{
+    background:#1c1c1c;
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    border-bottom:2px solid #00ff99;
+}
+
+#updated{
+    text-align:center;
+    color:#aaa;
+    padding:10px;
+}
+
+.category{
+    margin:20px;
+}
+
+.category h2{
+    color:#00ff99;
+    border-bottom:1px solid #333;
+    padding-bottom:10px;
+}
+
+.card{
+    background:#1b1b1b;
+    padding:15px;
+    margin-top:10px;
+    border-radius:10px;
+    border:1px solid #333;
+}
+
+.match{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.time{
+    color:#bbb;
+    margin-top:10px;
+}
+
+.countdown{
+    margin-top:10px;
+    color:#ffd700;
+    font-size:18px;
+}
+
+.live{
+    color:red;
+    font-weight:bold;
+}
+
+.finished{
+    color:#00ff99;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<header>ALL SPORTS SCHEDULES</header>
+
+<div id="updated"></div>
+<div id="events">Loading schedules...</div>
+
 <script>
 const categories = [
     "nfl",
@@ -9,10 +95,13 @@ const categories = [
     "wwe"
 ];
 
-async function loadAllSports() {
+let allMatches = [];
+
+async function loadSchedules() {
 
     const container = document.getElementById("events");
     container.innerHTML = "";
+    allMatches = [];
 
     for (const category of categories) {
 
@@ -24,43 +113,66 @@ async function loadAllSports() {
 
             const data = await response.json();
 
+            const matches = data.matches || data;
+
             const section = document.createElement("div");
+            section.className = "category";
 
             section.innerHTML = `
                 <h2>${category.toUpperCase()}</h2>
             `;
 
-            const matches = data.matches || data;
+            if (!Array.isArray(matches) || matches.length === 0) {
 
-            if (!Array.isArray(matches)) {
-                section.innerHTML += "<p>No events found.</p>";
+                section.innerHTML += `
+                    <p>No schedules available.</p>
+                `;
+
             } else {
 
-                matches.forEach(match => {
+                matches.forEach((match,index)=>{
+
+                    const date =
+                        match.date ||
+                        match.startTime ||
+                        match.datetime ||
+                        "";
+
+                    const id =
+                        `${category}-${index}`;
+
+                    allMatches.push({
+                        id,
+                        date
+                    });
 
                     section.innerHTML += `
                         <div class="card">
-                            <h3>
-                                ${match.home || "TBD"}
+
+                            <div class="match">
+                                ${match.home ||
+                                match.homeTeam ||
+                                "TBD"}
+
                                 vs
-                                ${match.away || "TBD"}
-                            </h3>
 
-                            <p>
-                                Status:
-                                ${match.status || "UPCOMING"}
-                            </p>
+                                ${match.away ||
+                                match.awayTeam ||
+                                "TBD"}
+                            </div>
 
-                            <p>
-                                Score:
-                                ${match.homeScore ?? "-"}
-                                -
-                                ${match.awayScore ?? "-"}
-                            </p>
+                            <div class="time">
+                                ${date ?
+                                new Date(date)
+                                .toLocaleString() :
+                                "Time TBA"}
+                            </div>
 
-                            <p>
-                                ${match.date || ""}
-                            </p>
+                            <div class="countdown"
+                                 id="${id}">
+                                 Loading...
+                            </div>
+
                         </div>
                     `;
                 });
@@ -68,22 +180,107 @@ async function loadAllSports() {
 
             container.appendChild(section);
 
-        } catch (err) {
-
-            console.error(category, err);
+        } catch (e) {
 
             container.innerHTML += `
-                <h2>${category.toUpperCase()}</h2>
-                <p>Failed to load.</p>
+                <div class="category">
+                    <h2>${category.toUpperCase()}</h2>
+                    <p>Failed to load.</p>
+                </div>
             `;
         }
     }
 
-    document.getElementById("updated").innerHTML =
+    document.getElementById(
+        "updated"
+    ).innerHTML =
         "Last Updated: " +
         new Date().toLocaleTimeString();
 }
 
-loadAllSports();
-setInterval(loadAllSports, 60000);
+function updateCountdowns(){
+
+    const now = new Date().getTime();
+
+    allMatches.forEach(match=>{
+
+        const el =
+            document.getElementById(
+                match.id
+            );
+
+        if(!el || !match.date){
+            return;
+        }
+
+        const gameTime =
+            new Date(match.date)
+            .getTime();
+
+        const diff =
+            gameTime - now;
+
+        if(diff <= 0){
+
+            const hoursPassed =
+                Math.abs(diff) /
+                (1000*60*60);
+
+            if(hoursPassed < 4){
+
+                el.innerHTML =
+                    '<span class="live">🔴 LIVE NOW</span>';
+
+            }else{
+
+                el.innerHTML =
+                    '<span class="finished">✔ FINISHED</span>';
+            }
+
+            return;
+        }
+
+        const days =
+            Math.floor(
+                diff /
+                (1000*60*60*24)
+            );
+
+        const hours =
+            Math.floor(
+                (diff %
+                (1000*60*60*24)) /
+                (1000*60*60)
+            );
+
+        const minutes =
+            Math.floor(
+                (diff %
+                (1000*60*60)) /
+                (1000*60)
+            );
+
+        const seconds =
+            Math.floor(
+                (diff %
+                (1000*60)) /
+                1000
+            );
+
+        el.innerHTML =
+            `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    });
+}
+
+// Initial load
+loadSchedules();
+
+// Update countdown every second
+setInterval(updateCountdowns,1000);
+
+// Refresh API every minute
+setInterval(loadSchedules,60000);
 </script>
+
+</body>
+</html>
