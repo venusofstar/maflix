@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Events Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+header {
+    background: #1e1e1e;
+    padding: 15px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    border-bottom: 2px solid #00ff88;
+}
+
+#events {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.card {
+    background: #1c1c1c;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #333;
+    box-shadow: 0 0 10px rgba(0,255,136,0.2);
+}
+
+.title {
+    font-size: 20px;
+    color: #00ff88;
+    margin-bottom: 10px;
+}
+
+.match {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.time {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: red;
+    font-weight: bold;
+}
+
+.countdown {
+    margin-top: 10px;
+    color: #ffd700;
+    font-size: 16px;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    SPORTS EVENTS
+</header>
+
+<div id="events">
+    <div class="loading">Loading events...</div>
+</div>
+
+<script>
+// Demo data (replace with API response)
+const events = [
+    {
+        title: "NBA Summer League",
+        home: "Houston Rockets",
+        away: "Philadelphia 76ers",
+        startTime: "2026-07-17T04:00:00+08:00",
+        status: "LIVE"
+    },
+    {
+        title: "Formula 1",
+        home: "British Grand Prix",
+        away: "",
+        startTime: "2026-07-18T20:00:00+08:00",
+        status: "UPCOMING"
+    },
+    {
+        title: "UFC",
+        home: "Jon Jones",
+        away: "Tom Aspinall",
+        startTime: "2026-07-19T10:00:00+08:00",
+        status: "UPCOMING"
+    },
+    {
+        title: "MLB",
+        home: "Yankees",
+        away: "Dodgers",
+        startTime: "2026-07-17T08:00:00+08:00",
+        status: "LIVE"
+    }
+];
+
+function renderEvents() {
+    const container = document.getElementById("events");
+    container.innerHTML = "";
+
+    events.forEach((event, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="title">${event.title}</div>
+            <div class="match">
+                ${event.home}
+                ${event.away ? "vs " + event.away : ""}
+            </div>
+            <div class="time">
+                ${new Date(event.startTime).toLocaleString()}
+            </div>
+            <div class="status">${event.status}</div>
+            <div class="countdown" id="countdown-${index}"></div>
+        `;
+
+        container.appendChild(card);
+    });
+
+    updateCountdowns();
+}
+
+function updateCountdowns() {
+    events.forEach((event, index) => {
+        const countdown = document.getElementById(`countdown-${index}`);
+        const now = new Date().getTime();
+        const start = new Date(event.startTime).getTime();
+
+        const distance = start - now;
+
+        if (distance <= 0) {
+            countdown.innerHTML = "🔴 Event Started";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        countdown.innerHTML =
+            `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    });
+}
+
+renderEvents();
+setInterval(updateCountdowns, 1000);
+
+// Example API integration:
+//
+// fetch("https://api.sportsrc.org/?data=matches")
+//   .then(res => res.json())
+//   .then(data => {
+//       console.log(data);
+//       // Convert API data into `events` array.
+//   });
+</script>
+
+</body>
+</html>
