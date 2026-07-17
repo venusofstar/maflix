@@ -3,23 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sports Events Dashboard</title>
+<title>Live Sports Events</title>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #111;
-    color: white;
+    color: #fff;
 }
 
 header {
-    background: #1e1e1e;
+    background: #1c1c1c;
     padding: 15px;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
     border-bottom: 2px solid #00ff88;
+}
+
+#lastUpdated {
+    text-align: center;
+    padding: 10px;
+    color: #aaa;
+    font-size: 14px;
 }
 
 #events {
@@ -30,16 +41,20 @@ header {
 }
 
 .card {
-    background: #1c1c1c;
-    border-radius: 12px;
-    padding: 15px;
+    background: #1b1b1b;
     border: 1px solid #333;
-    box-shadow: 0 0 10px rgba(0,255,136,0.2);
+    border-radius: 10px;
+    padding: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
 }
 
 .title {
-    font-size: 20px;
     color: #00ff88;
+    font-size: 20px;
     margin-bottom: 10px;
 }
 
@@ -49,7 +64,7 @@ header {
 }
 
 .time {
-    color: #ccc;
+    color: #bbb;
     margin-bottom: 10px;
 }
 
@@ -57,126 +72,145 @@ header {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 8px;
-    background: red;
+    background: #ff0000;
     font-weight: bold;
 }
 
-.countdown {
+.score {
     margin-top: 10px;
+    font-size: 22px;
     color: #ffd700;
-    font-size: 16px;
 }
 
 .loading {
     text-align: center;
     padding: 50px;
 }
+
+.error {
+    color: red;
+    text-align: center;
+    padding: 30px;
+}
 </style>
 </head>
 <body>
 
-<header>
-    SPORTS EVENTS
-</header>
+<header>LIVE SPORTS EVENTS</header>
+
+<div id="lastUpdated">Loading...</div>
 
 <div id="events">
-    <div class="loading">Loading events...</div>
+    <div class="loading">Fetching latest sports events...</div>
 </div>
 
 <script>
-// Demo data (replace with API response)
-const events = [
-    {
-        title: "NBA Summer League",
-        home: "Houston Rockets",
-        away: "Philadelphia 76ers",
-        startTime: "2026-07-17T04:00:00+08:00",
-        status: "LIVE"
-    },
-    {
-        title: "Formula 1",
-        home: "British Grand Prix",
-        away: "",
-        startTime: "2026-07-18T20:00:00+08:00",
-        status: "UPCOMING"
-    },
-    {
-        title: "UFC",
-        home: "Jon Jones",
-        away: "Tom Aspinall",
-        startTime: "2026-07-19T10:00:00+08:00",
-        status: "UPCOMING"
-    },
-    {
-        title: "MLB",
-        home: "Yankees",
-        away: "Dodgers",
-        startTime: "2026-07-17T08:00:00+08:00",
-        status: "LIVE"
-    }
-];
+const API_URL = "https://api.sportsrc.org/?data=matches";
 
-function renderEvents() {
+async function loadEvents() {
+
     const container = document.getElementById("events");
-    container.innerHTML = "";
 
-    events.forEach((event, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
+    try {
+        const response = await fetch(API_URL);
 
-        card.innerHTML = `
-            <div class="title">${event.title}</div>
-            <div class="match">
-                ${event.home}
-                ${event.away ? "vs " + event.away : ""}
-            </div>
-            <div class="time">
-                ${new Date(event.startTime).toLocaleString()}
-            </div>
-            <div class="status">${event.status}</div>
-            <div class="countdown" id="countdown-${index}"></div>
-        `;
+        if (!response.ok) {
+            throw new Error("API Error");
+        }
 
-        container.appendChild(card);
-    });
+        const data = await response.json();
 
-    updateCountdowns();
-}
+        container.innerHTML = "";
 
-function updateCountdowns() {
-    events.forEach((event, index) => {
-        const countdown = document.getElementById(`countdown-${index}`);
-        const now = new Date().getTime();
-        const start = new Date(event.startTime).getTime();
+        // Change this depending on API structure
+        const events = data.matches || data;
 
-        const distance = start - now;
-
-        if (distance <= 0) {
-            countdown.innerHTML = "🔴 Event Started";
+        if (!events.length) {
+            container.innerHTML =
+                '<div class="loading">No events found.</div>';
             return;
         }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-        const seconds = Math.floor((distance % (1000*60)) / 1000);
+        events.forEach(event => {
 
-        countdown.innerHTML =
-            `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s`;
-    });
+            const league =
+                event.league ||
+                event.competition ||
+                "Sports Event";
+
+            const home =
+                event.home ||
+                event.homeTeam ||
+                "TBD";
+
+            const away =
+                event.away ||
+                event.awayTeam ||
+                "TBD";
+
+            const homeScore =
+                event.homeScore ?? "-";
+
+            const awayScore =
+                event.awayScore ?? "-";
+
+            const status =
+                event.status ||
+                "UPCOMING";
+
+            const date =
+                event.date ||
+                event.startTime ||
+                new Date().toISOString();
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="title">${league}</div>
+
+                <div class="match">
+                    ${home} vs ${away}
+                </div>
+
+                <div class="time">
+                    ${new Date(date).toLocaleString()}
+                </div>
+
+                <div class="status">
+                    ${status}
+                </div>
+
+                <div class="score">
+                    ${homeScore} - ${awayScore}
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        document.getElementById("lastUpdated").innerHTML =
+            "Last Updated: " +
+            new Date().toLocaleTimeString();
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="error">
+                Failed to load sports events.<br>
+                Check API URL or CORS settings.
+            </div>
+        `;
+    }
 }
 
-renderEvents();
-setInterval(updateCountdowns, 1000);
+// Load immediately
+loadEvents();
 
-// Example API integration:
-//
-// fetch("https://api.sportsrc.org/?data=matches")
-//   .then(res => res.json())
-//   .then(data => {
-//       console.log(data);
-//       // Convert API data into `events` array.
-//   });
+// Auto-refresh every minute
+setInterval(loadEvents, 60000);
 </script>
 
 </body>
