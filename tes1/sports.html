@@ -1,217 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Sports Events</title>
-
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: #fff;
-}
-
-header {
-    background: #1c1c1c;
-    padding: 15px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    border-bottom: 2px solid #00ff88;
-}
-
-#lastUpdated {
-    text-align: center;
-    padding: 10px;
-    color: #aaa;
-    font-size: 14px;
-}
-
-#events {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 15px;
-    padding: 15px;
-}
-
-.card {
-    background: #1b1b1b;
-    border: 1px solid #333;
-    border-radius: 10px;
-    padding: 15px;
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.02);
-}
-
-.title {
-    color: #00ff88;
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.match {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.time {
-    color: #bbb;
-    margin-bottom: 10px;
-}
-
-.status {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 8px;
-    background: #ff0000;
-    font-weight: bold;
-}
-
-.score {
-    margin-top: 10px;
-    font-size: 22px;
-    color: #ffd700;
-}
-
-.loading {
-    text-align: center;
-    padding: 50px;
-}
-
-.error {
-    color: red;
-    text-align: center;
-    padding: 30px;
-}
-</style>
-</head>
-<body>
-
-<header>LIVE SPORTS EVENTS</header>
-
-<div id="lastUpdated">Loading...</div>
-
-<div id="events">
-    <div class="loading">Fetching latest sports events...</div>
-</div>
-
 <script>
-const API_URL = "https://api.sportsrc.org/?data=matches";
+const categories = [
+    "nfl",
+    "mlb",
+    "nhl",
+    "soccer",
+    "ufc",
+    "f1",
+    "wwe"
+];
 
-async function loadEvents() {
+async function loadAllSports() {
 
     const container = document.getElementById("events");
+    container.innerHTML = "";
 
-    try {
-        const response = await fetch(API_URL);
+    for (const category of categories) {
 
-        if (!response.ok) {
-            throw new Error("API Error");
-        }
+        try {
 
-        const data = await response.json();
+            const response = await fetch(
+                `https://api.sportsrc.org/?data=matches&category=${category}`
+            );
 
-        container.innerHTML = "";
+            const data = await response.json();
 
-        // Change this depending on API structure
-        const events = data.matches || data;
+            const section = document.createElement("div");
 
-        if (!events.length) {
-            container.innerHTML =
-                '<div class="loading">No events found.</div>';
-            return;
-        }
-
-        events.forEach(event => {
-
-            const league =
-                event.league ||
-                event.competition ||
-                "Sports Event";
-
-            const home =
-                event.home ||
-                event.homeTeam ||
-                "TBD";
-
-            const away =
-                event.away ||
-                event.awayTeam ||
-                "TBD";
-
-            const homeScore =
-                event.homeScore ?? "-";
-
-            const awayScore =
-                event.awayScore ?? "-";
-
-            const status =
-                event.status ||
-                "UPCOMING";
-
-            const date =
-                event.date ||
-                event.startTime ||
-                new Date().toISOString();
-
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-                <div class="title">${league}</div>
-
-                <div class="match">
-                    ${home} vs ${away}
-                </div>
-
-                <div class="time">
-                    ${new Date(date).toLocaleString()}
-                </div>
-
-                <div class="status">
-                    ${status}
-                </div>
-
-                <div class="score">
-                    ${homeScore} - ${awayScore}
-                </div>
+            section.innerHTML = `
+                <h2>${category.toUpperCase()}</h2>
             `;
 
-            container.appendChild(card);
-        });
+            const matches = data.matches || data;
 
-        document.getElementById("lastUpdated").innerHTML =
-            "Last Updated: " +
-            new Date().toLocaleTimeString();
+            if (!Array.isArray(matches)) {
+                section.innerHTML += "<p>No events found.</p>";
+            } else {
 
-    } catch (error) {
+                matches.forEach(match => {
 
-        console.error(error);
+                    section.innerHTML += `
+                        <div class="card">
+                            <h3>
+                                ${match.home || "TBD"}
+                                vs
+                                ${match.away || "TBD"}
+                            </h3>
 
-        container.innerHTML = `
-            <div class="error">
-                Failed to load sports events.<br>
-                Check API URL or CORS settings.
-            </div>
-        `;
+                            <p>
+                                Status:
+                                ${match.status || "UPCOMING"}
+                            </p>
+
+                            <p>
+                                Score:
+                                ${match.homeScore ?? "-"}
+                                -
+                                ${match.awayScore ?? "-"}
+                            </p>
+
+                            <p>
+                                ${match.date || ""}
+                            </p>
+                        </div>
+                    `;
+                });
+            }
+
+            container.appendChild(section);
+
+        } catch (err) {
+
+            console.error(category, err);
+
+            container.innerHTML += `
+                <h2>${category.toUpperCase()}</h2>
+                <p>Failed to load.</p>
+            `;
+        }
     }
+
+    document.getElementById("updated").innerHTML =
+        "Last Updated: " +
+        new Date().toLocaleTimeString();
 }
 
-// Load immediately
-loadEvents();
-
-// Auto-refresh every minute
-setInterval(loadEvents, 60000);
+loadAllSports();
+setInterval(loadAllSports, 60000);
 </script>
-
-</body>
-</html>
