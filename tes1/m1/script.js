@@ -59,8 +59,8 @@ function loadServer(serverNum) {
   switch(serverNum) {
     case "1":
       videoSrc = parts.length === 1 
-        ? `https://vidrock.ru/movie/${parts[0]}` 
-        : `https://vidrock.ru/tv/${parts[0]}/${parts[1]}/${parts[2]}`;
+        ? `https://player.videasy.to/movie/${parts[0]}` 
+        : `https://player.videasy.to/tv/${parts[0]}/${parts[1]}/${parts[2]}`;
       break;
     case "2":
       videoSrc = `https://vidlink.pro/movie/${currentMovieID}?autoplay=true`;
