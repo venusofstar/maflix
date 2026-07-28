@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PPV MIRROR</title>
+
+<!-- ✅ Monetag Verification -->
+<meta name="monetag" content="f6122dcf0ae0344432a93322d9615e30">
+
 <style>
   * { box-sizing:border-box; margin:0; padding:0; font-family:Arial, sans-serif; -webkit-tap-highlight-color:transparent; }
   :focus { outline:2px solid #60a5fa; outline-offset:2px; }
@@ -96,15 +100,59 @@
   <div class="player-container" id="playerContainer"></div>
 </div>
 
+<!-- ✅ Safe Monetag Ads: Load After User Interaction -->
+<script>
+  let monetagLoaded = false;
+  document.addEventListener("click", () => {
+    if (!monetagLoaded) {
+      monetagLoaded = true;
+      console.log("✅ Loading Monetag Ads safely...");
+
+      // Popunder
+      (function(s){
+        s.dataset.zone='10131170';
+        s.src='https://al5sm.com/tag.min.js';
+        document.body.appendChild(s);
+      })(document.createElement('script'));
+
+      // Vignette
+      (function(s){
+        s.dataset.zone='10131172';
+        s.src='https://groleegni.net/vignette.min.js';
+        document.body.appendChild(s);
+      })(document.createElement('script'));
+
+      // Tag Ad
+      (function(s){
+        s.dataset.zone='10131174';
+        s.src='https://forfrogadiertor.com/tag.min.js';
+        document.body.appendChild(s);
+      })(document.createElement('script'));
+    }
+  });
+</script>
+
+<!-- ✅ Fallback Monetag Banner -->
+<noscript>
+  <a href="https://al5sm.com/" target="_blank">
+    <img src="https://i.imgur.com/8T3YF0Z.jpeg" alt="Watch Ad" style="width:100%;border-radius:12px;">
+  </a>
+</noscript>
+
+<!-- ✅ Performance Debug Log -->
+<script>
+  window.addEventListener('load', () => {
+    console.log("✅ MASPORTS (Monetag Edition) loaded in", performance.now().toFixed(1), "ms");
+  });
+</script>
+
 <script>
 let baseDomains = ["https://api.ppv.st"];
 let activeDomain = baseDomains[0];
 let refreshTimer = null;
 let categoriesData = [];
 
-// ✅ ALL BLOCKS REMOVED — new tabs, right‑click, keys allowed
 document.addEventListener('keydown', e=>{
-  // Only block F12 / devtools if you want — remove below line if fully unblock all
   if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')){e.preventDefault();return false;}
 }, true);
 
@@ -279,8 +327,8 @@ function buildIframe(src){
     let code=src.trim();
     code=code.replace(/\s(muted|muted="[^"]*")/gi,'');
     code=code.replace(/\s(autoplay|autoplay="[^"]*")/gi,'');
-    if(!code.includes('sandbox')) code=code.replace(/<iframe/i,'<iframe sandbox="allow-same-origin allow-scripts allow-forms allow-fullscreen">');
-    if(!code.includes('rel=')) code=code.replace(/<iframe/i,'<iframe rel="noopener noreferrer">');
+    if(!code.includes('sandbox')) code=code.replace(/<iframe/i,'<iframe sandbox="allow-same-origin allow-scripts allow-forms allow-fullscreen"');
+    if(!code.includes('rel=')) code=code.replace(/<iframe/i,'<iframe rel="noopener noreferrer"');
     return code;
   }
   if(src.startsWith('http')){
