@@ -278,16 +278,47 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
   .sectionHeader h2 { font-size: 30px; }
 }
 @media(max-width:900px) {
-  .card { min-width: 170px; width: 170px; height: 255px; }
-  .heroContent h1 { font-size: 42px; }
-  .infoPoster { width: 220px; height: 330px; margin: 0 auto; }
+  .card { min-width: 160px; width: 160px; height: 240px; }
+  .heroContent h1 { font-size: 36px; }
+  .heroContent p { font-size: 16px; }
+  .infoPoster { width: 200px; height: 300px; margin: 0 auto; }
+  .infoTitle { font-size: 30px; }
   .infoDetails { text-align: center; }
+  .sectionHeader h2 { font-size: 22px; }
+  #movieSearchInput { max-width: 280px; font-size: 14px; }
+  #searchBtn { padding: 0 12px; font-size: 14px; }
 }
 @media(max-width:650px) {
-  #navbar { padding: 12px; }
-  #appTitle { font-size: 22px; }
-  .card { min-width: 140px; width: 140px; height: 210px; }
-  .infoPlayBtn { width: 100%; }
-  #chooseServerBtn { font-size: 14px; padding: 10px 16px; }
-  .server-menu { width: 140px; }
+  #navbar { padding: 10px 12px; }
+  #menuBtn { width: 40px; height: 40px; font-size: 17px; }
+  #appTitle { font-size: 20px; }
+  #movieSearchInput { height: 42px; max-width: 160px; font-size: 13px; padding: 0 12px; }
+  #searchBtn { height: 42px; padding: 0 10px; font-size: 13px; }
+  #hero { padding: 100px 18px 30px; min-height: 60vh; }
+  .heroContent h1 { font-size: 28px; }
+  .heroContent p { font-size: 15px; }
+  .playBtn, .infoBtn { padding: 11px 22px; font-size: 16px; }
+  .card { min-width: 115px; width: 115px; height: 172px; }
+  .card p { font-size: 13px; padding: 10px; }
+  #content { padding: 18px; padding-top: 100px; }
+  .sectionHeader h2 { font-size: 20px; }
+  .row { gap: 12px; min-height: 200px; }
+  .infoPage { padding: 70px 18px 30px; }
+  .infoBackBtn, #backPlayer { width: 46px; height: 46px; font-size: 20px; top: 15px; }
+  .infoTitle { font-size: 26px; }
+  .infoOverview { font-size: 16px; }
+  .infoPlayBtn { width: 100%; font-size: 18px; padding: 14px 20px; }
+  .seasonBtn { padding: 10px 18px; min-width: 100px; font-size: 15px; }
+  .episodesGrid { grid-template-columns: 1fr; gap: 14px; }
+  .episodeTitle { font-size: 16px; }
+  .episodeDesc { font-size: 13px; }
+  .episodeThumb { height: 130px; }
+  #chooseServerBtn { font-size: 13px; padding: 9px 14px; }
+  .server-menu { width: 130px; }
+  .server-option { padding: 10px 14px; font-size: 14px; }
+  #sidebar { width: 260px; left: -260px; padding: 15px; }
+  #sidebarHeader h2 { font-size: 26px; }
+  .sidebarLinks a { padding: 14px 15px; font-size: 16px; border-radius: 10px; }
+  .slideBtn { width: 40px; height: 40px; font-size: 18px; }
+  .loading { font-size: 18px; padding: 30px 20px; }
 }
