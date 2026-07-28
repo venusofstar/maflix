@@ -20,12 +20,14 @@
   </div>
   <div class="sidebarLinks">
     <a href="#" data-cat="home">🏠 Home</a>
-    <a href="#" data-cat="anime-tag">🎌 Anime Tagalog Dubbed</a>
-    <a href="#" data-cat="drama-tag">🎭 Tagalog Dubbed Drama</a>
-    <a href="#" data-cat="tv-channel">📺 TV Channels</a>
-    <a href="#" data-cat="sports">⚽ Sports Event</a>
-    <a href="#" data-cat="vivamax">🎬 Viva Max</a>
-    <a href="#" data-cat="request">🎬 Movies Request</a>
+    <a href="#" data-cat="movies">🎬 Movies</a>
+    <a href="#" data-cat="series">📺 TV Series</a>
+    <a href="#" data-cat="anime-tag">🎌 Anime</a>
+    <a href="#" data-cat="drama-tag">🇵🇭 PH Drama</a>
+    <a href="#" data-cat="vivamax">🔥 Vivamax</a>
+    <a href="#" data-cat="sports">⚽ Sports</a>
+    <a href="#" data-cat="tv-channel">📡 TV Channels</a>
+    <a href="#" data-cat="request">📩 Request Content</a>
   </div>
 </div>
 
@@ -200,7 +202,7 @@
 <div id="playerModal">
   <iframe id="videoFrame" allowfullscreen loading="lazy" referrerpolicy="no-referrer" allow="autoplay; fullscreen"></iframe>
   
-  <!-- New Server Selector -->
+  <!-- Server Selector -->
   <div id="serverSelector">
     <button id="chooseServerBtn">Choose Server</button>
     <div id="serverMenu" class="server-menu">
@@ -215,7 +217,26 @@
   <button id="backPlayer">← Back</button>
 </div>
 
-<script src="script.js"></script>
+<!-- Scripts -->
+<script src="script-tm.js"></script>
+<script>
+let monetagLoaded = false;
+function loadMonetag() {
+  if (monetagLoaded) return;
+  monetagLoaded = true;
+  try {
+    const s = document.createElement('script');
+    s.dataset.zone = '11170796';
+    s.src = 'https://al5sm.com/tag.min.js';
+    s.async = true;
+    document.body.appendChild(s);
+    console.log('Monetag loaded successfully');
+  } catch (e) {
+    console.log('Monetag failed to load', e);
+  }
+}
+document.addEventListener('click', loadMonetag, { once: true });
+document.addEventListener('keydown', loadMonetag, { once: true });
+</script>
 </body>
 </html>
-
