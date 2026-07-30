@@ -70,7 +70,8 @@ backdrop-filter: blur(12px);
 width: 46px; height: 46px; border-radius: 12px;
 background: #e50914; color: #fff; font-size: 20px;
 }
-#appTitle { color: #e50914; font-size: 30px; font-weight: 700; white-space: nowrap; }
+/* ✅ LOGO SMALLER — Original 30px → 20px */
+#appTitle { color: #e50914; font-size: 20px; font-weight: 700; white-space: nowrap; }
 #searchBox { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; }
 #movieSearchInput {
 width: 100%; max-width: 420px; height: 48px;
@@ -140,7 +141,7 @@ padding: 15px; font-size: 15px; font-weight: 600;
 background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
 }
 
-/* INFO PAGE — SUPER SMALL (only this section modified) */
+/* INFO PAGE — SUPER SMALL */
 #infoPage {
 position: fixed; inset: 0;
 background: linear-gradient(to bottom, #111, #000);
@@ -299,11 +300,12 @@ body { font-size: 19px; }
 .sectionHeader h2 { font-size: 22px; }
 #movieSearchInput { max-width: 280px; font-size: 14px; }
 #searchBtn { padding: 0 12px; font-size: 14px; }
+#appTitle { font-size: 18px; }
 }
 @media(max-width:650px) {
 #navbar { padding: 10px 12px; }
 #menuBtn { width: 40px; height: 40px; font-size: 17px; }
-#appTitle { font-size: 20px; }
+#appTitle { font-size: 16px; }
 #movieSearchInput { height: 42px; max-width: 160px; font-size: 13px; padding: 0 12px; }
 #searchBtn { height: 42px; padding: 0 10px; font-size: 13px; }
 #hero { padding: 100px 18px 30px; min-height: 60vh; }
