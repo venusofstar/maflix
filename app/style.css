@@ -1,4 +1,4 @@
-{
+* {
 margin: 0;
 padding: 0;
 box-sizing: border-box;
@@ -140,7 +140,7 @@ padding: 15px; font-size: 15px; font-weight: 600;
 background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
 }
 
-/* ✅ INFO PAGE — SUPER SMALL VERSION */
+/* INFO PAGE — SUPER SMALL (only this section modified) */
 #infoPage {
 position: fixed; inset: 0;
 background: linear-gradient(to bottom, #111, #000);
@@ -185,7 +185,7 @@ font-size: 11px; font-weight: bold; display: flex; align-items: center; gap: 5px
 min-width: 90px; justify-content: center;
 }
 
-/* Episodes Section — also scaled down */
+/* Episodes Section */
 .seasonSelector {
 margin-bottom: 8px;
 display: flex; gap: 6px;
@@ -193,8 +193,8 @@ flex-wrap: wrap;
 }
 .seasonBtn {
 padding: 5px 10px; border-radius: 4px;
-background: #1a1a1a; color: white; font-weight: 600; font-size: 10px;
-min-width: 55px; text-align: center;
+background: #1a1a1a; color: white; font-weight: 600;
+min-width: 55px; text-align: center; font-size: 10px;
 }
 .seasonBtn.active { background: #e50914; }
 .episodesGrid {
@@ -293,6 +293,9 @@ body { font-size: 19px; }
 .card { min-width: 160px; width: 160px; height: 240px; }
 .heroContent h1 { font-size: 36px; }
 .heroContent p { font-size: 16px; }
+.infoPoster { width: 200px; height: 300px; margin: 0 auto; }
+.infoTitle { font-size: 30px; }
+.infoDetails { text-align: center; }
 .sectionHeader h2 { font-size: 22px; }
 #movieSearchInput { max-width: 280px; font-size: 14px; }
 #searchBtn { padding: 0 12px; font-size: 14px; }
@@ -312,6 +315,25 @@ body { font-size: 19px; }
 #content { padding: 18px; padding-top: 100px; }
 .sectionHeader h2 { font-size: 20px; }
 .row { gap: 12px; min-height: 200px; }
+#infoPage { padding: 70px 18px 30px; }
+.infoBackBtn, #backPlayer { width: 46px; height: 46px; font-size: 20px; top: 15px; }
+.infoTitle { font-size: 26px; }
+.infoOverview { font-size: 16px; }
+
+.infoDetails { text-align: center; }
+.infoActions { justify-content: center; }
+.infoPlayBtn {
+width: 100% !important;
+max-width: 350px;
+box-sizing: border-box;
+display: flex !important;
+}
+
+.seasonBtn { padding: 10px 18px; min-width: 100px; font-size: 15px; }
+.episodesGrid { grid-template-columns: 1fr; gap: 14px; }
+.episodeTitle { font-size: 16px; }
+.episodeDesc { font-size: 13px; }
+.episodeThumb { height: 130px; }
 #chooseServerBtn { font-size: 13px; padding: 9px 14px; }
 .server-menu { width: 130px; }
 .server-option { padding: 10px 14px; font-size: 14px; }
