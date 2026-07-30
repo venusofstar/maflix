@@ -70,7 +70,6 @@ backdrop-filter: blur(12px);
 width: 46px; height: 46px; border-radius: 12px;
 background: #e50914; color: #fff; font-size: 20px;
 }
-/* ✅ Small Logo */
 #appTitle { color: #e50914; font-size: 20px; font-weight: 700; white-space: nowrap; }
 #searchBox { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end; }
 #movieSearchInput {
@@ -142,7 +141,7 @@ background: linear-gradient(to top, rgba(0,0,0,.95), transparent);
 }
 
 /* =============================================
-   ✅ INFO PAGE — EXACTLY YOUR SCREENSHOT LAYOUT
+✅ INFO PAGE — Fixed double arrows & exact style
 ============================================= */
 #infoPage {
 position: fixed; inset: 0;
@@ -162,8 +161,11 @@ display: flex; align-items: center; justify-content: flex-start;
 gap: 4px;
 border-radius: 0;
 z-index: 10002;
+border: none;
+appearance: none;
 }
-.infoBackBtn::before { content: "←"; font-size: 20px; }
+/* ❗ REMOVED extra ::before pseudo-element → NO double arrow */
+.infoBackBtn::before { content: none; }
 
 .infoContainer {
 display: flex; gap: 20px; flex-wrap: nowrap;
@@ -211,7 +213,10 @@ font-size: 16px; font-weight: bold;
 display: flex; align-items: center; justify-content: center;
 gap: 8px; width: 100%;
 min-width: unset;
+appearance: none;
+border: none;
 }
+/* ❗ SINGLE play icon only — remove extra if JS also adds one */
 .infoPlayBtn::before { content: "▶"; font-size: 14px; }
 
 /* Episodes Section */
@@ -314,11 +319,11 @@ z-index: 10005;
 }
 .loading { padding: 40px; color: #aaa; text-align: center; font-size: 22px; }
 
-/* ✅ PERFECT Mobile Responsive — matches exactly on phones */
+/* ✅ Mobile Responsive */
 @media(max-width: 650px) {
   #navbar { padding: 10px 12px; }
   #menuBtn { width: 40px; height: 40px; font-size: 17px; }
-  #appTitle { font-size: 16px; } /* Even smaller logo on mobile */
+  #appTitle { font-size: 16px; }
   #movieSearchInput { height: 42px; max-width: 140px; font-size: 13px; padding: 0 12px; }
   #searchBtn { height: 42px; padding: 0 10px; font-size: 13px; }
 
@@ -330,7 +335,6 @@ z-index: 10005;
   .infoOverview { font-size: 15px; margin-bottom: 20px; }
   .infoPlayBtn { font-size: 15px; padding: 12px 16px; }
   .infoBackBtn { font-size: 16px; top: 10px; left: 10px; }
-  .infoBackBtn::before { font-size: 18px; }
 
   .seasonBtn { padding: 8px 14px; font-size: 13px; }
   .episodeThumb { width: 100px; min-width: 100px; height: 56px; }
