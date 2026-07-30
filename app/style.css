@@ -162,24 +162,11 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
 .infoPoster {
   width: 300px; height: 450px; border-radius: 16px; overflow: hidden; flex-shrink: 0;
 }
-.infoDetails {
-  flex: 1;
-  min-width: 280px;
-  width: 100%;
-}
+.infoDetails { flex: 1; min-width: 300px; }
 .infoTitle { font-size: 36px; margin-bottom: 15px; }
 .infoMeta { display: flex; gap: 20px; margin-bottom: 20px; color: #ccc; flex-wrap: wrap; }
 .infoOverview { font-size: 18px; line-height: 1.7; margin-bottom: 30px; color: #ddd; }
-
-/* ✅ FIXED: Play Button Container — always visible */
-.infoActions {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
+.infoActions { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
 .infoPlayBtn {
   background: #e50914; color: white; padding: 16px 40px; border-radius: 10px;
   font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px;
@@ -226,60 +213,40 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
   width: 100%; height: 100%;
   border: none;
 }
-
-/* New Server Selector */
-#serverSelector {
-  position: absolute; top: 20px; right: 20px;
-  z-index: 10005;
+#playerControls {
+  position: absolute; inset: 0;
+  z-index: 10004;
+  pointer-events: none;
 }
-#chooseServerBtn {
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.8);
-  border: 1px solid #333;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  backdrop-filter: blur(8px);
-  transition: background 0.2s;
+#topControls {
+  position: absolute; top: 20px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 15px;
+  padding: 12px 20px; background: rgba(0,0,0,.85);
+  backdrop-filter: blur(12px); border-radius: 14px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  pointer-events: auto;
 }
-#chooseServerBtn:hover {
-  background: #e50914;
-  border-color: #e50914;
+#playerModal:hover #topControls,
+#playerModal:active #topControls {
+  opacity: 1; visibility: visible;
 }
-.server-menu {
-  position: absolute; top: 110%; right: 0;
-  width: 160px;
-  background: rgba(0,0,0,0.9);
-  border: 1px solid #333;
-  border-radius: 8px;
-  margin-top: 8px;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
+.server1, .server2, #fullscreenBtn {
+  padding: 12px 24px; border-radius: 8px;
+  font-weight: 600; font-size: 18px;
+  min-width: 130px;
+  text-align: center;
+  pointer-events: auto;
 }
-.server-menu.active {
-  display: flex;
-}
-.server-option {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #222;
-  transition: background 0.2s;
-}
-.server-option:last-child {
-  border-bottom: none;
-}
-.server-option:hover {
-  background: #e50914;
-}
-
+.server1 { background: #e50914; color: #fff; }
+.server2 { background: #2a2a2a; color: #fff; }
 #backPlayer {
-  position: absolute; top: 20px; left: 20px;
+  position: absolute; top: 20px; right: 20px;
   width: 55px; height: 55px; border-radius: 50%;
   background: #e50914; color: #fff; font-size: 24px;
+  pointer-events: auto;
   display: flex; align-items: center; justify-content: center;
-  z-index: 10005;
 }
 .loading { padding: 40px; color: #aaa; text-align: center; font-size: 22px; }
 
@@ -291,57 +258,14 @@ button { border: none; background: none; font: inherit; color: inherit; cursor: 
   .sectionHeader h2 { font-size: 30px; }
 }
 @media(max-width:900px) {
-  .card { min-width: 160px; width: 160px; height: 240px; }
-  .heroContent h1 { font-size: 36px; }
-  .heroContent p { font-size: 16px; }
-  .infoPoster { width: 200px; height: 300px; margin: 0 auto; }
-  .infoTitle { font-size: 30px; }
+  .card { min-width: 170px; width: 170px; height: 255px; }
+  .heroContent h1 { font-size: 42px; }
+  .infoPoster { width: 220px; height: 330px; margin: 0 auto; }
   .infoDetails { text-align: center; }
-  .sectionHeader h2 { font-size: 22px; }
-  #movieSearchInput { max-width: 280px; font-size: 14px; }
-  #searchBtn { padding: 0 12px; font-size: 14px; }
 }
 @media(max-width:650px) {
-  #navbar { padding: 10px 12px; }
-  #menuBtn { width: 40px; height: 40px; font-size: 17px; }
-  #appTitle { font-size: 20px; }
-  #movieSearchInput { height: 42px; max-width: 160px; font-size: 13px; padding: 0 12px; }
-  #searchBtn { height: 42px; padding: 0 10px; font-size: 13px; }
-  #hero { padding: 100px 18px 30px; min-height: 60vh; }
-  .heroContent h1 { font-size: 28px; }
-  .heroContent p { font-size: 15px; }
-  .playBtn, .infoBtn { padding: 11px 22px; font-size: 16px; }
-  .card { min-width: 115px; width: 115px; height: 172px; }
-  .card p { font-size: 13px; padding: 10px; }
-  #content { padding: 18px; padding-top: 100px; }
-  .sectionHeader h2 { font-size: 20px; }
-  .row { gap: 12px; min-height: 200px; }
-  #infoPage { padding: 70px 18px 30px; }
-  .infoBackBtn, #backPlayer { width: 46px; height: 46px; font-size: 20px; top: 15px; }
-  .infoTitle { font-size: 26px; }
-  .infoOverview { font-size: 16px; }
-
-  /* ✅ MOBILE PLAY BUTTON FIX — always visible, full width & centered */
-  .infoDetails { text-align: center; }
-  .infoActions { justify-content: center; }
-  .infoPlayBtn {
-    width: 100% !important;
-    max-width: 350px;
-    box-sizing: border-box;
-    display: flex !important;
-  }
-
-  .seasonBtn { padding: 10px 18px; min-width: 100px; font-size: 15px; }
-  .episodesGrid { grid-template-columns: 1fr; gap: 14px; }
-  .episodeTitle { font-size: 16px; }
-  .episodeDesc { font-size: 13px; }
-  .episodeThumb { height: 130px; }
-  #chooseServerBtn { font-size: 13px; padding: 9px 14px; }
-  .server-menu { width: 130px; }
-  .server-option { padding: 10px 14px; font-size: 14px; }
-  #sidebar { width: 260px; left: -260px; padding: 15px; }
-  #sidebarHeader h2 { font-size: 26px; }
-  .sidebarLinks a { padding: 14px 15px; font-size: 16px; border-radius: 10px; }
-  .slideBtn { width: 40px; height: 40px; font-size: 18px; }
-  .loading { font-size: 18px; padding: 30px 20px; }
+  #navbar { padding: 12px; }
+  #appTitle { font-size: 22px; }
+  .card { min-width: 140px; width: 140px; height: 210px; }
+  .infoPlayBtn { width: 100%; }
 }
