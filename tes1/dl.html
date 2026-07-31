@@ -14,13 +14,13 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 
 /* === SEARCH === */
 .search-wrap{max-width:440px;margin:0 auto 12px;position:relative}
-#searchInput{width:100%;padding:9px 12px 9px 34px;border:none;border-radius:8px;background:var(--card);color:var(--txt);font-size:.9rem;outline:none}
-#searchInput:focus{box-shadow:var(--focus)}
+.searchField{width:100%;padding:9px 12px 9px 34px;border:none;border-radius:8px;background:var(--card);color:var(--txt);font-size:.9rem;outline:none}
+.searchField:focus{box-shadow:var(--focus)}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#999;font-size:1rem}
 .loading{text-align:center;padding:20px;color:#aaa}
 .error{color:var(--err);text-align:center;padding:15px;font-size:.9rem}
 
-/* === TOP TABS: Movies / Series / Apps / Websites === */
+/* === TABS === */
 .tabs{display:flex;gap:6px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 .tab{padding:7px 13px;background:var(--inactive);border:none;border-radius:7px;color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;outline:none;transition:all .2s}
 .tab.active{background:var(--pri)}
@@ -32,14 +32,23 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .card{background:var(--card);border-radius:9px;overflow:hidden;outline:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
 .card:focus,.btn:focus{transform:scale(1.025);box-shadow:var(--focus)}
-.img-wrap{width:100%;height:140px;background:#000;flex-shrink:0}
+
+/* === EMBED PLAYER === */
+.embed-container{position:relative;width:100%;padding-bottom:56.25%;background:#000;display:none}
+.embed-container.active{display:block}
+.embed-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.img-wrap{width:100%;height:140px;background:#000;flex-shrink:0;cursor:pointer;transition:opacity .2s}
+.img-wrap:hover{opacity:.9}
 img{width:100%;height:100%;object-fit:cover;display:block}
 .info{padding:10px;flex-grow:1;display:flex;flex-direction:column}
 h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 .desc{color:#bbb;font-size:.78rem;margin:0 0 9px;line-height:1.35}
-.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;text-decoration:none;font-weight:600;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s}
+.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;text-decoration:none;font-weight:600;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%}
 .btn:hover,.btn:focus{background:#0066cc}
+.btn-alt{background:#444;margin-top:6px}
+.btn-alt:hover{background:#555}
 .hidden{display:none !important}
+.warn{font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center}
 
 /* Responsive */
 @media (min-width:600px){.grid{grid-template-columns:repeat(3,1fr);gap:14px}.img-wrap{height:160px}.info{padding:12px};h3{font-size:1rem}}
@@ -70,17 +79,20 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
   <br><h2>📌 Local Movies</h2>
   <div class="grid">
   <div class="card" tabindex="0" data-name="colony 2026 movie 1080">
-    <div class="img-wrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMUYCz2NFboyTlMy68iu4coe37WPlrWDojkZZ1FVpFe2wXNjA6wdyTrECp&s=10" alt="Colony (2026)" loading="lazy"></div>
+    <div class="img-wrap" onclick="toggleEmbed(this, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMUYCz2NFboyTlMy68iu4coe37WPlrWDojkZZ1FVpFe2wXNjA6wdyTrECp&s=10" alt="Colony (2026)" loading="lazy">
+    </div>
+    <div class="embed-container"></div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264</div>
-      <a class="btn" href="https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to stream</div>
+      <a class="btn" href="https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download File</a>
     </div>
   </div>
   </div>
 </div>
 
-<!-- === 📺 SERIES / TV SHOWS — NEW === -->
+<!-- === 📺 SERIES === -->
 <div class="category" id="series">
   <div class="search-wrap"><span class="search-icon">🔍</span>
   <input type="text" class="searchField" placeholder="Search TV series...">
@@ -99,7 +111,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <h3>HONOR TV VIP 1.3</h3>
 <div class="desc">Smart TV & Android streaming app.</div>
 <a class="btn" href="https://maflix.qzz.io/HONOR%20TV%20(VIP)_1.3.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
-<p class="warn" style="font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center">⚠️ Update link</p>
+<p class="warn">⚠️ Update link</p>
 </div>
 </div>
 <div class="card" tabindex="0" data-name="maflix">
@@ -108,7 +120,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <h3>MAFLIX v1.1</h3>
 <div class="desc">Movies & series app.</div>
 <a class="btn" href="https://maflix.qzz.io/MAFLIX_1.1.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
-<p class="warn" style="font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center">⚠️ Fix file type</p>
+<p class="warn">⚠️ Fix file type</p>
 </div>
 </div>
 <div class="card" tabindex="0" data-name="ott tv">
@@ -117,7 +129,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <h3>OTT TV v1.7.2.2</h3>
 <div class="desc">IPTV & live player.<br><strong>Code:</strong> Not Set</div>
 <a class="btn" href="https://maflix.qzz.io/OTT%20TV_1.7.2.2.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
-<p class="warn" style="font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center">⚠️ Fix file type</p>
+<p class="warn">⚠️ Fix file type</p>
 </div>
 </div>
 </div>
@@ -135,7 +147,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 </div>
 </div>
 <div class="card" tabindex="0" data-name="masports live sports">
-<div class="img-wrap" style="background:linear-gradient(135deg,#34a853,#0d9668);display:flex;align-items:center;justify-content:center;font-size:2rem">⚽</div>
+<div class="img-wrap" style="background:linear-gradient(135deg,#34a853,#0d9668);display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:default">⚽</div>
 <div class="info">
 <h3>MASPORTS</h3>
 <div class="desc">Free live sports streaming</div>
@@ -150,9 +162,22 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <script>
 const TMDB_API_KEY = "b5632a62ba8688ec27b39712c1d5cfcc";
 const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
-// ✅ Correct VidVault paths
 const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
 const VIDVAULT_TV    = "https://vidvault.ru/tv/";
+
+// Toggle Embed Player — Click poster → show/hide iframe
+function toggleEmbed(posterEl, streamUrl){
+  const container=posterEl.nextElementSibling;
+  if(container.classList.contains('active')){
+    container.classList.remove('active');
+    container.innerHTML='';
+    posterEl.style.display='block';
+  }else{
+    posterEl.style.display='none';
+    container.classList.add('active');
+    container.innerHTML=`<iframe src="${streamUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
+  }
+}
 
 // Tab Switching
 const tabs=document.querySelectorAll('.tab'), cats=document.querySelectorAll('.category');
@@ -167,7 +192,6 @@ tabs.forEach(tab=>{
   });
 });
 
-// Shared loader
 function getEls(container){ return {grid:container.querySelector('.results'), loading:container.querySelector('.loading'), error:container.querySelector('.error')}; }
 
 function renderItems(list, grid, type){
@@ -177,13 +201,18 @@ function renderItems(list, grid, type){
     const poster=m.poster_path? `${TMDB_IMG_BASE}${m.poster_path}`:'https://via.placeholder.com/300x420/242426/f8f9fa?text=No+Poster';
     const year=(m.release_date||m.first_air_date)? (m.release_date||m.first_air_date).substring(0,4):'TBA';
     const title=m.title||m.name||'Untitled';
+    const streamLink=`${linkBase}${m.id}`;
     return `
     <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
-      <div class="img-wrap"><img src="${poster}" alt="${title}" loading="lazy"></div>
+      <div class="img-wrap" onclick="toggleEmbed(this, '${streamLink}')">
+        <img src="${poster}" alt="${title}" loading="lazy">
+      </div>
+      <div class="embed-container"></div>
       <div class="info">
         <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}</div>
-        <a class="btn" href="${linkBase}${m.id}" target="_blank" rel="noopener noreferrer nofollow">▶ Watch / Download</a>
+        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster to stream</div>
+        <a class="btn" href="${streamLink}" target="_blank" rel="noopener noreferrer nofollow">🔗 Open Page</a>
+        <a class="btn btn-alt" href="${streamLink}" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
       </div>
     </div>`;
   }).join('');
@@ -201,15 +230,12 @@ async function loadData(url, containerEl, type){
   finally{ loading.classList.add('hidden'); }
 }
 
-// Init & Search
 const moviesCat=document.getElementById('movies');
 const seriesCat=document.getElementById('series');
 
-// Load popular
 loadData(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=en-US`, moviesCat, 'movie');
 loadData(`https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}&language=en-US`, seriesCat, 'tv');
 
-// Search
 let timer;
 document.querySelectorAll('.searchField').forEach(inp=>{
   inp.addEventListener('input',e=>{
@@ -222,7 +248,6 @@ document.querySelectorAll('.searchField').forEach(inp=>{
   });
 });
 
-// 📺 TV Remote Navigation
 document.addEventListener('keydown',e=>{
   const activeCat=document.querySelector('.category.active');
   const visibleCards=Array.from(activeCat.querySelectorAll('.card:not(.hidden)'));
@@ -235,7 +260,8 @@ document.addEventListener('keydown',e=>{
     e.preventDefault();
     if(document.activeElement.classList.contains('tab'))document.activeElement.click();
     else if(document.activeElement.classList.contains('btn'))document.activeElement.click();
-    else if(document.activeElement.classList.contains('card'))document.activeElement.querySelector('.btn')?.focus();
+    else if(document.activeElement.classList.contains('img-wrap'))document.activeElement.click();
+    else if(document.activeElement.classList.contains('card'))document.activeElement.querySelector('.img-wrap')?.click()||document.activeElement.querySelector('.btn')?.focus();
   }
   else if(['Escape','Backspace'].includes(e.key)){e.preventDefault();document.body.focus()}
 });
