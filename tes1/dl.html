@@ -45,8 +45,6 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 .desc{color:#bbb;font-size:.78rem;margin:0 0 9px;line-height:1.35}
 .btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;text-decoration:none;font-weight:600;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%}
 .btn:hover,.btn:focus{background:#0066cc}
-.btn-alt{background:#444;margin-top:6px}
-.btn-alt:hover{background:#555}
 .hidden{display:none !important}
 .warn{font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center}
 
@@ -85,8 +83,8 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
     <div class="embed-container"></div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to stream</div>
-      <a class="btn" href="https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download File</a>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to play</div>
+      <a class="btn" href="https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
     </div>
   </div>
   </div>
@@ -165,7 +163,7 @@ const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
 const VIDVAULT_TV    = "https://vidvault.ru/tv/";
 
-// Toggle Embed Player — Click poster → show/hide iframe
+// Toggle iframe: click poster → load stream link
 function toggleEmbed(posterEl, streamUrl){
   const container=posterEl.nextElementSibling;
   if(container.classList.contains('active')){
@@ -210,9 +208,8 @@ function renderItems(list, grid, type){
       <div class="embed-container"></div>
       <div class="info">
         <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster to stream</div>
-        <a class="btn" href="${streamLink}" target="_blank" rel="noopener noreferrer nofollow">🔗 Open Page</a>
-        <a class="btn btn-alt" href="${streamLink}" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
+        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster to play</div>
+        <a class="btn" href="${streamLink}" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
       </div>
     </div>`;
   }).join('');
@@ -248,6 +245,7 @@ document.querySelectorAll('.searchField').forEach(inp=>{
   });
 });
 
+// TV Remote Navigation
 document.addEventListener('keydown',e=>{
   const activeCat=document.querySelector('.category.active');
   const visibleCards=Array.from(activeCat.querySelectorAll('.card:not(.hidden)'));
@@ -259,8 +257,8 @@ document.addEventListener('keydown',e=>{
   else if(['Enter',' '].includes(e.key)){
     e.preventDefault();
     if(document.activeElement.classList.contains('tab'))document.activeElement.click();
-    else if(document.activeElement.classList.contains('btn'))document.activeElement.click();
     else if(document.activeElement.classList.contains('img-wrap'))document.activeElement.click();
+    else if(document.activeElement.classList.contains('btn'))document.activeElement.click();
     else if(document.activeElement.classList.contains('card'))document.activeElement.querySelector('.img-wrap')?.click()||document.activeElement.querySelector('.btn')?.focus();
   }
   else if(['Escape','Backspace'].includes(e.key)){e.preventDefault();document.body.focus()}
