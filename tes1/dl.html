@@ -33,18 +33,15 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 .card{background:var(--card);border-radius:9px;overflow:hidden;outline:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
 .card:focus,.btn:focus{transform:scale(1.025);box-shadow:var(--focus)}
 
-/* === EMBED PLAYER — FULLSCREEN & CLOSE === */
-.embed-container{position:relative;width:100%;padding-bottom:56.25%;background:#000;display:none}
-.embed-container.active{display:block}
-.embed-container:-webkit-full-screen{width:100%;height:100%;padding-bottom:0}
-.embed-container:-ms-fullscreen{width:100%;height:100%;padding-bottom:0}
-.embed-container:fullscreen{width:100%;height:100%;padding-bottom:0}
+/* === FULLSCREEN IFRAME OVERLAY — EXACTLY WHAT YOU WANT === */
+.player-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;align-items:center;justify-content:center;padding:0}
+.player-overlay.active{display:flex}
+.player-wrapper{position:relative;width:100%;height:100%}
+.player-wrapper iframe{width:100%;height:100%;border:none;display:block;allowfullscreen allow="autoplay; fullscreen"}
 
-.embed-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;allowfullscreen allow="autoplay; fullscreen"}
-.close-btn{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.8);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;font-weight:bold;cursor:pointer;z-index:99;display:flex;align-items:center;justify-content:center;line-height:1}
+/* ✕ CLOSE BUTTON — ALWAYS ON TOP EVEN IN FULLSCREEN */
+.close-btn{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.85);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;font-weight:bold;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 10px rgba(0,0,0,.5)}
 .close-btn:hover{background:var(--pri)}
-/* Keep close button visible even in fullscreen */
-:fullscreen .close-btn,:-webkit-full-screen .close-btn,:-ms-fullscreen .close-btn{position:fixed}
 
 .img-wrap{width:100%;height:140px;background:#000;flex-shrink:0;cursor:pointer;transition:opacity .2s}
 .img-wrap:hover{opacity:.9}
@@ -64,6 +61,15 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 </style>
 </head>
 <body>
+
+<!-- ✅ GLOBAL FULL-SCREEN PLAYER OVERLAY -->
+<div class="player-overlay" id="globalPlayer">
+  <div class="player-wrapper">
+    <button class="close-btn" onclick="closeFullscreenPlayer()">✕</button>
+    <iframe id="streamFrame" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+  </div>
+</div>
+
 <div class="container">
 <h1>📺 Streaming Center</h1>
 
@@ -86,14 +92,13 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
   <br><h2>📌 Local Movies</h2>
   <div class="grid">
   <div class="card" tabindex="0" data-name="colony 2026 movie 1080">
-    <div class="img-wrap" onclick="openEmbed(this, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
+    <div class="img-wrap" onclick="openFullscreenPlayer('https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMUYCz2NFboyTlMy68iu4coe37WPlrWDojkZZ1FVpFe2wXNjA6wdyTrECp&s=10" alt="Colony (2026)" loading="lazy">
     </div>
-    <div class="embed-container"></div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Poster OR Button → play inside</div>
-      <button class="btn" onclick="openEmbed(this.closest('.card').querySelector('.img-wrap'), 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download / View</button>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Poster OR Button → Full‑Screen View</div>
+      <button class="btn" onclick="openFullscreenPlayer('https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download / View</button>
     </div>
   </div>
   </div>
@@ -172,32 +177,40 @@ const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
 const VIDVAULT_TV    = "https://vidvault.ru/tv/";
 
-// ✅ Open iframe — Poster OR Button
-function openEmbed(posterEl, streamUrl){
-  const container=posterEl.nextElementSibling;
-  if(container.classList.contains('active')){
-    closeEmbed(container,posterEl);
-  }else{
-    posterEl.style.display='none';
-    container.classList.add('active');
-    container.innerHTML=`
-      <button class="close-btn" onclick="closeEmbed(this.parentElement, this.closest('.card').querySelector('.img-wrap'))">✕</button>
-      <iframe src="${streamUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>
-    `;
-  }
+// ✅ FULL-SCREEN IFRAME — OPENS WHEN CLICK BUTTON OR POSTER
+function openFullscreenPlayer(streamUrl){
+  const overlay=document.getElementById('globalPlayer');
+  const frame=document.getElementById('streamFrame');
+  frame.src=streamUrl;
+  overlay.classList.add('active');
+  document.body.style.overflow='hidden';
 }
 
-// ✅ Close & exit fullscreen automatically
-function closeEmbed(container,posterEl){
+// ✕ CLOSE PLAYER — CLEARS LINK & RESTORE SCROLL
+function closeFullscreenPlayer(){
+  const overlay=document.getElementById('globalPlayer');
+  const frame=document.getElementById('streamFrame');
+  overlay.classList.remove('active');
+  frame.src='';
+  document.body.style.overflow='';
+  // exit browser fullscreen if active
   if(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement){
     if(document.exitFullscreen) document.exitFullscreen();
     else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
     else if(document.msExitFullscreen) document.msExitFullscreen();
   }
-  container.classList.remove('active');
-  container.innerHTML='';
-  posterEl.style.display='block';
 }
+
+// ESC KEY TO CLOSE
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'||e.key==='Backspace'){
+    const overlay=document.getElementById('globalPlayer');
+    if(overlay.classList.contains('active')){
+      e.preventDefault();
+      closeFullscreenPlayer();
+    }
+  }
+});
 
 // Tab Switching
 const tabs=document.querySelectorAll('.tab'), cats=document.querySelectorAll('.category');
@@ -224,14 +237,13 @@ function renderItems(list, grid, type){
     const streamLink=`${linkBase}${m.id}`;
     return `
     <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
-      <div class="img-wrap" onclick="openEmbed(this, '${streamLink}')">
+      <div class="img-wrap" onclick="openFullscreenPlayer('${streamLink}')">
         <img src="${poster}" alt="${title}" loading="lazy">
       </div>
-      <div class="embed-container"></div>
       <div class="info">
         <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Poster OR Button → open</div>
-        <button class="btn" onclick="openEmbed(this.closest('.card').querySelector('.img-wrap'), '${streamLink}')">⬇️ Download / View</button>
+        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Poster OR Button → Full‑Screen</div>
+        <button class="btn" onclick="openFullscreenPlayer('${streamLink}')">⬇️ Download / View</button>
       </div>
     </div>`;
   }).join('');
@@ -269,6 +281,9 @@ document.querySelectorAll('.searchField').forEach(inp=>{
 
 // TV Remote Navigation
 document.addEventListener('keydown',e=>{
+  const overlay=document.getElementById('globalPlayer');
+  if(overlay.classList.contains('active')) return; // ignore nav when player open
+
   const activeCat=document.querySelector('.category.active');
   const visibleCards=Array.from(activeCat.querySelectorAll('.card:not(.hidden)'));
   const focusable=[...Array.from(document.querySelectorAll('.tab')),...visibleCards.flatMap(c=>[c,c.querySelector('.btn')])].filter(Boolean);
@@ -282,7 +297,6 @@ document.addEventListener('keydown',e=>{
     else if(document.activeElement.classList.contains('img-wrap')||document.activeElement.classList.contains('btn'))document.activeElement.click();
     else if(document.activeElement.classList.contains('card'))document.activeElement.querySelector('.img-wrap')?.click()||document.activeElement.querySelector('.btn')?.focus();
   }
-  else if(['Escape','Backspace'].includes(e.key)){e.preventDefault();document.body.focus()}
 });
 </script>
 </body>
