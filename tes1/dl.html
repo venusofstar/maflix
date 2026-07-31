@@ -33,10 +33,10 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 .card{background:var(--card);border-radius:9px;overflow:hidden;outline:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
 .card:focus,.btn:focus{transform:scale(1.025);box-shadow:var(--focus)}
 
-/* === EMBED PLAYER === */
+/* === EMBED PLAYER — ONLY STAYS HERE === */
 .embed-container{position:relative;width:100%;padding-bottom:56.25%;background:#000;display:none}
 .embed-container.active{display:block}
-.embed-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.embed-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;allowfullscreen allow="autoplay; fullscreen"}
 .img-wrap{width:100%;height:140px;background:#000;flex-shrink:0;cursor:pointer;transition:opacity .2s}
 .img-wrap:hover{opacity:.9}
 img{width:100%;height:100%;object-fit:cover;display:block}
@@ -83,8 +83,8 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
     <div class="embed-container"></div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to play</div>
-      <a class="btn" href="https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to play ONLY here</div>
+      <button class="btn" onclick="triggerDownload(event, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download</button>
     </div>
   </div>
   </div>
@@ -108,7 +108,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>HONOR TV VIP 1.3</h3>
 <div class="desc">Smart TV & Android streaming app.</div>
-<a class="btn" href="https://maflix.qzz.io/HONOR%20TV%20(VIP)_1.3.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
+<a class="btn" href="https://maflix.qzz.io/HONOR%20TV%20(VIP)_1.3.apk" download rel="noopener noreferrer nofollow">⬇️ Download</a>
 <p class="warn">⚠️ Update link</p>
 </div>
 </div>
@@ -117,7 +117,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>MAFLIX v1.1</h3>
 <div class="desc">Movies & series app.</div>
-<a class="btn" href="https://maflix.qzz.io/MAFLIX_1.1.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
+<a class="btn" href="https://maflix.qzz.io/MAFLIX_1.1.apk" download rel="noopener noreferrer nofollow">⬇️ Download</a>
 <p class="warn">⚠️ Fix file type</p>
 </div>
 </div>
@@ -126,7 +126,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>OTT TV v1.7.2.2</h3>
 <div class="desc">IPTV & live player.<br><strong>Code:</strong> Not Set</div>
-<a class="btn" href="https://maflix.qzz.io/OTT%20TV_1.7.2.2.apk" target="_blank" rel="noopener noreferrer nofollow" download>⬇️ Download</a>
+<a class="btn" href="https://maflix.qzz.io/OTT%20TV_1.7.2.2.apk" download rel="noopener noreferrer nofollow">⬇️ Download</a>
 <p class="warn">⚠️ Fix file type</p>
 </div>
 </div>
@@ -163,7 +163,7 @@ const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
 const VIDVAULT_TV    = "https://vidvault.ru/tv/";
 
-// Toggle iframe: click poster → load stream link
+// ✅ Stream ONLY inside iframe — NEVER navigate away
 function toggleEmbed(posterEl, streamUrl){
   const container=posterEl.nextElementSibling;
   if(container.classList.contains('active')){
@@ -175,6 +175,18 @@ function toggleEmbed(posterEl, streamUrl){
     container.classList.add('active');
     container.innerHTML=`<iframe src="${streamUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
   }
+}
+
+// ✅ Download — prevent opening page
+function triggerDownload(e, url){
+  e.preventDefault();
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 // Tab Switching
@@ -208,8 +220,8 @@ function renderItems(list, grid, type){
       <div class="embed-container"></div>
       <div class="info">
         <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster to play</div>
-        <a class="btn" href="${streamLink}" download target="_blank" rel="noopener noreferrer nofollow">⬇️ Download</a>
+        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster — plays ONLY here</div>
+        <button class="btn" onclick="triggerDownload(event, '${streamLink}')">⬇️ Download</button>
       </div>
     </div>`;
   }).join('');
