@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Streaming Center</title>
 <style>
-:root{--pri:#1a73e8;--bg:#121212;--card:#242426;--txt:#f8f9fa;--warn:#ffcc00;--err:#e53935;--inactive:#3a3a3c;--focus:0 0 0 2px #4285f4,0 0 12px rgba(66,133,244,.5)}
+:root{--pri:#1a73e8;--bg:#121212;--card:#242426;--txt:#f8f9fa;--warn:#ffcc00;--err:#e53935;--inactive:#3a3a3c;--light:#38383a;--focus:0 0 0 2px #4285f4,0 0 12px rgba(66,133,244,.5)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font-family:Segoe UI,Roboto,sans-serif;padding:8px;min-height:100vh;line-height:1.35}
 .container{max-width:1100px;margin:0 auto}
 h1{text-align:center;font-size:clamp(1.15rem,3.8vw,2rem);margin:0 0 10px}
 h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
+h4{font-size:.9rem;margin:6px 0 4px}
 
 /* === SEARCH === */
 .search-wrap{max-width:440px;margin:0 auto 12px;position:relative}
@@ -34,14 +35,19 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 .card:focus,.btn:focus{transform:scale(1.025);box-shadow:var(--focus)}
 
 /* === FULLSCREEN IFRAME OVERLAY === */
-.player-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;align-items:center;justify-content:center;padding:0}
+.player-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;flex-direction:center;align-items:center;justify-content:center;padding:0}
 .player-overlay.active{display:flex}
-.player-wrapper{position:relative;width:100%;height:100%}
+.player-wrapper{position:relative;width:100%;height:100%;display:flex;flex-direction:column}
 .player-wrapper iframe{width:100%;height:100%;border:none;display:block;allowfullscreen allow="autoplay; fullscreen"}
 
 /* ✕ CLOSE BUTTON */
 .close-btn{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.85);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;font-weight:bold;cursor:pointer;z-index:99999;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 10px rgba(0,0,0,.5)}
 .close-btn:hover{background:var(--pri)}
+
+/* === SEASON & EPISODE SELECTOR === */
+.sel-bar{display:flex;gap:8px;padding:10px;background:var(--card);border-bottom:1px solid #000;z-index:20;flex-wrap:wrap}
+.sel-bar select{flex:1;min-width:120px;padding:8px 10px;border-radius:6px;background:var(--light);color:#fff;border:none;outline:none;font-size:.85rem;cursor:pointer}
+.sel-bar .btn{max-width:140px;padding:8px 12px;font-size:.85rem}
 
 .img-wrap{width:100%;height:140px;background:#000;flex-shrink:0;cursor:pointer;transition:opacity .2s}
 .img-wrap:hover{opacity:.9}
@@ -49,7 +55,7 @@ img{width:100%;height:100%;object-fit:cover;display:block}
 .info{padding:10px;flex-grow:1;display:flex;flex-direction:column}
 h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 .desc{color:#bbb;font-size:.78rem;margin:0 0 9px;line-height:1.35}
-.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%;font-weight:600;text-decoration:none;text-align:center}
+.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%;font-weight:600}
 .btn:hover,.btn:focus{background:#0066cc}
 .hidden{display:none !important}
 .warn{font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center}
@@ -57,16 +63,23 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 /* Responsive */
 @media (min-width:600px){.grid{grid-template-columns:repeat(3,1fr);gap:14px}.img-wrap{height:160px}.info{padding:12px};h3{font-size:1rem}}
 @media (min-width:1024px){.grid{grid-template-columns:repeat(4,240px);justify-content:center;gap:18px}.img-wrap{height:180px};body{padding:16px};h1{margin-bottom:16px};.tab{padding:9px 18px;font-size:.95rem}}
-@media (max-width:359px){.img-wrap{height:120px};.info{padding:8px};h3{font-size:.85rem};.desc{font-size:.75rem;margin-bottom:7px};.btn{padding:7px;font-size:.82rem}}
+@media (max-width:359px){.img-wrap{height:120px};.info{padding:8px};h3{font-size:.85rem};.desc{font-size:.75rem;margin-bottom:7px};.btn{padding:7px;font-size:.82rem};.sel-bar{flex-direction:column;gap:6px}}
 </style>
 </head>
 <body>
 
-<!-- ✅ GLOBAL FULL-SCREEN PLAYER OVERLAY -->
+<!-- ✅ GLOBAL FULL‑SCREEN PLAYER WITH SEASON/EP SELECTOR -->
 <div class="player-overlay" id="globalPlayer">
   <div class="player-wrapper">
     <button class="close-btn" onclick="closeFullscreenPlayer()">✕</button>
-    <iframe id="streamFrame" src="" allowfullscreen allow="autoplay; fullscreen" sandbox="allow-same-origin allow-scripts"></iframe>
+    <div class="sel-bar" id="seriesSelector" style="display:none">
+      <h4 style="color:#fff;margin:0 8px 0 0">Season:</h4>
+      <select id="seasonSelect" onchange="loadEpisodes()"> </select>
+      <h4 style="color:#fff;margin:0 8px 0 0">Episode:</h4>
+      <select id="episodeSelect" onchange="playEpisode()"> </select>
+      <button class="btn" onclick="playEpisode()">▶ Play</button>
+    </div>
+    <iframe id="streamFrame" src="" allowfullscreen allow="autoplay; fullscreen" style="flex:1"></iframe>
   </div>
 </div>
 
@@ -92,13 +105,13 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
   <br><h2>📌 Local Movies</h2>
   <div class="grid">
   <div class="card" tabindex="0" data-name="colony 2026 movie 1080">
-    <div class="img-wrap" onclick="openFullscreenPlayer('https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
+    <div class="img-wrap" onclick="openFullscreenPlayer('movie','https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMUYCz2NFboyTlMy68iu4coe37WPlrWDojkZZ1FVpFe2wXNjA6wdyTrECp&s=10" alt="Colony (2026)" loading="lazy">
     </div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264<br>⚠️ MKV usually downloads — not direct play in browser</div>
-      <button class="btn" onclick="openFullscreenPlayer('https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download / View</button>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click → Full‑Screen View</div>
+      <button class="btn" onclick="openFullscreenPlayer('movie','https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download / View</button>
     </div>
   </div>
   </div>
@@ -110,8 +123,23 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
   <input type="text" class="searchField" placeholder="Search TV series...">
   </div>
   <div class="grid results"></div>
-  <div class="loading">⚠️ API / Sources currently offline</div>
+  <div class="loading">Loading popular series...</div>
   <div class="error hidden"></div>
+
+  <br><h2>📌 Local Series</h2>
+  <div class="grid">
+  <!-- ✅ EXAMPLE: House of the Dragon — ID:94997 S01E01 format -->
+  <div class="card" tabindex="0" data-name="house of the dragon">
+    <div class="img-wrap" onclick="openFullscreenPlayer('tv',null,94997,1,10)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/7/70/House_of_the_Dragon_key_art.jpg" alt="House of the Dragon" loading="lazy">
+    </div>
+    <div class="info">
+      <h3>House of the Dragon (2022)</h3>
+      <div class="desc">S1–S10 · Fantasy · Drama<br>👆 Click → Pick Season & Episode</div>
+      <button class="btn" onclick="openFullscreenPlayer('tv',null,94997,1,10)">📺 Select Season & Episode</button>
+    </div>
+  </div>
+  </div>
 </div>
 
 <!-- === 📱 APPS === -->
@@ -122,8 +150,8 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>HONOR TV VIP 1.3</h3>
 <div class="desc">Smart TV & Android streaming app.</div>
-<a class="btn" href="https://maflix.qzz.io/HONOR%20TV%20" download rel="noopener noreferrer nofollow">⬇️ Download</a>
-<p class="warn">⚠️ Link dead / Update required</p>
+<a class="btn" href="#" download rel="noopener noreferrer nofollow" style="opacity:.7;cursor:not-allowed">⚠️ Link Dead</a>
+<p class="warn">Link unavailable</p>
 </div>
 </div>
 <div class="card" tabindex="0" data-name="maflix">
@@ -131,17 +159,17 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>MAFLIX v1.1</h3>
 <div class="desc">Movies & series app.</div>
-<a class="btn" href="https://maflix.qzz.io/MAFLIX_1.1.apk" download rel="noopener noreferrer nofollow">⬇️ Download</a>
-<p class="warn">⚠️ Server: Unsupported File Type</p>
+<a class="btn" href="#" download rel="noopener noreferrer nofollow" style="opacity:.7;cursor:not-allowed">⚠️ Unsupported File</a>
+<p class="warn">File type error</p>
 </div>
 </div>
 <div class="card" tabindex="0" data-name="ott tv">
 <div class="img-wrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ7MHfAy4aUvx6tWJ17dZtIlmnpXmgWRpwFq8Qe-oc13TOrd-IuPe2xU6p&s=10" alt="OTT TV" loading="lazy"></div>
 <div class="info">
 <h3>OTT TV v1.7.2.2</h3>
-<div class="desc">IPTV & live player.<br><strong>Code:</strong> Not Set</div>
-<a class="btn" href="https://maflix.qzz.io/OTT%20TV_1.7.2.2.apk" download rel="noopener noreferrer nofollow">⬇️ Download</a>
-<p class="warn">⚠️ Server: Unsupported File Type</p>
+<div class="desc">IPTV & live player.</div>
+<a class="btn" href="#" download rel="noopener noreferrer nofollow" style="opacity:.7;cursor:not-allowed">⚠️ Unsupported File</a>
+<p class="warn">File type error</p>
 </div>
 </div>
 </div>
@@ -155,7 +183,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>MAFLIX</h3>
 <div class="desc">Free movies & series site</div>
-<a class="btn blocked-link" data-href="https://maflix.dpdns.org/">🔗 Visit</a>
+<a class="btn" href="https://maflix.dpdns.org/" target="_blank" rel="noopener noreferrer nofollow">🔗 Visit</a>
 </div>
 </div>
 <div class="card" tabindex="0" data-name="masports live sports">
@@ -163,7 +191,7 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 <div class="info">
 <h3>MASPORTS</h3>
 <div class="desc">Free live sports streaming</div>
-<a class="btn blocked-link" data-href="https://masports.dpdns.org/">🔗 Visit</a>
+<a class="btn" href="https://masports.dpdns.org/" target="_blank" rel="noopener noreferrer nofollow">🔗 Visit</a>
 </div>
 </div>
 </div>
@@ -172,56 +200,71 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 </div>
 
 <script>
-// ==================================================
-// 🚫 BLOCK ALL NEW TABS / POPUPS / EXIT SITE — CORE
-// ==================================================
-document.addEventListener('click', function(e){
-  const target = e.target;
+const TMDB_API_KEY = "b5632a62ba8688ec27b39712c1d5cfcc";
+const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
+const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
+const VIDVAULT_TV    = "https://vidvault.ru/tv/";
 
-  // 1. Block default <a target="_blank"> completely
-  if(target.tagName==='A' && target.target==='_blank'){
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }
+let currentShowId=null, totalSeasons=1, totalEpisodesPerSeason=1;
 
-  // 2. Handle allowed sites WITHOUT opening new tabs — load inside overlay instead
-  if(target.classList.contains('blocked-link')){
-    e.preventDefault();
-    const goTo = target.getAttribute('data-href');
-    openFullscreenPlayer(goTo);
-  }
-}, true);
-
-// 3. Block right‑click → Open in New Tab / Window
-document.addEventListener('contextmenu', e=>{
-  if(e.target.tagName==='A') e.preventDefault();
-}, true);
-
-// 4. Block window.open & forced popups completely
-window.open = function(){ return null; };
-
-// 5. Prevent beforeunload / leaving site accidentally
-window.addEventListener('beforeunload', e=>e.preventDefault());
-
-// ==================================================
-// ✅ FULL‑SCREEN IFRAME PLAYER
-// ==================================================
-function openFullscreenPlayer(streamUrl){
+// ✅ OPEN PLAYER: Movies direct / Series → Season+Episode selector
+function openFullscreenPlayer(type, directUrl=null, showId=null, maxSeasons=1, maxEps=10){
   const overlay=document.getElementById('globalPlayer');
   const frame=document.getElementById('streamFrame');
-  // Add X‑Frame protection warning
-  frame.setAttribute('sandbox','allow-same-origin allow-scripts');
-  frame.src=streamUrl;
+  const selector=document.getElementById('seriesSelector');
+
+  if(type==='movie'){
+    selector.style.display='none';
+    frame.src=directUrl;
+  }else{
+    // SERIES: Show Season/Episode dropdown
+    currentShowId=showId; totalSeasons=maxSeasons; totalEpisodesPerSeason=maxEps;
+    selector.style.display='flex';
+    buildSeasonList();
+    return;
+  }
   overlay.classList.add('active');
   document.body.style.overflow='hidden';
 }
 
+function buildSeasonList(){
+  const sel=document.getElementById('seasonSelect');
+  sel.innerHTML='';
+  for(let s=1;s<=totalSeasons;s++){
+    const opt=document.createElement('option');opt.value=s;opt.textContent=`Season ${s}`;sel.appendChild(opt);
+  }
+  loadEpisodes();
+  document.getElementById('globalPlayer').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function loadEpisodes(){
+  const season=parseInt(document.getElementById('seasonSelect').value);
+  const sel=document.getElementById('episodeSelect');
+  sel.innerHTML='';
+  // Default: fixed 10 eps — extend with real TMDB counts later
+  for(let e=1;e<=totalEpisodesPerSeason;e++){
+    const opt=document.createElement('option');opt.value=e;opt.textContent=`Ep ${e}`;sel.appendChild(opt);
+  }
+  playEpisode();
+}
+
+function playEpisode(){
+  const s=document.getElementById('seasonSelect').value;
+  const e=document.getElementById('episodeSelect').value;
+  const frame=document.getElementById('streamFrame');
+  // ✅ EXACT VIDVAULT FORMAT: /tv/ID/SEASON/EPISODE
+  frame.src=`${VIDVAULT_TV}${currentShowId}/${s}/${e}`;
+}
+
+// ✕ CLOSE PLAYER
 function closeFullscreenPlayer(){
   const overlay=document.getElementById('globalPlayer');
   const frame=document.getElementById('streamFrame');
+  const selector=document.getElementById('seriesSelector');
   overlay.classList.remove('active');
   frame.src='';
+  selector.style.display='none';
   document.body.style.overflow='';
   if(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement){
     if(document.exitFullscreen) document.exitFullscreen();
@@ -230,14 +273,10 @@ function closeFullscreenPlayer(){
   }
 }
 
-// ESC / BACK TO CLOSE
+// ESC / BACKSPACE TO CLOSE
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'||e.key==='Backspace'){
-    const overlay=document.getElementById('globalPlayer');
-    if(overlay.classList.contains('active')){
-      e.preventDefault();
-      closeFullscreenPlayer();
-    }
+  if((e.key==='Escape'||e.key==='Backspace') && document.getElementById('globalPlayer').classList.contains('active')){
+    e.preventDefault();closeFullscreenPlayer();
   }
 });
 
@@ -254,36 +293,40 @@ tabs.forEach(tab=>{
   });
 });
 
-// ==================================================
-// ⚠️ ALL SOURCES CURRENTLY DEAD — MARKED
-// TMDB API KEY / IMAGES / VIDVAULT ALL OFFLINE
-// ==================================================
-const TMDB_API_KEY = "b5632a62ba8688ec27b39712c1d5cfcc";
-const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500"; // ❌ DEAD LINK
-const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";      // ❌ 404
-const VIDVAULT_TV    = "https://vidvault.ru/tv/";         // ❌ 404
-
 function getEls(container){ return {grid:container.querySelector('.results'), loading:container.querySelector('.loading'), error:container.querySelector('.error')}; }
 
 function renderItems(list, grid, type){
-  if(!list.length){ grid.innerHTML='<p class="error">Nothing found — sources offline</p>'; return; }
-  const linkBase=type==='tv'? VIDVAULT_TV : VIDVAULT_MOVIE;
+  if(!list.length){ grid.innerHTML='<p class="error">⚠️ API currently unavailable</p>'; return; }
   grid.innerHTML=list.map(m=>{
-    const poster='https://via.placeholder.com/300x420/242426/f8f9fa?text=No+Poster'; // ❌ Fallback only
+    const poster=m.poster_path? `${TMDB_IMG_BASE}${m.poster_path}`:'https://via.placeholder.com/300x420/242426/f8f9fa?text=No+Poster';
     const year=(m.release_date||m.first_air_date)? (m.release_date||m.first_air_date).substring(0,4):'TBA';
     const title=m.title||m.name||'Untitled';
-    const streamLink=`${linkBase}${m.id}`;
-    return `
-    <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
-      <div class="img-wrap" onclick="openFullscreenPlayer('${streamLink}')">
-        <img src="${poster}" alt="${title}" loading="lazy">
-      </div>
-      <div class="info">
-        <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>⚠️ Stream link currently dead</div>
-        <button class="btn" onclick="openFullscreenPlayer('${streamLink}')">⚠️ Unavailable</button>
-      </div>
-    </div>`;
+    if(type==='tv'){
+      return `
+      <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
+        <div class="img-wrap" onclick="openFullscreenPlayer('tv',null,${m.id},1,10)">
+          <img src="${poster}" alt="${title}" loading="lazy">
+        </div>
+        <div class="info">
+          <h3>${title}</h3>
+          <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click → Pick Season & Episode</div>
+          <button class="btn" onclick="openFullscreenPlayer('tv',null,${m.id},1,10)">📺 Select Season & Episode</button>
+        </div>
+      </div>`;
+    }else{
+      const streamLink=`${VIDVAULT_MOVIE}${m.id}`;
+      return `
+      <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
+        <div class="img-wrap" onclick="openFullscreenPlayer('movie','${streamLink}')">
+          <img src="${poster}" alt="${title}" loading="lazy">
+        </div>
+        <div class="info">
+          <h3>${title}</h3>
+          <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click → Full‑Screen View</div>
+          <button class="btn" onclick="openFullscreenPlayer('movie','${streamLink}')">⬇️ Download / View</button>
+        </div>
+      </div>`;
+    }
   }).join('');
 }
 
@@ -296,17 +339,17 @@ async function loadData(url, containerEl, type){
     const data=await res.json();
     renderItems(data.results||[], grid, type);
   }catch(err){ 
-    error.textContent='⚠️ TMDB / API Sources currently unreachable'; 
+    error.textContent='⚠️ TMDB API currently unreachable'; 
     error.classList.remove('hidden'); 
-  }
-  finally{ loading.classList.add('hidden'); }
+  }finally{ loading.classList.add('hidden'); }
 }
 
-// ❌ DISABLED UNTIL LINKS FIXED:
-// const moviesCat=document.getElementById('movies');
-// const seriesCat=document.getElementById('series');
-// loadData(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=en-US`, moviesCat, 'movie');
-// loadData(`https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}&language=en-US`, seriesCat, 'tv');
+const moviesCat=document.getElementById('movies');
+const seriesCat=document.getElementById('series');
+
+// ⚠️ API endpoints currently dead — will restore automatically when fixed
+loadData(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=en-US`, moviesCat, 'movie');
+loadData(`https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}&language=en-US`, seriesCat, 'tv');
 
 let timer;
 document.querySelectorAll('.searchField').forEach(inp=>{
@@ -314,14 +357,15 @@ document.querySelectorAll('.searchField').forEach(inp=>{
     clearTimeout(timer);
     const q=e.target.value.trim();
     const cat=inp.closest('.category');
-    cat.querySelector('.results').innerHTML=`<p class="error">Search unavailable — sources offline</p>`;
+    const type=cat.id==='series'?'tv':'movie';
+    const endpoint=q? `/search/${type}?query=${encodeURIComponent(q)}` : (type==='tv'?'/tv/popular':'/movie/popular');
+    timer=setTimeout(()=> loadData(`https://api.themoviedb.org/3${endpoint}&api_key=${TMDB_API_KEY}&language=en-US`, cat, type), 400);
   });
 });
 
 // TV Remote Navigation
 document.addEventListener('keydown',e=>{
-  const overlay=document.getElementById('globalPlayer');
-  if(overlay.classList.contains('active')) return;
+  if(document.getElementById('globalPlayer').classList.contains('active')) return;
 
   const activeCat=document.querySelector('.category.active');
   const visibleCards=Array.from(activeCat.querySelectorAll('.card:not(.hidden)'));
