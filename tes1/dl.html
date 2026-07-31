@@ -33,17 +33,20 @@ h2{font-size:1rem;margin:8px 0 12px;color:#ddd}
 .card{background:var(--card);border-radius:9px;overflow:hidden;outline:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
 .card:focus,.btn:focus{transform:scale(1.025);box-shadow:var(--focus)}
 
-/* === EMBED PLAYER — ONLY STAYS HERE === */
+/* === EMBED PLAYER — NO NAVIGATION EVER === */
 .embed-container{position:relative;width:100%;padding-bottom:56.25%;background:#000;display:none}
 .embed-container.active{display:block}
 .embed-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;allowfullscreen allow="autoplay; fullscreen"}
+.close-btn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.75);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center}
+.close-btn:hover{background:var(--pri)}
+
 .img-wrap{width:100%;height:140px;background:#000;flex-shrink:0;cursor:pointer;transition:opacity .2s}
 .img-wrap:hover{opacity:.9}
 img{width:100%;height:100%;object-fit:cover;display:block}
 .info{padding:10px;flex-grow:1;display:flex;flex-direction:column}
 h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
 .desc{color:#bbb;font-size:.78rem;margin:0 0 9px;line-height:1.35}
-.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;text-decoration:none;font-weight:600;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%}
+.btn{display:block;padding:8px;background:var(--pri);color:#fff;text-align:center;border-radius:6px;outline:none;font-size:.85rem;transition:background .2s;border:none;cursor:pointer;width:100%;font-weight:600}
 .btn:hover,.btn:focus{background:#0066cc}
 .hidden{display:none !important}
 .warn{font-size:.7rem;color:var(--warn);margin-top:5px;text-align:center}
@@ -77,14 +80,14 @@ h3{font-size:.9rem;margin:0 0 5px;line-height:1.2}
   <br><h2>📌 Local Movies</h2>
   <div class="grid">
   <div class="card" tabindex="0" data-name="colony 2026 movie 1080">
-    <div class="img-wrap" onclick="toggleEmbed(this, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
+    <div class="img-wrap" onclick="openEmbed(this, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMUYCz2NFboyTlMy68iu4coe37WPlrWDojkZZ1FVpFe2wXNjA6wdyTrECp&s=10" alt="Colony (2026)" loading="lazy">
     </div>
     <div class="embed-container"></div>
     <div class="info">
       <h3>Colony (2026)</h3>
-      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Click poster to play ONLY here</div>
-      <button class="btn" onclick="triggerDownload(event, 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download</button>
+      <div class="desc">1080p WEB‑DL · MKV H.264<br>👆 Poster OR Button → open inside</div>
+      <button class="btn" onclick="openEmbed(this.closest('.card').querySelector('.img-wrap'), 'https://download2363.mediafire.com/soalqg7hjsvg47nzAMIOk6W1bWHReAfLP82Gwhq-qq0kifKZYJ3mRB0Os2FPg4s2ssrnl33XHKnN5ED-Kz8xj_vqnK_xg1olk_1TBdlNXDQqF0QLTiPe5dvrJAKg_wuikqTb4N5G8xAUO8ne_N658Y-J7BpeOq8r9YAOU-PFU_E0_A/webr81e7rflzj81/Colony.2026.1080p.WAVVE.WEB-DL.AAC2.0.H.264-DepWeb.mkv')">⬇️ Download / View</button>
     </div>
   </div>
   </div>
@@ -163,30 +166,25 @@ const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w500";
 const VIDVAULT_MOVIE = "https://vidvault.ru/movie/";
 const VIDVAULT_TV    = "https://vidvault.ru/tv/";
 
-// ✅ Stream ONLY inside iframe — NEVER navigate away
-function toggleEmbed(posterEl, streamUrl){
+// ✅ Poster OR Button → load inside iframe ONLY — NO NAVIGATION
+function openEmbed(posterEl, streamUrl){
   const container=posterEl.nextElementSibling;
   if(container.classList.contains('active')){
-    container.classList.remove('active');
-    container.innerHTML='';
-    posterEl.style.display='block';
+    closeEmbed(container,posterEl);
   }else{
     posterEl.style.display='none';
     container.classList.add('active');
-    container.innerHTML=`<iframe src="${streamUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
+    container.innerHTML=`
+      <button class="close-btn" onclick="closeEmbed(this.parentElement, this.closest('.card').querySelector('.img-wrap'))">✕</button>
+      <iframe src="${streamUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>
+    `;
   }
 }
 
-// ✅ Download — prevent opening page
-function triggerDownload(e, url){
-  e.preventDefault();
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '';
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+function closeEmbed(container,posterEl){
+  container.classList.remove('active');
+  container.innerHTML='';
+  posterEl.style.display='block';
 }
 
 // Tab Switching
@@ -214,14 +212,14 @@ function renderItems(list, grid, type){
     const streamLink=`${linkBase}${m.id}`;
     return `
     <div class="card" tabindex="0" data-name="${title.toLowerCase()}">
-      <div class="img-wrap" onclick="toggleEmbed(this, '${streamLink}')">
+      <div class="img-wrap" onclick="openEmbed(this, '${streamLink}')">
         <img src="${poster}" alt="${title}" loading="lazy">
       </div>
       <div class="embed-container"></div>
       <div class="info">
         <h3>${title}</h3>
-        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click poster — plays ONLY here</div>
-        <button class="btn" onclick="triggerDownload(event, '${streamLink}')">⬇️ Download</button>
+        <div class="desc">${year} · ⭐ ${(m.vote_average||0).toFixed(1)}<br>👆 Click Poster OR Button</div>
+        <button class="btn" onclick="openEmbed(this.closest('.card').querySelector('.img-wrap'), '${streamLink}')">⬇️ Download / View</button>
       </div>
     </div>`;
   }).join('');
@@ -269,8 +267,7 @@ document.addEventListener('keydown',e=>{
   else if(['Enter',' '].includes(e.key)){
     e.preventDefault();
     if(document.activeElement.classList.contains('tab'))document.activeElement.click();
-    else if(document.activeElement.classList.contains('img-wrap'))document.activeElement.click();
-    else if(document.activeElement.classList.contains('btn'))document.activeElement.click();
+    else if(document.activeElement.classList.contains('img-wrap')||document.activeElement.classList.contains('btn'))document.activeElement.click();
     else if(document.activeElement.classList.contains('card'))document.activeElement.querySelector('.img-wrap')?.click()||document.activeElement.querySelector('.btn')?.focus();
   }
   else if(['Escape','Backspace'].includes(e.key)){e.preventDefault();document.body.focus()}
