@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Spider-Man: Brand New Day — Movie Player</title>
 
@@ -15,11 +15,22 @@
   padding: 0;
 }
 
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
 body {
   background: #050505;
   color: #fff;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
 }
 
 .container {
@@ -29,38 +40,49 @@ body {
   padding: 20px;
 }
 
+/* TITLE */
+
 .title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 15px;
 }
 
+/* PLAYER */
+
 .player {
   position: relative;
   width: 100%;
+  aspect-ratio: 16 / 9;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 35px rgba(0,0,0,.45);
 }
 
 video {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
   background: #000;
+  object-fit: contain;
 }
 
+/* SERVER TITLE */
+
 .server-title {
-  margin-top: 18px;
+  margin-top: 20px;
   margin-bottom: 10px;
   font-size: 16px;
-  color: #bbb;
+  font-weight: 600;
+  color: #ccc;
 }
+
+/* SERVERS */
 
 .servers {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
 
@@ -68,15 +90,25 @@ video {
   border: 1px solid #333;
   background: #151515;
   color: #fff;
-  padding: 14px 10px;
+  padding: 13px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: .2s;
+  font-weight: 600;
+  transition:
+    background .2s,
+    color .2s,
+    border-color .2s,
+    transform .15s;
 }
 
 .server-btn:hover {
-  background: #222;
+  background: #242424;
+  border-color: #555;
+}
+
+.server-btn:active {
+  transform: scale(.97);
 }
 
 .server-btn.active {
@@ -85,16 +117,30 @@ video {
   border-color: #fff;
 }
 
+/* STATUS */
+
 .status {
   margin-top: 12px;
-  padding: 10px;
+  padding: 11px 13px;
   background: #111;
-  border-radius: 7px;
+  border: 1px solid #222;
+  border-radius: 8px;
   color: #aaa;
   font-size: 13px;
 }
 
-@media(max-width:600px) {
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+  .servers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 500px) {
+
   .container {
     padding: 10px;
   }
@@ -104,8 +150,15 @@ video {
   }
 
   .servers {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
+
+  .server-btn {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+
 }
 </style>
 </head>
@@ -114,22 +167,35 @@ video {
 
 <div class="container">
 
+  <!-- MOVIE TITLE -->
+
   <div class="title">
     Spider-Man: Brand New Day (2026)
   </div>
 
+
+  <!-- VIDEO PLAYER -->
+
   <div class="player">
+
     <video
       id="video"
       controls
       playsinline
       preload="metadata">
     </video>
+
   </div>
+
+
+  <!-- SERVER TITLE -->
 
   <div class="server-title">
     Select Server
   </div>
+
+
+  <!-- SERVER BUTTONS -->
 
   <div class="servers">
 
@@ -151,15 +217,37 @@ video {
       Server 3 — HLS
     </button>
 
+    <button
+      class="server-btn"
+      onclick="playServer(3)">
+      Server 4
+    </button>
+
+    <button
+      class="server-btn"
+      onclick="playServer(4)">
+      Server 5
+    </button>
+
   </div>
 
-  <div class="status" id="status">
+
+  <!-- STATUS -->
+
+  <div
+    class="status"
+    id="status">
     Loading Server 1...
   </div>
 
 </div>
 
+
 <script>
+
+/* =========================================================
+   SERVER LIST
+========================================================= */
 
 const servers = [
 
@@ -179,45 +267,117 @@ const servers = [
     name: "Server 3",
     url: "https://streamings.honor-tv.42web.io/spidemanbrandnewday2026/vod.m3u8",
     type: "application/x-mpegURL"
+  },
+
+  {
+    name: "Server 4",
+    url: "https://movies.honor-tv.42web.io/video/spider-man-brandnew-2026-s2",
+    type: "video/mp4"
+  },
+
+  {
+    name: "Server 5",
+    url: "https://movies.honor-tv.42web.io/video/spiderman-brandnew-2026",
+    type: "video/mp4"
   }
 
 ];
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
 
 const video = document.getElementById("video");
 const statusText = document.getElementById("status");
 const buttons = document.querySelectorAll(".server-btn");
 
 let hls = null;
+let currentServer = 0;
+
+
+/* =========================================================
+   DESTROY HLS
+========================================================= */
 
 function destroyHLS() {
 
   if (hls) {
-    hls.destroy();
+
+    try {
+      hls.destroy();
+    } catch (e) {
+      console.error(e);
+    }
+
     hls = null;
   }
 
 }
 
+
+/* =========================================================
+   UPDATE BUTTONS
+========================================================= */
+
+function updateButtons(index) {
+
+  buttons.forEach((button, i) => {
+
+    button.classList.toggle(
+      "active",
+      i === index
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(message) {
+
+  statusText.textContent = message;
+
+}
+
+
+/* =========================================================
+   PLAY SERVER
+========================================================= */
+
 function playServer(index) {
+
+  if (!servers[index]) {
+    return;
+  }
+
+  currentServer = index;
 
   const server = servers[index];
 
+  updateButtons(index);
+
   destroyHLS();
 
-  buttons.forEach((button, i) => {
-    button.classList.toggle("active", i === index);
-  });
-
-  statusText.textContent =
-    "Connecting to " + server.name + "...";
-
   video.pause();
+
   video.removeAttribute("src");
+
   video.load();
 
-  /*
-   * MP4
-   */
+  setStatus(
+    "Connecting to " + server.name + "..."
+  );
+
+
+  /* =======================================================
+     MP4
+  ======================================================= */
+
   if (server.type === "video/mp4") {
 
     video.src = server.url;
@@ -226,118 +386,264 @@ function playServer(index) {
 
     video.play()
       .then(() => {
-        statusText.textContent =
-          server.name + " — Playing";
+
+        setStatus(
+          server.name + " — Playing"
+        );
+
       })
       .catch(() => {
-        statusText.textContent =
-          server.name + " — Ready. Press Play.";
+
+        setStatus(
+          server.name + " — Ready. Press Play."
+        );
+
       });
 
     return;
   }
 
-  /*
-   * HLS
-   */
+
+  /* =======================================================
+     HLS
+  ======================================================= */
+
   if (server.type === "application/x-mpegURL") {
 
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
 
-      // Safari / native HLS
+    /* Native HLS */
+
+    if (
+      video.canPlayType(
+        "application/vnd.apple.mpegurl"
+      )
+    ) {
+
       video.src = server.url;
+
       video.load();
 
       video.play()
         .then(() => {
-          statusText.textContent =
-            server.name + " — Playing";
+
+          setStatus(
+            server.name + " — Playing"
+          );
+
         })
         .catch(() => {
-          statusText.textContent =
-            server.name + " — Ready. Press Play.";
+
+          setStatus(
+            server.name + " — Ready. Press Play."
+          );
+
         });
 
-    } else if (Hls.isSupported()) {
+      return;
+    }
+
+
+    /* HLS.js */
+
+    if (
+      typeof Hls !== "undefined" &&
+      Hls.isSupported()
+    ) {
 
       hls = new Hls({
+
         enableWorker: true,
-        lowLatencyMode: false
+
+        lowLatencyMode: false,
+
+        backBufferLength: 90,
+
+        maxBufferLength: 30,
+
+        maxMaxBufferLength: 60
+
       });
+
 
       hls.loadSource(server.url);
+
       hls.attachMedia(video);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
 
-        statusText.textContent =
-          server.name + " — Playing";
+      hls.on(
+        Hls.Events.MANIFEST_PARSED,
+        function () {
 
-        video.play().catch(() => {
-          statusText.textContent =
-            server.name + " — Ready. Press Play.";
-        });
+          setStatus(
+            server.name + " — Playing"
+          );
 
-      });
+          video.play()
+            .catch(() => {
 
-      hls.on(Hls.Events.ERROR, function(event, data) {
+              setStatus(
+                server.name +
+                " — Ready. Press Play."
+              );
 
-        console.error("HLS Error:", data);
-
-        if (data.fatal) {
-
-          statusText.textContent =
-            server.name + " — Stream error";
+            });
 
         }
+      );
 
-      });
 
-    } else {
+      hls.on(
+        Hls.Events.ERROR,
+        function (event, data) {
 
-      statusText.textContent =
-        "This browser does not support HLS.";
+          console.error(
+            "HLS Error:",
+            data
+          );
 
+          if (data.fatal) {
+
+            setStatus(
+              server.name +
+              " — Stream error"
+            );
+
+          }
+
+        }
+      );
+
+
+      return;
     }
+
+
+    setStatus(
+      "This browser does not support HLS."
+    );
 
   }
 
 }
 
-/*
- * Video events
- */
 
-video.addEventListener("waiting", () => {
-  statusText.textContent = "Buffering...";
-});
+/* =========================================================
+   VIDEO EVENTS
+========================================================= */
 
-video.addEventListener("playing", () => {
+video.addEventListener(
+  "loadstart",
+  function () {
 
-  const active =
-    document.querySelector(".server-btn.active");
+    setStatus(
+      servers[currentServer].name +
+      " — Loading..."
+    );
 
-  if (active) {
-    statusText.textContent =
-      active.textContent.trim() + " — Playing";
   }
+);
 
-});
 
-video.addEventListener("ended", () => {
-  statusText.textContent = "Movie ended.";
-});
+video.addEventListener(
+  "loadedmetadata",
+  function () {
 
-video.addEventListener("error", () => {
+    setStatus(
+      servers[currentServer].name +
+      " — Ready"
+    );
 
-  statusText.textContent =
-    "Unable to play this server. Try another server.";
+  }
+);
 
-});
 
-/*
- * Start Server 1
- */
+video.addEventListener(
+  "waiting",
+  function () {
+
+    setStatus(
+      servers[currentServer].name +
+      " — Buffering..."
+    );
+
+  }
+);
+
+
+video.addEventListener(
+  "canplay",
+  function () {
+
+    setStatus(
+      servers[currentServer].name +
+      " — Ready"
+    );
+
+  }
+);
+
+
+video.addEventListener(
+  "playing",
+  function () {
+
+    setStatus(
+      servers[currentServer].name +
+      " — Playing"
+    );
+
+  }
+);
+
+
+video.addEventListener(
+  "pause",
+  function () {
+
+    if (
+      !video.ended &&
+      video.currentTime > 0
+    ) {
+
+      setStatus(
+        servers[currentServer].name +
+        " — Paused"
+      );
+
+    }
+
+  }
+);
+
+
+video.addEventListener(
+  "ended",
+  function () {
+
+    setStatus(
+      "Movie ended."
+    );
+
+  }
+);
+
+
+video.addEventListener(
+  "error",
+  function () {
+
+    setStatus(
+      servers[currentServer].name +
+      " — Unable to play. Try another server."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   START SERVER 1
+========================================================= */
 
 playServer(0);
 
