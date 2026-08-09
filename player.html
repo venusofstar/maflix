@@ -1,8 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0,user-scalable=no"
+>
 
 <title>HONOR TV Player</title>
 
@@ -13,15 +17,17 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   background: #000;
   color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -30,16 +36,10 @@ body {
   justify-content: center;
 }
 
-.player-container {
-  width: 100%;
-  max-width: 1200px;
-  background: #000;
-}
-
-.video-wrapper {
+.player {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 100vw;
+  height: 100vh;
   background: #000;
   overflow: hidden;
 }
@@ -52,33 +52,344 @@ video {
   object-fit: contain;
 }
 
-.message {
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
   position: absolute;
   inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0,0,0,.45);
+
+  z-index: 20;
+
+  transition: opacity .2s ease;
+}
+
+.loading.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 52px;
+  height: 52px;
+
+  border: 5px solid rgba(255,255,255,.25);
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  animation: spin .7s linear infinite;
+}
+
+.loading-text {
+  margin-top: 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.error {
+  position: absolute;
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  background: rgba(0,0,0,.9);
+
+  z-index: 30;
+
+  text-align: center;
+  padding: 25px;
+}
+
+.error.show {
+  display: flex;
+}
+
+.error-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.error-text {
+  color: #aaa;
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   CONTROLS
+===================================================== */
+
+.controls {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 70px 25px 25px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0,0,0,.92)
+    );
+
+  z-index: 15;
+
+  opacity: 0;
+  transform: translateY(10px);
+
+  transition:
+    opacity .25s,
+    transform .25s;
+
+  pointer-events: none;
+}
+
+.player.controls-visible .controls {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-area {
+  width: 100%;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.progress {
+  width: 100%;
+  height: 7px;
+
+  appearance: none;
+
+  background: rgba(255,255,255,.35);
+
+  border-radius: 10px;
+
+  outline: none;
+}
+
+.progress::-webkit-slider-thumb {
+  appearance: none;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  cursor: pointer;
+}
+
+.progress::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: #fff;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   BUTTON ROW
+===================================================== */
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+.control-btn {
+  min-width: 64px;
+  height: 52px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: rgba(30,30,30,.9);
+  color: #fff;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: rgba(0,0,0,.75);
-
-  color: #fff;
-  font-size: 15px;
-  text-align: center;
-
-  padding: 20px;
-
-  pointer-events: none;
+  outline: none;
 }
 
-.hidden {
-  display: none;
+.control-btn span {
+  font-size: 12px;
+  margin-left: 4px;
 }
 
-@media(max-width:600px) {
+.control-btn:hover,
+.control-btn:focus,
+.control-btn.focused {
+  background: #fff;
+  color: #000;
 
-  .video-wrapper {
-    aspect-ratio: 16 / 9;
+  transform: scale(1.05);
+}
+
+.time {
+  margin-left: auto;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   TOP TITLE
+===================================================== */
+
+.title {
+  position: absolute;
+
+  top: 20px;
+  left: 25px;
+
+  z-index: 15;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  text-shadow: 0 2px 8px #000;
+
+  opacity: 0;
+
+  transition: opacity .25s;
+}
+
+.player.controls-visible .title {
+  opacity: 1;
+}
+
+
+/* =====================================================
+   REMOTE HINT
+===================================================== */
+
+.remote-hint {
+  position: absolute;
+
+  top: 20px;
+  right: 25px;
+
+  z-index: 15;
+
+  padding: 8px 12px;
+
+  background: rgba(0,0,0,.65);
+
+  border-radius: 6px;
+
+  color: #ccc;
+
+  font-size: 12px;
+
+  opacity: 0;
+
+  transition: opacity .25s;
+}
+
+.player.controls-visible .remote-hint {
+  opacity: 1;
+}
+
+
+/* =====================================================
+   MOBILE / TV
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .controls {
+    padding: 55px 12px 12px;
+  }
+
+  .control-btn {
+    min-width: 55px;
+    height: 48px;
+  }
+
+  .title {
+    left: 12px;
+    top: 12px;
+    font-size: 16px;
+  }
+
+  .remote-hint {
+    display: none;
+  }
+
+}
+
+
+/* =====================================================
+   TV / LARGE SCREEN
+===================================================== */
+
+@media (min-width: 1000px) {
+
+  .control-btn {
+    min-width: 76px;
+    height: 58px;
+    font-size: 25px;
+  }
+
+  .progress {
+    height: 8px;
   }
 
 }
@@ -87,76 +398,321 @@ video {
 
 <body>
 
-<div class="player-container">
+<div
+  class="player controls-visible"
+  id="player"
+  tabindex="0"
+>
 
-  <div class="video-wrapper">
+  <video
+    id="video"
+    playsinline
+    webkit-playsinline
+    preload="auto"
+    controlslist="nodownload noplaybackrate"
+  ></video>
 
-    <video
-      id="video"
-      controls
-      playsinline
-      preload="metadata">
-    </video>
+
+  <!-- TITLE -->
+
+  <div class="title">
+    HONOR TV
+  </div>
+
+
+  <!-- REMOTE HINT -->
+
+  <div class="remote-hint">
+    ← → Seek &nbsp; • &nbsp; OK Play/Pause &nbsp; • &nbsp; Back Exit
+  </div>
+
+
+  <!-- LOADING -->
+
+  <div
+    class="loading"
+    id="loading"
+  >
+
+    <div class="spinner"></div>
 
     <div
-      id="message"
-      class="message">
-      Loading video...
+      class="loading-text"
+      id="loadingText"
+    >
+      Loading...
+    </div>
+
+  </div>
+
+
+  <!-- ERROR -->
+
+  <div
+    class="error"
+    id="error"
+  >
+
+    <div class="error-title">
+      Unable to play video
+    </div>
+
+    <div class="error-text">
+      Please try again or use another stream.
+    </div>
+
+  </div>
+
+
+  <!-- CONTROLS -->
+
+  <div
+    class="controls"
+    id="controls"
+  >
+
+    <div class="progress-area">
+
+      <input
+        id="progress"
+        class="progress"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="0.1"
+        aria-label="Video progress"
+      >
+
+    </div>
+
+
+    <div class="control-row">
+
+      <!-- REWIND -->
+
+      <button
+        id="rewind"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Rewind 10 seconds"
+      >
+        ⏪
+        <span>10</span>
+      </button>
+
+
+      <!-- PLAY -->
+
+      <button
+        id="play"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Play"
+      >
+        ▶
+      </button>
+
+
+      <!-- FORWARD -->
+
+      <button
+        id="forward"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Forward 10 seconds"
+      >
+        ⏩
+        <span>10</span>
+      </button>
+
+
+      <!-- MUTE -->
+
+      <button
+        id="mute"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Mute"
+      >
+        🔊
+      </button>
+
+
+      <!-- FULLSCREEN -->
+
+      <button
+        id="fullscreen"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Fullscreen"
+      >
+        ⛶
+      </button>
+
+
+      <!-- TIME -->
+
+      <div
+        class="time"
+        id="time"
+      >
+        00:00 / 00:00
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
+
 <script>
 
 /* =========================================================
-   PLAYER
+   ELEMENTS
 ========================================================= */
 
-const video = document.getElementById("video");
-const message = document.getElementById("message");
+const player =
+  document.getElementById("player");
+
+const video =
+  document.getElementById("video");
+
+const loading =
+  document.getElementById("loading");
+
+const loadingText =
+  document.getElementById("loadingText");
+
+const errorBox =
+  document.getElementById("error");
+
+const progress =
+  document.getElementById("progress");
+
+const playBtn =
+  document.getElementById("play");
+
+const rewindBtn =
+  document.getElementById("rewind");
+
+const forwardBtn =
+  document.getElementById("forward");
+
+const muteBtn =
+  document.getElementById("mute");
+
+const fullscreenBtn =
+  document.getElementById("fullscreen");
+
+const timeText =
+  document.getElementById("time");
+
 
 let hls = null;
 
+let hideTimer = null;
 
-/* =========================================================
-   GET URL FROM:
-   player.html?url=STREAM_URL
-========================================================= */
-
-const params = new URLSearchParams(
-  window.location.search
-);
-
-const streamURL = params.get("url");
+let seeking = false;
 
 
 /* =========================================================
-   SHOW MESSAGE
+   GET STREAM URL
+
+   player.html?url=https://example.com/video.mp4
 ========================================================= */
 
-function showMessage(text) {
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
 
-  message.textContent = text;
-  message.classList.remove("hidden");
+const streamURL =
+  params.get("url");
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function showLoading(text = "Loading...") {
+
+  loadingText.textContent = text;
+
+  loading.classList.remove("hidden");
+
+}
+
+function hideLoading() {
+
+  loading.classList.add("hidden");
 
 }
 
 
 /* =========================================================
-   HIDE MESSAGE
+   ERROR
 ========================================================= */
 
-function hideMessage() {
+function showError() {
 
-  message.classList.add("hidden");
+  hideLoading();
+
+  errorBox.classList.add("show");
+
+}
+
+function hideError() {
+
+  errorBox.classList.remove("show");
 
 }
 
 
 /* =========================================================
-   CLEAN HLS
+   CONTROLS VISIBILITY
+========================================================= */
+
+function showControls() {
+
+  player.classList.add(
+    "controls-visible"
+  );
+
+  clearTimeout(hideTimer);
+
+  hideTimer = setTimeout(
+    hideControls,
+    4000
+  );
+
+}
+
+function hideControls() {
+
+  if (
+    !video.paused &&
+    document.activeElement.tagName !== "BUTTON" &&
+    document.activeElement.tagName !== "INPUT"
+  ) {
+
+    player.classList.remove(
+      "controls-visible"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   HLS CLEANUP
 ========================================================= */
 
 function destroyHLS() {
@@ -165,9 +721,7 @@ function destroyHLS() {
 
     try {
       hls.destroy();
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (e) {}
 
     hls = null;
 
@@ -177,39 +731,252 @@ function destroyHLS() {
 
 
 /* =========================================================
-   CHECK URL
+   TIME FORMAT
 ========================================================= */
 
-if (!streamURL) {
+function formatTime(seconds) {
 
-  showMessage(
-    "No video URL provided."
+  if (
+    !Number.isFinite(seconds) ||
+    seconds < 0
+  ) {
+
+    return "00:00";
+
+  }
+
+  seconds = Math.floor(seconds);
+
+  const hours =
+    Math.floor(seconds / 3600);
+
+  const minutes =
+    Math.floor(
+      (seconds % 3600) / 60
+    );
+
+  const secs =
+    seconds % 60;
+
+
+  if (hours > 0) {
+
+    return (
+      String(hours).padStart(2,"0") +
+      ":" +
+      String(minutes).padStart(2,"0") +
+      ":" +
+      String(secs).padStart(2,"0")
+    );
+
+  }
+
+  return (
+    String(minutes).padStart(2,"0") +
+    ":" +
+    String(secs).padStart(2,"0")
   );
-
-} else {
-
-  loadVideo(streamURL);
 
 }
 
 
 /* =========================================================
-   LOAD VIDEO
+   UPDATE TIME
+========================================================= */
+
+function updateTime() {
+
+  const current =
+    video.currentTime || 0;
+
+  const duration =
+    video.duration || 0;
+
+
+  timeText.textContent =
+    formatTime(current) +
+    " / " +
+    formatTime(duration);
+
+
+  if (
+    duration &&
+    !seeking
+  ) {
+
+    progress.value =
+      (current / duration) * 100;
+
+  }
+
+}
+
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
+
+function togglePlay() {
+
+  if (video.paused) {
+
+    video.play().catch(() => {});
+
+  } else {
+
+    video.pause();
+
+  }
+
+  showControls();
+
+}
+
+
+/* =========================================================
+   REWIND
+========================================================= */
+
+function rewind() {
+
+  video.currentTime =
+    Math.max(
+      0,
+      video.currentTime - 10
+    );
+
+  showControls();
+
+}
+
+
+/* =========================================================
+   FORWARD
+========================================================= */
+
+function forward() {
+
+  if (
+    Number.isFinite(video.duration)
+  ) {
+
+    video.currentTime =
+      Math.min(
+        video.duration,
+        video.currentTime + 10
+      );
+
+  } else {
+
+    video.currentTime += 10;
+
+  }
+
+  showControls();
+
+}
+
+
+/* =========================================================
+   MUTE / UNMUTE
+
+   Automatically starts UNMUTED where browser policy
+   allows it. If autoplay is blocked, user can press Play.
+========================================================= */
+
+function toggleMute() {
+
+  video.muted =
+    !video.muted;
+
+  updateMuteButton();
+
+}
+
+function updateMuteButton() {
+
+  muteBtn.textContent =
+    video.muted
+      ? "🔇"
+      : "🔊";
+
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+async function toggleFullscreen() {
+
+  try {
+
+    if (
+      !document.fullscreenElement
+    ) {
+
+      if (
+        player.requestFullscreen
+      ) {
+
+        await player.requestFullscreen();
+
+      } else if (
+        video.webkitEnterFullscreen
+      ) {
+
+        video.webkitEnterFullscreen();
+
+      }
+
+    } else {
+
+      await document.exitFullscreen();
+
+    }
+
+  } catch (e) {
+
+    console.error(e);
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD STREAM
 ========================================================= */
 
 function loadVideo(url) {
+
+  if (!url) {
+
+    showError();
+
+    return;
+
+  }
+
+  hideError();
+
+  showLoading(
+    "Connecting..."
+  );
 
   destroyHLS();
 
   video.pause();
 
-  video.removeAttribute("src");
+  video.removeAttribute(
+    "src"
+  );
 
   video.load();
 
 
   /*
-   * Detect HLS by URL extension.
+   * Detect HLS
    */
 
   const isHLS =
@@ -231,19 +998,7 @@ function loadVideo(url) {
 
     video.load();
 
-    video.play()
-      .then(() => {
-
-        hideMessage();
-
-      })
-      .catch(() => {
-
-        showMessage(
-          "Video ready — press Play."
-        );
-
-      });
+    startPlayback();
 
     return;
 
@@ -266,11 +1021,25 @@ function loadVideo(url) {
 
       lowLatencyMode: false,
 
-      backBufferLength: 90,
+      backBufferLength: 60,
 
-      maxBufferLength: 30,
+      maxBufferLength: 20,
 
-      maxMaxBufferLength: 60
+      maxMaxBufferLength: 40,
+
+      startLevel: -1,
+
+      capLevelToPlayerSize: true,
+
+      abrEwmaFastLive: 2,
+
+      abrEwmaSlowLive: 5,
+
+      fragLoadingMaxRetry: 3,
+
+      manifestLoadingMaxRetry: 3,
+
+      levelLoadingMaxRetry: 3
 
     });
 
@@ -284,16 +1053,9 @@ function loadVideo(url) {
       Hls.Events.MANIFEST_PARSED,
       function () {
 
-        hideMessage();
+        hideLoading();
 
-        video.play()
-          .catch(() => {
-
-            showMessage(
-              "Video ready — press Play."
-            );
-
-          });
+        startPlayback();
 
       }
     );
@@ -301,18 +1063,44 @@ function loadVideo(url) {
 
     hls.on(
       Hls.Events.ERROR,
-      function (event, data) {
+      function (
+        event,
+        data
+      ) {
 
         console.error(
-          "HLS error:",
+          "HLS:",
           data
         );
 
-        if (data.fatal) {
 
-          showMessage(
-            "Unable to play this video."
-          );
+        if (
+          data.fatal
+        ) {
+
+          if (
+            data.type ===
+            Hls.ErrorTypes.NETWORK_ERROR
+          ) {
+
+            showLoading(
+              "Reconnecting..."
+            );
+
+            hls.startLoad();
+
+          } else if (
+            data.type ===
+            Hls.ErrorTypes.MEDIA_ERROR
+          ) {
+
+            hls.recoverMediaError();
+
+          } else {
+
+            showError();
+
+          }
 
         }
 
@@ -327,29 +1115,218 @@ function loadVideo(url) {
 
   /* =======================================================
      NORMAL VIDEO
-     MP4 / WEBM / OTHER BROWSER SUPPORTED FORMAT
+
+     MP4 / WebM / Browser-supported video
   ======================================================= */
 
   video.src = url;
 
   video.load();
 
+  startPlayback();
+
+}
+
+
+/* =========================================================
+   START PLAYBACK
+========================================================= */
+
+function startPlayback() {
 
   video.play()
     .then(() => {
 
-      hideMessage();
+      /*
+       * Attempt unmute after playback starts.
+       */
+
+      video.muted = false;
+
+      updateMuteButton();
+
+      hideLoading();
 
     })
     .catch(() => {
 
-      showMessage(
-        "Video ready — press Play."
-      );
+      /*
+       * Browser autoplay policy may block
+       * unmuted autoplay.
+
+       * Try muted autoplay as fallback.
+       */
+
+      video.muted = true;
+
+      updateMuteButton();
+
+      video.play()
+        .then(() => {
+
+          hideLoading();
+
+        })
+        .catch(() => {
+
+          hideLoading();
+
+          showControls();
+
+        });
 
     });
 
 }
+
+
+/* =========================================================
+   SAVE POSITION
+========================================================= */
+
+function storageKey() {
+
+  return (
+    "honortv_position_" +
+    encodeURIComponent(
+      streamURL || ""
+    )
+  );
+
+}
+
+
+function savePosition() {
+
+  if (
+    !streamURL ||
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
+
+    return;
+
+  }
+
+  if (
+    video.currentTime < 10
+  ) {
+
+    return;
+
+  }
+
+  try {
+
+    localStorage.setItem(
+      storageKey(),
+      String(
+        video.currentTime
+      )
+    );
+
+  } catch (e) {}
+
+}
+
+
+function restorePosition() {
+
+  try {
+
+    const saved =
+      parseFloat(
+        localStorage.getItem(
+          storageKey()
+        )
+      );
+
+    if (
+      Number.isFinite(saved) &&
+      saved > 10 &&
+      saved < video.duration - 10
+    ) {
+
+      video.currentTime =
+        saved;
+
+    }
+
+  } catch (e) {}
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+playBtn.addEventListener(
+  "click",
+  togglePlay
+);
+
+rewindBtn.addEventListener(
+  "click",
+  rewind
+);
+
+forwardBtn.addEventListener(
+  "click",
+  forward
+);
+
+muteBtn.addEventListener(
+  "click",
+  toggleMute
+);
+
+fullscreenBtn.addEventListener(
+  "click",
+  toggleFullscreen
+);
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+progress.addEventListener(
+  "input",
+  function () {
+
+    seeking = true;
+
+    if (
+      video.duration
+    ) {
+
+      const position =
+        (
+          progress.value / 100
+        ) *
+        video.duration;
+
+      video.currentTime =
+        position;
+
+    }
+
+    updateTime();
+
+  }
+);
+
+
+progress.addEventListener(
+  "change",
+  function () {
+
+    seeking = false;
+
+  }
+);
 
 
 /* =========================================================
@@ -360,29 +1337,9 @@ video.addEventListener(
   "loadstart",
   function () {
 
-    showMessage(
-      "Loading video..."
+    showLoading(
+      "Loading..."
     );
-
-  }
-);
-
-
-video.addEventListener(
-  "loadedmetadata",
-  function () {
-
-    hideMessage();
-
-  }
-);
-
-
-video.addEventListener(
-  "canplay",
-  function () {
-
-    hideMessage();
 
   }
 );
@@ -392,9 +1349,31 @@ video.addEventListener(
   "waiting",
   function () {
 
-    showMessage(
+    showLoading(
       "Buffering..."
     );
+
+  }
+);
+
+
+video.addEventListener(
+  "stalled",
+  function () {
+
+    showLoading(
+      "Buffering..."
+    );
+
+  }
+);
+
+
+video.addEventListener(
+  "canplay",
+  function () {
+
+    hideLoading();
 
   }
 );
@@ -404,7 +1383,73 @@ video.addEventListener(
   "playing",
   function () {
 
-    hideMessage();
+    hideLoading();
+
+    updatePlayButton();
+
+  }
+);
+
+
+video.addEventListener(
+  "pause",
+  function () {
+
+    updatePlayButton();
+
+    showControls();
+
+  }
+);
+
+
+video.addEventListener(
+  "play",
+  function () {
+
+    updatePlayButton();
+
+  }
+);
+
+
+video.addEventListener(
+  "timeupdate",
+  function () {
+
+    updateTime();
+
+  }
+);
+
+
+video.addEventListener(
+  "loadedmetadata",
+  function () {
+
+    updateTime();
+
+    restorePosition();
+
+  }
+);
+
+
+video.addEventListener(
+  "ended",
+  function () {
+
+    updatePlayButton();
+
+    showControls();
+
+    try {
+
+      localStorage.removeItem(
+        storageKey()
+      );
+
+    } catch (e) {}
 
   }
 );
@@ -414,9 +1459,383 @@ video.addEventListener(
   "error",
   function () {
 
-    showMessage(
-      "Unable to play this video."
-    );
+    showError();
+
+  }
+);
+
+
+/* =========================================================
+   PLAY BUTTON ICON
+========================================================= */
+
+function updatePlayButton() {
+
+  playBtn.textContent =
+    video.paused
+      ? "▶"
+      : "⏸";
+
+}
+
+
+/* =========================================================
+   SAVE POSITION PERIODICALLY
+========================================================= */
+
+setInterval(
+  savePosition,
+  5000
+);
+
+
+/* =========================================================
+   MOUSE / TOUCH
+========================================================= */
+
+player.addEventListener(
+  "mousemove",
+  showControls
+);
+
+player.addEventListener(
+  "touchstart",
+  showControls,
+  { passive: true }
+);
+
+
+/* =========================================================
+   TV REMOTE / KEYBOARD CONTROLS
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    const key =
+      event.key;
+
+    const code =
+      event.keyCode;
+
+
+    /*
+     * SPACE / ENTER
+     *
+     * Play / Pause
+     */
+
+    if (
+      key === " " ||
+      key === "Enter" ||
+      code === 13 ||
+      code === 32
+    ) {
+
+      /*
+       * Don't interfere with range input.
+       */
+
+      if (
+        document.activeElement !==
+        progress
+      ) {
+
+        event.preventDefault();
+
+        togglePlay();
+
+      }
+
+      return;
+
+    }
+
+
+    /*
+     * LEFT
+     *
+     * Rewind 10 sec
+     */
+
+    if (
+      key === "ArrowLeft" ||
+      code === 37
+    ) {
+
+      event.preventDefault();
+
+      rewind();
+
+      return;
+
+    }
+
+
+    /*
+     * RIGHT
+     *
+     * Forward 10 sec
+     */
+
+    if (
+      key === "ArrowRight" ||
+      code === 39
+    ) {
+
+      event.preventDefault();
+
+      forward();
+
+      return;
+
+    }
+
+
+    /*
+     * UP
+     *
+     * Show controls
+     */
+
+    if (
+      key === "ArrowUp" ||
+      code === 38
+    ) {
+
+      event.preventDefault();
+
+      showControls();
+
+      return;
+
+    }
+
+
+    /*
+     * DOWN
+     *
+     * Show controls
+     */
+
+    if (
+      key === "ArrowDown" ||
+      code === 40
+    ) {
+
+      event.preventDefault();
+
+      showControls();
+
+      return;
+
+    }
+
+
+    /*
+     * M
+     *
+     * Mute
+     */
+
+    if (
+      key.toLowerCase() === "m"
+    ) {
+
+      event.preventDefault();
+
+      toggleMute();
+
+      return;
+
+    }
+
+
+    /*
+     * F
+     *
+     * Fullscreen
+     */
+
+    if (
+      key.toLowerCase() === "f"
+    ) {
+
+      event.preventDefault();
+
+      toggleFullscreen();
+
+      return;
+
+    }
+
+
+    /*
+     * Escape / Back
+     */
+
+    if (
+      key === "Escape" ||
+      code === 27
+    ) {
+
+      showControls();
+
+      return;
+
+    }
+
+
+    /*
+     * BACKSPACE
+     *
+     * TV browser back
+     */
+
+    if (
+      key === "Backspace" ||
+      code === 8
+    ) {
+
+      event.preventDefault();
+
+      if (
+        document.fullscreenElement
+      ) {
+
+        document.exitFullscreen()
+          .catch(() => {});
+
+      } else {
+
+        if (
+          window.history.length > 1
+        ) {
+
+          window.history.back();
+
+        }
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   TV REMOTE FOCUS
+========================================================= */
+
+const focusable =
+  document.querySelectorAll(
+    ".control-btn, .progress"
+  );
+
+let focusIndex = 0;
+
+
+function focusControl(index) {
+
+  if (
+    index < 0
+  ) {
+
+    index =
+      focusable.length - 1;
+
+  }
+
+  if (
+    index >= focusable.length
+  ) {
+
+    index = 0;
+
+  }
+
+  focusIndex = index;
+
+  focusable[
+    focusIndex
+  ].focus();
+
+}
+
+
+/* =========================================================
+   INITIAL FOCUS
+========================================================= */
+
+setTimeout(
+  function () {
+
+    player.focus();
+
+  },
+  300
+);
+
+
+/* =========================================================
+   INITIAL MUTE STATE
+
+   Attempt unmuted playback first.
+========================================================= */
+
+video.muted = false;
+
+updateMuteButton();
+
+
+/* =========================================================
+   START
+========================================================= */
+
+if (streamURL) {
+
+  loadVideo(streamURL);
+
+} else {
+
+  showError();
+
+}
+
+
+/* =========================================================
+   PAGE VISIBILITY
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
+
+    if (
+      document.hidden
+    ) {
+
+      savePosition();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BEFORE CLOSE
+========================================================= */
+
+window.addEventListener(
+  "beforeunload",
+  function () {
+
+    savePosition();
+
+    destroyHLS();
 
   }
 );
