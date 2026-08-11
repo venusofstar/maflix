@@ -3,14 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tenphi Textile</title>
+
+<title>TENPHI TEXTILE | Bodega ng Tela</title>
+
+<meta name="description" content="TENPHI TEXTILE — Your reliable textile partner. Quality fabrics for businesses, resellers, manufacturers and retailers.">
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --primary:#16423c;
+    --primary-dark:#0d2d29;
+    --accent:#d6a85f;
+    --cream:#f7f3ea;
+    --white:#ffffff;
+    --text:#222;
+    --muted:#6b6b6b;
 }
 
 html{
@@ -18,406 +30,1101 @@ html{
 }
 
 body{
-    background:#FFF8E1;
-    color:#333;
+    font-family:Arial, Helvetica, sans-serif;
+    color:var(--text);
+    background:#fff;
     line-height:1.6;
 }
 
-/* HEADER */
-
-header{
-    background:#C62828;
-    padding:20px;
-    text-align:center;
+/* NAVIGATION */
+.navbar{
     position:sticky;
     top:0;
-    z-index:1000;
-    box-shadow:0 3px 10px rgba(0,0,0,.2);
+    z-index:999;
+    background:rgba(22,66,60,.97);
+    backdrop-filter:blur(10px);
+    box-shadow:0 3px 20px rgba(0,0,0,.12);
 }
 
-.banner{
-    width:100%;
-    max-width:700px;
-    height:auto;
-    display:block;
+.nav-container{
+    max-width:1200px;
     margin:auto;
-}
-
-.tagline{
-    color:#fff;
-    margin-top:15px;
-    font-size:18px;
-    font-weight:bold;
-}
-
-/* NAVIGATION */
-
-nav{
-    background:#FFC107;
+    padding:15px 22px;
     display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
 }
 
-nav a{
-    color:#8E0000;
+.logo{
+    color:#fff;
     text-decoration:none;
-    padding:16px 22px;
-    font-weight:bold;
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:2px;
 }
 
-nav a:hover{
-    background:#FFD54F;
+.logo span{
+    color:var(--accent);
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+    transition:.2s;
+}
+
+.nav-links a:hover{
+    color:var(--accent);
+}
+
+.menu-btn{
+    display:none;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
 }
 
 /* HERO */
-
 .hero{
-    height:500px;
-    background:
-    linear-gradient(rgba(198,40,40,.65),rgba(255,193,7,.55)),
-    url("");
-    background-size:cover;
-    background-position:center;
+    min-height:650px;
     display:flex;
-    justify-content:center;
     align-items:center;
-    text-align:center;
+    position:relative;
+    background:
+        linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.35)),
+        url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+}
+
+.hero-content{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:80px 22px;
     color:#fff;
 }
 
+.badge{
+    display:inline-block;
+    background:var(--accent);
+    color:#17251f;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:20px;
+}
+
 .hero h1{
-    font-size:50px;
-    margin-bottom:15px;
+    max-width:760px;
+    font-size:clamp(42px,7vw,78px);
+    line-height:1;
+    margin-bottom:24px;
+    letter-spacing:-2px;
+}
+
+.hero h1 span{
+    color:var(--accent);
 }
 
 .hero p{
-    font-size:20px;
-    margin-bottom:30px;
+    max-width:620px;
+    color:#eee;
+    font-size:18px;
+    margin-bottom:32px;
 }
 
-.hero a{
-    display:inline-block;
-    background:#FFC107;
-    color:#8E0000;
-    padding:14px 30px;
+.buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 24px;
+    border-radius:7px;
     text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
+    font-weight:800;
+    transition:.2s;
 }
 
-.hero a:hover{
-    background:#FFD54F;
+.btn-primary{
+    background:var(--accent);
+    color:#17251f;
 }
 
-/* SECTIONS */
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
 
+.btn-outline{
+    border:1px solid rgba(255,255,255,.7);
+    color:#fff;
+}
+
+.btn-outline:hover{
+    background:#fff;
+    color:#16423c;
+}
+
+/* SECTION */
 section{
-    padding:70px 8%;
+    padding:80px 22px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.section-label{
+    color:var(--accent);
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:12px;
+    margin-bottom:8px;
 }
 
 .section-title{
-    text-align:center;
-    color:#C62828;
-    font-size:36px;
+    font-size:clamp(30px,5vw,45px);
+    color:var(--primary);
     margin-bottom:40px;
 }
 
 /* ABOUT */
+.about-section{
+    background:var(--cream);
+}
 
 .about{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:40px;
+    gap:55px;
     align-items:center;
 }
 
 .about img{
     width:100%;
+    height:470px;
+    object-fit:cover;
     border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,.12);
 }
 
 .about h3{
-    color:#C62828;
-    margin-bottom:15px;
+    font-size:30px;
+    color:var(--primary);
+    margin-bottom:18px;
 }
 
-/* PRODUCTS */
-
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:#fff;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-}
-
-.card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
-
-.card h3{
-    color:#C62828;
-    padding:15px;
-}
-
-.card p{
-    padding:0 15px 20px;
+.about p{
+    color:#555;
+    font-size:16px;
 }
 
 /* FEATURES */
-
 .features{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
 }
 
 .feature{
-    background:#fff;
     padding:30px;
-    text-align:center;
-    border-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
+    border:1px solid #e8e5dc;
+    border-radius:12px;
+    background:#fff;
+}
+
+.feature-icon{
+    font-size:34px;
+    margin-bottom:15px;
 }
 
 .feature h3{
-    color:#C62828;
+    color:var(--primary);
     margin-bottom:10px;
 }
 
-/* CONTACT */
-
-.contact{
-    background:#C62828;
-    color:#fff;
-    text-align:center;
+.feature p{
+    color:var(--muted);
 }
 
-.contact p{
-    margin:12px 0;
+/* PRODUCTS */
+.products-section{
+    background:#fff;
 }
 
-/* FOOTER */
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
 
-footer{
-    background:#8E0000;
-    color:#fff;
-    text-align:center;
+.product{
+    overflow:hidden;
+    border-radius:10px;
+    background:#fff;
+    border:1px solid #eee;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    transition:.25s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+
+.product img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+}
+
+.product-info{
     padding:20px;
 }
 
-/* WHATSAPP BUTTON */
-
-.whatsapp{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:#25D366;
-    color:#fff;
-    text-decoration:none;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-    box-shadow:0 5px 15px rgba(0,0,0,.3);
+.product-info h3{
+    color:var(--primary);
+    margin-bottom:7px;
 }
 
-.whatsapp:hover{
-    transform:scale(1.1);
+.product-info p{
+    font-size:14px;
+    color:var(--muted);
+}
+
+/* CTA */
+.cta{
+    background:
+        linear-gradient(90deg,rgba(13,45,41,.96),rgba(22,66,60,.90)),
+        url("https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=1600&q=80")
+        center/cover;
+    color:#fff;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:clamp(32px,5vw,50px);
+    margin-bottom:15px;
+}
+
+.cta p{
+    max-width:650px;
+    margin:0 auto 28px;
+    color:#e7e7e7;
+}
+
+/* CONTACT */
+.contact{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+}
+
+.contact h3{
+    color:var(--primary);
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.contact-item{
+    display:flex;
+    gap:15px;
+    margin:20px 0;
+}
+
+.contact-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.contact-item strong{
+    display:block;
+    color:var(--primary);
+}
+
+.contact-item span{
+    color:var(--muted);
+}
+
+.contact-form{
+    background:var(--cream);
+    padding:30px;
+    border-radius:12px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    background:#fff;
+    font-family:inherit;
+    outline:none;
+}
+
+.form-group textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+    border-color:var(--primary);
+}
+
+.submit{
+    width:100%;
+    border:0;
+    cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+    background:#0d2d29;
+    color:#fff;
+    padding:40px 22px 20px;
+}
+
+.footer-grid{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:40px;
+}
+
+footer h3{
+    margin-bottom:15px;
+}
+
+footer p{
+    color:#bfc9c6;
+    font-size:14px;
+}
+
+footer ul{
+    list-style:none;
+}
+
+footer li{
+    margin:8px 0;
+}
+
+footer a{
+    color:#bfc9c6;
+    text-decoration:none;
+}
+
+footer a:hover{
+    color:var(--accent);
+}
+
+.copyright{
+    max-width:1200px;
+    margin:30px auto 0;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.1);
+    text-align:center;
+    color:#8e9c98;
+    font-size:13px;
 }
 
 /* MOBILE */
+@media(max-width:850px){
 
-@media(max-width:768px){
+    .nav-links{
+        position:absolute;
+        top:63px;
+        left:0;
+        right:0;
+        background:var(--primary-dark);
+        display:none;
+        flex-direction:column;
+        padding:20px 25px;
+        gap:18px;
+    }
 
-.about{
-grid-template-columns:1fr;
+    .nav-links.active{
+        display:flex;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .hero{
+        min-height:600px;
+    }
+
+    .about,
+    .contact{
+        grid-template-columns:1fr;
+    }
+
+    .about img{
+        height:330px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
 }
 
-.hero h1{
-font-size:34px;
-}
+@media(max-width:500px){
 
-.hero{
-height:420px;
-}
+    section{
+        padding:60px 18px;
+    }
 
-.banner{
-max-width:95%;
-}
+    .hero-content{
+        padding:70px 18px;
+    }
 
+    .hero h1{
+        font-size:45px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .product-grid{
+        grid-template-columns:1fr;
+    }
+
+    .product img{
+        height:260px;
+    }
+
+    .about img{
+        height:280px;
+    }
+
+    .btn{
+        width:100%;
+    }
 }
 </style>
-
 </head>
 
 <body>
 
-<header>
+<!-- NAVIGATION -->
+<nav class="navbar">
+    <div class="nav-container">
 
-<img src="banner.png" alt="TENPHI TEXTILE" class="banner">
+        <a href="#home" class="logo">
+            TENPHI <span>TEXTILE</span>
+        </a>
 
-<div class="tagline">
-Premium Textile Manufacturer & Fabric Supplier
-</div>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#products">Fabrics</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero" id="home">
+
+    <div class="hero-content">
+
+        <span class="badge">BODEGA NG TELA</span>
+
+        <h1>
+            Quality Fabric.<br>
+            <span>Reliable Partner.</span>
+        </h1>
+
+        <p>
+            Your reliable textile partner for quality fabrics,
+            business supplies, resellers, manufacturers and retailers.
+        </p>
+
+        <div class="buttons">
+            <a href="#products" class="btn btn-primary">
+                Browse Fabrics
+            </a>
+
+            <a href="#contact" class="btn btn-outline">
+                Contact Us
+            </a>
+        </div>
+
+    </div>
 
 </header>
 
-<nav>
 
-<a href="#">Home</a>
-<a href="#about">About</a>
-<a href="#products">Products</a>
-<a href="#why">Why Us</a>
-<a href="#contact">Contact</a>
+<!-- ABOUT -->
+<section class="about-section" id="about">
 
-</nav>
+    <div class="container">
 
-<section class="hero">
+        <div class="section-label">
+            About Us
+        </div>
 
-<div>
+        <h2 class="section-title">
+            About Tenphi Textile
+        </h2>
 
-<h1>Quality Fabrics. Trusted Manufacturing.</h1>
+        <div class="about">
 
-<p>
-Delivering premium textile solutions for businesses worldwide.
-</p>
+            <img
+                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
+                alt="Tenphi Textile"
+                loading="lazy"
+            >
 
-<a href="#products">Explore Products</a>
+            <div>
 
-</div>
+                <h3>Your Reliable Textile Partner</h3>
 
-</section>
+                <p>
+                    Tenphi Textile is your reliable fabric partner—
+                    so what are you waiting for? Visit our warehouse
+                    and shop now.
+                </p>
 
-<section id="about">
+                <br>
 
-<h2 class="section-title">About Tenphi Textile</h2>
+                <p>
+                    If you are interested and looking for fabric for
+                    your business, simply contact us and we will
+                    respond immediately.
+                </p>
 
-<div class="about">
+                <br>
 
-<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80">
+                <p>
+                    If you are located far away, you can contact our
+                    recommended agent.
+                </p>
 
-<div>
+                <br>
 
-<h3>Your Reliable Textile Partner</h3>
+                <a href="#contact" class="btn btn-primary">
+                    Inquire Now
+                </a>
 
-<p>
-Tenphi Textile is your reliable fabric partner—so what are you waiting for? Visit our warehouse and shop now.
-</p>
-<br>
+            </div>
 
-<p>
-If you are interested and looking for fabric for your business, simply contact us and we will respond immediately.
-</p>
-<br>
+        </div>
 
-<p>
-If you are located far away, you can contact our recommended agent.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="products">
-
-<h2 class="section-title">Our Products</h2>
-
-<div class="products">
-
-<div class="card">
-<img src="https://i.imgur.com/wySGAAz.jpeg">
-<h3>New Stock</h3>
-<p>Always available.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80">
-<h3>Polyester Fabric</h3>
-<p>Durable and long-lasting materials.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80">
-<h3>Workwear Textile</h3>
-<p>Industrial fabrics for uniforms.</p>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80">
-<h3>Custom Fabric</h3>
-<p>OEM and custom textile manufacturing.</p>
-</div>
-
-</div>
+    </div>
 
 </section>
 
-<section id="why">
 
-<h2 class="section-title">Why Choose Us</h2>
+<!-- WHY US -->
+<section>
 
-<div class="features">
+    <div class="container">
 
-<div class="feature">
-<h3>High Quality</h3>
-<p>Strict quality inspection.</p>
-</div>
+        <div class="section-label">
+            Why Choose Us
+        </div>
 
-<div class="feature">
-<h3>Fast Delivery</h3>
-<p>Reliable worldwide shipping.</p>
-</div>
+        <h2 class="section-title">
+            Built for Your Business
+        </h2>
 
-<div class="feature">
-<h3>Competitive Pricing</h3>
-<p>Affordable premium fabrics.</p>
-</div>
+        <div class="features">
 
-<div class="feature">
-<h3>Custom Orders</h3>
-<p>OEM manufacturing available.</p>
-</div>
+            <div class="feature">
+                <div class="feature-icon">🧵</div>
+                <h3>Quality Fabrics</h3>
+                <p>
+                    Carefully selected textile products for
+                    different business and production needs.
+                </p>
+            </div>
 
-</div>
+            <div class="feature">
+                <div class="feature-icon">📦</div>
+                <h3>Warehouse Supply</h3>
+                <p>
+                    Get the fabric supplies you need directly
+                    from our textile warehouse.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🤝</div>
+                <h3>Business Partner</h3>
+                <p>
+                    We help businesses and fabric buyers find
+                    suitable textile products for their needs.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
-<section class="contact" id="contact">
 
-<h2>Contact Us</h2>
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
 
-<p>Email: info@tenphitextile.com</p>
-<p>Phone: +63 XXX XXX XXXX</p>
-<p>Address: Your Company Address</p>
+    <div class="container">
+
+        <div class="section-label">
+            Our Fabrics
+        </div>
+
+        <h2 class="section-title">
+            Explore Our Textile Selection
+        </h2>
+
+        <div class="product-grid">
+
+            <div class="product">
+
+                <img
+                    src="https://images.unsplash.com/photo-1598301257982-0cf014dabbcd?auto=format&fit=crop&w=700&q=80"
+                    alt="Cotton Fabric"
+                    loading="lazy"
+                >
+
+                <div class="product-info">
+                    <h3>Cotton Fabric</h3>
+                    <p>
+                        Versatile fabric suitable for clothing,
+                        garments and various textile projects.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="product">
+
+                <img
+                    src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=80"
+                    alt="Printed Fabric"
+                    loading="lazy"
+                >
+
+                <div class="product-info">
+                    <h3>Printed Fabrics</h3>
+                    <p>
+                        Different patterns and designs for
+                        creative clothing and textile products.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="product">
+
+                <img
+                    src="https://images.unsplash.com/photo-1583743814966-8936f37f3843?auto=format&fit=crop&w=700&q=80"
+                    alt="Textile Rolls"
+                    loading="lazy"
+                >
+
+                <div class="product-info">
+                    <h3>Textile Rolls</h3>
+                    <p>
+                        Fabric rolls for businesses, manufacturers,
+                        resellers and bulk buyers.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="product">
+
+                <img
+                    src="https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=700&q=80"
+                    alt="Fashion Fabric"
+                    loading="lazy"
+                >
+
+                <div class="product-info">
+                    <h3>Fashion Fabrics</h3>
+                    <p>
+                        Textile options for fashion, garments,
+                        uniforms and other applications.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
+
+<!-- CTA -->
+<section class="cta">
+
+    <div class="container">
+
+        <h2>Looking for Fabric for Your Business?</h2>
+
+        <p>
+            Tell us what you need and our team will help you
+            find the right textile products for your business.
+        </p>
+
+        <a href="#contact" class="btn btn-primary">
+            Contact Tenphi Textile
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+
+    <div class="container">
+
+        <div class="section-label">
+            Get In Touch
+        </div>
+
+        <h2 class="section-title">
+            Contact Tenphi Textile
+        </h2>
+
+        <div class="contact">
+
+            <div>
+
+                <h3>Let's Talk About Your Fabric Needs</h3>
+
+                <p>
+                    Interested in our fabrics or looking for
+                    textile supplies for your business?
+                    Send us a message and we'll get back to you.
+                </p>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">📍</div>
+
+                    <div>
+                        <strong>Warehouse</strong>
+                        <span>
+                            Visit our textile warehouse and shop.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">📱</div>
+
+                    <div>
+                        <strong>Phone / Messenger</strong>
+                        <span>
+                            Contact us for product inquiries.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">🧵</div>
+
+                    <div>
+                        <strong>Business Inquiries</strong>
+                        <span>
+                            Bulk orders, resellers and business supply.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form class="contact-form" onsubmit="sendInquiry(event)">
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="09XXXXXXXXX"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>What are you looking for?</label>
+
+                    <select id="fabric">
+
+                        <option value="Fabric Inquiry">
+                            Fabric Inquiry
+                        </option>
+
+                        <option value="Bulk Order">
+                            Bulk Order
+                        </option>
+
+                        <option value="Wholesale">
+                            Wholesale
+                        </option>
+
+                        <option value="Business Supply">
+                            Business Supply
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Message</label>
+
+                    <textarea
+                        id="message"
+                        placeholder="Tell us what fabric you are looking for..."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <button class="btn btn-primary submit" type="submit">
+                    Send Inquiry
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
 <footer>
 
-© 2026 TENPHI TEXTILE. All Rights Reserved.
+    <div class="footer-grid">
+
+        <div>
+
+            <h3>TENPHI TEXTILE</h3>
+
+            <p>
+                Your reliable textile partner.
+                Quality fabrics for businesses,
+                retailers, resellers and manufacturers.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Fabrics</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h3>Business</h3>
+
+            <ul>
+                <li><a href="#contact">Wholesale</a></li>
+                <li><a href="#contact">Bulk Orders</a></li>
+                <li><a href="#contact">Business Supply</a></li>
+                <li><a href="#contact">Recommended Agent</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+        © <span id="year"></span> TENPHI TEXTILE. All Rights Reserved.
+    </div>
 
 </footer>
 
-<a href="https://wa.me/639123456789" class="whatsapp">💬</a>
+
+<script>
+
+function toggleMenu(){
+
+    document
+        .getElementById("navLinks")
+        .classList.toggle("active");
+
+}
+
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        document
+            .getElementById("navLinks")
+            .classList.remove("active");
+
+    });
+
+});
+
+
+function sendInquiry(event){
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("name").value;
+
+    const phone =
+        document.getElementById("phone").value;
+
+    const fabric =
+        document.getElementById("fabric").value;
+
+    const message =
+        document.getElementById("message").value;
+
+
+    /*
+      REPLACE THIS NUMBER WITH
+      YOUR TENPHI TEXTILE MESSENGER/
+      WHATSAPP CONTACT NUMBER.
+
+      Example:
+      const businessNumber = "639XXXXXXXXX";
+    */
+
+    const businessNumber = "639XXXXXXXXX";
+
+
+    const text =
+`Hello TENPHI TEXTILE!
+
+Name: ${name}
+Contact: ${phone}
+Inquiry: ${fabric}
+
+Message:
+${message}`;
+
+
+    if(businessNumber === "639XXXXXXXXX"){
+
+        alert(
+            "Please add your Tenphi Textile contact number in the website code first."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+        "https://wa.me/" +
+        businessNumber +
+        "?text=" +
+        encodeURIComponent(text),
+        "_blank"
+    );
+
+}
+
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+</script>
 
 </body>
 </html>
