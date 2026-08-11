@@ -5,20 +5,16 @@
 
 <meta name="viewport"
       content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no,
-               viewport-fit=cover">
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no,
+      viewport-fit=cover">
 
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#00e676">
 
 <title>KMJS Gabi Ng Lagim The Movie</title>
 
 <style>
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -30,17 +26,25 @@ html,
 body {
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background: #000;
     color: #fff;
-    overflow: hidden;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
     min-height: 100dvh;
+}
+
+button,
+select,
+input {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
 }
 
 /* =========================================================
@@ -48,11 +52,11 @@ body {
 ========================================================= */
 
 #app {
+    position: relative;
     width: 100%;
     height: 100dvh;
-    background: #000;
-    position: relative;
     overflow: hidden;
+    background: #000;
 }
 
 /* =========================================================
@@ -66,14 +70,12 @@ body {
     width: 100%;
     height: 100%;
 
-    display: block;
-
     object-fit: contain;
+
     background: #000;
 
     outline: none;
 
-    /* Helps avoid unwanted browser touch behavior */
     touch-action: manipulation;
 }
 
@@ -83,7 +85,6 @@ body {
 
 .topbar {
     position: absolute;
-
     top: 0;
     left: 0;
     right: 0;
@@ -91,7 +92,7 @@ body {
     z-index: 20;
 
     padding:
-        max(14px, env(safe-area-inset-top))
+        max(12px, env(safe-area-inset-top))
         max(14px, env(safe-area-inset-right))
         18px
         max(14px, env(safe-area-inset-left));
@@ -99,7 +100,7 @@ body {
     background:
         linear-gradient(
             to bottom,
-            rgba(0,0,0,.92),
+            rgba(0,0,0,.95),
             rgba(0,0,0,.55),
             transparent
         );
@@ -109,46 +110,161 @@ body {
         visibility .25s ease;
 }
 
-.title {
-    max-width: 90%;
+.movie-title {
+    max-width: 92%;
 
-    font-size: clamp(15px, 2vw, 21px);
-    line-height: 1.25;
-
-    font-weight: 700;
-
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: clamp(15px, 2vw, 22px);
+    font-weight: 700;
 
     text-shadow:
-        0 2px 8px rgba(0,0,0,.9);
+        0 2px 8px #000;
+}
+
+/* =========================================================
+   PROCESSING SCREEN
+========================================================= */
+
+#processor {
+    position: absolute;
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #101b15 0%,
+            #050705 45%,
+            #000 100%
+        );
+
+    transition:
+        opacity .3s ease,
+        visibility .3s ease;
+}
+
+#processor.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.logo {
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border-radius: 50%;
+
+    background: #00e676;
+
+    color: #000;
+
+    font-size: 34px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 35px rgba(0,230,118,.35);
+}
+
+.processor-title {
+    font-size: 20px;
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+.processor-status {
+    max-width: 600px;
+
+    color: #aaa;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+}
+
+.progress-box {
+    width: min(600px, 90vw);
+}
+
+.ffmpeg-progress {
+    width: 100%;
+    height: 7px;
+
+    overflow: hidden;
+
+    background: #222;
+
+    border-radius: 20px;
+}
+
+.ffmpeg-progress-bar {
+    width: 0%;
+    height: 100%;
+
+    background: #00e676;
+
+    border-radius: inherit;
+
+    transition: width .1s linear;
+}
+
+.percent {
+    margin-top: 8px;
+
+    color: #00e676;
+
+    font-size: 13px;
+    font-weight: 700;
 }
 
 /* =========================================================
    LOADING
 ========================================================= */
 
-.loading {
+#loading {
     position: absolute;
     inset: 0;
 
-    z-index: 15;
+    z-index: 40;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     pointer-events: none;
 
     background:
-        rgba(0,0,0,.08);
+        rgba(0,0,0,.12);
 
     transition:
-        opacity .2s ease;
+        opacity .2s ease,
+        visibility .2s ease;
 }
 
-.loading.hidden {
+#loading.hidden {
     opacity: 0;
     visibility: hidden;
 }
@@ -160,9 +276,9 @@ body {
     border-radius: 50%;
 
     border:
-        5px solid rgba(255,255,255,.22);
+        5px solid rgba(255,255,255,.2);
 
-    border-top-color: #00ff88;
+    border-top-color: #00e676;
 
     animation:
         spin .7s linear infinite;
@@ -175,59 +291,50 @@ body {
 }
 
 /* =========================================================
-   CENTER PLAY BUTTON
+   CENTER PLAY
 ========================================================= */
 
-.center-play {
+#centerPlay {
     position: absolute;
 
-    left: 50%;
     top: 50%;
+    left: 50%;
 
     transform:
-        translate(-50%, -50%)
-        scale(1);
+        translate(-50%, -50%);
 
-    z-index: 12;
+    z-index: 30;
 
-    width: 76px;
-    height: 76px;
+    width: 74px;
+    height: 74px;
 
-    border: 0;
     border-radius: 50%;
 
     background:
-        rgba(0,0,0,.65);
+        rgba(0,0,0,.72);
 
     color: #fff;
 
-    font-size: 30px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
+    font-size: 28px;
 
     transition:
         opacity .2s ease,
-        transform .15s ease,
-        background .15s ease;
+        transform .15s ease;
 }
 
-.center-play:hover,
-.center-play:focus {
-    background: #00ff88;
+#centerPlay:hover,
+#centerPlay:focus {
+    background: #00e676;
     color: #000;
 
     transform:
         translate(-50%, -50%)
-        scale(1.06);
+        scale(1.08);
 
     outline: none;
 }
 
-.center-play.hidden {
+#centerPlay.hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -237,47 +344,48 @@ body {
    ERROR
 ========================================================= */
 
-.error {
+#errorBox {
     position: absolute;
 
-    left: 50%;
     top: 50%;
+    left: 50%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
-    width: min(90%, 520px);
+    z-index: 150;
 
-    z-index: 40;
+    width: min(92%, 560px);
 
     padding: 24px;
-
-    text-align: center;
-
-    background:
-        rgba(12,12,12,.97);
 
     border:
         1px solid #333;
 
     border-radius: 14px;
 
+    background:
+        rgba(8,8,8,.98);
+
+    text-align: center;
+
     box-shadow:
-        0 15px 60px rgba(0,0,0,.8);
+        0 20px 70px rgba(0,0,0,.85);
 }
 
-.error.hidden {
+#errorBox.hidden {
     display: none;
 }
 
-.error h2 {
+#errorBox h2 {
     margin-bottom: 10px;
 
-    color: #ff5b5b;
+    color: #ff5252;
 
     font-size: 20px;
 }
 
-.error p {
+#errorMessage {
     color: #bbb;
 
     font-size: 14px;
@@ -285,46 +393,43 @@ body {
 }
 
 .retry {
-    margin-top: 16px;
+    margin-top: 18px;
 
-    padding: 11px 20px;
+    padding: 11px 22px;
 
-    border: 0;
     border-radius: 8px;
 
-    background: #00ff88;
+    background: #00e676;
     color: #000;
 
-    font-weight: 700;
-
-    cursor: pointer;
+    font-weight: 800;
 }
 
 /* =========================================================
    CONTROLS
 ========================================================= */
 
-.controls {
+#controls {
     position: absolute;
 
     left: 0;
     right: 0;
     bottom: 0;
 
-    z-index: 25;
+    z-index: 50;
 
     padding:
         8px
-        max(12px, env(safe-area-inset-right))
-        max(12px, env(safe-area-inset-bottom))
-        max(12px, env(safe-area-inset-left));
+        max(10px, env(safe-area-inset-right))
+        max(10px, env(safe-area-inset-bottom))
+        max(10px, env(safe-area-inset-left));
 
     background:
         linear-gradient(
             to top,
             rgba(0,0,0,.98),
             rgba(0,0,0,.86),
-            rgba(0,0,0,0)
+            transparent
         );
 
     transition:
@@ -332,7 +437,7 @@ body {
         visibility .25s ease;
 }
 
-.controls.hidden,
+#controls.hidden,
 .topbar.hidden {
     opacity: 0;
     visibility: hidden;
@@ -340,69 +445,65 @@ body {
 }
 
 /* =========================================================
-   PROGRESS
+   SEEK BAR
 ========================================================= */
 
-.progress-row {
+.progress-container {
     width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    gap: 8px;
 
     margin-bottom: 8px;
 }
 
-.progress {
+#progress {
+    appearance: none;
+
     width: 100%;
     height: 6px;
 
-    appearance: none;
+    background: #333;
 
-    cursor: pointer;
-
-    background: rgba(255,255,255,.25);
-
-    border-radius: 10px;
+    border-radius: 20px;
 
     outline: none;
+
+    cursor: pointer;
 }
 
-.progress::-webkit-slider-thumb {
+#progress::-webkit-slider-thumb {
     appearance: none;
 
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
 
     border-radius: 50%;
 
-    background: #00ff88;
+    background: #00e676;
 
     cursor: pointer;
 }
 
-.progress::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+#progress::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
 
     border: 0;
 
     border-radius: 50%;
 
-    background: #00ff88;
+    background: #00e676;
 
     cursor: pointer;
 }
 
 /* =========================================================
-   CONTROL ROW
+   BUTTON ROW
 ========================================================= */
 
 .control-row {
     width: 100%;
 
     display: flex;
+
     align-items: center;
 
     gap: 6px;
@@ -412,54 +513,40 @@ body {
     min-width: 44px;
     height: 42px;
 
-    padding: 0 10px;
+    padding: 0 9px;
 
-    border: 0;
     border-radius: 8px;
 
     background:
-        rgba(25,25,25,.9);
+        rgba(24,24,24,.95);
 
     color: #fff;
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 
-    cursor: pointer;
-
     outline: none;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition:
-        background .12s ease,
-        color .12s ease,
-        transform .1s ease;
 }
 
 .control:hover,
 .control:focus {
-    background: #00ff88;
+    background: #00e676;
     color: #000;
+
+    outline:
+        2px solid #00e676;
+
+    outline-offset: 2px;
 }
 
 .control:active {
     transform: scale(.94);
 }
 
-.play {
+.play-button {
     min-width: 52px;
+
     font-size: 18px;
-}
-
-.seek {
-    font-size: 12px;
-}
-
-.spacer {
-    flex: 1;
 }
 
 .time {
@@ -467,18 +554,22 @@ body {
 
     color: #ddd;
 
-    font-size: 12px;
-
     text-align: center;
 
+    font-size: 12px;
+
     white-space: nowrap;
+}
+
+.spacer {
+    flex: 1;
 }
 
 .volume {
     width: 85px;
     height: 5px;
 
-    accent-color: #00ff88;
+    accent-color: #00e676;
 
     cursor: pointer;
 }
@@ -486,19 +577,20 @@ body {
 .speed {
     height: 42px;
 
+    padding: 0 8px;
+
     border: 0;
     border-radius: 8px;
 
-    padding: 0 8px;
+    background: rgba(24,24,24,.95);
 
-    background: rgba(25,25,25,.9);
     color: #fff;
 
     outline: none;
 }
 
 .speed:focus {
-    background: #00ff88;
+    background: #00e676;
     color: #000;
 }
 
@@ -508,35 +600,24 @@ body {
 
 @media (max-width: 700px) {
 
-    .topbar {
-        padding-top:
-            max(10px, env(safe-area-inset-top));
-    }
-
-    .title {
-        font-size: 14px;
-    }
-
     .control {
-        min-width: 40px;
+        min-width: 39px;
         height: 38px;
 
-        padding: 0 7px;
+        padding: 0 6px;
 
-        font-size: 12px;
+        font-size: 11px;
     }
 
-    .play {
+    .play-button {
         min-width: 46px;
-        font-size: 17px;
-    }
 
-    .seek {
-        min-width: 42px;
+        font-size: 16px;
     }
 
     .time {
         min-width: 82px;
+
         font-size: 10px;
     }
 
@@ -546,38 +627,31 @@ body {
 
     .speed {
         height: 38px;
+
         font-size: 11px;
     }
 
-    .center-play {
+    #centerPlay {
         width: 64px;
         height: 64px;
 
-        font-size: 25px;
+        font-size: 24px;
     }
 }
 
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
-
 @media (max-width: 390px) {
 
-    .control {
-        min-width: 36px;
-        padding: 0 5px;
-    }
-
-    .seek {
-        font-size: 10px;
+    .speed {
+        display: none;
     }
 
     .time {
         min-width: 70px;
     }
 
-    .speed {
-        display: none;
+    .control {
+        min-width: 35px;
+        padding: 0 4px;
     }
 }
 
@@ -594,31 +668,19 @@ body {
         font-size: 14px;
     }
 
-    .play {
-        min-width: 64px;
+    .play-button {
+        min-width: 65px;
+
         font-size: 20px;
     }
 
-    .seek {
-        min-width: 64px;
-    }
-
-    .progress {
+    #progress {
         height: 7px;
     }
 
-    .progress::-webkit-slider-thumb {
-        width: 18px;
-        height: 18px;
-    }
-
-    button:focus,
-    select:focus,
-    input:focus {
-        outline:
-            3px solid #00ff88;
-
-        outline-offset: 2px;
+    #progress::-webkit-slider-thumb {
+        width: 19px;
+        height: 19px;
     }
 }
 
@@ -631,12 +693,8 @@ body {
     height: 100vh;
 }
 
-:fullscreen .controls {
+:fullscreen #controls {
     padding-bottom: 20px;
-}
-
-:fullscreen .topbar {
-    padding-top: 20px;
 }
 
 /* =========================================================
@@ -648,8 +706,8 @@ body {
     *,
     *::before,
     *::after {
-        animation-duration: .001ms !important;
-        transition-duration: .001ms !important;
+        animation: none !important;
+        transition: none !important;
     }
 }
 </style>
@@ -667,26 +725,62 @@ body {
         id="video"
         playsinline
         webkit-playsinline
-        preload="metadata"
-        crossorigin="anonymous"
+        preload="auto"
         tabindex="0">
 
-        <source
-            src="https://movies.maflix.qzz.io/movies/1786407007914-e7ea37ff-cd96-484f-af16-68b7074e308b-KMJS.Gabi.ng.Lagim.The.Movie.2025.1080p.mkv"
-            type="video/x-matroska">
-
-        Your browser does not support HTML5 video.
     </video>
 
 
     <!-- =====================================================
-         TOP TITLE
+         TITLE
     ====================================================== -->
 
     <div id="topbar" class="topbar">
-        <div class="title">
+
+        <div class="movie-title">
             KMJS Gabi Ng Lagim The Movie
         </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FFmpeg PROCESSOR
+    ====================================================== -->
+
+    <div id="processor">
+
+        <div class="logo">
+            ▶
+        </div>
+
+        <div class="processor-title">
+            Preparing Video
+        </div>
+
+        <div id="processorStatus"
+             class="processor-status">
+
+            Loading MKV engine...
+        </div>
+
+        <div class="progress-box">
+
+            <div class="ffmpeg-progress">
+
+                <div id="ffmpegBar"
+                     class="ffmpeg-progress-bar">
+                </div>
+
+            </div>
+
+            <div id="ffmpegPercent"
+                 class="percent">
+                0%
+            </div>
+
+        </div>
+
     </div>
 
 
@@ -694,8 +788,10 @@ body {
          LOADING
     ====================================================== -->
 
-    <div id="loading" class="loading hidden">
+    <div id="loading" class="hidden">
+
         <div class="spinner"></div>
+
     </div>
 
 
@@ -705,10 +801,11 @@ body {
 
     <button
         id="centerPlay"
-        class="center-play"
-        aria-label="Play video">
+        class="hidden"
+        aria-label="Play">
 
         ▶
+
     </button>
 
 
@@ -716,12 +813,14 @@ body {
          ERROR
     ====================================================== -->
 
-    <div id="error" class="error hidden">
+    <div id="errorBox" class="hidden">
 
-        <h2>Video Cannot Play</h2>
+        <h2>
+            Unable to Play Video
+        </h2>
 
         <p id="errorMessage">
-            The video could not be decoded by this browser.
+            The MKV could not be processed.
         </p>
 
         <button
@@ -729,6 +828,7 @@ body {
             class="retry">
 
             Retry
+
         </button>
 
     </div>
@@ -738,13 +838,12 @@ body {
          CONTROLS
     ====================================================== -->
 
-    <div id="controls" class="controls">
+    <div id="controls">
 
-        <div class="progress-row">
+        <div class="progress-container">
 
             <input
                 id="progress"
-                class="progress"
                 type="range"
                 min="0"
                 max="100"
@@ -757,70 +856,81 @@ body {
 
         <div class="control-row">
 
-            <!-- BACKWARD -->
             <button
                 id="back"
-                class="control seek"
-                title="Backward 10 seconds"
-                aria-label="Backward 10 seconds">
+                class="control"
+                title="Backward 10 seconds">
 
-                ↶ 10
+                ↶10
+
             </button>
 
 
-            <!-- PLAY -->
             <button
                 id="play"
-                class="control play"
-                title="Play / Pause"
-                aria-label="Play or pause">
+                class="control play-button"
+                title="Play / Pause">
 
                 ▶
+
             </button>
 
 
-            <!-- FORWARD -->
             <button
                 id="forward"
-                class="control seek"
-                title="Forward 10 seconds"
-                aria-label="Forward 10 seconds">
+                class="control"
+                title="Forward 10 seconds">
 
-                10 ↷
+                10↷
+
             </button>
 
 
-            <!-- TIME -->
             <span
                 id="time"
                 class="time">
 
                 00:00 / 00:00
+
             </span>
 
 
             <div class="spacer"></div>
 
 
-            <!-- SPEED -->
             <select
                 id="speed"
                 class="speed"
-                title="Playback speed"
                 aria-label="Playback speed">
 
-                <option value="0.5">0.5×</option>
-                <option value="0.75">0.75×</option>
-                <option value="1" selected>1×</option>
-                <option value="1.25">1.25×</option>
-                <option value="1.5">1.5×</option>
-                <option value="1.75">1.75×</option>
-                <option value="2">2×</option>
+                <option value="0.5">
+                    0.5×
+                </option>
+
+                <option value="0.75">
+                    0.75×
+                </option>
+
+                <option value="1"
+                        selected>
+                    1×
+                </option>
+
+                <option value="1.25">
+                    1.25×
+                </option>
+
+                <option value="1.5">
+                    1.5×
+                </option>
+
+                <option value="2">
+                    2×
+                </option>
 
             </select>
 
 
-            <!-- VOLUME -->
             <input
                 id="volume"
                 class="volume"
@@ -832,36 +942,23 @@ body {
                 aria-label="Volume">
 
 
-            <!-- MUTE -->
             <button
                 id="mute"
                 class="control"
-                title="Mute"
-                aria-label="Mute">
+                title="Mute">
 
                 🔊
+
             </button>
 
 
-            <!-- PIP -->
-            <button
-                id="pip"
-                class="control"
-                title="Picture in Picture"
-                aria-label="Picture in Picture">
-
-                PiP
-            </button>
-
-
-            <!-- FULLSCREEN -->
             <button
                 id="fullscreen"
                 class="control"
-                title="Fullscreen"
-                aria-label="Fullscreen">
+                title="Fullscreen">
 
                 ⛶
+
             </button>
 
         </div>
@@ -871,18 +968,77 @@ body {
 </div>
 
 
-<script>
-"use strict";
+<!-- =========================================================
+     FFmpeg.wasm
+========================================================== -->
+
+<script type="module">
+
+/*
+ * Current FFmpeg JS wrapper and utility packages.
+ *
+ * The FFmpeg project publishes current releases on GitHub.
+ * This page uses the browser module build.
+ */
+
+import {
+    FFmpeg
+} from "https://esm.sh/@ffmpeg/ffmpeg@0.12.15";
+
+import {
+    fetchFile,
+    toBlobURL
+} from "https://esm.sh/@ffmpeg/util@0.12.2";
+
+
+/* =========================================================
+   SOURCE
+========================================================= */
+
+const SOURCE_URL =
+"https://movies.maflix.qzz.io/movies/1786407007914-e7ea37ff-cd96-484f-af16-68b7074e308b-KMJS.Gabi.ng.Lagim.The.Movie.2025.1080p.mkv";
+
+
+const TITLE =
+"KMJS Gabi Ng Lagim The Movie";
+
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
-const app =
-    document.getElementById("app");
-
 const video =
     document.getElementById("video");
+
+const processor =
+    document.getElementById("processor");
+
+const processorStatus =
+    document.getElementById("processorStatus");
+
+const ffmpegBar =
+    document.getElementById("ffmpegBar");
+
+const ffmpegPercent =
+    document.getElementById("ffmpegPercent");
+
+const loading =
+    document.getElementById("loading");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+const retry =
+    document.getElementById("retry");
+
+const controls =
+    document.getElementById("controls");
+
+const topbar =
+    document.getElementById("topbar");
 
 const play =
     document.getElementById("play");
@@ -911,88 +1067,136 @@ const mute =
 const fullscreen =
     document.getElementById("fullscreen");
 
-const pip =
-    document.getElementById("pip");
-
 const speed =
     document.getElementById("speed");
 
-const controls =
-    document.getElementById("controls");
-
-const topbar =
-    document.getElementById("topbar");
-
-const loading =
-    document.getElementById("loading");
-
-const error =
-    document.getElementById("error");
-
-const errorMessage =
-    document.getElementById("errorMessage");
-
-const retry =
-    document.getElementById("retry");
-
 
 /* =========================================================
-   SETTINGS
+   FFmpeg
 ========================================================= */
 
-const SEEK_TIME = 10;
+const ffmpeg =
+    new FFmpeg();
 
-const STORAGE_KEY =
-    "kmjs-gabi-ng-lagim-position";
 
-let hideTimer = null;
+let objectURL = null;
 
 let progressDragging = false;
 
-let lastTap = 0;
+let hideTimer = null;
+
+let wakeLock = null;
 
 
 /* =========================================================
-   TIME FORMAT
+   UI HELPERS
+========================================================= */
+
+function setProcessorStatus(message) {
+
+    processorStatus.textContent =
+        message;
+}
+
+
+function setFFmpegProgress(value) {
+
+    value =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                value
+            )
+        );
+
+    ffmpegBar.style.width =
+        value + "%";
+
+    ffmpegPercent.textContent =
+        Math.round(value) + "%";
+}
+
+
+function showLoading() {
+
+    loading.classList.remove(
+        "hidden"
+    );
+}
+
+
+function hideLoading() {
+
+    loading.classList.add(
+        "hidden"
+    );
+}
+
+
+function showError(message) {
+
+    hideLoading();
+
+    processor.classList.add(
+        "hidden"
+    );
+
+    errorMessage.textContent =
+        message;
+
+    errorBox.classList.remove(
+        "hidden"
+    );
+}
+
+
+/* =========================================================
+   TIME
 ========================================================= */
 
 function formatTime(seconds) {
 
-    if (!Number.isFinite(seconds) ||
-        seconds < 0) {
-
+    if (
+        !Number.isFinite(seconds) ||
+        seconds < 0
+    ) {
         return "00:00";
     }
 
     seconds =
         Math.floor(seconds);
 
-    const hours =
-        Math.floor(seconds / 3600);
+    const h =
+        Math.floor(
+            seconds / 3600
+        );
 
-    const minutes =
+    const m =
         Math.floor(
             (seconds % 3600) / 60
         );
 
-    const secondsPart =
+    const s =
         seconds % 60;
 
-    if (hours > 0) {
+
+    if (h > 0) {
 
         return (
-            String(hours).padStart(2, "0") +
+            String(h).padStart(2,"0") +
             ":" +
-            String(minutes).padStart(2, "0") +
+            String(m).padStart(2,"0") +
             ":" +
-            String(secondsPart).padStart(2, "0")
+            String(s).padStart(2,"0")
         );
     }
 
+
     return (
-        String(minutes).padStart(2, "0") +
+        String(m).padStart(2,"0") +
         ":" +
-        String(secondsPart).padStart(2, "0")
+        String(s).padStart(2,"0")
     );
 }
 
@@ -1005,56 +1209,25 @@ function updatePlayButton() {
 
     if (video.paused) {
 
-        play.textContent = "▶";
-        centerPlay.textContent = "▶";
+        play.textContent =
+            "▶";
 
-        centerPlay.classList.remove("hidden");
+        centerPlay.textContent =
+            "▶";
+
+        centerPlay.classList.remove(
+            "hidden"
+        );
 
     } else {
 
-        play.textContent = "❚❚";
+        play.textContent =
+            "❚❚";
 
-        centerPlay.classList.add("hidden");
-    }
-}
-
-
-/* =========================================================
-   PLAY
-========================================================= */
-
-async function playVideo() {
-
-    try {
-
-        await video.play();
-
-        updatePlayButton();
-
-        hideControlsSoon();
-
-    } catch (err) {
-
-        /*
-         * Autoplay may be blocked.
-         * User interaction will still allow playback.
-         */
-
-        console.log(
-            "Playback requires user interaction:",
-            err
+        centerPlay.classList.add(
+            "hidden"
         );
-
-        centerPlay.classList.remove("hidden");
     }
-}
-
-
-function pauseVideo() {
-
-    video.pause();
-
-    updatePlayButton();
 }
 
 
@@ -1062,11 +1235,22 @@ async function togglePlay() {
 
     if (video.paused) {
 
-        await playVideo();
+        try {
+
+            await video.play();
+
+        } catch (err) {
+
+            console.log(
+                "Play blocked:",
+                err
+            );
+
+        }
 
     } else {
 
-        pauseVideo();
+        video.pause();
     }
 }
 
@@ -1076,15 +1260,18 @@ play.addEventListener(
     togglePlay
 );
 
+
 centerPlay.addEventListener(
     "click",
     togglePlay
 );
 
+
 video.addEventListener(
     "play",
     updatePlayButton
 );
+
 
 video.addEventListener(
     "pause",
@@ -1096,47 +1283,43 @@ video.addEventListener(
    SEEK
 ========================================================= */
 
-function seekTo(seconds) {
+function seekBy(seconds) {
 
-    if (!Number.isFinite(video.duration)) {
+    if (
+        !Number.isFinite(
+            video.duration
+        )
+    ) {
         return;
     }
+
 
     const target =
         Math.max(
             0,
             Math.min(
                 video.duration,
+                video.currentTime +
                 seconds
             )
         );
 
-    /*
-     * fastSeek is useful for quick seeking
-     * where supported.
-     */
+
     if (
-        typeof video.fastSeek === "function"
+        typeof video.fastSeek ===
+        "function"
     ) {
 
-        video.fastSeek(target);
+        video.fastSeek(
+            target
+        );
 
     } else {
 
-        video.currentTime = target;
-    }
-}
-
-
-function seekBy(amount) {
-
-    if (!Number.isFinite(video.currentTime)) {
-        return;
+        video.currentTime =
+            target;
     }
 
-    seekTo(
-        video.currentTime + amount
-    );
 
     showControls();
 }
@@ -1144,12 +1327,13 @@ function seekBy(amount) {
 
 back.addEventListener(
     "click",
-    () => seekBy(-SEEK_TIME)
+    () => seekBy(-10)
 );
+
 
 forward.addEventListener(
     "click",
-    () => seekBy(SEEK_TIME)
+    () => seekBy(10)
 );
 
 
@@ -1157,54 +1341,50 @@ forward.addEventListener(
    PROGRESS
 ========================================================= */
 
-function updateProgress() {
-
-    if (
-        progressDragging ||
-        !Number.isFinite(video.duration) ||
-        video.duration <= 0
-    ) {
-        return;
-    }
-
-    progress.value =
-        (
-            video.currentTime /
-            video.duration
-        ) * 100;
-
-    time.textContent =
-        formatTime(video.currentTime) +
-        " / " +
-        formatTime(video.duration);
-}
-
-
 video.addEventListener(
     "timeupdate",
-    updateProgress
+    () => {
+
+        if (
+            progressDragging
+        ) {
+            return;
+        }
+
+
+        if (
+            Number.isFinite(
+                video.duration
+            ) &&
+            video.duration > 0
+        ) {
+
+            progress.value =
+                (
+                    video.currentTime /
+                    video.duration
+                ) * 100;
+        }
+
+
+        time.textContent =
+            formatTime(
+                video.currentTime
+            ) +
+            " / " +
+            formatTime(
+                video.duration
+            );
+    }
 );
 
-video.addEventListener(
-    "durationchange",
-    updateProgress
-);
-
-video.addEventListener(
-    "loadedmetadata",
-    updateProgress
-);
-
-
-/* =========================================================
-   DRAG PROGRESS
-========================================================= */
 
 progress.addEventListener(
     "pointerdown",
     () => {
 
-        progressDragging = true;
+        progressDragging =
+            true;
     }
 );
 
@@ -1213,17 +1393,21 @@ progress.addEventListener(
     "pointerup",
     () => {
 
-        progressDragging = false;
+        progressDragging =
+            false;
 
         if (
-            Number.isFinite(video.duration)
+            Number.isFinite(
+                video.duration
+            )
         ) {
 
             video.currentTime =
                 (
                     Number(progress.value) /
                     100
-                ) * video.duration;
+                ) *
+                video.duration;
         }
     }
 );
@@ -1234,14 +1418,17 @@ progress.addEventListener(
     () => {
 
         if (
-            Number.isFinite(video.duration)
+            Number.isFinite(
+                video.duration
+            )
         ) {
 
             const preview =
                 (
                     Number(progress.value) /
                     100
-                ) * video.duration;
+                ) *
+                video.duration;
 
             time.textContent =
                 formatTime(preview) +
@@ -1263,17 +1450,20 @@ function updateMuteIcon() {
         video.volume === 0
     ) {
 
-        mute.textContent = "🔇";
+        mute.textContent =
+            "🔇";
 
     } else if (
-        video.volume < 0.5
+        video.volume < .5
     ) {
 
-        mute.textContent = "🔉";
+        mute.textContent =
+            "🔉";
 
     } else {
 
-        mute.textContent = "🔊";
+        mute.textContent =
+            "🔊";
     }
 }
 
@@ -1283,7 +1473,9 @@ volume.addEventListener(
     () => {
 
         video.volume =
-            Number(volume.value);
+            Number(
+                volume.value
+            );
 
         video.muted =
             video.volume === 0;
@@ -1316,9 +1508,9 @@ speed.addEventListener(
     () => {
 
         video.playbackRate =
-            Number(speed.value);
-
-        showControls();
+            Number(
+                speed.value
+            );
     }
 );
 
@@ -1327,7 +1519,7 @@ speed.addEventListener(
    FULLSCREEN
 ========================================================= */
 
-async function enterFullscreen() {
+async function toggleFullscreen() {
 
     try {
 
@@ -1337,15 +1529,13 @@ async function enterFullscreen() {
 
             await document.exitFullscreen();
 
-            return;
-        }
-
-
-        if (
-            app.requestFullscreen
+        } else if (
+            document.documentElement
+                .requestFullscreen
         ) {
 
-            await app.requestFullscreen();
+            await document.documentElement
+                .requestFullscreen();
 
         } else if (
             video.webkitEnterFullscreen
@@ -1366,81 +1556,65 @@ async function enterFullscreen() {
 
 fullscreen.addEventListener(
     "click",
-    enterFullscreen
+    toggleFullscreen
 );
 
 
 /* =========================================================
-   PICTURE IN PICTURE
+   CONTROLS AUTO HIDE
 ========================================================= */
 
-async function togglePiP() {
+function showControls() {
 
-    try {
+    controls.classList.remove(
+        "hidden"
+    );
 
-        if (
-            document.pictureInPictureElement
-        ) {
+    topbar.classList.remove(
+        "hidden"
+    );
 
-            await document.exitPictureInPicture();
+    clearTimeout(
+        hideTimer
+    );
 
-            return;
-        }
 
-        if (
-            document.pictureInPictureEnabled &&
-            !video.disablePictureInPicture
-        ) {
+    if (!video.paused) {
 
-            await video.requestPictureInPicture();
+        hideTimer =
+            setTimeout(
+                () => {
 
-        } else {
+                    controls.classList.add(
+                        "hidden"
+                    );
 
-            console.log(
-                "Picture in Picture is not supported."
+                    topbar.classList.add(
+                        "hidden"
+                    );
+
+                },
+                3500
             );
-        }
-
-    } catch (err) {
-
-        console.log(
-            "PiP error:",
-            err
-        );
     }
 }
 
 
-pip.addEventListener(
-    "click",
-    togglePiP
+document.addEventListener(
+    "pointermove",
+    showControls
+);
+
+
+document.addEventListener(
+    "pointerdown",
+    showControls
 );
 
 
 /* =========================================================
-   LOADING
+   LOADING EVENTS
 ========================================================= */
-
-function showLoading() {
-
-    loading.classList.remove(
-        "hidden"
-    );
-}
-
-
-function hideLoading() {
-
-    loading.classList.add(
-        "hidden"
-    );
-}
-
-
-video.addEventListener(
-    "loadstart",
-    showLoading
-);
 
 video.addEventListener(
     "waiting",
@@ -1458,12 +1632,12 @@ video.addEventListener(
 );
 
 video.addEventListener(
-    "canplay",
+    "playing",
     hideLoading
 );
 
 video.addEventListener(
-    "playing",
+    "canplay",
     hideLoading
 );
 
@@ -1474,68 +1648,631 @@ video.addEventListener(
 
 
 /* =========================================================
-   ERROR HANDLING
+   VIDEO ERROR
 ========================================================= */
-
-function showError(message) {
-
-    hideLoading();
-
-    errorMessage.textContent =
-        message;
-
-    error.classList.remove(
-        "hidden"
-    );
-}
-
 
 video.addEventListener(
     "error",
     () => {
 
-        let message =
-            "This browser could not play the video.";
+        let msg =
+            "The processed video could not be played.";
 
         if (video.error) {
 
-            switch (
-                video.error.code
+            if (
+                video.error.code ===
+                MediaError.MEDIA_ERR_DECODE
             ) {
 
-                case MediaError.MEDIA_ERR_ABORTED:
+                msg =
+                    "The browser cannot decode the output video codec.";
 
-                    message =
-                        "Video loading was aborted.";
+            } else if (
+                video.error.code ===
+                MediaError.MEDIA_ERR_NETWORK
+            ) {
 
-                    break;
+                msg =
+                    "A network error occurred while loading the processed video.";
 
-                case MediaError.MEDIA_ERR_NETWORK:
+            } else if (
+                video.error.code ===
+                MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED
+            ) {
 
-                    message =
-                        "A network error occurred while loading the video.";
-
-                    break;
-
-                case MediaError.MEDIA_ERR_DECODE:
-
-                    message =
-                        "The video was downloaded but could not be decoded. The MKV container or its codec may not be supported.";
-
-                    break;
-
-                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-
-                    message =
-                        "This browser does not support this video source or codec.";
-
-                    break;
+                msg =
+                    "The browser does not support the generated media format.";
             }
         }
 
-        showError(message);
+        showError(msg);
     }
 );
+
+
+/* =========================================================
+   FFmpeg LOG
+========================================================= */
+
+ffmpeg.on(
+    "log",
+    ({ message }) => {
+
+        console.log(
+            "[FFmpeg]",
+            message
+        );
+    }
+);
+
+
+/* =========================================================
+   FFmpeg PROGRESS
+========================================================= */
+
+ffmpeg.on(
+    "progress",
+    ({ progress: p }) => {
+
+        setFFmpegProgress(
+            p * 100
+        );
+    }
+);
+
+
+/* =========================================================
+   LOAD FFMPEG
+========================================================= */
+
+async function loadFFmpeg() {
+
+    if (
+        ffmpeg.loaded
+    ) {
+
+        return;
+    }
+
+
+    setProcessorStatus(
+        "Loading FFmpeg.wasm..."
+    );
+
+    setFFmpegProgress(5);
+
+
+    try {
+
+        /*
+         * Use the single-thread core for a
+         * normal standalone HTML page.
+         *
+         * toBlobURL avoids cross-origin worker
+         * loading problems from the CDN.
+         */
+
+        const baseURL =
+            "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd";
+
+
+        const coreURL =
+            await toBlobURL(
+                `${baseURL}/ffmpeg-core.js`,
+                "text/javascript"
+            );
+
+
+        const wasmURL =
+            await toBlobURL(
+                `${baseURL}/ffmpeg-core.wasm`,
+                "application/wasm"
+            );
+
+
+        await ffmpeg.load({
+            coreURL,
+            wasmURL
+        });
+
+
+        setFFmpegProgress(10);
+
+        setProcessorStatus(
+            "FFmpeg engine ready."
+        );
+
+    } catch (err) {
+
+        console.error(
+            "FFmpeg load error:",
+            err
+        );
+
+        throw new Error(
+            "FFmpeg.wasm could not load. Check your internet connection or CDN access."
+        );
+    }
+}
+
+
+/* =========================================================
+   FETCH SOURCE
+========================================================= */
+
+async function downloadSource() {
+
+    setProcessorStatus(
+        "Connecting to MAFLIX..."
+    );
+
+    setFFmpegProgress(12);
+
+
+    let response;
+
+    try {
+
+        response =
+            await fetch(
+                SOURCE_URL,
+                {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "omit",
+                    cache: "no-store"
+                }
+            );
+
+    } catch (err) {
+
+        throw new Error(
+            "MAFLIX did not allow browser access to the MKV. The source server needs CORS support."
+        );
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            `MAFLIX returned HTTP ${response.status}.`
+        );
+    }
+
+
+    /*
+     * Content-Length is not always available
+     * because of CORS/server configuration.
+     */
+
+    const total =
+        Number(
+            response.headers.get(
+                "content-length"
+            )
+        );
+
+
+    if (
+        !response.body
+    ) {
+
+        const buffer =
+            await response.arrayBuffer();
+
+        setFFmpegProgress(25);
+
+        return new Uint8Array(
+            buffer
+        );
+    }
+
+
+    const reader =
+        response.body.getReader();
+
+    const chunks = [];
+
+    let received = 0;
+
+
+    while (true) {
+
+        const {
+            done,
+            value
+        } =
+            await reader.read();
+
+
+        if (done) {
+            break;
+        }
+
+
+        chunks.push(value);
+
+        received +=
+            value.byteLength;
+
+
+        if (
+            total > 0
+        ) {
+
+            /*
+             * Download occupies 10%-45%.
+             */
+
+            const p =
+                10 +
+                (
+                    received /
+                    total
+                ) * 35;
+
+            setFFmpegProgress(
+                p
+            );
+
+            setProcessorStatus(
+                "Downloading MKV... " +
+                Math.round(
+                    received /
+                    1048576
+                ) +
+                " MB"
+            );
+
+        } else {
+
+            setProcessorStatus(
+                "Downloading MKV... " +
+                Math.round(
+                    received /
+                    1048576
+                ) +
+                " MB"
+            );
+        }
+    }
+
+
+    const result =
+        new Uint8Array(
+            received
+        );
+
+
+    let offset = 0;
+
+
+    for (
+        const chunk of chunks
+    ) {
+
+        result.set(
+            chunk,
+            offset
+        );
+
+        offset +=
+            chunk.length;
+    }
+
+
+    setFFmpegProgress(45);
+
+    return result;
+}
+
+
+/* =========================================================
+   PREPARE MKV
+========================================================= */
+
+async function prepareVideo() {
+
+    await loadFFmpeg();
+
+
+    setProcessorStatus(
+        "Downloading MKV source..."
+    );
+
+
+    const input =
+        await downloadSource();
+
+
+    setProcessorStatus(
+        "Loading MKV into FFmpeg..."
+    );
+
+    setFFmpegProgress(48);
+
+
+    try {
+
+        await ffmpeg.writeFile(
+            "input.mkv",
+            input
+        );
+
+    } catch (err) {
+
+        console.error(
+            "writeFile error:",
+            err
+        );
+
+        throw new Error(
+            "The MKV is too large for this browser's available memory or could not be loaded."
+        );
+    }
+
+
+    setProcessorStatus(
+        "Remuxing MKV into browser-compatible MP4..."
+    );
+
+    setFFmpegProgress(50);
+
+
+    /*
+     * First attempt:
+     *
+     * Copy the video stream without re-encoding.
+     * AAC audio is generated for compatibility.
+     *
+     * This is MUCH faster than full transcoding.
+     */
+
+    try {
+
+        await ffmpeg.exec([
+            "-i",
+            "input.mkv",
+
+            "-map",
+            "0:v:0",
+
+            "-map",
+            "0:a:0?",
+
+            "-c:v",
+            "copy",
+
+            "-c:a",
+            "aac",
+
+            "-b:a",
+            "160k",
+
+            "-movflags",
+            "+faststart",
+
+            "output.mp4"
+        ]);
+
+
+    } catch (remuxError) {
+
+        console.warn(
+            "Fast remux failed:",
+            remuxError
+        );
+
+
+        /*
+         * Compatibility fallback:
+         *
+         * H.264 + AAC.
+         *
+         * This is considerably slower and
+         * CPU-intensive for 1080p movies.
+         */
+
+        setProcessorStatus(
+            "Using compatibility mode: H.264 + AAC..."
+        );
+
+
+        setFFmpegProgress(55);
+
+
+        await ffmpeg.exec([
+            "-i",
+            "input.mkv",
+
+            "-map",
+            "0:v:0",
+
+            "-map",
+            "0:a:0?",
+
+            "-c:v",
+            "libx264",
+
+            "-preset",
+            "veryfast",
+
+            "-crf",
+            "23",
+
+            "-pix_fmt",
+            "yuv420p",
+
+            "-c:a",
+            "aac",
+
+            "-b:a",
+            "160k",
+
+            "-movflags",
+            "+faststart",
+
+            "output.mp4"
+        ]);
+    }
+
+
+    setProcessorStatus(
+        "Preparing browser video..."
+    );
+
+    setFFmpegProgress(92);
+
+
+    const data =
+        await ffmpeg.readFile(
+            "output.mp4"
+        );
+
+
+    /*
+     * Free the input from FFmpeg's virtual FS.
+     */
+
+    try {
+        await ffmpeg.deleteFile(
+            "input.mkv"
+        );
+    } catch (e) {}
+
+
+    try {
+        await ffmpeg.deleteFile(
+            "output.mp4"
+        );
+    } catch (e) {}
+
+
+    /*
+     * Create browser Blob.
+     */
+
+    const blob =
+        new Blob(
+            [data.buffer],
+            {
+                type: "video/mp4"
+            }
+        );
+
+
+    objectURL =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    video.src =
+        objectURL;
+
+
+    video.load();
+
+
+    setFFmpegProgress(100);
+
+
+    setProcessorStatus(
+        "Video ready."
+    );
+
+
+    /*
+     * Give the video element time to
+     * recognize its metadata.
+     */
+
+    await new Promise(
+        resolve => {
+
+            if (
+                video.readyState >= 1
+            ) {
+
+                resolve();
+
+                return;
+            }
+
+
+            video.addEventListener(
+                "loadedmetadata",
+                resolve,
+                {
+                    once: true
+                }
+            );
+        }
+    );
+
+
+    processor.classList.add(
+        "hidden"
+    );
+
+
+    showControls();
+
+
+    /*
+     * Muted autoplay attempt.
+     */
+
+    video.muted =
+        true;
+
+    volume.value =
+        "1";
+
+    updateMuteIcon();
+
+
+    try {
+
+        await video.play();
+
+    } catch (err) {
+
+        centerPlay.classList.remove(
+            "hidden"
+        );
+    }
+}
+
+
+/* =========================================================
+   MUTE ICON
+========================================================= */
+
+function updateMuteIcon() {
+
+    if (
+        video.muted ||
+        video.volume === 0
+    ) {
+
+        mute.textContent =
+            "🔇";
+
+    } else if (
+        video.volume < .5
+    ) {
+
+        mute.textContent =
+            "🔉";
+
+    } else {
+
+        mute.textContent =
+            "🔊";
+    }
+}
 
 
 /* =========================================================
@@ -1546,268 +2283,46 @@ retry.addEventListener(
     "click",
     async () => {
 
-        error.classList.add(
+        errorBox.classList.add(
             "hidden"
         );
 
-        showLoading();
-
-        const position =
-            video.currentTime || 0;
-
-        video.load();
-
-        video.addEventListener(
-            "loadedmetadata",
-            function restorePosition() {
-
-                video.removeEventListener(
-                    "loadedmetadata",
-                    restorePosition
-                );
-
-                if (
-                    position > 0 &&
-                    Number.isFinite(video.duration)
-                ) {
-
-                    video.currentTime =
-                        Math.min(
-                            position,
-                            video.duration - 1
-                        );
-                }
-
-                playVideo();
-            }
+        processor.classList.remove(
+            "hidden"
         );
-    }
-);
 
-
-/* =========================================================
-   RESUME PLAYBACK
-========================================================= */
-
-function restorePosition() {
-
-    try {
-
-        const saved =
-            Number(
-                localStorage.getItem(
-                    STORAGE_KEY
-                )
-            );
-
-        if (
-            saved > 5 &&
-            Number.isFinite(video.duration)
-        ) {
-
-            if (
-                saved <
-                video.duration - 10
-            ) {
-
-                video.currentTime =
-                    saved;
-            }
-        }
-
-    } catch (err) {
-
-        console.log(
-            "Resume unavailable:",
-            err
-        );
-    }
-}
-
-
-video.addEventListener(
-    "loadedmetadata",
-    restorePosition
-);
-
-
-video.addEventListener(
-    "timeupdate",
-    () => {
-
-        /*
-         * Save periodically instead of every
-         * millisecond to reduce storage writes.
-         */
-
-        if (
-            Math.floor(video.currentTime) % 5 === 0
-        ) {
-
-            try {
-
-                localStorage.setItem(
-                    STORAGE_KEY,
-                    String(video.currentTime)
-                );
-
-            } catch (err) {}
-        }
-    }
-);
-
-
-video.addEventListener(
-    "ended",
-    () => {
+        setFFmpegProgress(0);
 
         try {
 
-            localStorage.removeItem(
-                STORAGE_KEY
+            await prepareVideo();
+
+        } catch (err) {
+
+            console.error(err);
+
+            showError(
+                err.message ||
+                "Unable to prepare the MKV."
             );
-
-        } catch (err) {}
-
-        updatePlayButton();
-    }
-);
-
-
-/* =========================================================
-   AUTOPLAY
-========================================================= */
-
-window.addEventListener(
-    "load",
-    async () => {
-
-        /*
-         * Muted autoplay is more likely to be
-         * allowed by browsers.
-         */
-
-        video.muted = true;
-
-        volume.value = 1;
-
-        updateMuteIcon();
-
-        await playVideo();
-    }
-);
-
-
-/* =========================================================
-   USER CONTROLS
-========================================================= */
-
-function showControls() {
-
-    controls.classList.remove(
-        "hidden"
-    );
-
-    topbar.classList.remove(
-        "hidden"
-    );
-
-    clearTimeout(hideTimer);
-
-    if (!video.paused) {
-
-        hideTimer =
-            setTimeout(
-                hideControls,
-                3500
-            );
-    }
-}
-
-
-function hideControls() {
-
-    if (video.paused) {
-        return;
-    }
-
-    controls.classList.add(
-        "hidden"
-    );
-
-    topbar.classList.add(
-        "hidden"
-    );
-}
-
-
-function hideControlsSoon() {
-
-    clearTimeout(hideTimer);
-
-    hideTimer =
-        setTimeout(
-            hideControls,
-            3500
-        );
-}
-
-
-app.addEventListener(
-    "pointermove",
-    showControls
-);
-
-app.addEventListener(
-    "pointerdown",
-    showControls
-);
-
-app.addEventListener(
-    "mousemove",
-    showControls
-);
-
-
-/* =========================================================
-   DOUBLE TAP / DOUBLE CLICK
-========================================================= */
-
-video.addEventListener(
-    "click",
-    async () => {
-
-        const now =
-            Date.now();
-
-        if (
-            now - lastTap < 350
-        ) {
-
-            await enterFullscreen();
         }
-
-        lastTap = now;
-
-        showControls();
     }
 );
 
 
 /* =========================================================
-   KEYBOARD / TV REMOTE
+   TV REMOTE / KEYBOARD
 ========================================================= */
 
 document.addEventListener(
     "keydown",
-    async (event) => {
+    async event => {
 
         const key =
             event.key;
 
-        /*
-         * PLAY / PAUSE
-         */
+
+        /* PLAY / PAUSE */
 
         if (
             key === " " ||
@@ -1825,10 +2340,7 @@ document.addEventListener(
         }
 
 
-        /*
-         * LEFT
-         * BACK 10 SECONDS
-         */
+        /* BACKWARD */
 
         if (
             key === "ArrowLeft" ||
@@ -1837,16 +2349,13 @@ document.addEventListener(
 
             event.preventDefault();
 
-            seekBy(-SEEK_TIME);
+            seekBy(-10);
 
             return;
         }
 
 
-        /*
-         * RIGHT
-         * FORWARD 10 SECONDS
-         */
+        /* FORWARD */
 
         if (
             key === "ArrowRight" ||
@@ -1855,15 +2364,13 @@ document.addEventListener(
 
             event.preventDefault();
 
-            seekBy(SEEK_TIME);
+            seekBy(10);
 
             return;
         }
 
 
-        /*
-         * UP = VOLUME UP
-         */
+        /* VOLUME UP */
 
         if (
             key === "ArrowUp"
@@ -1871,7 +2378,8 @@ document.addEventListener(
 
             event.preventDefault();
 
-            video.muted = false;
+            video.muted =
+                false;
 
             video.volume =
                 Math.min(
@@ -1890,9 +2398,7 @@ document.addEventListener(
         }
 
 
-        /*
-         * DOWN = VOLUME DOWN
-         */
+        /* VOLUME DOWN */
 
         if (
             key === "ArrowDown"
@@ -1913,7 +2419,8 @@ document.addEventListener(
                 video.volume === 0
             ) {
 
-                video.muted = true;
+                video.muted =
+                    true;
             }
 
             updateMuteIcon();
@@ -1924,9 +2431,7 @@ document.addEventListener(
         }
 
 
-        /*
-         * M = MUTE
-         */
+        /* MUTE */
 
         if (
             key === "m" ||
@@ -1942,24 +2447,20 @@ document.addEventListener(
         }
 
 
-        /*
-         * F = FULLSCREEN
-         */
+        /* FULLSCREEN */
 
         if (
             key === "f" ||
             key === "F"
         ) {
 
-            await enterFullscreen();
+            await toggleFullscreen();
 
             return;
         }
 
 
-        /*
-         * ESCAPE
-         */
+        /* ESCAPE */
 
         if (
             key === "Escape"
@@ -1970,28 +2471,28 @@ document.addEventListener(
             ) {
 
                 await document.exitFullscreen();
-
-            } else {
-
-                showControls();
             }
 
-            return;
+            showControls();
         }
 
 
         /*
-         * NUMBER KEYS
-         * 0 = START
-         * 1-9 = 10%-90%
+         * Number keys:
+         *
+         * 0 = beginning
+         * 1 = 10%
+         * ...
+         * 9 = 90%
          */
 
         if (
             /^[0-9]$/.test(key)
         ) {
 
-            const number =
+            const n =
                 Number(key);
+
 
             if (
                 Number.isFinite(
@@ -2000,12 +2501,10 @@ document.addEventListener(
             ) {
 
                 video.currentTime =
-                    number === 0
+                    n === 0
                         ? 0
-                        : (
-                            video.duration *
-                            (number / 10)
-                        );
+                        : video.duration *
+                          (n / 10);
             }
 
             showControls();
@@ -2015,8 +2514,152 @@ document.addEventListener(
 
 
 /* =========================================================
+   SAVE / RESUME
+========================================================= */
+
+const resumeKey =
+    "kmjs-gabi-ng-lagim-resume";
+
+
+video.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        try {
+
+            const saved =
+                Number(
+                    localStorage.getItem(
+                        resumeKey
+                    )
+                );
+
+
+            if (
+                saved > 10 &&
+                saved <
+                video.duration - 10
+            ) {
+
+                video.currentTime =
+                    saved;
+            }
+
+        } catch (e) {}
+    }
+);
+
+
+let lastSaved =
+    0;
+
+
+video.addEventListener(
+    "timeupdate",
+    () => {
+
+        const current =
+            Math.floor(
+                video.currentTime
+            );
+
+
+        if (
+            current - lastSaved >= 5
+        ) {
+
+            lastSaved =
+                current;
+
+
+            try {
+
+                localStorage.setItem(
+                    resumeKey,
+                    String(current)
+                );
+
+            } catch (e) {}
+        }
+    }
+);
+
+
+video.addEventListener(
+    "ended",
+    () => {
+
+        try {
+
+            localStorage.removeItem(
+                resumeKey
+            );
+
+        } catch (e) {}
+    }
+);
+
+
+/* =========================================================
+   WAKE LOCK
+========================================================= */
+
+async function requestWakeLock() {
+
+    if (
+        !("wakeLock" in navigator)
+    ) {
+        return;
+    }
+
+
+    try {
+
+        wakeLock =
+            await navigator.wakeLock.request(
+                "screen"
+            );
+
+    } catch (e) {}
+}
+
+
+async function releaseWakeLock() {
+
+    if (wakeLock) {
+
+        try {
+
+            await wakeLock.release();
+
+        } catch (e) {}
+
+        wakeLock =
+            null;
+    }
+}
+
+
+video.addEventListener(
+    "play",
+    requestWakeLock
+);
+
+
+video.addEventListener(
+    "pause",
+    releaseWakeLock
+);
+
+
+video.addEventListener(
+    "ended",
+    releaseWakeLock
+);
+
+
+/* =========================================================
    MEDIA SESSION
-   Android / TV / LOCK SCREEN CONTROLS
 ========================================================= */
 
 if (
@@ -2029,25 +2672,25 @@ if (
             new MediaMetadata({
 
                 title:
-                    "KMJS Gabi Ng Lagim The Movie",
+                    TITLE,
 
                 artist:
                     "KMJS",
 
                 album:
-                    "KMJS Gabi Ng Lagim The Movie"
+                    TITLE
             });
 
 
         navigator.mediaSession.setActionHandler(
             "play",
-            () => playVideo()
+            () => video.play()
         );
 
 
         navigator.mediaSession.setActionHandler(
             "pause",
-            () => pauseVideo()
+            () => video.pause()
         );
 
 
@@ -2062,163 +2705,56 @@ if (
             () => seekBy(10)
         );
 
-
-        navigator.mediaSession.setActionHandler(
-            "seekto",
-            details => {
-
-                if (
-                    Number.isFinite(
-                        details.seekTime
-                    )
-                ) {
-
-                    seekTo(
-                        details.seekTime
-                    );
-                }
-            }
-        );
-
-    } catch (err) {
-
-        console.log(
-            "Media Session unavailable:",
-            err
-        );
-    }
+    } catch (e) {}
 }
 
 
 /* =========================================================
-   SCREEN WAKE LOCK
+   CLEAN OBJECT URL
 ========================================================= */
 
-let wakeLock = null;
-
-
-async function requestWakeLock() {
-
-    if (
-        !("wakeLock" in navigator)
-    ) {
-        return;
-    }
-
-    try {
-
-        wakeLock =
-            await navigator.wakeLock.request(
-                "screen"
-            );
-
-    } catch (err) {
-
-        console.log(
-            "Wake Lock unavailable:",
-            err
-        );
-    }
-}
-
-
-async function releaseWakeLock() {
-
-    if (wakeLock) {
-
-        try {
-
-            await wakeLock.release();
-
-        } catch (err) {}
-
-        wakeLock = null;
-    }
-}
-
-
-video.addEventListener(
-    "play",
-    requestWakeLock
-);
-
-video.addEventListener(
-    "pause",
-    releaseWakeLock
-);
-
-video.addEventListener(
-    "ended",
-    releaseWakeLock
-);
-
-
-/* =========================================================
-   PAGE VISIBILITY
-========================================================= */
-
-document.addEventListener(
-    "visibilitychange",
-    async () => {
+window.addEventListener(
+    "beforeunload",
+    () => {
 
         if (
-            document.visibilityState ===
-            "visible" &&
-            !video.paused
+            objectURL
         ) {
 
-            await requestWakeLock();
+            URL.revokeObjectURL(
+                objectURL
+            );
         }
     }
 );
 
 
 /* =========================================================
-   FULLSCREEN CHANGE
+   START
 ========================================================= */
 
-document.addEventListener(
-    "fullscreenchange",
-    () => {
+(async function start() {
 
-        showControls();
+    try {
 
-        setTimeout(
-            hideControlsSoon,
-            100
+        await prepareVideo();
+
+    } catch (err) {
+
+        console.error(
+            "Player startup failed:",
+            err
+        );
+
+
+        showError(
+            err.message ||
+            "Unable to load the MKV video."
         );
     }
-);
 
+})();
 
-/* =========================================================
-   INITIAL STATE
-========================================================= */
-
-video.volume = 1;
-
-video.muted = true;
-
-video.playbackRate = 1;
-
-updateMuteIcon();
-
-updatePlayButton();
-
-showControls();
-
-
-/* =========================================================
-   PREVENT CONTEXT MENU
-========================================================= */
-
-video.addEventListener(
-    "contextmenu",
-    event => {
-
-        event.preventDefault();
-    }
-);
 </script>
 
 </body>
