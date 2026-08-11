@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>KMJS Gabi Ng Lagim The Movie</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    width: 100%;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    background: #080808;
+    border-bottom: 1px solid #202020;
+    flex-shrink: 0;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* PLAYER AREA */
+.player-wrap {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+/* LOADING */
+.loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,.45);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid rgba(255,255,255,.25);
+    border-top-color: #00ff7f;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ERROR */
+.error-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90%, 500px);
+    padding: 22px;
+    text-align: center;
+    background: rgba(15,15,15,.96);
+    border: 1px solid #333;
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.error-box h2 {
+    color: #ff5252;
+    margin-bottom: 10px;
+}
+
+.error-box p {
+    color: #bbb;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* CONTROLS */
+.controls {
+    width: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,.98),
+        rgba(0,0,0,.90)
+    );
+    padding: 8px 12px 12px;
+    flex-shrink: 0;
+}
+
+.progress-area {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+#progress {
+    width: 100%;
+    height: 6px;
+    appearance: none;
+    cursor: pointer;
+    background: #333;
+    border-radius: 10px;
+}
+
+#progress::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00ff7f;
+}
+
+#progress::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background: #00ff7f;
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+button {
+    border: 0;
+    outline: none;
+    background: #161616;
+    color: #fff;
+    min-width: 48px;
+    height: 42px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+button:hover,
+button:focus {
+    background: #00ff7f;
+    color: #000;
+}
+
+button:active {
+    transform: scale(.96);
+}
+
+.play-btn {
+    min-width: 56px;
+    font-size: 18px;
+}
+
+.time {
+    min-width: 110px;
+    font-size: 13px;
+    color: #ccc;
+    text-align: center;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.volume {
+    width: 90px;
+    height: 5px;
+    accent-color: #00ff7f;
+}
+
+@media (max-width: 600px) {
+
+    .header {
+        height: 52px;
+        padding: 0 12px;
+    }
+
+    .title {
+        font-size: 15px;
+    }
+
+    .controls {
+        padding: 7px 8px 9px;
+    }
+
+    button {
+        min-width: 42px;
+        height: 38px;
+        font-size: 12px;
+    }
+
+    .play-btn {
+        min-width: 48px;
+    }
+
+    .time {
+        min-width: 92px;
+        font-size: 11px;
+    }
+
+    .volume {
+        display: none;
+    }
+}
+
+/* TV / REMOTE */
+@media (min-width: 900px) {
+    button {
+        min-width: 58px;
+        height: 46px;
+        font-size: 14px;
+    }
+
+    .play-btn {
+        min-width: 65px;
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="title">
+        KMJS Gabi Ng Lagim The Movie
+    </div>
+</header>
+
+<main class="player-wrap">
+
+    <video
+        id="video"
+        playsinline
+        preload="auto"
+        crossorigin="anonymous">
+        <source
+            src="https://movies.maflix.qzz.io/movies/1786407007914-e7ea37ff-cd96-484f-af16-68b7074e308b-KMJS.Gabi.ng.Lagim.The.Movie.2025.1080p.mkv"
+            type="video/x-matroska">
+    </video>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="errorBox" class="error-box hidden">
+        <h2>Unable to Play Video</h2>
+        <p id="errorText">
+            This browser may not support the video's MKV container or its codec.
+        </p>
+    </div>
+
+</main>
+
+<div class="controls">
+
+    <div class="progress-area">
+        <input
+            id="progress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1">
+    </div>
+
+    <div class="control-row">
+
+        <button
+            id="backBtn"
+            title="Backward 10 seconds">
+            -10
+        </button>
+
+        <button
+            id="playBtn"
+            class="play-btn"
+            title="Play / Pause">
+            ▶
+        </button>
+
+        <button
+            id="forwardBtn"
+            title="Forward 10 seconds">
+            +10
+        </button>
+
+        <span id="time" class="time">
+            00:00 / 00:00
+        </span>
+
+        <div class="spacer"></div>
+
+        <input
+            id="volume"
+            class="volume"
+            type="range"
+            min="0"
+            max="1"
+            value="1"
+            step="0.05"
+            title="Volume">
+
+        <button id="muteBtn" title="Mute">
+            🔊
+        </button>
+
+        <button id="fullscreenBtn" title="Fullscreen">
+            ⛶
+        </button>
+
+    </div>
+</div>
+
+<script>
+const video = document.getElementById("video");
+const playBtn = document.getElementById("playBtn");
+const backBtn = document.getElementById("backBtn");
+const forwardBtn = document.getElementById("forwardBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+const muteBtn = document.getElementById("muteBtn");
+const volume = document.getElementById("volume");
+const progress = document.getElementById("progress");
+const timeDisplay = document.getElementById("time");
+const loading = document.getElementById("loading");
+const errorBox = document.getElementById("errorBox");
+const errorText = document.getElementById("errorText");
+
+let userStarted = false;
+
+/* -------------------------
+   TIME FORMAT
+------------------------- */
+
+function formatTime(seconds) {
+
+    if (!Number.isFinite(seconds)) {
+        return "00:00";
+    }
+
+    seconds = Math.max(0, Math.floor(seconds));
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    if (hours > 0) {
+        return (
+            String(hours).padStart(2, "0") +
+            ":" +
+            String(minutes).padStart(2, "0") +
+            ":" +
+            String(secs).padStart(2, "0")
+        );
+    }
+
+    return (
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(secs).padStart(2, "0")
+    );
+}
+
+/* -------------------------
+   PLAY / PAUSE
+------------------------- */
+
+async function togglePlay() {
+
+    if (video.paused) {
+
+        userStarted = true;
+
+        try {
+            await video.play();
+        } catch (err) {
+            console.log("Playback blocked:", err);
+        }
+
+    } else {
+        video.pause();
+    }
+}
+
+playBtn.addEventListener("click", togglePlay);
+
+video.addEventListener("play", () => {
+    playBtn.textContent = "❚❚";
+});
+
+video.addEventListener("pause", () => {
+    playBtn.textContent = "▶";
+});
+
+/* -------------------------
+   SEEK
+------------------------- */
+
+function seek(seconds) {
+
+    if (!Number.isFinite(video.duration)) {
+        return;
+    }
+
+    video.currentTime = Math.max(
+        0,
+        Math.min(
+            video.duration,
+            video.currentTime + seconds
+        )
+    );
+}
+
+backBtn.addEventListener("click", () => {
+    seek(-10);
+});
+
+forwardBtn.addEventListener("click", () => {
+    seek(10);
+});
+
+/* -------------------------
+   PROGRESS
+------------------------- */
+
+video.addEventListener("timeupdate", () => {
+
+    if (Number.isFinite(video.duration) && video.duration > 0) {
+
+        progress.value =
+            (video.currentTime / video.duration) * 100;
+    }
+
+    timeDisplay.textContent =
+        formatTime(video.currentTime) +
+        " / " +
+        formatTime(video.duration);
+});
+
+progress.addEventListener("input", () => {
+
+    if (!Number.isFinite(video.duration)) {
+        return;
+    }
+
+    video.currentTime =
+        (Number(progress.value) / 100) *
+        video.duration;
+});
+
+/* -------------------------
+   VOLUME
+------------------------- */
+
+volume.addEventListener("input", () => {
+
+    video.volume = Number(volume.value);
+
+    if (video.volume === 0) {
+        video.muted = true;
+    } else {
+        video.muted = false;
+    }
+
+    updateMuteIcon();
+});
+
+muteBtn.addEventListener("click", () => {
+
+    video.muted = !video.muted;
+
+    updateMuteIcon();
+});
+
+function updateMuteIcon() {
+
+    if (video.muted || video.volume === 0) {
+        muteBtn.textContent = "🔇";
+    } else {
+        muteBtn.textContent = "🔊";
+    }
+}
+
+/* -------------------------
+   FULLSCREEN
+------------------------- */
+
+fullscreenBtn.addEventListener("click", async () => {
+
+    try {
+
+        if (!document.fullscreenElement) {
+
+            if (video.requestFullscreen) {
+                await video.requestFullscreen();
+            } else if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen();
+            }
+
+        } else {
+
+            await document.exitFullscreen();
+        }
+
+    } catch (err) {
+        console.log("Fullscreen error:", err);
+    }
+});
+
+/* -------------------------
+   LOADING
+------------------------- */
+
+video.addEventListener("loadstart", () => {
+    loading.classList.remove("hidden");
+});
+
+video.addEventListener("waiting", () => {
+    loading.classList.remove("hidden");
+});
+
+video.addEventListener("stalled", () => {
+    loading.classList.remove("hidden");
+});
+
+video.addEventListener("canplay", () => {
+    loading.classList.add("hidden");
+});
+
+video.addEventListener("playing", () => {
+    loading.classList.add("hidden");
+});
+
+/* -------------------------
+   ERROR
+------------------------- */
+
+video.addEventListener("error", () => {
+
+    loading.classList.add("hidden");
+    errorBox.classList.remove("hidden");
+
+    const mediaError = video.error;
+
+    if (mediaError) {
+
+        switch (mediaError.code) {
+
+            case MediaError.MEDIA_ERR_ABORTED:
+                errorText.textContent =
+                    "Video loading was aborted.";
+                break;
+
+            case MediaError.MEDIA_ERR_NETWORK:
+                errorText.textContent =
+                    "A network error occurred while loading the video.";
+                break;
+
+            case MediaError.MEDIA_ERR_DECODE:
+                errorText.textContent =
+                    "The browser cannot decode this MKV video or its codec.";
+                break;
+
+            case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                errorText.textContent =
+                    "This browser does not support this video source or format.";
+                break;
+
+            default:
+                errorText.textContent =
+                    "The video could not be played.";
+        }
+    }
+});
+
+/* -------------------------
+   METADATA
+------------------------- */
+
+video.addEventListener("loadedmetadata", () => {
+
+    errorBox.classList.add("hidden");
+
+    timeDisplay.textContent =
+        formatTime(video.currentTime) +
+        " / " +
+        formatTime(video.duration);
+});
+
+/* -------------------------
+   KEYBOARD / TV REMOTE
+------------------------- */
+
+document.addEventListener("keydown", (event) => {
+
+    const key = event.key;
+
+    if (
+        key === " " ||
+        key === "Enter" ||
+        key === "MediaPlayPause"
+    ) {
+        event.preventDefault();
+        togglePlay();
+        return;
+    }
+
+    if (key === "ArrowLeft") {
+        event.preventDefault();
+        seek(-10);
+        return;
+    }
+
+    if (key === "ArrowRight") {
+        event.preventDefault();
+        seek(10);
+        return;
+    }
+
+    if (key === "ArrowUp") {
+
+        event.preventDefault();
+
+        video.volume = Math.min(
+            1,
+            video.volume + 0.05
+        );
+
+        volume.value = video.volume;
+        video.muted = false;
+        updateMuteIcon();
+
+        return;
+    }
+
+    if (key === "ArrowDown") {
+
+        event.preventDefault();
+
+        video.volume = Math.max(
+            0,
+            video.volume - 0.05
+        );
+
+        volume.value = video.volume;
+
+        if (video.volume === 0) {
+            video.muted = true;
+        }
+
+        updateMuteIcon();
+
+        return;
+    }
+
+    if (key === "m" || key === "M") {
+        video.muted = !video.muted;
+        updateMuteIcon();
+        return;
+    }
+
+    if (key === "f" || key === "F") {
+        fullscreenBtn.click();
+        return;
+    }
+
+    if (key === "Escape") {
+
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    }
+});
+
+/* -------------------------
+   AUTOPLAY
+------------------------- */
+
+window.addEventListener("load", async () => {
+
+    /*
+       Browsers commonly block autoplay when
+       audio is enabled. Start muted, then the
+       viewer can enable sound.
+    */
+
+    video.muted = true;
+    volume.value = 1;
+
+    try {
+        await video.play();
+    } catch (err) {
+        console.log("Autoplay requires user interaction.");
+    }
+});
+
+/* -------------------------
+   DOUBLE CLICK
+------------------------- */
+
+video.addEventListener("dblclick", () => {
+    fullscreenBtn.click();
+});
+
+/* -------------------------
+   RIGHT / LEFT TAP
+------------------------- */
+
+video.addEventListener("click", () => {
+
+    if (!userStarted) {
+        togglePlay();
+    }
+});
+</script>
+
+</body>
+</html>
