@@ -36,7 +36,10 @@ body{
     line-height:1.6;
 }
 
-/* NAVIGATION */
+/* =========================
+   NAVIGATION
+========================= */
+
 .navbar{
     position:sticky;
     top:0;
@@ -90,16 +93,26 @@ body{
     color:#fff;
     font-size:28px;
     cursor:pointer;
+    user-select:none;
 }
 
-/* HERO */
+
+/* =========================
+   HERO
+========================= */
+
 .hero{
     min-height:650px;
     display:flex;
     align-items:center;
     position:relative;
+
     background:
-        linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.35)),
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.82),
+            rgba(0,0,0,.35)
+        ),
         url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1800&q=85")
         center/cover;
 }
@@ -167,6 +180,7 @@ body{
 
 .btn-primary:hover{
     transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
 .btn-outline{
@@ -179,7 +193,11 @@ body{
     color:#16423c;
 }
 
-/* SECTION */
+
+/* =========================
+   GENERAL SECTIONS
+========================= */
+
 section{
     padding:80px 22px;
 }
@@ -204,7 +222,11 @@ section{
     margin-bottom:40px;
 }
 
-/* ABOUT */
+
+/* =========================
+   ABOUT
+========================= */
+
 .about-section{
     background:var(--cream);
 }
@@ -235,7 +257,11 @@ section{
     font-size:16px;
 }
 
-/* FEATURES */
+
+/* =========================
+   FEATURES
+========================= */
+
 .features{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -247,6 +273,12 @@ section{
     border:1px solid #e8e5dc;
     border-radius:12px;
     background:#fff;
+    transition:.2s;
+}
+
+.feature:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
 
 .feature-icon{
@@ -263,7 +295,11 @@ section{
     color:var(--muted);
 }
 
-/* PRODUCTS */
+
+/* =========================
+   PRODUCTS
+========================= */
+
 .products-section{
     background:#fff;
 }
@@ -292,6 +328,7 @@ section{
     width:100%;
     height:230px;
     object-fit:cover;
+    display:block;
 }
 
 .product-info{
@@ -308,12 +345,21 @@ section{
     color:var(--muted);
 }
 
-/* CTA */
+
+/* =========================
+   CTA
+========================= */
+
 .cta{
     background:
-        linear-gradient(90deg,rgba(13,45,41,.96),rgba(22,66,60,.90)),
+        linear-gradient(
+            90deg,
+            rgba(13,45,41,.96),
+            rgba(22,66,60,.90)
+        ),
         url("https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=1600&q=80")
         center/cover;
+
     color:#fff;
     text-align:center;
 }
@@ -329,7 +375,11 @@ section{
     color:#e7e7e7;
 }
 
-/* CONTACT */
+
+/* =========================
+   CONTACT
+========================= */
+
 .contact{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -368,6 +418,22 @@ section{
     color:var(--muted);
 }
 
+.whatsapp-button{
+    background:#25D366;
+    color:#fff;
+    margin-top:8px;
+}
+
+.whatsapp-button:hover{
+    background:#1ebe5d;
+    transform:translateY(-2px);
+}
+
+
+/* =========================
+   FORM
+========================= */
+
 .contact-form{
     background:var(--cream);
     padding:30px;
@@ -394,6 +460,7 @@ section{
     border-radius:6px;
     background:#fff;
     font-family:inherit;
+    font-size:15px;
     outline:none;
 }
 
@@ -414,7 +481,11 @@ section{
     cursor:pointer;
 }
 
-/* FOOTER */
+
+/* =========================
+   FOOTER
+========================= */
+
 footer{
     background:#0d2d29;
     color:#fff;
@@ -465,7 +536,11 @@ footer a:hover{
     font-size:13px;
 }
 
-/* MOBILE */
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:850px){
 
     .nav-links{
@@ -512,7 +587,12 @@ footer a:hover{
     .footer-grid{
         grid-template-columns:1fr;
     }
+
+    .contact .btn{
+        width:100%;
+    }
 }
+
 
 @media(max-width:500px){
 
@@ -532,6 +612,14 @@ footer a:hover{
         font-size:16px;
     }
 
+    .buttons{
+        flex-direction:column;
+    }
+
+    .buttons .btn{
+        width:100%;
+    }
+
     .product-grid{
         grid-template-columns:1fr;
     }
@@ -544,8 +632,8 @@ footer a:hover{
         height:280px;
     }
 
-    .btn{
-        width:100%;
+    .contact-form{
+        padding:20px;
     }
 }
 </style>
@@ -553,33 +641,63 @@ footer a:hover{
 
 <body>
 
-<!-- NAVIGATION -->
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
 <nav class="navbar">
+
     <div class="nav-container">
 
         <a href="#home" class="logo">
             TENPHI <span>TEXTILE</span>
         </a>
 
-        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <div
+            class="menu-btn"
+            onclick="toggleMenu()"
+            aria-label="Open menu"
+        >
+            ☰
+        </div>
 
         <ul class="nav-links" id="navLinks">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#products">Fabrics</a></li>
-            <li><a href="#contact">Contact</a></li>
+
+            <li>
+                <a href="#home">Home</a>
+            </li>
+
+            <li>
+                <a href="#about">About</a>
+            </li>
+
+            <li>
+                <a href="#products">Fabrics</a>
+            </li>
+
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
+
         </ul>
 
     </div>
+
 </nav>
 
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
+
 <header class="hero" id="home">
 
     <div class="hero-content">
 
-        <span class="badge">BODEGA NG TELA</span>
+        <span class="badge">
+            BODEGA NG TELA
+        </span>
 
         <h1>
             Quality Fabric.<br>
@@ -592,13 +710,21 @@ footer a:hover{
         </p>
 
         <div class="buttons">
-            <a href="#products" class="btn btn-primary">
+
+            <a
+                href="#products"
+                class="btn btn-primary"
+            >
                 Browse Fabrics
             </a>
 
-            <a href="#contact" class="btn btn-outline">
+            <a
+                href="#contact"
+                class="btn btn-outline"
+            >
                 Contact Us
             </a>
+
         </div>
 
     </div>
@@ -606,8 +732,14 @@ footer a:hover{
 </header>
 
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section
+    class="about-section"
+    id="about"
+>
 
     <div class="container">
 
@@ -629,7 +761,9 @@ footer a:hover{
 
             <div>
 
-                <h3>Your Reliable Textile Partner</h3>
+                <h3>
+                    Your Reliable Textile Partner
+                </h3>
 
                 <p>
                     Tenphi Textile is your reliable fabric partner—
@@ -654,7 +788,10 @@ footer a:hover{
 
                 <br>
 
-                <a href="#contact" class="btn btn-primary">
+                <a
+                    href="#contact"
+                    class="btn btn-primary"
+                >
                     Inquire Now
                 </a>
 
@@ -667,7 +804,10 @@ footer a:hover{
 </section>
 
 
-<!-- WHY US -->
+<!-- =========================
+     WHY CHOOSE US
+========================= -->
+
 <section>
 
     <div class="container">
@@ -683,30 +823,56 @@ footer a:hover{
         <div class="features">
 
             <div class="feature">
-                <div class="feature-icon">🧵</div>
-                <h3>Quality Fabrics</h3>
+
+                <div class="feature-icon">
+                    🧵
+                </div>
+
+                <h3>
+                    Quality Fabrics
+                </h3>
+
                 <p>
                     Carefully selected textile products for
                     different business and production needs.
                 </p>
+
             </div>
 
+
             <div class="feature">
-                <div class="feature-icon">📦</div>
-                <h3>Warehouse Supply</h3>
+
+                <div class="feature-icon">
+                    📦
+                </div>
+
+                <h3>
+                    Warehouse Supply
+                </h3>
+
                 <p>
                     Get the fabric supplies you need directly
                     from our textile warehouse.
                 </p>
+
             </div>
 
+
             <div class="feature">
-                <div class="feature-icon">🤝</div>
-                <h3>Business Partner</h3>
+
+                <div class="feature-icon">
+                    🤝
+                </div>
+
+                <h3>
+                    Reliable Service
+                </h3>
+
                 <p>
-                    We help businesses and fabric buyers find
-                    suitable textile products for their needs.
+                    We help fabric buyers find suitable textile
+                    products for their needs.
                 </p>
+
             </div>
 
         </div>
@@ -716,8 +882,14 @@ footer a:hover{
 </section>
 
 
-<!-- PRODUCTS -->
-<section class="products-section" id="products">
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section
+    class="products-section"
+    id="products"
+>
 
     <div class="container">
 
@@ -731,6 +903,7 @@ footer a:hover{
 
         <div class="product-grid">
 
+
             <div class="product">
 
                 <img
@@ -740,11 +913,16 @@ footer a:hover{
                 >
 
                 <div class="product-info">
-                    <h3>Cotton Fabric</h3>
+
+                    <h3>
+                        Cotton Fabric
+                    </h3>
+
                     <p>
                         Versatile fabric suitable for clothing,
                         garments and various textile projects.
                     </p>
+
                 </div>
 
             </div>
@@ -759,11 +937,16 @@ footer a:hover{
                 >
 
                 <div class="product-info">
-                    <h3>Printed Fabrics</h3>
+
+                    <h3>
+                        Printed Fabrics
+                    </h3>
+
                     <p>
                         Different patterns and designs for
                         creative clothing and textile products.
                     </p>
+
                 </div>
 
             </div>
@@ -778,11 +961,16 @@ footer a:hover{
                 >
 
                 <div class="product-info">
-                    <h3>Textile Rolls</h3>
+
+                    <h3>
+                        Textile Rolls
+                    </h3>
+
                     <p>
-                        Fabric rolls for businesses, manufacturers,
-                        resellers and bulk buyers.
+                        Fabric rolls for businesses,
+                        manufacturers and bulk buyers.
                     </p>
+
                 </div>
 
             </div>
@@ -797,11 +985,16 @@ footer a:hover{
                 >
 
                 <div class="product-info">
-                    <h3>Fashion Fabrics</h3>
+
+                    <h3>
+                        Fashion Fabrics
+                    </h3>
+
                     <p>
                         Textile options for fashion, garments,
                         uniforms and other applications.
                     </p>
+
                 </div>
 
             </div>
@@ -813,19 +1006,27 @@ footer a:hover{
 </section>
 
 
-<!-- CTA -->
+<!-- =========================
+     CTA
+========================= -->
+
 <section class="cta">
 
     <div class="container">
 
-        <h2>Looking for Fabric for Your Business?</h2>
+        <h2>
+            Looking for Fabric for Your Business?
+        </h2>
 
         <p>
             Tell us what you need and our team will help you
             find the right textile products for your business.
         </p>
 
-        <a href="#contact" class="btn btn-primary">
+        <a
+            href="#contact"
+            class="btn btn-primary"
+        >
             Contact Tenphi Textile
         </a>
 
@@ -834,7 +1035,10 @@ footer a:hover{
 </section>
 
 
-<!-- CONTACT -->
+<!-- =========================
+     CONTACT
+========================= -->
+
 <section id="contact">
 
     <div class="container">
@@ -849,85 +1053,142 @@ footer a:hover{
 
         <div class="contact">
 
+
+            <!-- CONTACT INFORMATION -->
+
             <div>
 
-                <h3>Let's Talk About Your Fabric Needs</h3>
+                <h3>
+                    Let's Talk About Your Fabric Needs
+                </h3>
 
                 <p>
                     Interested in our fabrics or looking for
                     textile supplies for your business?
-                    Send us a message and we'll get back to you.
+                    Send us a message through WhatsApp and
+                    we'll get back to you.
                 </p>
 
 
+                <!-- WAREHOUSE -->
+
                 <div class="contact-item">
 
-                    <div class="contact-icon">📍</div>
+                    <div class="contact-icon">
+                        📍
+                    </div>
 
                     <div>
-                        <strong>Warehouse</strong>
+
+                        <strong>
+                            Warehouse
+                        </strong>
+
                         <span>
                             Visit our textile warehouse and shop.
                         </span>
+
                     </div>
 
                 </div>
 
+
+                <!-- WHATSAPP -->
 
                 <div class="contact-item">
 
-                    <div class="contact-icon">📱</div>
+                    <div class="contact-icon">
+                        💬
+                    </div>
 
                     <div>
-                        <strong>Phone / Messenger</strong>
+
+                        <strong>
+                            WhatsApp
+                        </strong>
+
                         <span>
-                            Contact us for product inquiries.
+                            Chat with Tenphi Textile directly.
                         </span>
+
                     </div>
 
                 </div>
 
 
-                <div class="contact-item">
+                <br>
 
-                    <div class="contact-icon">🧵</div>
 
-                    <div>
-                        <strong>Business Inquiries</strong>
-                        <span>
-                            Bulk orders, resellers and business supply.
-                        </span>
-                    </div>
+                <!--
+                    IMPORTANT:
+                    CHANGE 639XXXXXXXXX
+                    TO YOUR REAL WHATSAPP NUMBER.
 
-                </div>
+                    Example:
+                    09171234567
+
+                    becomes:
+                    639171234567
+                -->
+
+                <a
+                    href="https://wa.me/639XXXXXXXXX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn whatsapp-button"
+                >
+                    💬 Contact Us on WhatsApp
+                </a>
 
             </div>
 
 
-            <form class="contact-form" onsubmit="sendInquiry(event)">
+            <!-- INQUIRY FORM -->
+
+            <form
+                class="contact-form"
+                onsubmit="sendInquiry(event)"
+            >
 
                 <div class="form-group">
-                    <label>Your Name</label>
+
+                    <label for="name">
+                        Your Name
+                    </label>
+
                     <input
                         type="text"
                         id="name"
                         placeholder="Enter your name"
+                        autocomplete="name"
                         required
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Contact Number</label>
+
+                    <label for="phone">
+                        Contact Number
+                    </label>
+
                     <input
                         type="tel"
                         id="phone"
                         placeholder="09XXXXXXXXX"
+                        autocomplete="tel"
                         required
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>What are you looking for?</label>
+
+                    <label for="fabric">
+                        What are you looking for?
+                    </label>
 
                     <select id="fabric">
 
@@ -955,9 +1216,12 @@ footer a:hover{
 
                 </div>
 
+
                 <div class="form-group">
 
-                    <label>Message</label>
+                    <label for="message">
+                        Message
+                    </label>
 
                     <textarea
                         id="message"
@@ -967,8 +1231,12 @@ footer a:hover{
 
                 </div>
 
-                <button class="btn btn-primary submit" type="submit">
-                    Send Inquiry
+
+                <button
+                    class="btn whatsapp-button submit"
+                    type="submit"
+                >
+                    💬 Send via WhatsApp
                 </button>
 
             </form>
@@ -980,14 +1248,20 @@ footer a:hover{
 </section>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
     <div class="footer-grid">
 
+
         <div>
 
-            <h3>TENPHI TEXTILE</h3>
+            <h3>
+                TENPHI TEXTILE
+            </h3>
 
             <p>
                 Your reliable textile partner.
@@ -1000,13 +1274,36 @@ footer a:hover{
 
         <div>
 
-            <h3>Quick Links</h3>
+            <h3>
+                Quick Links
+            </h3>
 
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#products">Fabrics</a></li>
-                <li><a href="#contact">Contact</a></li>
+
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#about">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#products">
+                        Fabrics
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
             </ul>
 
         </div>
@@ -1014,13 +1311,30 @@ footer a:hover{
 
         <div>
 
-            <h3>Business</h3>
+            <h3>
+                Contact
+            </h3>
 
             <ul>
-                <li><a href="#contact">Wholesale</a></li>
-                <li><a href="#contact">Bulk Orders</a></li>
-                <li><a href="#contact">Business Supply</a></li>
-                <li><a href="#contact">Recommended Agent</a></li>
+
+                <li>
+                    <a href="#contact">
+                        WhatsApp
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Warehouse
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Fabric Inquiry
+                    </a>
+                </li>
+
             </ul>
 
         </div>
@@ -1029,13 +1343,21 @@ footer a:hover{
 
 
     <div class="copyright">
-        © <span id="year"></span> TENPHI TEXTILE. All Rights Reserved.
+
+        © <span id="year"></span>
+        TENPHI TEXTILE.
+        All Rights Reserved.
+
     </div>
 
 </footer>
 
 
 <script>
+
+/* =========================
+   MOBILE MENU
+========================= */
 
 function toggleMenu(){
 
@@ -1046,63 +1368,86 @@ function toggleMenu(){
 }
 
 
-document.querySelectorAll(".nav-links a").forEach(link => {
+/* Close menu after clicking a link */
 
-    link.addEventListener("click", () => {
+document
+    .querySelectorAll(".nav-links a")
+    .forEach(link => {
 
-        document
-            .getElementById("navLinks")
-            .classList.remove("active");
+        link.addEventListener("click", () => {
+
+            document
+                .getElementById("navLinks")
+                .classList.remove("active");
+
+        });
 
     });
 
-});
+
+/* =========================
+   WHATSAPP INQUIRY
+========================= */
+
+/*
+   CHANGE THIS NUMBER.
+
+   Philippine example:
+
+   09171234567
+
+   becomes:
+
+   639171234567
+
+   Do NOT include:
+   +
+   spaces
+   hyphens
+*/
+
+const businessNumber = "639XXXXXXXXX";
 
 
 function sendInquiry(event){
 
     event.preventDefault();
 
+
     const name =
-        document.getElementById("name").value;
+        document
+            .getElementById("name")
+            .value
+            .trim();
+
 
     const phone =
-        document.getElementById("phone").value;
+        document
+            .getElementById("phone")
+            .value
+            .trim();
+
 
     const fabric =
-        document.getElementById("fabric").value;
+        document
+            .getElementById("fabric")
+            .value;
+
 
     const message =
-        document.getElementById("message").value;
+        document
+            .getElementById("message")
+            .value
+            .trim();
 
 
-    /*
-      REPLACE THIS NUMBER WITH
-      YOUR TENPHI TEXTILE MESSENGER/
-      WHATSAPP CONTACT NUMBER.
-
-      Example:
-      const businessNumber = "639XXXXXXXXX";
-    */
-
-    const businessNumber = "639XXXXXXXXX";
-
-
-    const text =
-`Hello TENPHI TEXTILE!
-
-Name: ${name}
-Contact: ${phone}
-Inquiry: ${fabric}
-
-Message:
-${message}`;
-
-
-    if(businessNumber === "639XXXXXXXXX"){
+    if(
+        !businessNumber ||
+        businessNumber === "639XXXXXXXXX"
+    ){
 
         alert(
-            "Please add your Tenphi Textile contact number in the website code first."
+            "Please add the Tenphi Textile WhatsApp number in the HTML code first."
         );
 
         return;
@@ -1110,19 +1455,44 @@ ${message}`;
     }
 
 
-    window.open(
+    const text =
+`Hello TENPHI TEXTILE! 👋
+
+Name: ${name}
+
+Contact Number:
+${phone}
+
+Inquiry:
+${fabric}
+
+Message:
+${message}`;
+
+
+    const whatsappURL =
         "https://wa.me/" +
         businessNumber +
         "?text=" +
-        encodeURIComponent(text),
-        "_blank"
+        encodeURIComponent(text);
+
+
+    window.open(
+        whatsappURL,
+        "_blank",
+        "noopener,noreferrer"
     );
 
 }
 
 
-document.getElementById("year").textContent =
-    new Date().getFullYear();
+/* =========================
+   CURRENT YEAR
+========================= */
+
+document
+    .getElementById("year")
+    .textContent = new Date().getFullYear();
 
 </script>
 
