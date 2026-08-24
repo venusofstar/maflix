@@ -1,0 +1,2709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,
+  initial-scale=1.0,
+  maximum-scale=1.0,
+  user-scalable=no,
+  viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#00c853">
+
+<meta
+  name="description"
+  content="HONOR TV Movie Player"
+>
+
+<title>HONOR TV Movie Player</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  background: #000;
+  color: #fff;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  overflow: hidden;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.player {
+  position: relative;
+
+  width: 100%;
+  height: 100dvh;
+  min-height: 100svh;
+
+  background: #000;
+
+  overflow: hidden;
+
+  outline: none;
+
+  user-select: none;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+video {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  background: #000;
+
+  object-fit: contain;
+
+  object-position: center;
+
+  /*
+   * Important for mobile browsers.
+   */
+  touch-action: manipulation;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.top-bar {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 10;
+
+  padding:
+    max(12px, env(safe-area-inset-top))
+    15px
+    20px;
+
+  background:
+    linear-gradient(
+      rgba(0,0,0,.78),
+      rgba(0,0,0,.25),
+      transparent
+    );
+
+  pointer-events: none;
+
+  opacity: 1;
+
+  transition: opacity .25s ease;
+}
+
+.player.hide-ui .top-bar {
+  opacity: 0;
+}
+
+.logo {
+  color: #00e676;
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+  letter-spacing: .6px;
+
+  text-shadow:
+    0 2px 10px #000;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 30;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(0,0,0,.42);
+
+  transition:
+    opacity .2s ease;
+}
+
+.loading.hidden {
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  border:
+    4px solid
+    rgba(255,255,255,.20);
+
+  border-top-color:
+    #00e676;
+
+  animation:
+    spin .65s linear infinite;
+}
+
+.loading-text {
+  margin-top: 12px;
+
+  color: #fff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  text-shadow:
+    0 2px 6px #000;
+}
+
+.buffer-info {
+  margin-top: 5px;
+
+  color: #aaa;
+
+  font-size: 11px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 50;
+
+  display: none;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 25px;
+
+  background: #000;
+}
+
+.error.show {
+  display: flex;
+}
+
+.error-icon {
+  font-size: 45px;
+
+  margin-bottom: 12px;
+}
+
+.error-title {
+  font-size: 20px;
+
+  font-weight: 700;
+
+  margin-bottom: 8px;
+}
+
+.error-text {
+  max-width: 400px;
+
+  color: #aaa;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  margin-bottom: 18px;
+}
+
+.retry-btn {
+  border: 0;
+
+  border-radius: 8px;
+
+  padding:
+    11px
+    22px;
+
+  background: #00c853;
+
+  color: #fff;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.retry-btn:active {
+  transform: scale(.95);
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 20;
+
+  padding:
+    65px
+    12px
+    max(12px, env(safe-area-inset-bottom));
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0,0,0,.95)
+    );
+
+  opacity: 1;
+
+  transition:
+    opacity .25s ease;
+}
+
+.player.hide-ui .controls {
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-box {
+  width: 100%;
+
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+}
+
+.progress {
+  width: 100%;
+
+  height: 5px;
+
+  appearance: none;
+
+  border: 0;
+
+  border-radius: 20px;
+
+  outline: none;
+
+  background:
+    rgba(255,255,255,.35);
+
+  cursor: pointer;
+}
+
+.progress::-webkit-slider-thumb {
+  appearance: none;
+
+  width: 16px;
+  height: 16px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #00e676;
+
+  box-shadow:
+    0 0 8px
+    rgba(0,230,118,.65);
+
+  cursor: pointer;
+}
+
+.progress::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #00e676;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  gap: 7px;
+
+  margin-top: 5px;
+}
+
+.control-btn {
+  flex:
+    0 0 auto;
+
+  width: 48px;
+  height: 44px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  border-radius: 9px;
+
+  background:
+    rgba(20,20,20,.94);
+
+  color: #fff;
+
+  font-size: 19px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  outline: none;
+
+  transition:
+    background .12s,
+    transform .12s,
+    border-color .12s;
+}
+
+.control-btn:active {
+  transform: scale(.92);
+}
+
+.control-btn:focus,
+.control-btn:hover,
+.control-btn.focused {
+  background: #00c853;
+
+  border-color: #00e676;
+}
+
+.seek-label {
+  font-size: 9px;
+
+  font-weight: 800;
+
+  margin-left: -2px;
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.time {
+  flex: 1;
+
+  min-width: 0;
+
+  text-align: center;
+
+  color: #ddd;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .controls {
+    padding-left: 9px;
+    padding-right: 9px;
+
+    padding-bottom:
+      max(
+        9px,
+        env(safe-area-inset-bottom)
+      );
+
+    padding-top: 55px;
+  }
+
+  .control-btn {
+    width: 43px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+  }
+
+  .seek-label {
+    font-size: 8px;
+  }
+
+  .buttons {
+    gap: 5px;
+  }
+
+  .time {
+    font-size: 10px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .control-btn {
+    width: 39px;
+    height: 39px;
+
+    font-size: 15px;
+  }
+
+  .buttons {
+    gap: 3px;
+  }
+
+  .time {
+    font-size: 9px;
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE
+========================================================= */
+
+@media
+(max-height: 500px)
+and
+(orientation: landscape) {
+
+  .controls {
+    padding-top: 35px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .control-btn {
+    width: 44px;
+    height: 40px;
+  }
+
+  .progress-box {
+    height: 23px;
+  }
+
+  .top-bar {
+    padding-top: 8px;
+  }
+}
+
+
+/* =========================================================
+   TV
+========================================================= */
+
+@media (min-width: 900px) {
+
+  .controls {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .control-btn {
+    width: 62px;
+    height: 54px;
+
+    font-size: 23px;
+  }
+
+  .progress {
+    height: 7px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div
+  id="player"
+  class="player"
+  tabindex="0"
+>
+
+  <!-- =====================================================
+       VIDEO
+  ====================================================== -->
+
+  <video
+    id="video"
+    playsinline
+    webkit-playsinline
+    preload="auto"
+    crossorigin="anonymous"
+    controlslist="nodownload noplaybackrate"
+  ></video>
+
+
+  <!-- =====================================================
+       TOP BAR
+  ====================================================== -->
+
+  <div class="top-bar">
+
+    <div class="logo">
+      HONOR TV
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       LOADING
+  ====================================================== -->
+
+  <div
+    id="loading"
+    class="loading"
+  >
+
+    <div class="spinner"></div>
+
+    <div
+      id="loadingText"
+      class="loading-text"
+    >
+      Connecting...
+    </div>
+
+    <div
+      id="bufferInfo"
+      class="buffer-info"
+    >
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       ERROR
+  ====================================================== -->
+
+  <div
+    id="error"
+    class="error"
+  >
+
+    <div class="error-icon">
+      ⚠️
+    </div>
+
+    <div class="error-title">
+      Unable to play movie
+    </div>
+
+    <div class="error-text">
+      The movie could not be loaded.
+      Please check the stream or try again.
+    </div>
+
+    <button
+      id="retry"
+      class="retry-btn"
+      type="button"
+    >
+      Retry
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       CONTROLS
+  ====================================================== -->
+
+  <div
+    id="controls"
+    class="controls"
+  >
+
+    <div class="progress-box">
+
+      <input
+        id="progress"
+        class="progress"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="0.1"
+        aria-label="Movie progress"
+      >
+
+    </div>
+
+
+    <div class="buttons">
+
+      <!-- REWIND -->
+
+      <button
+        id="rewind"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Rewind 10 seconds"
+      >
+        ⏪
+        <span class="seek-label">10</span>
+      </button>
+
+
+      <!-- PLAY -->
+
+      <button
+        id="play"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Play"
+      >
+        ▶
+      </button>
+
+
+      <!-- FORWARD -->
+
+      <button
+        id="forward"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Forward 10 seconds"
+      >
+        ⏩
+        <span class="seek-label">10</span>
+      </button>
+
+
+      <!-- MUTE -->
+
+      <button
+        id="mute"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Mute"
+      >
+        🔊
+      </button>
+
+
+      <!-- FULLSCREEN -->
+
+      <button
+        id="fullscreen"
+        class="control-btn"
+        type="button"
+        tabindex="0"
+        aria-label="Fullscreen"
+      >
+        ⛶
+      </button>
+
+
+      <!-- TIME -->
+
+      <div
+        id="time"
+        class="time"
+      >
+        00:00 / 00:00
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const player =
+  document.getElementById("player");
+
+const video =
+  document.getElementById("video");
+
+const loading =
+  document.getElementById("loading");
+
+const loadingText =
+  document.getElementById("loadingText");
+
+const bufferInfo =
+  document.getElementById("bufferInfo");
+
+const errorBox =
+  document.getElementById("error");
+
+const retryBtn =
+  document.getElementById("retry");
+
+const progress =
+  document.getElementById("progress");
+
+const playBtn =
+  document.getElementById("play");
+
+const rewindBtn =
+  document.getElementById("rewind");
+
+const forwardBtn =
+  document.getElementById("forward");
+
+const muteBtn =
+  document.getElementById("mute");
+
+const fullscreenBtn =
+  document.getElementById("fullscreen");
+
+const timeText =
+  document.getElementById("time");
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let hls = null;
+
+let hideTimer = null;
+
+let saveTimer = null;
+
+let bufferTimer = null;
+
+let seeking = false;
+
+let currentURL = null;
+
+let retryCount = 0;
+
+let destroyed = false;
+
+
+/* =========================================================
+   GET MOVIE URL
+========================================================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+currentURL =
+  params.get("url");
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function showLoading(
+  text = "Loading..."
+) {
+
+  loadingText.textContent = text;
+
+  loading.classList.remove(
+    "hidden"
+  );
+}
+
+
+function hideLoading() {
+
+  loading.classList.add(
+    "hidden"
+  );
+
+  bufferInfo.textContent = "";
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(
+  message
+) {
+
+  hideLoading();
+
+  if (message) {
+
+    const text =
+      errorBox.querySelector(
+        ".error-text"
+      );
+
+    text.textContent =
+      message;
+  }
+
+  errorBox.classList.add(
+    "show"
+  );
+}
+
+
+function hideError() {
+
+  errorBox.classList.remove(
+    "show"
+  );
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+function showUI() {
+
+  player.classList.remove(
+    "hide-ui"
+  );
+
+  clearTimeout(
+    hideTimer
+  );
+
+  hideTimer =
+    setTimeout(
+      function () {
+
+        if (
+          !video.paused &&
+          window.innerWidth > 600
+        ) {
+
+          player.classList.add(
+            "hide-ui"
+          );
+        }
+
+      },
+      4500
+    );
+}
+
+
+/* =========================================================
+   HLS CLEANUP
+========================================================= */
+
+function destroyHLS() {
+
+  if (hls) {
+
+    try {
+
+      hls.stopLoad();
+
+    } catch (e) {}
+
+    try {
+
+      hls.detachMedia();
+
+    } catch (e) {}
+
+    try {
+
+      hls.destroy();
+
+    } catch (e) {}
+
+    hls = null;
+  }
+}
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function formatTime(seconds) {
+
+  if (
+    !Number.isFinite(seconds) ||
+    seconds < 0
+  ) {
+
+    return "00:00";
+  }
+
+  seconds =
+    Math.floor(seconds);
+
+  const hours =
+    Math.floor(
+      seconds / 3600
+    );
+
+  const minutes =
+    Math.floor(
+      (seconds % 3600) / 60
+    );
+
+  const secs =
+    seconds % 60;
+
+
+  if (hours > 0) {
+
+    return (
+      String(hours)
+        .padStart(2, "0") +
+      ":" +
+      String(minutes)
+        .padStart(2, "0") +
+      ":" +
+      String(secs)
+        .padStart(2, "0")
+    );
+  }
+
+
+  return (
+    String(minutes)
+      .padStart(2, "0") +
+    ":" +
+    String(secs)
+      .padStart(2, "0")
+  );
+}
+
+
+/* =========================================================
+   UPDATE TIME
+========================================================= */
+
+function updateTime() {
+
+  const current =
+    Number.isFinite(
+      video.currentTime
+    )
+      ? video.currentTime
+      : 0;
+
+  const duration =
+    Number.isFinite(
+      video.duration
+    )
+      ? video.duration
+      : 0;
+
+
+  timeText.textContent =
+    formatTime(current) +
+    " / " +
+    formatTime(duration);
+
+
+  if (
+    duration > 0 &&
+    !seeking
+  ) {
+
+    progress.value =
+      Math.min(
+        100,
+        Math.max(
+          0,
+          (
+            current /
+            duration
+          ) * 100
+        )
+      );
+  }
+}
+
+
+/* =========================================================
+   BUFFER MONITOR
+========================================================= */
+
+function getBufferedSeconds() {
+
+  if (
+    !video.buffered ||
+    video.buffered.length === 0
+  ) {
+
+    return 0;
+  }
+
+  const current =
+    video.currentTime;
+
+  for (
+    let i = 0;
+    i < video.buffered.length;
+    i++
+  ) {
+
+    const start =
+      video.buffered.start(i);
+
+    const end =
+      video.buffered.end(i);
+
+
+    if (
+      current >= start &&
+      current <= end
+    ) {
+
+      return Math.max(
+        0,
+        end - current
+      );
+    }
+  }
+
+  return 0;
+}
+
+
+/* =========================================================
+   BUFFER DISPLAY
+========================================================= */
+
+function updateBufferInfo() {
+
+  if (
+    video.paused ||
+    loading.classList.contains(
+      "hidden"
+    )
+  ) {
+
+    return;
+  }
+
+  const buffered =
+    getBufferedSeconds();
+
+
+  if (
+    buffered > 0
+  ) {
+
+    bufferInfo.textContent =
+      "Buffered " +
+      Math.floor(buffered) +
+      "s";
+  }
+}
+
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
+
+function togglePlay() {
+
+  if (
+    video.paused
+  ) {
+
+    video.play()
+      .catch(() => {});
+
+  } else {
+
+    video.pause();
+  }
+
+  showUI();
+}
+
+
+/* =========================================================
+   REWIND
+========================================================= */
+
+function rewind() {
+
+  if (
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
+
+    return;
+  }
+
+  video.currentTime =
+    Math.max(
+      0,
+      video.currentTime - 10
+    );
+
+  showUI();
+}
+
+
+/* =========================================================
+   FORWARD
+========================================================= */
+
+function forward() {
+
+  if (
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
+
+    return;
+  }
+
+
+  const duration =
+    video.duration;
+
+
+  if (
+    Number.isFinite(duration) &&
+    duration > 0
+  ) {
+
+    video.currentTime =
+      Math.min(
+        duration,
+        video.currentTime + 10
+      );
+
+  } else {
+
+    video.currentTime += 10;
+  }
+
+  showUI();
+}
+
+
+/* =========================================================
+   MUTE
+========================================================= */
+
+function toggleMute() {
+
+  video.muted =
+    !video.muted;
+
+  updateMute();
+}
+
+
+function updateMute() {
+
+  muteBtn.textContent =
+    video.muted
+      ? "🔇"
+      : "🔊";
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+async function fullscreen() {
+
+  try {
+
+    if (
+      !document.fullscreenElement
+    ) {
+
+      if (
+        player.requestFullscreen
+      ) {
+
+        await player.requestFullscreen();
+
+      }
+
+      else if (
+        video.webkitEnterFullscreen
+      ) {
+
+        video.webkitEnterFullscreen();
+      }
+
+    }
+
+    else {
+
+      if (
+        document.exitFullscreen
+      ) {
+
+        await document.exitFullscreen();
+      }
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Fullscreen error:",
+      error
+    );
+  }
+
+  showUI();
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function storageKey() {
+
+  return (
+    "honor_tv_movie_" +
+    encodeURIComponent(
+      currentURL || ""
+    )
+  );
+}
+
+
+/* =========================================================
+   SAVE POSITION
+========================================================= */
+
+function savePosition() {
+
+  if (
+    !currentURL ||
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
+
+    return;
+  }
+
+
+  if (
+    video.currentTime < 10
+  ) {
+
+    return;
+  }
+
+
+  try {
+
+    localStorage.setItem(
+      storageKey(),
+      String(
+        video.currentTime
+      )
+    );
+
+  } catch (e) {}
+}
+
+
+/* =========================================================
+   RESTORE POSITION
+========================================================= */
+
+function restorePosition() {
+
+  try {
+
+    const saved =
+      parseFloat(
+        localStorage.getItem(
+          storageKey()
+        )
+      );
+
+
+    if (
+      !Number.isFinite(saved) ||
+      saved <= 10
+    ) {
+
+      return;
+    }
+
+
+    const duration =
+      video.duration;
+
+
+    /*
+     * Only restore if it is a sensible
+     * position for this movie.
+     */
+
+    if (
+      Number.isFinite(duration) &&
+      duration > 0
+    ) {
+
+      if (
+        saved <
+        duration - 10
+      ) {
+
+        video.currentTime =
+          saved;
+      }
+
+    } else {
+
+      video.currentTime =
+        saved;
+    }
+
+  } catch (e) {}
+}
+
+
+/* =========================================================
+   START PLAYBACK
+========================================================= */
+
+async function startPlayback() {
+
+  if (destroyed) {
+    return;
+  }
+
+
+  /*
+   * First attempt normal autoplay.
+   */
+
+  try {
+
+    video.muted = false;
+
+    updateMute();
+
+    await video.play();
+
+    hideLoading();
+
+    updatePlayButton();
+
+    return;
+
+  } catch (error) {}
+
+
+  /*
+   * Browser autoplay restriction.
+   * Retry muted.
+   */
+
+  try {
+
+    video.muted = true;
+
+    updateMute();
+
+    await video.play();
+
+    hideLoading();
+
+    updatePlayButton();
+
+  } catch (error) {
+
+    hideLoading();
+
+    showUI();
+
+    updatePlayButton();
+  }
+}
+
+
+/* =========================================================
+   HLS ERROR RETRY
+========================================================= */
+
+function handleHLSError(
+  event,
+  data
+) {
+
+  console.warn(
+    "HLS:",
+    data.type,
+    data.details
+  );
+
+
+  if (!data.fatal) {
+
+    return;
+  }
+
+
+  /*
+   * NETWORK ERROR
+   */
+
+  if (
+    data.type ===
+    Hls.ErrorTypes.NETWORK_ERROR
+  ) {
+
+    showLoading(
+      "Reconnecting..."
+    );
+
+
+    if (hls) {
+
+      try {
+
+        hls.startLoad();
+
+      } catch (e) {
+
+        retryHLS();
+      }
+    }
+
+    return;
+  }
+
+
+  /*
+   * MEDIA ERROR
+   */
+
+  if (
+    data.type ===
+    Hls.ErrorTypes.MEDIA_ERROR
+  ) {
+
+    try {
+
+      hls.recoverMediaError();
+
+      return;
+
+    } catch (e) {}
+  }
+
+
+  /*
+   * OTHER FATAL ERROR
+   */
+
+  retryHLS();
+}
+
+
+/* =========================================================
+   HLS RETRY
+========================================================= */
+
+function retryHLS() {
+
+  if (destroyed) {
+    return;
+  }
+
+
+  retryCount++;
+
+
+  if (
+    retryCount <= 5
+  ) {
+
+    showLoading(
+      "Retrying " +
+      retryCount +
+      "/5..."
+    );
+
+
+    setTimeout(
+      function () {
+
+        if (!currentURL) {
+          return;
+        }
+
+        loadVideo(
+          currentURL,
+          true
+        );
+
+      },
+      Math.min(
+        1000 * retryCount,
+        5000
+      )
+    );
+
+  }
+
+  else {
+
+    showError(
+      "The movie server is not responding. Please try again."
+    );
+  }
+}
+
+
+/* =========================================================
+   LOAD VIDEO
+========================================================= */
+
+function loadVideo(
+  url,
+  isRetry = false
+) {
+
+  if (!url) {
+
+    showError(
+      "No movie URL was provided."
+    );
+
+    return;
+  }
+
+
+  destroyed = false;
+
+  hideError();
+
+  showLoading(
+    isRetry
+      ? "Reconnecting..."
+      : "Connecting..."
+  );
+
+
+  destroyHLS();
+
+
+  /*
+   * Stop old media.
+   */
+
+  try {
+
+    video.pause();
+
+  } catch (e) {}
+
+
+  /*
+   * Remove old source.
+   */
+
+  video.removeAttribute(
+    "src"
+  );
+
+  video.load();
+
+
+  /*
+   * Detect HLS.
+   */
+
+  const isHLS =
+    /\.m3u8(?:$|\?)/i.test(
+      url
+    );
+
+
+  /* =======================================================
+     NATIVE HLS
+  ======================================================= */
+
+  if (
+    isHLS &&
+    video.canPlayType(
+      "application/vnd.apple.mpegurl"
+    )
+  ) {
+
+    video.src = url;
+
+    video.load();
+
+    startPlayback();
+
+    return;
+  }
+
+
+  /* =======================================================
+     HLS.JS — VOD CONFIGURATION
+  ======================================================= */
+
+  if (
+    isHLS &&
+    typeof Hls !== "undefined" &&
+    Hls.isSupported()
+  ) {
+
+    /*
+     * These values are deliberately
+     * optimized for MOVIES / VOD.
+     */
+
+    hls =
+      new Hls({
+
+        /*
+         * Worker improves parsing performance.
+         */
+
+        enableWorker: true,
+
+
+        /*
+         * DO NOT use low-latency mode
+         * for movies.
+         */
+
+        lowLatencyMode: false,
+
+
+        /*
+         * VOD can safely keep more
+         * content behind the playhead.
+         */
+
+        backBufferLength: 90,
+
+
+        /*
+         * Main forward buffer.
+         *
+         * Larger values reduce
+         * buffering on unstable connections.
+         */
+
+        maxBufferLength: 90,
+
+
+        /*
+         * Maximum VOD buffer.
+         */
+
+        maxMaxBufferLength: 180,
+
+
+        /*
+         * Allow substantial buffer size.
+         */
+
+        maxBufferSize:
+          120 * 1000 * 1000,
+
+
+        /*
+         * Prevent tiny buffer holes
+         * from causing unnecessary stalls.
+         */
+
+        maxBufferHole: 0.5,
+
+
+        /*
+         * Automatically select
+         * suitable quality.
+         */
+
+        startLevel: -1,
+
+
+        /*
+         * Don't unnecessarily download
+         * a resolution larger than the
+         * player display.
+         */
+
+        capLevelToPlayerSize: true,
+
+
+        /*
+         * Prefer stable playback.
+         */
+
+        abrEwmaFastLive: 3.0,
+
+        abrEwmaSlowLive: 9.0,
+
+        abrEwmaDefaultEstimate:
+          500000,
+
+
+        /*
+         * Fetch retries.
+         */
+
+        fragLoadingMaxRetry: 6,
+
+        manifestLoadingMaxRetry: 6,
+
+        levelLoadingMaxRetry: 6,
+
+
+        /*
+         * Retry delays.
+         */
+
+        fragLoadingRetryDelay: 1000,
+
+        manifestLoadingRetryDelay: 1000,
+
+        levelLoadingRetryDelay: 1000,
+
+
+        /*
+         * Enable fragment prefetch.
+         */
+
+        startFragPrefetch: true,
+
+
+        /*
+         * Improve loading of
+         * progressive fragments.
+         */
+
+        progressive: true,
+
+
+        /*
+         * Avoid unnecessary
+         * aggressive playlist reloads.
+         */
+
+        maxFragLookUpTolerance: 0.25,
+
+
+        /*
+         * VOD does not need
+         * live synchronization.
+         */
+
+        liveSyncDurationCount: 3,
+
+        liveMaxLatencyDurationCount: 10
+
+      });
+
+
+    /* =====================================================
+       LOAD SOURCE
+    ===================================================== */
+
+    hls.loadSource(
+      url
+    );
+
+
+    /* =====================================================
+       ATTACH MEDIA
+    ===================================================== */
+
+    hls.attachMedia(
+      video
+    );
+
+
+    /* =====================================================
+       MANIFEST PARSED
+    ===================================================== */
+
+    hls.on(
+      Hls.Events.MANIFEST_PARSED,
+      function () {
+
+        console.log(
+          "HLS VOD manifest loaded"
+        );
+
+
+        retryCount = 0;
+
+
+        /*
+         * Start playback immediately.
+         */
+
+        startPlayback();
+      }
+    );
+
+
+    /* =====================================================
+       LEVEL LOADED
+    ===================================================== */
+
+    hls.on(
+      Hls.Events.LEVEL_LOADED,
+      function (
+        event,
+        data
+      ) {
+
+        if (
+          data &&
+          data.details &&
+          data.details.live === false
+        ) {
+
+          console.log(
+            "VOD playlist detected"
+          );
+        }
+      }
+    );
+
+
+    /* =====================================================
+       FRAGMENT LOADED
+    ===================================================== */
+
+    hls.on(
+      Hls.Events.FRAG_LOADED,
+      function () {
+
+        updateBufferInfo();
+
+      }
+    );
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    hls.on(
+      Hls.Events.ERROR,
+      handleHLSError
+    );
+
+
+    return;
+  }
+
+
+  /* =======================================================
+     MP4 / NORMAL MOVIE
+  ======================================================= */
+
+  video.src = url;
+
+  video.load();
+
+  startPlayback();
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+function updatePlayButton() {
+
+  playBtn.textContent =
+    video.paused
+      ? "▶"
+      : "⏸";
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+playBtn.addEventListener(
+  "click",
+  togglePlay
+);
+
+rewindBtn.addEventListener(
+  "click",
+  rewind
+);
+
+forwardBtn.addEventListener(
+  "click",
+  forward
+);
+
+muteBtn.addEventListener(
+  "click",
+  toggleMute
+);
+
+fullscreenBtn.addEventListener(
+  "click",
+  fullscreen
+);
+
+retryBtn.addEventListener(
+  "click",
+  function () {
+
+    retryCount = 0;
+
+    if (currentURL) {
+
+      loadVideo(
+        currentURL
+      );
+    }
+  }
+);
+
+
+/* =========================================================
+   PROGRESS INPUT
+========================================================= */
+
+progress.addEventListener(
+  "input",
+  function () {
+
+    seeking = true;
+
+
+    const duration =
+      video.duration;
+
+
+    if (
+      Number.isFinite(duration) &&
+      duration > 0
+    ) {
+
+      video.currentTime =
+        (
+          Number(
+            progress.value
+          ) / 100
+        ) *
+        duration;
+    }
+
+
+    updateTime();
+  }
+);
+
+
+progress.addEventListener(
+  "change",
+  function () {
+
+    seeking = false;
+
+    showUI();
+
+  }
+);
+
+
+/* =========================================================
+   VIDEO LOADSTART
+========================================================= */
+
+video.addEventListener(
+  "loadstart",
+  function () {
+
+    showLoading(
+      "Loading movie..."
+    );
+  }
+);
+
+
+/* =========================================================
+   WAITING
+========================================================= */
+
+video.addEventListener(
+  "waiting",
+  function () {
+
+    showLoading(
+      "Buffering movie..."
+    );
+  }
+);
+
+
+/* =========================================================
+   STALLED
+========================================================= */
+
+video.addEventListener(
+  "stalled",
+  function () {
+
+    showLoading(
+      "Network buffering..."
+    );
+  }
+);
+
+
+/* =========================================================
+   CAN PLAY
+========================================================= */
+
+video.addEventListener(
+  "canplay",
+  function () {
+
+    hideLoading();
+
+  }
+);
+
+
+/* =========================================================
+   CAN PLAY THROUGH
+========================================================= */
+
+video.addEventListener(
+  "canplaythrough",
+  function () {
+
+    hideLoading();
+
+  }
+);
+
+
+/* =========================================================
+   PLAYING
+========================================================= */
+
+video.addEventListener(
+  "playing",
+  function () {
+
+    hideLoading();
+
+    retryCount = 0;
+
+    updatePlayButton();
+
+    showUI();
+
+  }
+);
+
+
+/* =========================================================
+   PLAY
+========================================================= */
+
+video.addEventListener(
+  "play",
+  function () {
+
+    hideLoading();
+
+    updatePlayButton();
+
+  }
+);
+
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+video.addEventListener(
+  "pause",
+  function () {
+
+    updatePlayButton();
+
+    showUI();
+
+  }
+);
+
+
+/* =========================================================
+   TIME UPDATE
+========================================================= */
+
+video.addEventListener(
+  "timeupdate",
+  updateTime
+);
+
+
+/* =========================================================
+   METADATA
+========================================================= */
+
+video.addEventListener(
+  "loadedmetadata",
+  function () {
+
+    updateTime();
+
+    /*
+     * Restore saved movie position
+     * after metadata becomes available.
+     */
+
+    setTimeout(
+      restorePosition,
+      100
+    );
+  }
+);
+
+
+/* =========================================================
+   DURATION CHANGE
+========================================================= */
+
+video.addEventListener(
+  "durationchange",
+  function () {
+
+    updateTime();
+
+  }
+);
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+video.addEventListener(
+  "progress",
+  function () {
+
+    updateBufferInfo();
+
+  }
+);
+
+
+/* =========================================================
+   ENDED
+========================================================= */
+
+video.addEventListener(
+  "ended",
+  function () {
+
+    updatePlayButton();
+
+    showUI();
+
+
+    try {
+
+      localStorage.removeItem(
+        storageKey()
+      );
+
+    } catch (e) {}
+  }
+);
+
+
+/* =========================================================
+   VIDEO ERROR
+========================================================= */
+
+video.addEventListener(
+  "error",
+  function () {
+
+    /*
+     * If HLS.js is handling the
+     * stream, its error handler
+     * is more useful.
+     */
+
+    if (!hls) {
+
+      showError(
+        "The movie could not be played."
+      );
+    }
+  }
+);
+
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+player.addEventListener(
+  "touchstart",
+  function () {
+
+    showUI();
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/* =========================================================
+   VIDEO CLICK
+========================================================= */
+
+video.addEventListener(
+  "click",
+  function () {
+
+    showUI();
+
+  }
+);
+
+
+/* =========================================================
+   TV REMOTE / KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    const key =
+      event.key;
+
+    const code =
+      event.keyCode;
+
+
+    /*
+     * SPACE / ENTER
+     */
+
+    if (
+      key === " " ||
+      key === "Enter" ||
+      code === 13 ||
+      code === 32
+    ) {
+
+      if (
+        document.activeElement !==
+        progress
+      ) {
+
+        event.preventDefault();
+
+        togglePlay();
+      }
+
+      return;
+    }
+
+
+    /*
+     * LEFT
+     */
+
+    if (
+      key === "ArrowLeft" ||
+      code === 37
+    ) {
+
+      event.preventDefault();
+
+      rewind();
+
+      return;
+    }
+
+
+    /*
+     * RIGHT
+     */
+
+    if (
+      key === "ArrowRight" ||
+      code === 39
+    ) {
+
+      event.preventDefault();
+
+      forward();
+
+      return;
+    }
+
+
+    /*
+     * UP
+     */
+
+    if (
+      key === "ArrowUp" ||
+      code === 38
+    ) {
+
+      event.preventDefault();
+
+      showUI();
+
+      return;
+    }
+
+
+    /*
+     * DOWN
+     */
+
+    if (
+      key === "ArrowDown" ||
+      code === 40
+    ) {
+
+      event.preventDefault();
+
+      showUI();
+
+      return;
+    }
+
+
+    /*
+     * MUTE
+     */
+
+    if (
+      key.toLowerCase() === "m"
+    ) {
+
+      event.preventDefault();
+
+      toggleMute();
+
+      return;
+    }
+
+
+    /*
+     * FULLSCREEN
+     */
+
+    if (
+      key.toLowerCase() === "f"
+    ) {
+
+      event.preventDefault();
+
+      fullscreen();
+
+      return;
+    }
+
+
+    /*
+     * ESCAPE
+     */
+
+    if (
+      key === "Escape" ||
+      code === 27
+    ) {
+
+      showUI();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   AUTO HIDE UI
+========================================================= */
+
+player.addEventListener(
+  "mousemove",
+  showUI,
+  {
+    passive: true
+  }
+);
+
+
+/* =========================================================
+   SAVE POSITION
+========================================================= */
+
+saveTimer =
+  setInterval(
+    savePosition,
+    5000
+  );
+
+
+/* =========================================================
+   BUFFER MONITOR
+========================================================= */
+
+bufferTimer =
+  setInterval(
+    updateBufferInfo,
+    1000
+  );
+
+
+/* =========================================================
+   VISIBILITY
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
+
+    if (
+      document.hidden
+    ) {
+
+      savePosition();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BEFORE UNLOAD
+========================================================= */
+
+window.addEventListener(
+  "beforeunload",
+  function () {
+
+    savePosition();
+
+    destroyed = true;
+
+    if (saveTimer) {
+
+      clearInterval(
+        saveTimer
+      );
+    }
+
+    if (bufferTimer) {
+
+      clearInterval(
+        bufferTimer
+      );
+    }
+
+    destroyHLS();
+
+  }
+);
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+video.muted = false;
+
+updateMute();
+
+updatePlayButton();
+
+showUI();
+
+
+/* =========================================================
+   START MOVIE
+========================================================= */
+
+if (currentURL) {
+
+  loadVideo(
+    currentURL
+  );
+
+} else {
+
+  showError(
+    "No movie URL was provided. Use ?url=YOUR_MOVIE_URL"
+  );
+}
+
+</script>
+
+</body>
+</html>
