@@ -3,24 +3,20 @@
 <head>
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"
->
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no,
+      viewport-fit=cover">
 
 <meta name="theme-color" content="#00c853">
 
-<title>HONOR TV Player</title>
+<title>HONOR TV | Movie Player</title>
 
-<!-- Stable HLS.js version -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.13/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.13"></script>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -34,6 +30,7 @@ body {
   height: 100%;
   background: #000;
   color: #fff;
+  overflow: hidden;
   font-family:
     system-ui,
     -apple-system,
@@ -44,36 +41,27 @@ body {
 }
 
 body {
-  overflow: hidden;
+  overscroll-behavior: none;
 }
 
-
-/* =========================================================
-   PLAYER
-========================================================= */
+button,
+input {
+  font: inherit;
+}
 
 .player {
   position: relative;
-
   width: 100%;
   height: 100dvh;
   min-height: 100svh;
-
   background: #000;
-
   overflow: hidden;
-
   outline: none;
+  user-select: none;
 }
-
-
-/* =========================================================
-   VIDEO
-========================================================= */
 
 video {
   position: absolute;
-
   inset: 0;
 
   width: 100%;
@@ -84,16 +72,15 @@ video {
   background: #000;
 
   object-fit: contain;
-
-  object-position: center center;
+  object-position: center;
 
   /*
-   * Helps mobile browsers avoid unnecessary
-   * inline playback behavior.
+   * Helps prevent browser-side aggressive
+   * power saving from interfering with playback.
    */
-  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
-
 
 /* =========================================================
    TOP BAR
@@ -101,21 +88,21 @@ video {
 
 .top-bar {
   position: absolute;
-
   top: 0;
   left: 0;
   right: 0;
 
-  z-index: 10;
+  z-index: 20;
 
   padding:
     max(12px, env(safe-area-inset-top))
-    15px
-    18px;
+    16px
+    45px;
 
   background:
     linear-gradient(
       rgba(0,0,0,.78),
+      rgba(0,0,0,.25),
       transparent
     );
 
@@ -126,15 +113,10 @@ video {
   transition: opacity .25s ease;
 }
 
-.player.hide-ui .top-bar {
-  opacity: 0;
-}
-
 .logo {
   color: #00e676;
 
   font-size: 18px;
-
   font-weight: 800;
 
   letter-spacing: .5px;
@@ -143,6 +125,9 @@ video {
     0 2px 8px #000;
 }
 
+.player.hide-ui .top-bar {
+  opacity: 0;
+}
 
 /* =========================================================
    LOADING
@@ -150,20 +135,18 @@ video {
 
 .loading {
   position: absolute;
-
   inset: 0;
 
-  z-index: 30;
+  z-index: 50;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
-  background: rgba(0,0,0,.42);
+  background:
+    rgba(0,0,0,.42);
 
   transition:
     opacity .2s ease;
@@ -171,7 +154,6 @@ video {
 
 .loading.hidden {
   opacity: 0;
-
   pointer-events: none;
 }
 
@@ -183,7 +165,7 @@ video {
 
   border:
     4px solid
-    rgba(255,255,255,.22);
+    rgba(255,255,255,.18);
 
   border-top-color: #00e676;
 
@@ -194,14 +176,23 @@ video {
 .loading-text {
   margin-top: 12px;
 
-  color: #fff;
-
   font-size: 14px;
-
   font-weight: 600;
 
+  color: #fff;
+
   text-shadow:
-    0 2px 5px #000;
+    0 2px 6px #000;
+}
+
+.buffer-info {
+  margin-top: 6px;
+
+  color: #aaa;
+
+  font-size: 11px;
+
+  text-align: center;
 }
 
 @keyframes spin {
@@ -210,24 +201,21 @@ video {
   }
 }
 
-
 /* =========================================================
    ERROR
 ========================================================= */
 
 .error {
   position: absolute;
-
   inset: 0;
 
-  z-index: 40;
+  z-index: 80;
 
   display: none;
 
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
@@ -242,31 +230,48 @@ video {
 }
 
 .error-icon {
-  font-size: 45px;
-
+  font-size: 46px;
   margin-bottom: 12px;
 }
 
 .error-title {
   font-size: 20px;
-
   font-weight: 700;
 
-  color: #fff;
-
-  margin-bottom: 7px;
+  margin-bottom: 8px;
 }
 
 .error-text {
-  max-width: 380px;
+  max-width: 390px;
 
   color: #aaa;
 
   font-size: 13px;
 
   line-height: 1.5;
+
+  margin-bottom: 18px;
 }
 
+.retry-btn {
+  min-width: 120px;
+  height: 44px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #00c853;
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.retry-btn:active {
+  transform: scale(.95);
+}
 
 /* =========================================================
    CONTROLS
@@ -279,17 +284,17 @@ video {
   right: 0;
   bottom: 0;
 
-  z-index: 20;
+  z-index: 30;
 
   padding:
-    65px
+    70px
     12px
     max(12px, env(safe-area-inset-bottom));
 
   background:
     linear-gradient(
       transparent,
-      rgba(0,0,0,.94)
+      rgba(0,0,0,.96)
     );
 
   opacity: 1;
@@ -301,10 +306,8 @@ video {
 
 .player.hide-ui .controls {
   opacity: 0;
-
   pointer-events: none;
 }
-
 
 /* =========================================================
    PROGRESS
@@ -312,29 +315,25 @@ video {
 
 .progress-box {
   width: 100%;
-
   height: 30px;
 
   display: flex;
-
   align-items: center;
 }
 
 .progress {
   width: 100%;
-
   height: 5px;
 
   appearance: none;
 
   border: 0;
-
   border-radius: 20px;
 
   outline: none;
 
   background:
-    rgba(255,255,255,.35);
+    rgba(255,255,255,.32);
 
   cursor: pointer;
 }
@@ -346,14 +345,12 @@ video {
   height: 16px;
 
   border: 0;
-
   border-radius: 50%;
 
   background: #00e676;
 
   box-shadow:
-    0 0 8px
-    rgba(0,230,118,.6);
+    0 0 8px rgba(0,230,118,.65);
 
   cursor: pointer;
 }
@@ -363,7 +360,6 @@ video {
   height: 16px;
 
   border: 0;
-
   border-radius: 50%;
 
   background: #00e676;
@@ -371,17 +367,15 @@ video {
   cursor: pointer;
 }
 
-
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .buttons {
-  display: flex;
-
-  align-items: center;
-
   width: 100%;
+
+  display: flex;
+  align-items: center;
 
   gap: 7px;
 
@@ -401,16 +395,14 @@ video {
   border-radius: 9px;
 
   background:
-    rgba(20,20,20,.92);
+    rgba(20,20,20,.94);
 
   color: #fff;
 
   font-size: 19px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
   cursor: pointer;
@@ -418,9 +410,9 @@ video {
   outline: none;
 
   transition:
-    background .15s,
-    transform .15s,
-    border-color .15s;
+    background .12s,
+    transform .12s,
+    border-color .12s;
 }
 
 .control-btn:active {
@@ -433,24 +425,14 @@ video {
   background: #00c853;
 
   border-color: #00e676;
-
-  color: #fff;
-
-  outline: none;
 }
 
 .seek-label {
   font-size: 9px;
-
   font-weight: 800;
 
   margin-left: -2px;
 }
-
-
-/* =========================================================
-   TIME
-========================================================= */
 
 .time {
   flex: 1;
@@ -464,10 +446,8 @@ video {
   font-size: 11px;
 
   white-space: nowrap;
-
   overflow: hidden;
 }
-
 
 /* =========================================================
    MOBILE
@@ -479,10 +459,10 @@ video {
     padding-left: 9px;
     padding-right: 9px;
 
+    padding-top: 55px;
+
     padding-bottom:
       max(9px, env(safe-area-inset-bottom));
-
-    padding-top: 55px;
   }
 
   .control-btn {
@@ -494,12 +474,12 @@ video {
     font-size: 17px;
   }
 
-  .seek-label {
-    font-size: 8px;
-  }
-
   .buttons {
     gap: 5px;
+  }
+
+  .seek-label {
+    font-size: 8px;
   }
 
   .time {
@@ -511,9 +491,8 @@ video {
   }
 }
 
-
 /* =========================================================
-   VERY SMALL PHONE
+   SMALL PHONES
 ========================================================= */
 
 @media (max-width: 360px) {
@@ -534,9 +513,8 @@ video {
   }
 }
 
-
 /* =========================================================
-   LANDSCAPE PHONE
+   LANDSCAPE
 ========================================================= */
 
 @media
@@ -565,7 +543,6 @@ and
   }
 }
 
-
 /* =========================================================
    TV
 ========================================================= */
@@ -592,10 +569,8 @@ and
     font-size: 22px;
   }
 }
-
 </style>
 </head>
-
 
 <body>
 
@@ -605,10 +580,6 @@ and
   tabindex="0"
 >
 
-  <!-- =====================================================
-       VIDEO
-  ====================================================== -->
-
   <video
     id="video"
     playsinline
@@ -617,10 +588,7 @@ and
     crossorigin="anonymous"
   ></video>
 
-
-  <!-- =====================================================
-       TOP BAR
-  ====================================================== -->
+  <!-- TOP -->
 
   <div class="top-bar">
 
@@ -630,10 +598,7 @@ and
 
   </div>
 
-
-  <!-- =====================================================
-       LOADING
-  ====================================================== -->
+  <!-- LOADING -->
 
   <div
     id="loading"
@@ -649,12 +614,16 @@ and
       Connecting...
     </div>
 
+    <div
+      id="bufferInfo"
+      class="buffer-info"
+    >
+      Preparing movie
+    </div>
+
   </div>
 
-
-  <!-- =====================================================
-       ERROR
-  ====================================================== -->
+  <!-- ERROR -->
 
   <div
     id="error"
@@ -666,23 +635,25 @@ and
     </div>
 
     <div class="error-title">
-      Unable to play video
+      Unable to play movie
     </div>
 
-    <div
-      id="errorText"
-      class="error-text"
-    >
-      The video could not be loaded.
+    <div class="error-text">
+      The movie could not be loaded.
       Please check the stream or try again.
     </div>
 
+    <button
+      id="retry"
+      class="retry-btn"
+      type="button"
+    >
+      Retry
+    </button>
+
   </div>
 
-
-  <!-- =====================================================
-       CONTROLS
-  ====================================================== -->
+  <!-- CONTROLS -->
 
   <div
     id="controls"
@@ -699,15 +670,12 @@ and
         max="100"
         value="0"
         step="0.1"
-        aria-label="Video progress"
+        aria-label="Movie progress"
       >
 
     </div>
 
-
     <div class="buttons">
-
-      <!-- REWIND -->
 
       <button
         id="rewind"
@@ -717,13 +685,8 @@ and
         aria-label="Rewind 10 seconds"
       >
         ⏪
-        <span class="seek-label">
-          10
-        </span>
+        <span class="seek-label">10</span>
       </button>
-
-
-      <!-- PLAY -->
 
       <button
         id="play"
@@ -735,9 +698,6 @@ and
         ▶
       </button>
 
-
-      <!-- FORWARD -->
-
       <button
         id="forward"
         class="control-btn"
@@ -746,13 +706,8 @@ and
         aria-label="Forward 10 seconds"
       >
         ⏩
-        <span class="seek-label">
-          10
-        </span>
+        <span class="seek-label">10</span>
       </button>
-
-
-      <!-- MUTE -->
 
       <button
         id="mute"
@@ -764,9 +719,6 @@ and
         🔊
       </button>
 
-
-      <!-- FULLSCREEN -->
-
       <button
         id="fullscreen"
         class="control-btn"
@@ -777,14 +729,11 @@ and
         ⛶
       </button>
 
-
-      <!-- TIME -->
-
       <div
         id="time"
         class="time"
       >
-        LIVE
+        00:00 / 00:00
       </div>
 
     </div>
@@ -792,7 +741,6 @@ and
   </div>
 
 </div>
-
 
 <script>
 
@@ -812,11 +760,14 @@ const loading =
 const loadingText =
   document.getElementById("loadingText");
 
+const bufferInfo =
+  document.getElementById("bufferInfo");
+
 const errorBox =
   document.getElementById("error");
 
-const errorText =
-  document.getElementById("errorText");
+const retryBtn =
+  document.getElementById("retry");
 
 const progress =
   document.getElementById("progress");
@@ -848,21 +799,35 @@ let hls = null;
 
 let hideTimer = null;
 
+let saveTimer = null;
+
+let bufferTimer = null;
+
 let seeking = false;
 
 let currentURL = null;
 
-let reconnectTimer = null;
+let startupReady = false;
 
-let reconnectAttempts = 0;
+let retryCount = 0;
 
-let manualStop = false;
+let lastWaitingTime = 0;
 
-let lastTime = 0;
 
-let lastTimeCheck = 0;
+/*
+ * VOD startup target.
+ *
+ * The player waits for actual media buffer
+ * instead of using an artificial timeout.
+ */
+const STARTUP_BUFFER_SECONDS = 4;
 
-let stallRecoveryTimer = null;
+
+/*
+ * When playing normally, try to maintain
+ * a healthy VOD buffer.
+ */
+const TARGET_BUFFER_SECONDS = 30;
 
 
 /* =========================================================
@@ -883,11 +848,15 @@ currentURL =
 ========================================================= */
 
 function showLoading(
-  text = "Loading..."
+  text = "Loading...",
+  info = ""
 ) {
 
   loadingText.textContent =
     text;
+
+  bufferInfo.textContent =
+    info;
 
   loading.classList.remove(
     "hidden"
@@ -915,8 +884,11 @@ function showError(
 
   if (message) {
 
-    errorText.textContent =
+    document.querySelector(
+      ".error-text"
+    ).textContent =
       message;
+
   }
 
   errorBox.classList.add(
@@ -949,7 +921,7 @@ function showUI() {
 
   hideTimer =
     setTimeout(
-      function() {
+      () => {
 
         if (
           !video.paused &&
@@ -959,6 +931,7 @@ function showUI() {
           player.classList.add(
             "hide-ui"
           );
+
         }
 
       },
@@ -973,37 +946,24 @@ function showUI() {
 
 function destroyHLS() {
 
-  if (reconnectTimer) {
-
-    clearTimeout(
-      reconnectTimer
-    );
-
-    reconnectTimer = null;
-  }
-
-  if (stallRecoveryTimer) {
-
-    clearTimeout(
-      stallRecoveryTimer
-    );
-
-    stallRecoveryTimer = null;
-  }
-
   if (hls) {
 
     try {
+
       hls.stopLoad();
-    } catch (e) {}
 
-    try {
       hls.detachMedia();
-    } catch (e) {}
 
-    try {
       hls.destroy();
-    } catch (e) {}
+
+    } catch (e) {
+
+      console.warn(
+        "HLS cleanup:",
+        e
+      );
+
+    }
 
     hls = null;
   }
@@ -1011,7 +971,7 @@ function destroyHLS() {
 
 
 /* =========================================================
-   FORMAT TIME
+   TIME FORMAT
 ========================================================= */
 
 function formatTime(
@@ -1045,101 +1005,89 @@ function formatTime(
   if (hours > 0) {
 
     return (
-      String(hours)
-        .padStart(2, "0") +
+      String(hours).padStart(2,"0") +
       ":" +
-      String(minutes)
-        .padStart(2, "0") +
+      String(minutes).padStart(2,"0") +
       ":" +
-      String(secs)
-        .padStart(2, "0")
+      String(secs).padStart(2,"0")
     );
+
   }
 
   return (
-    String(minutes)
-      .padStart(2, "0") +
+    String(minutes).padStart(2,"0") +
     ":" +
-    String(secs)
-      .padStart(2, "0")
+    String(secs).padStart(2,"0")
   );
 }
 
 
 /* =========================================================
-   BUFFER AHEAD
+   BUFFER INFORMATION
 ========================================================= */
 
-function getBufferAhead() {
+function getBufferedSeconds() {
 
-  try {
+  if (
+    !video.buffered ||
+    video.buffered.length === 0
+  ) {
 
-    const buffered =
-      video.buffered;
+    return 0;
+  }
 
-    const current =
-      video.currentTime;
+  const current =
+    video.currentTime;
+
+  for (
+    let i = 0;
+    i < video.buffered.length;
+    i++
+  ) {
+
+    const start =
+      video.buffered.start(i);
+
+    const end =
+      video.buffered.end(i);
 
     if (
-      !buffered ||
-      buffered.length === 0
+      current >= start &&
+      current <= end
     ) {
 
-      return 0;
+      return Math.max(
+        0,
+        end - current
+      );
     }
-
-    for (
-      let i = 0;
-      i < buffered.length;
-      i++
-    ) {
-
-      const start =
-        buffered.start(i);
-
-      const end =
-        buffered.end(i);
-
-      if (
-        current >= start &&
-        current <= end
-      ) {
-
-        return Math.max(
-          0,
-          end - current
-        );
-      }
-    }
-
-  } catch (e) {}
+  }
 
   return 0;
 }
 
 
-/* =========================================================
-   LIVE DETECTION
-========================================================= */
+function updateBufferInfo() {
 
-function isLiveStream() {
-
-  if (!Number.isFinite(video.duration)) {
-    return true;
-  }
+  const buffered =
+    getBufferedSeconds();
 
   if (
-    video.duration === Infinity
+    !video.paused &&
+    buffered > 0
   ) {
-    return true;
-  }
 
-  return false;
+    bufferInfo.textContent =
+      "Buffered " +
+      Math.floor(buffered) +
+      "s";
+
+  }
 }
 
 
 /* =========================================================
-   TIME
+   TIME UPDATE
 ========================================================= */
 
 function updateTime() {
@@ -1148,54 +1096,31 @@ function updateTime() {
     video.currentTime || 0;
 
   const duration =
-    video.duration;
+    Number.isFinite(video.duration)
+      ? video.duration
+      : 0;
 
-
-  /*
-   * Live stream
-   */
-
-  if (
-    isLiveStream()
-  ) {
-
-    timeText.textContent =
-      "LIVE";
-
-    progress.value = 100;
-
-    return;
-  }
-
-
-  /*
-   * VOD / MP4
-   */
+  timeText.textContent =
+    formatTime(current) +
+    " / " +
+    formatTime(duration);
 
   if (
-    Number.isFinite(duration) &&
-    duration > 0
+    duration > 0 &&
+    !seeking
   ) {
 
-    timeText.textContent =
-      formatTime(current) +
-      " / " +
-      formatTime(duration);
-
-    if (!seeking) {
-
-      progress.value =
-        (
-          current /
-          duration
-        ) * 100;
-    }
-
-  } else {
-
-    timeText.textContent =
-      formatTime(current);
+    progress.value =
+      Math.min(
+        100,
+        Math.max(
+          0,
+          (current / duration) * 100
+        )
+      );
   }
+
+  updateBufferInfo();
 }
 
 
@@ -1212,24 +1137,27 @@ function updatePlayButton() {
 }
 
 
-/* =========================================================
-   PLAY / PAUSE
-========================================================= */
+async function togglePlay() {
 
-function togglePlay() {
+  try {
 
-  if (
-    video.paused
-  ) {
+    if (video.paused) {
 
-    video.play()
-      .catch(
-        function() {}
-      );
+      await video.play();
 
-  } else {
+    } else {
 
-    video.pause();
+      video.pause();
+
+    }
+
+  } catch (e) {
+
+    console.warn(
+      "Play failed:",
+      e
+    );
+
   }
 
   showUI();
@@ -1237,56 +1165,57 @@ function togglePlay() {
 
 
 /* =========================================================
-   REWIND
+   SEEK
 ========================================================= */
 
 function rewind() {
 
-  try {
+  if (
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
 
-    /*
-     * For live HLS, seeking backward is allowed
-     * only when the DVR window supports it.
-     */
+    return;
+  }
 
-    video.currentTime =
-      Math.max(
-        0,
-        video.currentTime - 10
-      );
-
-  } catch (e) {}
+  video.currentTime =
+    Math.max(
+      0,
+      video.currentTime - 10
+    );
 
   showUI();
 }
 
 
-/* =========================================================
-   FORWARD
-========================================================= */
-
 function forward() {
 
-  try {
+  if (
+    !Number.isFinite(
+      video.currentTime
+    )
+  ) {
 
-    if (
-      Number.isFinite(
-        video.duration
-      )
-    ) {
+    return;
+  }
 
-      video.currentTime =
-        Math.min(
-          video.duration,
-          video.currentTime + 10
-        );
+  if (
+    Number.isFinite(
+      video.duration
+    )
+  ) {
 
-    } else {
+    video.currentTime =
+      Math.min(
+        video.duration,
+        video.currentTime + 10
+      );
 
-      video.currentTime += 10;
-    }
+  } else {
 
-  } catch (e) {}
+    video.currentTime += 10;
+  }
 
   showUI();
 }
@@ -1337,25 +1266,24 @@ async function fullscreen() {
       ) {
 
         video.webkitEnterFullscreen();
+
       }
 
-    } else {
+    } else if (
+      document.exitFullscreen
+    ) {
 
-      if (
-        document.exitFullscreen
-      ) {
-
-        await document.exitFullscreen();
-      }
+      await document.exitFullscreen();
     }
 
   } catch (e) {
 
     console.warn(
-      "Fullscreen error:",
+      "Fullscreen:",
       e
     );
   }
+
 }
 
 
@@ -1366,7 +1294,7 @@ async function fullscreen() {
 function storageKey() {
 
   return (
-    "honor_tv_" +
+    "honor_tv_movie_" +
     encodeURIComponent(
       currentURL || ""
     )
@@ -1375,17 +1303,6 @@ function storageKey() {
 
 
 function savePosition() {
-
-  /*
-   * Don't save live TV positions.
-   */
-
-  if (
-    isLiveStream()
-  ) {
-
-    return;
-  }
 
   if (
     !currentURL ||
@@ -1419,18 +1336,6 @@ function savePosition() {
 
 function restorePosition() {
 
-  /*
-   * Do not restore VOD position until
-   * metadata is available.
-   */
-
-  if (
-    isLiveStream()
-  ) {
-
-    return;
-  }
-
   try {
 
     const saved =
@@ -1442,16 +1347,17 @@ function restorePosition() {
 
     if (
       Number.isFinite(saved) &&
-      saved > 10 &&
-      (
-        !Number.isFinite(video.duration) ||
-        saved <
-        video.duration - 10
-      )
+      saved > 10
     ) {
 
-      video.currentTime =
-        saved;
+      if (
+        !video.duration ||
+        saved < video.duration - 10
+      ) {
+
+        video.currentTime =
+          saved;
+      }
     }
 
   } catch (e) {}
@@ -1462,513 +1368,231 @@ function restorePosition() {
    AUTOPLAY
 ========================================================= */
 
-function startPlayback() {
+async function startPlayback() {
 
   /*
-   * Try normal playback first.
+   * First attempt with sound.
    */
 
   video.muted = false;
 
   updateMute();
 
-  video.play()
-    .then(
-      function() {
+  try {
 
-        reconnectAttempts = 0;
+    await video.play();
 
-        hideLoading();
+    hideLoading();
 
-        updatePlayButton();
+    updatePlayButton();
 
-      }
-    )
-    .catch(
-      function() {
+  } catch (e) {
 
-        /*
-         * Browser autoplay fallback.
-         */
+    /*
+     * Browser autoplay restrictions.
+     */
 
-        video.muted = true;
+    video.muted = true;
 
-        updateMute();
-
-        video.play()
-          .then(
-            function() {
-
-              reconnectAttempts = 0;
-
-              hideLoading();
-
-              updatePlayButton();
-
-            }
-          )
-          .catch(
-            function() {
-
-              hideLoading();
-
-              showUI();
-
-              updatePlayButton();
-            }
-          );
-      }
-    );
-}
-
-
-/* =========================================================
-   RECONNECT
-========================================================= */
-
-function scheduleReconnect() {
-
-  if (
-    manualStop ||
-    !hls ||
-    reconnectTimer
-  ) {
-
-    return;
-  }
-
-  reconnectAttempts++;
-
-  const delay =
-    Math.min(
-      1000 *
-      Math.pow(
-        1.5,
-        Math.min(
-          reconnectAttempts - 1,
-          5
-        )
-      ),
-      10000
-    );
-
-  showLoading(
-    "Reconnecting..."
-  );
-
-  reconnectTimer =
-    setTimeout(
-      function() {
-
-        reconnectTimer = null;
-
-        if (!hls) {
-          return;
-        }
-
-        try {
-
-          hls.startLoad();
-
-        } catch (e) {}
-
-      },
-      delay
-    );
-}
-
-
-/* =========================================================
-   HLS ERROR
-========================================================= */
-
-function handleHLSError(
-  event,
-  data
-) {
-
-  console.warn(
-    "HLS error:",
-    data.type,
-    data.details,
-    data.fatal
-  );
-
-
-  /*
-   * Non-fatal errors can usually recover
-   * automatically.
-   */
-
-  if (!data.fatal) {
-
-    return;
-  }
-
-
-  /*
-   * NETWORK ERROR
-   */
-
-  if (
-    data.type ===
-    Hls.ErrorTypes.NETWORK_ERROR
-  ) {
-
-    scheduleReconnect();
-
-    return;
-  }
-
-
-  /*
-   * MEDIA ERROR
-   */
-
-  if (
-    data.type ===
-    Hls.ErrorTypes.MEDIA_ERROR
-  ) {
-
-    showLoading(
-      "Recovering video..."
-    );
+    updateMute();
 
     try {
 
-      hls.recoverMediaError();
+      await video.play();
 
-      setTimeout(
-        function() {
+      hideLoading();
 
-          if (
-            video.paused
-          ) {
+      updatePlayButton();
 
-            video.play()
-              .catch(
-                function() {}
-              );
-          }
+    } catch (err) {
 
-        },
-        500
-      );
+      hideLoading();
 
-    } catch (e) {
+      showUI();
 
-      scheduleReconnect();
+      updatePlayButton();
     }
-
-    return;
   }
-
-
-  /*
-   * OTHER FATAL ERROR
-   */
-
-  showError(
-    "The HLS stream could not be played."
-  );
 }
 
 
 /* =========================================================
-   LOAD HLS
+   WAIT FOR REAL BUFFER
 ========================================================= */
 
-function loadHLS(
-  url
-) {
+function waitForStartupBuffer() {
 
-  /*
-   * Native HLS.
-   *
-   * Safari / iOS devices normally use this.
-   */
+  clearInterval(
+    bufferTimer
+  );
 
-  if (
-    video.canPlayType(
-      "application/vnd.apple.mpegurl"
-    )
-  ) {
+  startupReady = false;
 
-    video.src =
-      url;
+  showLoading(
+    "Preparing movie...",
+    "Buffering 0s / " +
+    STARTUP_BUFFER_SECONDS +
+    "s"
+  );
 
-    video.load();
+  bufferTimer =
+    setInterval(
+      async () => {
 
-    return;
-  }
+        const buffered =
+          getBufferedSeconds();
 
+        bufferInfo.textContent =
+          "Buffering " +
+          Math.floor(buffered) +
+          "s / " +
+          STARTUP_BUFFER_SECONDS +
+          "s";
 
-  /*
-   * HLS.js support.
-   */
+        /*
+         * Start after real buffered media
+         * reaches the startup target.
+         */
 
-  if (
-    typeof Hls === "undefined" ||
-    !Hls.isSupported()
-  ) {
+        if (
+          buffered >=
+          STARTUP_BUFFER_SECONDS
+        ) {
 
-    showError(
-      "This device does not support HLS playback."
+          clearInterval(
+            bufferTimer
+          );
+
+          startupReady = true;
+
+          showLoading(
+            "Starting movie...",
+            "Buffer ready"
+          );
+
+          await startPlayback();
+        }
+
+      },
+      150
     );
+}
 
-    return;
-  }
 
+/* =========================================================
+   VOD HLS CONFIG
+========================================================= */
 
-  /*
-   * BUFFER-OPTIMIZED CONFIGURATION
-   */
+function createHLS() {
 
-  hls =
-    new Hls({
+  return new Hls({
 
-      /*
-       * Use Web Worker for demuxing.
-       */
+    /*
+     * Worker improves demuxing performance
+     * on supported browsers.
+     */
+    enableWorker: true,
 
-      enableWorker: true,
+    /*
+     * IMPORTANT:
+     * This is MOVIE/VOD, not live.
+     */
+    lowLatencyMode: false,
 
+    /*
+     * Start automatically at an appropriate
+     * quality level.
+     */
+    startLevel: -1,
 
-      /*
-       * Standard live playback is more
-       * stable than forcing ultra-low latency.
-       */
+    /*
+     * Allow adaptive bitrate.
+     */
+    abrEwmaDefaultEstimate: 2500000,
 
-      lowLatencyMode: false,
+    abrEwmaFastLive: 3.0,
 
+    abrEwmaSlowLive: 9.0,
 
-      /*
-       * Live synchronization.
-       */
+    abrBandWidthFactor: 0.90,
 
-      liveSyncDurationCount: 3,
+    abrBandWidthUpFactor: 0.70,
 
-      liveMaxLatencyDurationCount: 6,
+    /*
+     * VOD buffering.
+     *
+     * 30 seconds target is useful for
+     * normal movie playback.
+     */
+    maxBufferLength:
+      TARGET_BUFFER_SECONDS,
 
+    /*
+     * Allow a larger buffer when the
+     * browser/network can handle it.
+     */
+    maxMaxBufferLength: 90,
 
-      /*
-       * BUFFER
-       *
-       * 30 sec forward buffer protects
-       * against short network drops.
-       */
+    /*
+     * Keep enough data behind the current
+     * playback position for movie seeking.
+     */
+    backBufferLength: 30,
 
-      maxBufferLength: 30,
+    /*
+     * Avoid unnecessary quality restrictions.
+     */
+    capLevelToPlayerSize: true,
 
-      maxMaxBufferLength: 60,
+    /*
+     * Fragment retries.
+     */
+    fragLoadingMaxRetry: 6,
 
-      maxBufferSize:
-        60 * 1000 * 1000,
+    fragLoadingRetryDelay: 1000,
 
+    fragLoadingMaxRetryTimeout: 8000,
 
-      /*
-       * Limit old segments in memory.
-       */
+    /*
+     * Manifest retries.
+     */
+    manifestLoadingMaxRetry: 5,
 
-      backBufferLength: 30,
+    manifestLoadingRetryDelay: 1000,
 
+    manifestLoadingMaxRetryTimeout: 8000,
 
-      /*
-       * Automatic quality selection.
-       */
+    /*
+     * Level playlist retries.
+     */
+    levelLoadingMaxRetry: 5,
 
-      startLevel: -1,
+    levelLoadingRetryDelay: 1000,
 
-      capLevelToPlayerSize: true,
+    levelLoadingMaxRetryTimeout: 8000,
 
+    /*
+     * Request timeout.
+     */
+    fragLoadingTimeOut: 20000,
 
-      /*
-       * Conservative ABR.
-       *
-       * Prevents jumping to a bitrate that
-       * the connection cannot sustain.
-       */
+    manifestLoadingTimeOut: 15000,
 
-      abrEwmaFastLive: 3,
+    levelLoadingTimeOut: 15000,
 
-      abrEwmaSlowLive: 9,
+    /*
+     * Avoid unnecessary buffer flushing.
+     */
+    maxFragLookUpTolerance: 0.25,
 
-      abrEwmaFastVoD: 3,
+    /*
+     * VOD does not need live synchronization.
+     */
+    liveSyncDurationCount: 3,
 
-      abrEwmaSlowVoD: 9,
+    liveMaxLatencyDurationCount: 6
 
-      abrBandWidthFactor: 0.80,
-
-      abrBandWidthUpFactor: 0.70,
-
-
-      /*
-       * Fragment retry.
-       */
-
-      fragLoadingMaxRetry: 6,
-
-      fragLoadingRetryDelay: 1000,
-
-      fragLoadingMaxRetryTimeout: 8000,
-
-
-      /*
-       * Manifest retry.
-       */
-
-      manifestLoadingMaxRetry: 5,
-
-      manifestLoadingRetryDelay: 1000,
-
-      manifestLoadingMaxRetryTimeout: 8000,
-
-
-      /*
-       * Level playlist retry.
-       */
-
-      levelLoadingMaxRetry: 5,
-
-      levelLoadingRetryDelay: 1000,
-
-      levelLoadingMaxRetryTimeout: 8000,
-
-
-      /*
-       * Append retry.
-       */
-
-      appendErrorMaxRetry: 3,
-
-
-      /*
-       * Progressive fragment processing.
-       */
-
-      progressive: true,
-
-      /*
-       * Measure bandwidth before
-       * aggressive quality selection.
-       */
-
-      testBandwidth: true
-    });
-
-
-  /*
-   * IMPORTANT:
-   *
-   * Attach media BEFORE loadSource.
-   */
-
-  hls.attachMedia(
-    video
-  );
-
-
-  /* =======================================================
-     MEDIA ATTACHED
-  ======================================================= */
-
-  hls.on(
-    Hls.Events.MEDIA_ATTACHED,
-    function() {
-
-      console.log(
-        "HLS media attached"
-      );
-
-      showLoading(
-        "Loading stream..."
-      );
-
-      hls.loadSource(
-        url
-      );
-    }
-  );
-
-
-  /* =======================================================
-     MANIFEST PARSED
-  ======================================================= */
-
-  hls.on(
-    Hls.Events.MANIFEST_PARSED,
-    function(
-      event,
-      data
-    ) {
-
-      console.log(
-        "HLS manifest loaded",
-        data.levels
-          ? data.levels.length
-          : 0,
-        "levels"
-      );
-
-      hideError();
-
-      showLoading(
-        "Starting stream..."
-      );
-
-      startPlayback();
-    }
-  );
-
-
-  /* =======================================================
-     FRAGMENT BUFFERED
-  ======================================================= */
-
-  hls.on(
-    Hls.Events.FRAG_BUFFERED,
-    function() {
-
-      reconnectAttempts = 0;
-
-      if (
-        video.readyState >=
-        HTMLMediaElement.HAVE_FUTURE_DATA
-      ) {
-
-        hideLoading();
-      }
-    }
-  );
-
-
-  /* =======================================================
-     ERROR
-  ======================================================= */
-
-  hls.on(
-    Hls.Events.ERROR,
-    handleHLSError
-  );
-
-
-  /* =======================================================
-     QUALITY SWITCH
-  ======================================================= */
-
-  hls.on(
-    Hls.Events.LEVEL_SWITCHED,
-    function(
-      event,
-      data
-    ) {
-
-      console.log(
-        "HLS quality:",
-        data.level
-      );
-    }
-  );
+  });
 }
 
 
@@ -1976,49 +1600,55 @@ function loadHLS(
    LOAD VIDEO
 ========================================================= */
 
-function loadVideo(
-  url
-) {
+function loadVideo(url) {
 
   if (!url) {
 
     showError(
-      "No stream URL was provided."
+      "No movie URL was supplied."
     );
 
     return;
   }
 
+  currentURL = url;
 
-  manualStop = false;
+  retryCount = 0;
 
-  reconnectAttempts = 0;
+  startupReady = false;
 
   hideError();
 
   showLoading(
-    "Connecting..."
+    "Connecting...",
+    "Preparing movie"
   );
-
 
   destroyHLS();
 
-
-  /*
-   * Clear previous source.
-   */
-
-  video.pause();
-
-  video.removeAttribute(
-    "src"
+  clearInterval(
+    bufferTimer
   );
 
-  video.load();
+  /*
+   * Reset video element.
+   */
+
+  try {
+
+    video.pause();
+
+    video.removeAttribute(
+      "src"
+    );
+
+    video.load();
+
+  } catch (e) {}
 
 
   /*
-   * Detect HLS.
+   * Determine HLS.
    */
 
   const isHLS =
@@ -2027,172 +1657,279 @@ function loadVideo(
     );
 
 
-  if (isHLS) {
+  /* =======================================================
+     NATIVE HLS
+  ======================================================= */
 
-    loadHLS(
-      url
+  if (
+    isHLS &&
+    video.canPlayType(
+      "application/vnd.apple.mpegurl"
+    )
+  ) {
+
+    video.src = url;
+
+    video.load();
+
+    /*
+     * Native Safari/iOS HLS.
+     *
+     * We cannot control its internal
+     * segment buffer like HLS.js.
+     */
+    video.addEventListener(
+      "loadedmetadata",
+      function nativeReady() {
+
+        video.removeEventListener(
+          "loadedmetadata",
+          nativeReady
+        );
+
+        hideLoading();
+
+        restorePosition();
+
+        startPlayback();
+      }
     );
 
     return;
   }
 
 
-  /*
-   * MP4 / normal video.
-   */
+  /* =======================================================
+     HLS.JS
+  ======================================================= */
 
-  video.src =
-    url;
+  if (
+    isHLS &&
+    typeof Hls !== "undefined" &&
+    Hls.isSupported()
+  ) {
+
+    hls =
+      createHLS();
+
+    /*
+     * Attach first, then load source.
+     */
+    hls.attachMedia(
+      video
+    );
+
+    hls.on(
+      Hls.Events.MEDIA_ATTACHED,
+      function () {
+
+        hls.loadSource(
+          url
+        );
+      }
+    );
+
+
+    hls.on(
+      Hls.Events.MANIFEST_PARSED,
+      function () {
+
+        console.log(
+          "HLS manifest parsed"
+        );
+
+        restorePosition();
+
+        /*
+         * Wait for actual media buffer.
+         */
+        waitForStartupBuffer();
+      }
+    );
+
+
+    hls.on(
+      Hls.Events.FRAG_BUFFERED,
+      function () {
+
+        updateBufferInfo();
+      }
+    );
+
+
+    hls.on(
+      Hls.Events.ERROR,
+      function (
+        event,
+        data
+      ) {
+
+        console.warn(
+          "HLS:",
+          data.type,
+          data.details,
+          data.fatal
+        );
+
+
+        /*
+         * NETWORK ERROR
+         */
+
+        if (
+          data.fatal &&
+          data.type ===
+          Hls.ErrorTypes.NETWORK_ERROR
+        ) {
+
+          retryCount++;
+
+          showLoading(
+            "Reconnecting...",
+            "Network retry " +
+            retryCount
+          );
+
+          try {
+
+            hls.startLoad();
+
+          } catch (e) {}
+
+          /*
+           * Keep the retry mechanism from
+           * looping forever.
+           */
+          if (
+            retryCount > 8
+          ) {
+
+            showError(
+              "Network error. Please try again."
+            );
+          }
+
+          return;
+        }
+
+
+        /*
+         * MEDIA ERROR
+         */
+
+        if (
+          data.fatal &&
+          data.type ===
+          Hls.ErrorTypes.MEDIA_ERROR
+        ) {
+
+          showLoading(
+            "Recovering playback...",
+            "Please wait"
+          );
+
+          try {
+
+            hls.recoverMediaError();
+
+          } catch (e) {
+
+            showError(
+              "The movie format could not be decoded."
+            );
+          }
+
+          return;
+        }
+
+
+        /*
+         * OTHER FATAL ERROR
+         */
+
+        if (
+          data.fatal
+        ) {
+
+          showError(
+            "The movie stream could not be loaded."
+          );
+        }
+
+      }
+    );
+
+
+    return;
+  }
+
+
+  /* =======================================================
+     NORMAL VIDEO / MP4
+  ======================================================= */
+
+  video.src = url;
 
   video.load();
 
-  startPlayback();
-}
+  video.addEventListener(
+    "loadedmetadata",
+    function normalReady() {
 
-
-/* =========================================================
-   STALL RECOVERY
-========================================================= */
-
-function recoverPlayback() {
-
-  if (
-    manualStop ||
-    video.paused
-  ) {
-
-    return;
-  }
-
-
-  /*
-   * If HLS exists, restart loading.
-   */
-
-  if (hls) {
-
-    try {
-
-      hls.startLoad();
-
-    } catch (e) {}
-  }
-
-
-  /*
-   * Try play again.
-   */
-
-  video.play()
-    .catch(
-      function() {}
-    );
-}
-
-
-/* =========================================================
-   BUFFER MONITOR
-========================================================= */
-
-function monitorPlayback() {
-
-  const now =
-    Date.now();
-
-
-  /*
-   * Check every 1 second.
-   */
-
-  if (
-    now - lastTimeCheck >=
-    1000
-  ) {
-
-    const current =
-      video.currentTime;
-
-    const bufferAhead =
-      getBufferAhead();
-
-
-    /*
-     * Detect actual playback stall.
-     */
-
-    if (
-      !video.paused &&
-      video.readyState <
-      HTMLMediaElement.HAVE_FUTURE_DATA
-    ) {
-
-      showLoading(
-        "Buffering..."
+      video.removeEventListener(
+        "loadedmetadata",
+        normalReady
       );
-    }
 
-
-    /*
-     * If buffer is healthy, hide spinner.
-     */
-
-    if (
-      !video.paused &&
-      video.readyState >=
-      HTMLMediaElement.HAVE_FUTURE_DATA &&
-      bufferAhead > 0.8
-    ) {
+      restorePosition();
 
       hideLoading();
+
+      startPlayback();
+
     }
+  );
+}
 
 
-    /*
-     * Detect playback position that has
-     * stopped moving.
-     */
+/* =========================================================
+   RETRY
+========================================================= */
 
-    if (
-      !video.paused &&
-      current === lastTime &&
-      bufferAhead < 0.5
-    ) {
+function retryPlayback() {
 
-      showLoading(
-        "Recovering..."
+  hideError();
+
+  clearInterval(
+    bufferTimer
+  );
+
+  destroyHLS();
+
+  /*
+   * Small reset only.
+   */
+  try {
+
+    video.pause();
+
+    video.removeAttribute(
+      "src"
+    );
+
+    video.load();
+
+  } catch (e) {}
+
+  setTimeout(
+    () => {
+
+      loadVideo(
+        currentURL
       );
 
-
-      if (
-        !stallRecoveryTimer
-      ) {
-
-        stallRecoveryTimer =
-          setTimeout(
-            function() {
-
-              stallRecoveryTimer =
-                null;
-
-              recoverPlayback();
-
-            },
-            1200
-          );
-      }
-    }
-
-
-    lastTime =
-      current;
-
-    lastTimeCheck =
-      now;
-  }
-
-
-  requestAnimationFrame(
-    monitorPlayback
+    },
+    250
   );
 }
 
@@ -2226,6 +1963,11 @@ fullscreenBtn.addEventListener(
   fullscreen
 );
 
+retryBtn.addEventListener(
+  "click",
+  retryPlayback
+);
+
 
 /* =========================================================
    PROGRESS
@@ -2233,7 +1975,7 @@ fullscreenBtn.addEventListener(
 
 progress.addEventListener(
   "input",
-  function() {
+  function () {
 
     seeking = true;
 
@@ -2246,9 +1988,8 @@ progress.addEventListener(
 
       video.currentTime =
         (
-          Number(
-            progress.value
-          ) / 100
+          Number(progress.value) /
+          100
         ) *
         video.duration;
     }
@@ -2260,9 +2001,11 @@ progress.addEventListener(
 
 progress.addEventListener(
   "change",
-  function() {
+  function () {
 
     seeking = false;
+
+    showUI();
   }
 );
 
@@ -2273,10 +2016,11 @@ progress.addEventListener(
 
 video.addEventListener(
   "loadstart",
-  function() {
+  function () {
 
     showLoading(
-      "Loading..."
+      "Loading...",
+      "Preparing movie"
     );
   }
 );
@@ -2284,51 +2028,93 @@ video.addEventListener(
 
 video.addEventListener(
   "loadedmetadata",
-  function() {
+  function () {
 
     updateTime();
 
-    restorePosition();
+    /*
+     * Only restore here if it hasn't
+     * already been restored by HLS.
+     */
+    if (!hls) {
+
+      restorePosition();
+    }
+  }
+);
+
+
+video.addEventListener(
+  "waiting",
+  function () {
+
+    const now =
+      Date.now();
+
+    /*
+     * Prevent the loading overlay from
+     * constantly flashing during tiny stalls.
+     */
+    if (
+      now - lastWaitingTime < 500
+    ) {
+
+      return;
+    }
+
+    lastWaitingTime = now;
+
+    showLoading(
+      "Buffering...",
+      "Building movie buffer"
+    );
+  }
+);
+
+
+video.addEventListener(
+  "stalled",
+  function () {
+
+    if (
+      !video.paused
+    ) {
+
+      showLoading(
+        "Buffering...",
+        "Waiting for network"
+      );
+    }
   }
 );
 
 
 video.addEventListener(
   "canplay",
-  function() {
+  function () {
 
-    hideLoading();
+    /*
+     * Do not hide immediately during
+     * startup until our target buffer
+     * has been reached.
+     */
+
+    if (
+      startupReady ||
+      !hls
+    ) {
+
+      hideLoading();
+    }
   }
 );
 
 
 video.addEventListener(
   "playing",
-  function() {
+  function () {
 
     hideLoading();
-
-    reconnectAttempts = 0;
-
-    updatePlayButton();
-  }
-);
-
-
-video.addEventListener(
-  "play",
-  function() {
-
-    hideLoading();
-
-    updatePlayButton();
-  }
-);
-
-
-video.addEventListener(
-  "pause",
-  function() {
 
     updatePlayButton();
 
@@ -2338,40 +2124,28 @@ video.addEventListener(
 
 
 video.addEventListener(
-  "waiting",
-  function() {
+  "play",
+  function () {
 
-    showLoading(
-      "Buffering..."
-    );
+    updatePlayButton();
   }
 );
 
 
 video.addEventListener(
-  "stalled",
-  function() {
+  "pause",
+  function () {
 
-    showLoading(
-      "Reconnecting..."
-    );
+    updatePlayButton();
 
-
-    if (hls) {
-
-      try {
-
-        hls.startLoad();
-
-      } catch (e) {}
-    }
+    showUI();
   }
 );
 
 
 video.addEventListener(
   "timeupdate",
-  function() {
+  function () {
 
     updateTime();
   }
@@ -2379,17 +2153,17 @@ video.addEventListener(
 
 
 video.addEventListener(
-  "durationchange",
-  function() {
+  "progress",
+  function () {
 
-    updateTime();
+    updateBufferInfo();
   }
 );
 
 
 video.addEventListener(
   "ended",
-  function() {
+  function () {
 
     updatePlayButton();
 
@@ -2408,18 +2182,23 @@ video.addEventListener(
 
 video.addEventListener(
   "error",
-  function() {
+  function () {
 
     /*
-     * HLS.js normally handles HLS errors.
+     * Don't immediately show an error
+     * if HLS.js is handling recovery.
      */
+    if (
+      hls &&
+      hls.media
+    ) {
 
-    if (!hls) {
-
-      showError(
-        "The video could not be loaded."
-      );
+      return;
     }
+
+    showError(
+      "The movie could not be played. Please check the stream."
+    );
   }
 );
 
@@ -2430,7 +2209,7 @@ video.addEventListener(
 
 player.addEventListener(
   "click",
-  function(event) {
+  function (event) {
 
     if (
       event.target === video
@@ -2444,7 +2223,7 @@ player.addEventListener(
 
 player.addEventListener(
   "touchstart",
-  function() {
+  function () {
 
     showUI();
 
@@ -2461,7 +2240,7 @@ player.addEventListener(
 
 document.addEventListener(
   "keydown",
-  function(event) {
+  function (event) {
 
     const key =
       event.key;
@@ -2596,6 +2375,22 @@ document.addEventListener(
 
 
     /*
+     * RETRY
+     */
+
+    if (
+      key.toLowerCase() === "r"
+    ) {
+
+      event.preventDefault();
+
+      retryPlayback();
+
+      return;
+    }
+
+
+    /*
      * ESC
      */
 
@@ -2614,18 +2409,19 @@ document.addEventListener(
 
 
 /* =========================================================
-   SAVE POSITION
+   POSITION SAVING
 ========================================================= */
 
-setInterval(
-  savePosition,
-  5000
-);
+saveTimer =
+  setInterval(
+    savePosition,
+    5000
+  );
 
 
 document.addEventListener(
   "visibilitychange",
-  function() {
+  function () {
 
     if (
       document.hidden
@@ -2639,11 +2435,17 @@ document.addEventListener(
 
 window.addEventListener(
   "beforeunload",
-  function() {
+  function () {
 
     savePosition();
 
-    manualStop = true;
+    clearInterval(
+      saveTimer
+    );
+
+    clearInterval(
+      bufferTimer
+    );
 
     destroyHLS();
   }
@@ -2651,7 +2453,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   INITIAL
+   INITIALIZATION
 ========================================================= */
 
 video.muted = false;
@@ -2660,10 +2462,10 @@ updateMute();
 
 updatePlayButton();
 
-monitorPlayback();
 
-
-if (currentURL) {
+if (
+  currentURL
+) {
 
   loadVideo(
     currentURL
@@ -2672,9 +2474,46 @@ if (currentURL) {
 } else {
 
   showError(
-    "No stream URL was provided."
+    "No movie URL was supplied. Use ?url=YOUR_MOVIE_URL"
   );
 }
+
+
+/* =========================================================
+   PERIODIC BUFFER MONITOR
+========================================================= */
+
+setInterval(
+  function () {
+
+    if (
+      !video.paused
+    ) {
+
+      const buffered =
+        getBufferedSeconds();
+
+      /*
+       * If buffer becomes very low,
+       * display a useful status.
+       */
+      if (
+        buffered > 0 &&
+        buffered < 2
+      ) {
+
+        bufferInfo.textContent =
+          "Low buffer: " +
+          Math.floor(buffered) +
+          "s";
+
+      }
+
+    }
+
+  },
+  1000
+);
 
 </script>
 
