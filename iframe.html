@@ -1,156 +1,150 @@
-<!DOCTYPE html><html lang="en">
+  <!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<title>No Ads Iframe Player</title><style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,
+           initial-scale=1.0,
+           maximum-scale=1.0,
+           user-scalable=no,
+           viewport-fit=cover"
+>
+
+<title>Iframe Viewer</title>
+
+<style>
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
 
+html,
 body{
-  background:#000;
-  font-family:Arial, sans-serif;
-  height:100vh;
-  overflow:hidden;
-}
-
-.player-container{
-  position:relative;
-  width:100%;
-  height:100vh;
-  background:#000;
-}
-
-iframe{
   width:100%;
   height:100%;
-  border:none;
+  overflow:hidden;
   background:#000;
 }
 
-.topbar{
-  position:absolute;
+#frame{
+  position:fixed;
   top:0;
   left:0;
   width:100%;
-  padding:12px;
-  background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-  z-index:10;
-  display:flex;
-  gap:10px;
+  height:100%;
+  border:0;
+  background:#000;
+}
+
+#error{
+  position:fixed;
+  inset:0;
+  display:none;
   align-items:center;
-}
-
-input{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  outline:none;
-  background:#111;
+  justify-content:center;
+  flex-direction:column;
+  gap:10px;
+  background:#000;
   color:#fff;
-  font-size:15px;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:20px;
 }
 
-button{
-  padding:14px 20px;
-  border:none;
-  border-radius:12px;
-  background:#e50914;
-  color:#fff;
-  font-weight:bold;
-  font-size:16px;
-  cursor:pointer;
-  outline:none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  user-select:none;
+#error strong{
+  font-size:20px;
 }
 
-button:hover{
-  opacity:0.9;
+#error span{
+  color:#aaa;
+  font-size:14px;
+  word-break:break-all;
 }
+</style>
+</head>
 
-button:active{
-  transform:scale(0.97);
-}
+<body>
 
-.loading{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  color:#fff;
-  z-index:5;
-  font-size:18px;
-}
+<iframe
+  id="frame"
+  title="Iframe Viewer"
+  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+  allowfullscreen
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
 
-@media(max-width:768px){
-  .topbar{
-    flex-direction:column;
-    align-items:stretch;
-  }
+<div id="error">
+  <strong>No URL specified</strong>
+  <span>
+    Use ?url=https://example.com
+  </span>
+</div>
 
-  button{
-    width:100%;
-  }
-}
-</style></head>
-<body><div class="player-container">  <div class="topbar">
-    <input type="text" id="videoUrl" placeholder="Enter iframe or embed URL here...">
-    <button onclick="loadVideo()">Play</button>
-    <button onclick="toggleFullscreen()">Fullscreen</button>
-  </div>  <div class="loading" id="loading">Ready to Play</div>  <iframe
-    id="player"
-    allowfullscreen
-    allow="autoplay; encrypted-media; picture-in-picture"
-    referrerpolicy="no-referrer">
-  </iframe></div><script>
-const iframe = document.getElementById('player');
-const loading = document.getElementById('loading');
-const input = document.getElementById('videoUrl');
+<script>
+(function(){
 
-function loadVideo(){
-  let url = input.value.trim();
+  const iframe = document.getElementById("frame");
+  const error = document.getElementById("error");
 
-  if(!url){
-    alert('Enter iframe URL');
+  const params = new URLSearchParams(window.location.search);
+  const target = params.get("url");
+
+  if(!target){
+    iframe.style.display = "none";
+    error.style.display = "flex";
     return;
   }
 
-  loading.style.display = 'block';
-  loading.innerText = 'Loading Video...';
+  let url;
 
-  iframe.src = url;
+  try{
+    url = new URL(target);
+  }catch(e){
+    iframe.style.display = "none";
+    error.style.display = "flex";
 
-  iframe.onload = () => {
-    loading.style.display = 'none';
-  };
-}
+    error.innerHTML = `
+      <strong>Invalid URL</strong>
+      <span>${escapeHTML(target)}</span>
+    `;
 
-function toggleFullscreen(){
-  const elem = document.querySelector('.player-container');
-
-  if(!document.fullscreenElement){
-    elem.requestFullscreen();
-  } else {
-    document.exitFullscreen();
+    return;
   }
-}
 
-// Auto load from URL parameter
-const params = new URLSearchParams(window.location.search);
-const iframeUrl = params.get('url');
+  /*
+   * Only allow HTTP and HTTPS targets.
+   */
+  if(url.protocol !== "http:" && url.protocol !== "https:"){
+    iframe.style.display = "none";
+    error.style.display = "flex";
 
-if(iframeUrl){
-  input.value = iframeUrl;
-  iframe.src = iframeUrl;
-  loading.style.display = 'none';
-} else {
-  // Example default iframe link
-  input.value = 'https://example.com/embed/video';
+    error.innerHTML = `
+      <strong>Unsupported URL</strong>
+      <span>Only HTTP and HTTPS URLs are allowed.</span>
+    `;
+
+    return;
+  }
+
+  /*
+   * Load target website.
+   */
+  iframe.src = url.href;
+
+})();
+
+function escapeHTML(text){
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
-</script></body>
+</script>
+
+</body>
 </html>
