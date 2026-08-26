@@ -57,37 +57,86 @@ body{
 </iframe>
 
 <script>
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
 const target = params.get("url");
 
-if(target){
+const frame = document.getElementById("frame");
 
-  try{
+if (target) {
+  try {
 
     const url = new URL(target);
 
-    if(
-      url.protocol === "http:" ||
-      url.protocol === "https:"
-    ){
-
-      url.searchParams.set("autoplay", "1");
-      url.searchParams.set("mute", "0");
-      url.searchParams.set("muted", "0");
-
-      document.getElementById("frame").src = url.href;
-
-    }else{
-      console.error("Only HTTP and HTTPS URLs are allowed.");
+    if (
+      url.protocol !== "http:" &&
+      url.protocol !== "https:"
+    ) {
+      throw new Error("Invalid protocol");
     }
 
-  }catch(error){
-    console.error("Invalid target URL:", error);
-  }
+    /*
+     * Request autoplay.
+     * The embedded player may still require
+     * user interaction for unmuted playback.
+     */
+    url.searchParams.set("autoplay", "1");
+    url.searchParams.set("mute", "0");
+    url.searchParams.set("muted", "0");
 
-}else{
-  console.error("No ?url= target specified.");
+    frame.src = url.href;
+
+  } catch (e) {
+    console.error("Invalid target URL:", e);
+  }
 }
+
+
+/*
+ * Best-effort popup protection
+ *
+ * This protects the parent page from scripts
+ * attempting to use window.open().
+ *
+ * IMPORTANT:
+ * A cross-origin iframe can still have its own
+ * popup behavior that the parent cannot completely
+ * control without sandboxing or controlling the
+ * iframe content.
+ */
+
+(function(){
+
+  const originalOpen = window.open;
+
+  window.open = function(){
+
+    console.warn("Popup blocked");
+
+    return null;
+  };
+
+  /*
+   * Prevent accidental links on the parent page
+   * from opening a new browsing context.
+   */
+  document.addEventListener(
+    "click",
+    function(e){
+
+      const link = e.target.closest("a");
+
+      if(link && link.target === "_blank"){
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.warn("New tab blocked");
+      }
+
+    },
+    true
+  );
+
+})();
 </script>
 
 </body>
