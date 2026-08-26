@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
+
+<title>Iframe Player</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+}
+
+#frame{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  outline:none;
+
+  /* Touch enabled */
+  pointer-events:auto;
+  touch-action:auto;
+
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+</style>
+</head>
+
+<body>
+
+<iframe
+  id="frame"
+  title="Video Player"
+
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share"
+
+  /*
+   * Allow scripts and same-origin functionality,
+   * but prevent the iframe from navigating the
+   * top-level page or opening new browsing contexts.
+   */
+  sandbox="
+    allow-scripts
+    allow-same-origin
+    allow-forms
+    allow-presentation
+    allow-pointer-lock
+    allow-downloads
+  "
+
+  allowfullscreen
+  tabindex="0">
+</iframe>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const target = params.get("url");
+
+if(target){
+
+  try{
+
+    const url = new URL(target);
+
+    if(
+      url.protocol === "http:" ||
+      url.protocol === "https:"
+    ){
+
+      url.searchParams.set("autoplay", "1");
+      url.searchParams.set("mute", "0");
+      url.searchParams.set("muted", "0");
+
+      document.getElementById("frame").src = url.href;
+
+    }else{
+      console.error("Only HTTP and HTTPS URLs are allowed.");
+    }
+
+  }catch(error){
+
+    console.error("Invalid target URL:", error);
+
+  }
+
+}else{
+
+  console.error("No ?url= target specified.");
+
+}
+</script>
+
+</body>
+</html>
