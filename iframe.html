@@ -1,18 +1,16 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width,
-           initial-scale=1.0,
-           maximum-scale=1.0,
-           user-scalable=no,
-           viewport-fit=cover"
->
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
 
-<title>Iframe Viewer</title>
+<title>Untouchable Iframe</title>
 
 <style>
 *{
@@ -31,37 +29,18 @@ body{
 
 #frame{
   position:fixed;
-  top:0;
-  left:0;
+  inset:0;
   width:100%;
   height:100%;
   border:0;
-  background:#000;
-}
 
-#error{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:10px;
-  background:#000;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  text-align:center;
-  padding:20px;
-}
+  /* Completely untouchable */
+  pointer-events:none;
 
-#error strong{
-  font-size:20px;
-}
-
-#error span{
-  color:#aaa;
-  font-size:14px;
-  word-break:break-all;
+  /* Prevent focus */
+  outline:none;
+  user-select:none;
+  -webkit-user-select:none;
 }
 </style>
 </head>
@@ -70,79 +49,30 @@ body{
 
 <iframe
   id="frame"
-  title="Iframe Viewer"
+  title="Untouchable Iframe"
   allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
   allowfullscreen
+  tabindex="-1"
   referrerpolicy="no-referrer-when-downgrade">
 </iframe>
 
-<div id="error">
-  <strong>No URL specified</strong>
-  <span>
-    Use ?url=https://example.com
-  </span>
-</div>
-
 <script>
-(function(){
+const params = new URLSearchParams(location.search);
+const target = params.get("url");
 
-  const iframe = document.getElementById("frame");
-  const error = document.getElementById("error");
-
-  const params = new URLSearchParams(window.location.search);
-  const target = params.get("url");
-
-  if(!target){
-    iframe.style.display = "none";
-    error.style.display = "flex";
-    return;
-  }
-
-  let url;
-
+if(target){
   try{
-    url = new URL(target);
+    const url = new URL(target);
+
+    if(
+      url.protocol === "http:" ||
+      url.protocol === "https:"
+    ){
+      document.getElementById("frame").src = url.href;
+    }
   }catch(e){
-    iframe.style.display = "none";
-    error.style.display = "flex";
-
-    error.innerHTML = `
-      <strong>Invalid URL</strong>
-      <span>${escapeHTML(target)}</span>
-    `;
-
-    return;
+    console.error("Invalid URL");
   }
-
-  /*
-   * Only allow HTTP and HTTPS targets.
-   */
-  if(url.protocol !== "http:" && url.protocol !== "https:"){
-    iframe.style.display = "none";
-    error.style.display = "flex";
-
-    error.innerHTML = `
-      <strong>Unsupported URL</strong>
-      <span>Only HTTP and HTTPS URLs are allowed.</span>
-    `;
-
-    return;
-  }
-
-  /*
-   * Load target website.
-   */
-  iframe.src = url.href;
-
-})();
-
-function escapeHTML(text){
-  return text
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
 }
 </script>
 
