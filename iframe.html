@@ -10,7 +10,7 @@
                user-scalable=no,
                viewport-fit=cover">
 
-<title>Untouchable Iframe</title>
+<title>Iframe Player</title>
 
 <style>
 *{
@@ -34,13 +34,10 @@ body{
   height:100%;
   border:0;
 
-  /* Completely untouchable */
+  /* Untouchable */
   pointer-events:none;
 
-  /* Prevent focus */
   outline:none;
-  user-select:none;
-  -webkit-user-select:none;
 }
 </style>
 </head>
@@ -49,29 +46,34 @@ body{
 
 <iframe
   id="frame"
-  title="Untouchable Iframe"
-  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+  title="Video Player"
+  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
   allowfullscreen
-  tabindex="-1"
-  referrerpolicy="no-referrer-when-downgrade">
+  tabindex="-1">
 </iframe>
 
 <script>
-const params = new URLSearchParams(location.search);
+const params = new URLSearchParams(window.location.search);
 const target = params.get("url");
 
 if(target){
   try{
     const url = new URL(target);
 
-    if(
-      url.protocol === "http:" ||
-      url.protocol === "https:"
-    ){
+    if(url.protocol === "http:" || url.protocol === "https:"){
+
+      /*
+       * Add autoplay parameters when supported
+       * by the target player.
+       */
+      url.searchParams.set("autoplay", "1");
+      url.searchParams.set("mute", "0");
+      url.searchParams.set("muted", "0");
+
       document.getElementById("frame").src = url.href;
     }
-  }catch(e){
-    console.error("Invalid URL");
+  }catch(error){
+    console.error("Invalid target URL:", error);
   }
 }
 </script>
