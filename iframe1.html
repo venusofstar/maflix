@@ -51,23 +51,7 @@ body{
 <iframe
   id="frame"
   title="Video Player"
-
   allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share"
-
-  /*
-   * Allow scripts and same-origin functionality,
-   * but prevent the iframe from navigating the
-   * top-level page or opening new browsing contexts.
-   */
-  sandbox="
-    allow-scripts
-    allow-same-origin
-    allow-forms
-    allow-presentation
-    allow-pointer-lock
-    allow-downloads
-  "
-
   allowfullscreen
   tabindex="0">
 </iframe>
@@ -98,15 +82,11 @@ if(target){
     }
 
   }catch(error){
-
     console.error("Invalid target URL:", error);
-
   }
 
 }else{
-
   console.error("No ?url= target specified.");
-
 }
 </script>
 
