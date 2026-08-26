@@ -43,6 +43,16 @@ body{
   user-select:none;
   -webkit-touch-callout:none;
 }
+
+/* Ad blocking overlay */
+#adblock-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  background:transparent;
+  pointer-events:none;
+}
 </style>
 </head>
 
@@ -56,53 +66,59 @@ body{
   tabindex="0">
 </iframe>
 
+<div id="adblock-overlay"></div>
+
 <script>
+
 const params = new URLSearchParams(location.search);
 const target = params.get("url");
 
 const frame = document.getElementById("frame");
 
-if (target) {
-  try {
+
+/* =========================================================
+   TARGET URL
+========================================================= */
+
+if(target){
+
+  try{
 
     const url = new URL(target);
 
-    if (
+    if(
       url.protocol !== "http:" &&
       url.protocol !== "https:"
-    ) {
+    ){
       throw new Error("Invalid protocol");
     }
 
     /*
      * Request autoplay.
-     * The embedded player may still require
-     * user interaction for unmuted playback.
+     * Browser/player may still require interaction
+     * before unmuted playback.
      */
-    url.searchParams.set("autoplay", "1");
-    url.searchParams.set("mute", "0");
-    url.searchParams.set("muted", "0");
+    url.searchParams.set("autoplay","1");
+    url.searchParams.set("mute","0");
+    url.searchParams.set("muted","0");
 
     frame.src = url.href;
 
-  } catch (e) {
-    console.error("Invalid target URL:", e);
+  }catch(e){
+
+    console.error(
+      "Invalid target URL:",
+      e
+    );
+
   }
+
 }
 
 
-/*
- * Best-effort popup protection
- *
- * This protects the parent page from scripts
- * attempting to use window.open().
- *
- * IMPORTANT:
- * A cross-origin iframe can still have its own
- * popup behavior that the parent cannot completely
- * control without sandboxing or controlling the
- * iframe content.
- */
+/* =========================================================
+   PARENT PAGE POPUP BLOCKER
+========================================================= */
 
 (function(){
 
@@ -110,26 +126,92 @@ if (target) {
 
   window.open = function(){
 
-    console.warn("Popup blocked");
+    console.warn(
+      "Popup blocked by iframe wrapper"
+    );
 
     return null;
+
   };
 
+
   /*
-   * Prevent accidental links on the parent page
-   * from opening a new browsing context.
+   * Block parent-page attempts to open
+   * links in a new tab/window.
    */
   document.addEventListener(
     "click",
     function(e){
 
-      const link = e.target.closest("a");
+      const link =
+        e.target.closest("a");
 
-      if(link && link.target === "_blank"){
+      if(
+        link &&
+        (
+          link.target === "_blank" ||
+          link.target === "_new"
+        )
+      ){
+
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
 
-        console.warn("New tab blocked");
+        console.warn(
+          "New tab blocked"
+        );
+
+        return false;
+      }
+
+    },
+    true
+  );
+
+
+  /*
+   * Block middle mouse button / auxiliary
+   * clicks on parent page.
+   */
+  document.addEventListener(
+    "auxclick",
+    function(e){
+
+      if(e.button === 1){
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+      }
+
+    },
+    true
+  );
+
+
+  /*
+   * Block Ctrl+Click / Cmd+Click on parent page.
+   */
+  document.addEventListener(
+    "click",
+    function(e){
+
+      if(
+        e.ctrlKey ||
+        e.metaKey ||
+        e.shiftKey
+      ){
+
+        const link =
+          e.target.closest("a");
+
+        if(link){
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+        }
+
       }
 
     },
@@ -137,6 +219,228 @@ if (target) {
   );
 
 })();
+
+
+/* =========================================================
+   BASIC AD / POPUP URL FILTER
+========================================================= */
+
+/*
+ * This only affects requests made by THIS wrapper page.
+ *
+ * It cannot inspect or cancel requests made by a
+ * cross-origin iframe.
+ */
+
+const blockedPatterns = [
+
+  "doubleclick.net",
+  "googlesyndication.com",
+  "googleadservices.com",
+  "adservice.google.com",
+  "adsystem.com",
+  "adnxs.com",
+  "advertising.com",
+  "taboola.com",
+  "outbrain.com",
+  "popads.net",
+  "popcash.net",
+  "propellerads.com",
+  "exoclick.com",
+  "trafficjunky.com",
+  "onclick.com",
+  "pushwelcome.com",
+  "pushcrew.com"
+
+];
+
+
+/* =========================================================
+   BLOCK PARENT PAGE FETCH / XHR
+========================================================= */
+
+(function(){
+
+  const originalFetch =
+    window.fetch;
+
+  if(originalFetch){
+
+    window.fetch = function(
+      resource,
+      options
+    ){
+
+      try{
+
+        const url =
+          typeof resource === "string"
+            ? resource
+            : resource.url;
+
+        if(isBlocked(url)){
+
+          console.warn(
+            "Blocked ad request:",
+            url
+          );
+
+          return Promise.reject(
+            new Error(
+              "Blocked by AdBlocker"
+            )
+          );
+
+        }
+
+      }catch(e){}
+
+      return originalFetch.call(
+        this,
+        resource,
+        options
+      );
+
+    };
+
+  }
+
+
+  const originalXHR =
+    XMLHttpRequest.prototype.open;
+
+  XMLHttpRequest.prototype.open =
+    function(
+      method,
+      url,
+      ...args
+    ){
+
+      if(isBlocked(url)){
+
+        console.warn(
+          "Blocked XHR:",
+          url
+        );
+
+        return;
+      }
+
+      return originalXHR.call(
+        this,
+        method,
+        url,
+        ...args
+      );
+
+    };
+
+})();
+
+
+/* =========================================================
+   URL FILTER
+========================================================= */
+
+function isBlocked(url){
+
+  if(!url) return false;
+
+  const value =
+    String(url).toLowerCase();
+
+  return blockedPatterns.some(
+    pattern =>
+      value.includes(pattern)
+  );
+
+}
+
+
+/* =========================================================
+   BLOCK PARENT WINDOW NAVIGATION
+========================================================= */
+
+(function(){
+
+  /*
+   * Prevent scripts on the wrapper page from
+   * redirecting the top page to an ad.
+   */
+  try{
+
+    const originalAssign =
+      window.location.assign;
+
+    const originalReplace =
+      window.location.replace;
+
+    /*
+     * These APIs cannot always be safely overridden
+     * in every browser, so failures are ignored.
+     */
+
+  }catch(e){}
+
+})();
+
+
+/* =========================================================
+   IFRAME LOAD MONITOR
+========================================================= */
+
+frame.addEventListener(
+  "load",
+  function(){
+
+    console.log(
+      "Iframe loaded"
+    );
+
+    /*
+     * Cross-origin iframe contents cannot be accessed.
+     *
+     * Do NOT attempt:
+     *
+     * frame.contentWindow.document
+     *
+     * because the browser will block it when the
+     * target is on another origin.
+     */
+
+  }
+);
+
+
+/* =========================================================
+   KEYBOARD / TV REMOTE PROTECTION
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    /*
+     * Prevent accidental browser shortcuts
+     * from the wrapper page.
+     *
+     * The iframe still receives normal player
+     * keyboard/remote input.
+     */
+
+    if(
+      e.key === "F1" ||
+      e.key === "F5"
+    ){
+
+      e.preventDefault();
+
+    }
+
+  },
+  true
+);
+
 </script>
 
 </body>
